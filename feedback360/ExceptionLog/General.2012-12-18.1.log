@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 13/12/2012 13:32:24
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 13/12/2012 15:41:04
+Message: Mailbox unavailable. The server response was: The domain in the email address 'peter@i-commnet360.com' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

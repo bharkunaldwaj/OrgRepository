@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 28/04/2014 14:45:35
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/04/2014 13:46:43
+Message: Mailbox unavailable. The server response was: The domain in the email address 'nicola.theoff@brtivic.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/04/2014 13:50:34
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

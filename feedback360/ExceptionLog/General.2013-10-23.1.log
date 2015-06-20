@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 21/10/2013 13:51:26
+Message: Mailbox unavailable. The server response was: The domain in the email address 'geoff.barker@rbs.co.u' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2013 10:22:29
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2013 12:33:17
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

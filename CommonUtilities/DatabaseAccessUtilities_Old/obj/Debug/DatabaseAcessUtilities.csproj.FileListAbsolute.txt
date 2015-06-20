@@ -1,0 +1,14 @@
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\bin\Debug\DatabaseAcessUtilities.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\bin\Debug\DatabaseAcessUtilities.pdb
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\obj\Debug\DatabaseAcessUtilities.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DataAcessUtilities\obj\Debug\DatabaseAcessUtilities.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\DatabaseAcessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\DatabaseAcessUtilities.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\DatabaseAcessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\DatabaseAcessUtilities.pdb

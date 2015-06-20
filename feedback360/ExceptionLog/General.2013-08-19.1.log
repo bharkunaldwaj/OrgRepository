@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 15/08/2013 13:31:32
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 15/08/2013 15:15:35
+Message: Mailbox unavailable. The server response was: The domain in the email address 'shelley.morrison@rbs' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

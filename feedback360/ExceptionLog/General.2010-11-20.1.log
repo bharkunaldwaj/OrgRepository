@@ -1,0 +1,42 @@
+----------------------------------------
+Timestamp: 11/10/2010 4:15:59 AM
+Message: System.Exception: UspAccountUserManagement
+The DELETE statement conflicted with the REFERENCE constraint "FK_Project_User". The conflict occurred in database "Feedback360", table "dbo.Project", column 'ManagerID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.DeleteAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 138
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/10/2010 4:15:59 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.DeleteAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 145
+   at Admin_BAO.AccountUser_BAO.DeleteAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 106
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/10/2010 6:43:32 AM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101110.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

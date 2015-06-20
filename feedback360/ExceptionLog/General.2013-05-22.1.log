@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 21/05/2013 03:19:56
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 21/05/2013 08:16:20
+Message: Mailbox unavailable. The server response was: The domain in the email address 'fiona.walshe@dunnhumby' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 21/05/2013 09:13:51
+Message: Mailbox unavailable. The server response was: The domain in the email address 'tom.small@dunnhumby.cm' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

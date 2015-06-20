@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{057EA08B-806B-4B1E-B876-A7F31352B93E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Administration_BAO</RootNamespace>
+    <AssemblyName>Administration_BAO</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssignedCategories_BAO.cs" />
+    <Compile Include="Contact_BAO.cs" />
+    <Compile Include="Country_BAO.cs" />
+    <Compile Include="FieldRight_BAO.cs" />
+    <Compile Include="GroupRight_BAO.cs" />
+    <Compile Include="Group_BAO.cs" />
+    <Compile Include="MenuMaster_BAO.cs" />
+    <Compile Include="User_BAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vendor_BAO.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BusinessEntities\feedbackFramework_BE\DAF_BE.csproj">
+      <Project>{BC5DACA5-7111-4124-A666-DF507C9223C4}</Project>
+      <Name>DAF_BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\BusinessEntities\Module BE\Administration_BE\Administration_BE.csproj">
+      <Project>{35DF7D5B-9E01-42CB-A511-72FC0BC230AC}</Project>
+      <Name>Administration_BE</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CommonUtilities\DatabaseAccessUtilities\DatabaseAccessUtilities.vbproj">
+      <Project>{DE7FDE19-414E-4CD5-9AE3-25BC7B1A2A05}</Project>
+      <Name>DatabaseAccessUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DataAccessLayer\feedbackFramework_DAL\DAF_DAO.csproj">
+      <Project>{244F9E03-B240-41FB-94CF-D11A9A694866}</Project>
+      <Name>DAF_DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\DataAccessLayer\Module DAL\Administration_DAO\Administration_DAO.csproj">
+      <Project>{F2346AF8-C72B-46EA-8FCE-8B2404601B6A}</Project>
+      <Name>Administration_DAO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\feedbackFramework_BAL\DAF_BAO\DAF_BAO.csproj">
+      <Project>{36B953FD-C18D-4D0C-ADF5-4D10F53D715E}</Project>
+      <Name>DAF_BAO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

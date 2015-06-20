@@ -1,0 +1,77 @@
+----------------------------------------
+Timestamp: 22/10/2010 11:27:08
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQstnPaticipant.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 113
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 11:41:29
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQstnPaticipant.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 113
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 11:43:13
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQstnPaticipant.GetCandidateList() in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 187
+   at Module_Questionnaire_AssignQstnPaticipant.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 131
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 11:44:59
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQstnPaticipant.GetCandidateList() in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 187
+   at Module_Questionnaire_AssignQstnPaticipant.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 131
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 12:27:37
+Message: System.Exception: UspAddPartictDetailsManagement
+Cannot insert explicit value for identity column in table 'PaticipantDetails' when IDENTITY_INSERT is set to OFF.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQstnParticipant_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Projects\feedback360\Questionnaire_DAO\AssignQstnParticipant_DAO.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 12:27:37
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQstnParticipant_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Projects\feedback360\Questionnaire_DAO\AssignQstnParticipant_DAO.cs:line 118
+   at Questionnaire_BAO.AssignQstnParticipant_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQstnParticipant_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/10/2010 12:27:37
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQstnParticipant_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQstnParticipant_BAO.cs:line 55
+   at Module_Questionnaire_AssignQstnPaticipant.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQstnPaticipant.aspx.cs:line 133
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

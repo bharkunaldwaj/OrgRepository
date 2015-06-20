@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 20/06/2013 15:52:48
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/06/2013 16:53:09
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/06/2013 17:05:22
+Message: Mailbox unavailable. The server response was: The domain in the email address 'dawn.reid@dunnhumby' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 21/06/2013 15:45:13
+Message: Mailbox unavailable. The server response was: The domain in the email address 'carl_ainley@heahrow.com' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

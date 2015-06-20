@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 23/10/2013 08:44:37
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/10/2013 10:27:19
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

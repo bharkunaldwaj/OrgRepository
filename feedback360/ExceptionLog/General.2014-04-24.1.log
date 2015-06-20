@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 22/04/2014 08:23:41
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/04/2014 21:03:03
+Message: Mailbox unavailable. The server response was: The domain in the email address 'maxine.bonaccorsi@kcc' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

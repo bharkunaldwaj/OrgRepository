@@ -1,0 +1,5 @@
+﻿Name			Date			Version		Description
+Manish Kumar	8 Jun '15		1.0.0.1
+										1. Tokens on from cover -- We would like to be able to use Tokens on the front cover of the report to automate report production 
+											e.g. for the TPI report on account tcw Heading 1 Team Performance Indicator, Heading 2 [COMPANYNAME], Heading 3 [CLOSEDATE]
+				10 Jun '15				2. Survey -- Previous Score Upload in Excel FIle

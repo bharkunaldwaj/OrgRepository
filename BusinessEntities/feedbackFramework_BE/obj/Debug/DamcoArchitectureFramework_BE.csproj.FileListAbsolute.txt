@@ -1,0 +1,10 @@
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\DamcoArchitectureFramework_BE\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\DamcoArchitectureFramework_BE\bin\Debug\DAF_BE.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\DamcoArchitectureFramework_BE\bin\Debug\DAF_BE.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\DamcoArchitectureFramework_BE\obj\Debug\DAF_BE.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\DamcoArchitectureFramework_BE\obj\Debug\DAF_BE.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\bin\Debug\DAF_BE.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\bin\Debug\DAF_BE.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\obj\Debug\DAF_BE.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\BusinessEntities\DamcoArchitectureFramework_BE\obj\Debug\DAF_BE.pdb

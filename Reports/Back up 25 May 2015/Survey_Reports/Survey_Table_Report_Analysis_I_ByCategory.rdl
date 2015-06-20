@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle1">
+        <ReportItems>
+          <Tablix Name="Tablix5">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>2.07812in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.57812in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.57812in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.57812in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.28125in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox32">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Areas</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox32</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox34">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Current Average</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox34</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#dbeef4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox36">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Socre1Title.Value, "Survey_Analysis_I_LineChart_ByCategory_Dataset") &amp; " Average"</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox36</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#f2dcdb</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox42">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=First(Fields!Socre2Title.Value, "Survey_Analysis_I_LineChart_ByCategory_Dataset") &amp; " Average"</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox42</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#ebf1de</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.28125in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CategoryName">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CategoryName.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CategoryName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CurrentScore">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CurrentScore.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CurrentScore</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#dbeef4</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Score1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Score1.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Score1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#f2dcdb</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Score2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!Score2.Value</Value>
+                                  <Style>
+                                    <FontSize>11pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Score2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>#ebf1de</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="Details" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>Survey_Analysis_I_LineChart_ByCategory_Dataset</DataSetName>
+            <Top>1.08in</Top>
+            <Left>0.12792in</Left>
+            <Height>0.5625in</Height>
+            <Width>6.81248in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Textbox Name="Textbox40">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>Scores</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontSize>22pt</FontSize>
+                      <FontWeight>Bold</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox40</rd:DefaultName>
+            <Left>0.155in</Left>
+            <Height>0.44792in</Height>
+            <Width>1.60417in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Textbox Name="Textbox41">
+            <CanGrow>true</CanGrow>
+            <KeepTogether>true</KeepTogether>
+            <Paragraphs>
+              <Paragraph>
+                <TextRuns>
+                  <TextRun>
+                    <Value>The table below shows the scores given by the team for each of the key areas, in order.</Value>
+                    <Style>
+                      <FontStyle>Normal</FontStyle>
+                      <FontSize>11pt</FontSize>
+                      <FontWeight>Normal</FontWeight>
+                      <TextDecoration>None</TextDecoration>
+                    </Style>
+                  </TextRun>
+                </TextRuns>
+                <Style />
+              </Paragraph>
+            </Paragraphs>
+            <rd:DefaultName>Textbox41</rd:DefaultName>
+            <Top>0.61125in</Top>
+            <Left>0.155in</Left>
+            <Height>0.25in</Height>
+            <Width>6.7854in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <PaddingLeft>2pt</PaddingLeft>
+              <PaddingRight>2pt</PaddingRight>
+              <PaddingTop>2pt</PaddingTop>
+              <PaddingBottom>2pt</PaddingBottom>
+            </Style>
+          </Textbox>
+          <Image Name="Image1">
+            <Source>External</Source>
+            <Value>=First(Fields!ScoreImagePath.Value, "dtSurvey_ProjectReportSetting")</Value>
+            <Top>1.93417in</Top>
+            <Left>0.1175in</Left>
+            <Height>3.41667in</Height>
+            <Width>6.7854in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <PageBreak>
+          <BreakLocation>StartAndEnd</BreakLocation>
+        </PageBreak>
+        <KeepTogether>true</KeepTogether>
+        <Height>5.35084in</Height>
+        <Width>6.9404in</Width>
+        <Visibility>
+          <Hidden>=IIF(First(Fields!AnalysisI.Value,"Report_ShowAnalysis_I")=0,true,false)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>5.35084in</Height>
+    <Style />
+  </Body>
+  <Width>6.9404in</Width>
+  <Page>
+    <PageHeight>10in</PageHeight>
+    <PageWidth>8in</PageWidth>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Survey_DataSource">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>be8a06f5-aa51-4f18-84b1-c6a45780a550</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Survey_Analysis_I_LineChart_ByCategory_Dataset">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@projectid">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@Filter">
+            <Value>="TABLE"</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="AnaType">
+            <Value>=Parameters!AnaType.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Analysis_I_ByCategory</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="CurrentScore">
+          <DataField>CurrentScore</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Score1">
+          <DataField>Score1</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Score2">
+          <DataField>Score2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Socre1Title">
+          <DataField>Socre1Title</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Socre2Title">
+          <DataField>Socre2Title</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Report_ShowAnalysis_I">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@projectID">
+            <Value>=Parameters!projectid.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_ShowAnalysis_I</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="AnalysisI">
+          <DataField>AnalysisI</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Report_Get_max_scale">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@projectid">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Get_max_scale</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Max_Scale">
+          <DataField>Max_Scale</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dtSurvey_ProjectReportSetting">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="@projectId">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>
+				  declare @path varchar(100)
+				  --set @path='file://D:\360_Degree_Feedback\feedback360\UploadDocs\'
+				      set @path=(SELECT [dbo].[GetUploadDocsPath]())
+
+				  select *,@path+ ScoreTableImage ScoreImagePath,
+				  @path+ FooterImage FooterImagePath
+
+				  from [Survey_ProjectReportSetting]
+				  where AccountId=@accountid
+				  and ProjectId=@projectId
+				  and ReportType=5
+			  </CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ProjectReportSettingID">
+          <DataField>ProjectReportSettingID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ProjectID">
+          <DataField>ProjectID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CoverPage">
+          <DataField>CoverPage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportIntroduction">
+          <DataField>ReportIntroduction</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatQstList">
+          <DataField>CatQstList</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatDataChart">
+          <DataField>CatDataChart</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QstTextResponses">
+          <DataField>QstTextResponses</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Conclusionpage">
+          <DataField>Conclusionpage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectRelationGrp">
+          <DataField>ProjectRelationGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading1">
+          <DataField>PageHeading1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading2">
+          <DataField>PageHeading2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading3">
+          <DataField>PageHeading3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingColor">
+          <DataField>PageHeadingColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingCopyright">
+          <DataField>PageHeadingCopyright</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingIntro">
+          <DataField>PageHeadingIntro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingConclusion">
+          <DataField>PageHeadingConclusion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageLogo">
+          <DataField>PageLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo2">
+          <DataField>FrontPageLogo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo3">
+          <DataField>FrontPageLogo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHighLowRange">
+          <DataField>ConclusionHighLowRange</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PreviousScoreVisible">
+          <DataField>PreviousScoreVisible</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHeading">
+          <DataField>ConclusionHeading</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FullProjectGrp">
+          <DataField>FullProjectGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AnalysisI">
+          <DataField>AnalysisI</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AnalysisII">
+          <DataField>AnalysisII</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AnalysisIII">
+          <DataField>AnalysisIII</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Programme_Average">
+          <DataField>Programme_Average</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FreeTextResponses">
+          <DataField>FreeTextResponses</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShowScoreRespondents">
+          <DataField>ShowScoreRespondents</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowRadar">
+          <DataField>ShowRadar</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowTable">
+          <DataField>ShowTable</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowPreviousScore1">
+          <DataField>ShowPreviousScore1</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowPreviousScore2">
+          <DataField>ShowPreviousScore2</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowBarGraph">
+          <DataField>ShowBarGraph</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="ShowLineChart">
+          <DataField>ShowLineChart</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="FrontPdfFileName">
+          <DataField>FrontPdfFileName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ScoreTableImage">
+          <DataField>ScoreTableImage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterImage">
+          <DataField>FooterImage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ScoreImagePath">
+          <DataField>ScoreImagePath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FooterImagePath">
+          <DataField>FooterImagePath</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="accountid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>47</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>accountid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="projectid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>11</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>projectid </Prompt>
+    </ReportParameter>
+    <ReportParameter Name="programmeid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>25</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>programmeid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AnaType">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>Ana Type</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>Private colorPalette As String()={"#097054","#FFDE00","#0599FF","#FF9900","#009900","#FCB3D0","#990033","#E86850","#887058","#92CD00","#C13100","#999999","#8080C0","#000000","#C0D9AF","#A6D785","#61B329","#77896C","#687E5A","#3F602B","#8AA37B","#8FA880","#646F5E","#476A34","#5DFC0A","#435D36","#93DB70","#3B5E2B","#84BE6A","#4CBB17","#484D46","#3A6629","#49E20E","#308014","#9CA998","#55AE3A","#7BBF6A","#4DBD33","#C5E3BF","#596C56","#A9C9A4","#86C67C","#7BCC70","#8CDD81","#699864","#3D8B37","#5F755E","#B7C8B6","#63AB62","#4AC948","#838B83","#C1CDC1","#698B69","#2F4F2F","#426F42","#548B54","#8FBC8F","#E0EEE0","#9BCD9B","#71C671","#7CCD7C","#215E21","#228B22","#32CD32","#B4EEB4","#90EE90","#98FB98","#003300","#004F00","#006400","#008000","#008B00","#009900","#00CD00","#00EE00","#00FF00","#33FF33","#66FF66","#C1FFC1","#CCFFCC","#F0FFF0","#4BB74C","#6EFF70","#3D9140","#5D9160","#B2D0B4","#4D6B50","#5B9C64","#3F9E4D","#0AC92B","#BDFCC9","#3D5B43","#31B94D","#1DA237","#00FF33","#96C8A2","#3EA055","#487153","#00611C","#00AF33","#688571","#91B49C","#79A888","#B4D7BF","#337147","#37BC61","#70DB93","#40664D","#92CCA6","#329555","#0E8C3A","#78A489","#3E6B4F","#2C5D3F","#759B84","#2E6444","#00FF66","#2E8B57","#4EEE94","#00C957","#54FF9F","#DBE6E0","#34925E","#3CB371","#43CD80","#426352","#607C6E","#43D58C","#006633","#008B45","#00CD66","#00EE76","#00FF7F","#F5FFFA","#2E473B","#5EDA9E","#B6C5BE","#213D30","#3E7A5E","#4D7865","#597368","#28AE7B","#00FA9A","#238E68","#4C7064","#458B74","#66CDAA","#32CD99","#32CC99","#76EEC6","#00FFAA","#7FFFD4","#218868","#808A87","#138F6A","#00C78C","#3B8471","#49E9BD","#1B6453","#284942","#0FDDAF","#006B54","#668E86","#527F76","#A4DCD1","#174038","#20BF9F","#00FFCC","#4A766E","#4F8E83","#3E766D","#3E766D","#4CB7A5","#2FAA96","#DBFEF8","#DAF4F0","#108070","#2A8E82","#353F3E","#36DBCA","#40E0D0","#99CDC9","#45C3B8","#03A89E","#457371","#20B2AA","#01C5BB","#48D1CC","#90FEFB","#068481"}
+Private count As Integer = 0
+Private mapping As New System.Collections.Hashtable()
+Public Function GetColor(ByVal groupingValue As String) As String
+   If mapping.ContainsKey(groupingValue) Then
+      Return mapping(groupingValue)
+   End If
+   Dim c As String = colorPalette(count Mod colorPalette.Length)
+   count = count + 1
+   mapping.Add(groupingValue, c)
+   Return c
+End Function</Code>
+  <EmbeddedImages>
+    <EmbeddedImage Name="Picture1">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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
+AAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcA
+AAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcA
+AAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgDhxAAAAAOLEAQAAAIgTBwAAACBOHAAAAIA4cQAAAADixAEAAACIEwcAAAAgThwAAACAOHEAAAAA4sQBAAAAiBMHAAAAIE4cAAAAgLg/44CZmZmZmZmZtSYOmJmZmZmZmcW3rGPeHGFmZmZmZmZW3fxcrvtxWce8O8PMzMzMzMystXXMr/XlfP4BYYi0FP87wh4AAAAASUVORK5CYII=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="Picture3">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>17c4c5cd-29b3-4136-936a-cfa3ac890207</rd:ReportID>
+</Report>

@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 19/05/2014 14:30:46
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 19/05/2014 15:14:05
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/05/2014 10:42:19
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/05/2014 13:52:16
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,258 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Collections;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Text;
+using System.Collections.Generic;
+using System.IO;
+using System.Drawing.Text;
+using Microsoft.Reporting.WebForms;
+using Questionnaire_BAO;
+using Admin_BAO;
+using Microsoft.ReportingServices;
+
+public partial class Module_Reports_ReportViewer : System.Web.UI.Page
+{
+    string LogFilePath = string.Empty;
+    string mimeType;
+    string encoding;
+    string fileNameExtension;
+    string extension, deviceInfo, outputFileName = "";
+    string[] streams;
+    string defaultFileName = string.Empty;
+    Warning[] warnings;
+    Project_BAO project_BAO = new Project_BAO();
+    AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
+    AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
+
+    DataTable dtGroupList;
+    DataTable dtSelfName;
+    DataTable dtReportsID;
+    string strGroupList;
+    string strFrontPage;
+    string strConclusionPage;
+    string strRadarChart;
+    string strDetailedQst;
+    string strCategoryQstlist;
+    string strCategoryBarChart;
+    string strFullProjGrp;
+    string strSelfNameGrp;
+
+    string strTargetPersonID;
+    string strProjectID;
+    string strAccountID;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        
+
+        strTargetPersonID = "298";
+        //strAccountID = "29";
+        //strProjectID = "178";
+               
+
+        if (!IsPostBack)
+        {
+            DataTable dtuserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(Convert.ToInt32(strTargetPersonID));
+            if (dtuserlist != null && dtuserlist.Rows.Count > 0)
+            {
+                int projectid = Convert.ToInt32(dtuserlist.Rows[0]["ProjectID"]);
+                strProjectID = dtuserlist.Rows[0]["ProjectID"].ToString();
+
+                DataTable project = project_BAO.GetdataProjectByID(projectid);
+                if (project != null && project.Rows.Count > 0)
+                {
+                    strAccountID = project.Rows[0]["AccountID"].ToString();
+                }
+            }            
+            GroupCheckBoxListBind();
+        }
+
+        /*For Self Name by Using Target Person ID & Account ID*/
+        //dtSelfName = accountUser_BAO.GetdtAccountUserByID(26, 216);
+        dtSelfName = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(strAccountID), Convert.ToInt32(strTargetPersonID));
+        if (dtSelfName != null)
+        {
+            lblSelfNameGrp.Text = dtSelfName.Rows[0]["FirstName"].ToString() + ' ' + dtSelfName.Rows[0]["LastName"].ToString();
+        }
+    }
+
+    protected void GroupCheckBoxListBind()
+    {        
+        dtGroupList = project_BAO.GetProjectRelationship(Convert.ToInt32(strProjectID));
+
+        if (dtGroupList.Rows.Count > 0)
+        {
+            chkGroupList.DataSource = dtGroupList;
+            //chkGroupList.DataTextField = "";
+            chkGroupList.DataValueField = "Value";
+            chkGroupList.DataBind();
+
+            lblavailable.Text = Convert.ToString(dtGroupList.Rows.Count + 2) + " available selections.";
+        }
+        else
+        {
+            lblavailable.Text = "2" + " available selections."; 
+        }                
+    }
+    protected void RetrieveCheckBoxValue()
+    {
+        strGroupList = " ";        
+        for (int i = 0; i < chkGroupList.Items.Count; i++)
+        {
+            if (chkGroupList.Items[i].Selected)
+            {
+                strGroupList += chkGroupList.Items[i].Text + ",";             
+            }            
+        }
+        strGroupList = "'" + strGroupList + "'";       
+    }
+
+    protected void ControlToParameter()
+    {
+        if (chkCoverPage.Checked == true)
+            strFrontPage = "1";
+        else
+            strFrontPage = "0";
+
+        if (chkConclusion.Checked == true)
+            strConclusionPage = "1";
+        else
+            strConclusionPage = "0";
+
+        if (chkRadarChart.Checked == true)
+            strRadarChart = "1";
+        else
+            strRadarChart = "0";
+
+        if (chkCatQstText.Checked == true)
+            strDetailedQst = "1";
+        else
+            strDetailedQst = "0";
+        
+        if (chkCatQstlist.Checked == true)
+            strCategoryQstlist = "1";
+        else
+            strCategoryQstlist = "0";
+
+        if (chkCatQstChart.Checked == true)
+            strCategoryBarChart = "1";
+        else
+            strCategoryBarChart = "0";
+
+        if (chkSelfNameGrp.Checked == true)
+            strSelfNameGrp = "1";
+        else
+            strSelfNameGrp = "0";
+
+        if (chkFullPrjGrp.Checked == true)
+            strFullProjGrp = "1";
+        else
+            strFullProjGrp = "0";
+    }
+
+    protected void btnExport()
+    {        
+        Microsoft.Reporting.WebForms.ReportViewer rview = new Microsoft.Reporting.WebForms.ReportViewer();
+        rview.ServerReport.ReportServerUrl = new Uri(ConfigurationManager.AppSettings["ReportServerUrl"].ToString());        
+        string[] streamids;
+        Microsoft.Reporting.WebForms.Warning[] warnings;                        
+        string root = string.Empty;
+        
+        /* Function : For Filling Paramters From Controls */
+        ControlToParameter();
+
+        root = Server.MapPath("~") + "\\ReportGenerate\\";
+
+        rview.ServerReport.ReportPath = "/Feedback360/FeedbackReport";
+        string Report = "FeedBackReports";
+
+        System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", strTargetPersonID));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("RadarChartVisibility", strRadarChart));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", strGroupList));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", strDetailedQst));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", strSelfNameGrp));
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", strFullProjGrp));
+        rview.ServerReport.SetParameters(paramList);
+  
+               
+
+        rview.Visible = false;
+        byte[] bytes = rview.ServerReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamids, out warnings);
+        string PDF_path = root + Report + ".pdf";
+        FileStream objFs = new FileStream(PDF_path, System.IO.FileMode.Create);
+        objFs.Write(bytes, 0, bytes.Length);
+        objFs.Close();
+        objFs.Dispose();        
+    }
+
+    protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
+    {
+        RetrieveCheckBoxValue();
+        btnExport();
+    }
+
+    
+    protected void chkReportIntro_CheckedChanged(object sender, EventArgs e)
+    {
+        if(chkReportIntro.Checked == true)
+            chkRadarChart.Checked = true;
+        else
+            chkRadarChart.Checked = false;
+    }
+    protected void chkRadarChart_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkRadarChart.Checked == true)
+            chkReportIntro.Checked = true;
+        else
+            chkReportIntro.Checked = false;
+    }
+    protected void chkCategoryIntro_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkCategoryIntro.Checked == true)
+        {
+            chkCatQstlist.Checked = true;
+            chkCatQstChart.Checked = true;
+        }
+        else
+        {
+            chkCatQstlist.Checked = false;
+            chkCatQstChart.Checked = false;
+        }
+    }
+    protected void chkCatQstlist_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkCatQstlist.Checked == true)
+            chkCategoryIntro.Checked = true;
+        else
+        {
+            if (chkCatQstChart.Checked == false)
+                chkCategoryIntro.Checked = false;
+            else
+                chkCategoryIntro.Checked = true;
+        }
+    }
+    protected void chkCatQstChart_CheckedChanged(object sender, EventArgs e)
+    {
+        if (chkCatQstChart.Checked == true)
+            chkCategoryIntro.Checked = true;
+        else
+        {
+            if (chkCatQstlist.Checked == false)
+                chkCategoryIntro.Checked = false;
+            else
+                chkCategoryIntro.Checked = true;
+        }
+    }
+}

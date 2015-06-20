@@ -1,0 +1,436 @@
+----------------------------------------
+Timestamp: 10/13/2010 10:25:31 AM
+Message: System.InvalidOperationException: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DatabaseAccessUtilities.CSqlClient.Connection() in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 24
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 416
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.Project_DAO.GetProjectListCount() in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\Project_DAO.cs:line 325
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:25:31 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Project_DAO.GetProjectListCount() in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\Project_DAO.cs:line 330
+   at Questionnaire_BAO.Project_BAO.GetProjectListCount() in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Project_BAO.cs:line 198
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:25:31 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.Project_BAO.GetProjectListCount() in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Project_BAO.cs:line 204
+   at Module_Questionnaire_ProjectList.ManagePaging() in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\ProjectList.aspx.cs:line 98
+   at Module_Questionnaire_ProjectList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\ProjectList.aspx.cs:line 36
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:25:31 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Questionnaire_ProjectList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\ProjectList.aspx.cs:line 55
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:43:48 AM
+Message: System.ArgumentOutOfRangeException: 'ddlEmailStart' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Projects.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Projects.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:44:26 AM
+Message: System.ArgumentOutOfRangeException: 'ddlEmailStart' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Projects.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Projects.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:44:39 AM
+Message: System.ArgumentOutOfRangeException: 'ddlEmailStart' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Projects.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Projects.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 10:46:30 AM
+Message: System.ArgumentOutOfRangeException: 'ddlEmailStart' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Projects.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Projects.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 11:01:07 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_QuestionnaireList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\QuestionnaireList.aspx.cs:line 31
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 11:01:13 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_QuestionnaireList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\QuestionnaireList.aspx.cs:line 31
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 11:02:09 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_QuestionnaireList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\QuestionnaireList.aspx.cs:line 31
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 11:02:40 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_QuestionnaireList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\QuestionnaireList.aspx.cs:line 31
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 11:24:30 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_QuestionList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\QuestionList.aspx.cs:line 31
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:09:01 PM
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_Questions.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 127
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:13:45 PM
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_Questions.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 129
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:13 PM
+Message: System.Exception: UspAssignQuestionnaireManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AssignQuestionnaire_Questionnaire". The conflict occurred in database "Feedback360", table "dbo.Questionnaire", column 'QuestionnaireID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 66
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 91
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 55
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:46 PM
+Message: System.Exception: UspAssignQuestionnaireManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AssignQuestionnaire_Questionnaire". The conflict occurred in database "Feedback360", table "dbo.Questionnaire", column 'QuestionnaireID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 66
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:47 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 91
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 12:32:47 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 55
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:04:07 PM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101013.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:04:07 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String p_loginName, String p_password) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 63
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:06 PM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101013.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:06 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String p_loginName, String p_password) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 63
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:08 PM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101013.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:08 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String p_loginName, String p_password) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 63
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:14 PM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101013.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:14 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String p_loginName, String p_password) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 63
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:16 PM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101013.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/13/2010 1:05:16 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE p_user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String p_loginName, String p_password) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 63
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/14/2010 7:21:56 AM
+Message: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException()
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at WADIdentity.get_User() in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\WADIdentity.cs:line 67
+   at Layouts_MasterPages_Feedback360.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Layouts\MasterPages\Feedback360.master.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/14/2010 7:29:51 AM
+Message: System.ArgumentOutOfRangeException: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException(ExceptionArgument argument, ExceptionResource resource)
+   at System.ThrowHelper.ThrowArgumentOutOfRangeException()
+   at System.Collections.Generic.List`1.get_Item(Int32 index)
+   at WADIdentity.get_User() in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\WADIdentity.cs:line 67
+   at Layouts_MasterPages_Feedback360.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Layouts\MasterPages\Feedback360.master.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/14/2010 7:55:57 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Layouts_MasterPages_Feedback360.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Layouts\MasterPages\Feedback360.master.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 23/08/2013 14:31:52
+Message: Mailbox unavailable. The server response was: The domain in the email address 'daniel.east@burtons.biscuits.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/08/2013 15:55:52
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

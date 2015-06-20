@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 14/01/2013 12:25:14
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 14/01/2013 14:01:41
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 15/01/2013 10:57:36
+Message: Mailbox unavailable. The server response was: The domain in the email address 'neil.harrison@heyod.co.uk' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

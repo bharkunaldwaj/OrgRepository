@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 26/09/2013 10:40:17
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/09/2013 11:22:40
+Message: Mailbox unavailable. The server response was: The domain in the email address 'krysha.shahi@dunnhumby' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/09/2013 14:33:53
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 27/09/2013 08:26:06
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

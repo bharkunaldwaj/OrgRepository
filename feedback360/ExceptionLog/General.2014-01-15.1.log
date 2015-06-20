@@ -1,0 +1,44 @@
+----------------------------------------
+Timestamp: 08/01/2014 23:12:04
+Message: Mailbox unavailable. The server response was: The domain in the email address 'candace.lee@us.dunnhumby.co' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/01/2014 17:06:50
+Message: The parameter 'address' cannot be an empty string.
+Parameter name: address
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/01/2014 17:06:50
+Message: The parameter 'address' cannot be an empty string.
+Parameter name: address
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/01/2014 17:07:45
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/01/2014 17:10:02
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/01/2014 17:22:30
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

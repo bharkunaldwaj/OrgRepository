@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 22/05/2014 08:47:41
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/05/2014 10:03:36
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

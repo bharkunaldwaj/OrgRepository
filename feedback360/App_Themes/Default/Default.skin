@@ -1,0 +1,35 @@
+﻿
+<asp:TextBox runat="server" Width="150px" ></asp:TextBox>
+<asp:TextBox SkinId="grdvgoto" runat="server" Width="20px" ></asp:TextBox>
+
+<asp:TextBox SkinId="dob" runat="server" Width="75px" ></asp:TextBox>
+<asp:TextBox SkinId="age" runat="server" Width="25px" ></asp:TextBox>
+
+<asp:TextBox SkinId="ph1" runat="server" Width="25px" ></asp:TextBox>
+<asp:TextBox SkinId="ph2" runat="server" Width="30px" ></asp:TextBox>
+<asp:TextBox SkinId="ph3" runat="server" Width="35px" ></asp:TextBox>
+<asp:TextBox SkinId="Extn" runat="server" Width="40px" ></asp:TextBox>
+<asp:TextBox SkinId="email" runat="server" Width="300px" ></asp:TextBox>
+
+<asp:TextBox SkinId="zip" runat="server" Width="75px" ></asp:TextBox>
+
+<asp:TextBox SkinId="amt" runat="server" Width="75px" ></asp:TextBox>
+<asp:TextBox SkinId="amt1" runat="server" Width="60px" ></asp:TextBox>
+
+<asp:TextBox SkinId="brand" runat="server" Width="100px" ></asp:TextBox>
+<asp:TextBox SkinId="CauseDesc" runat="server" Width="95%" ></asp:TextBox>
+
+<asp:TextBox SkinId="txtarea300X3" runat="server" Font-Names="Arial" Width="300px" ></asp:TextBox>
+<asp:TextBox SkinId="txtarea500" runat="server" Font-Names="Arial" Width="500px" ></asp:TextBox>
+<asp:TextBox SkinId="txtarea280X3" runat="server" Font-Names="Arial" Width="280px" ></asp:TextBox>
+<asp:TextBox SkinId="txtarea230X6" runat="server" Font-Names="Arial" Width="230px" ></asp:TextBox>
+
+<asp:TextBox runat="server" Width="115px" SkinId="vehno" ></asp:TextBox>
+<asp:TextBox runat="server" Width="125px" SkinId="vinno" ></asp:TextBox>
+<asp:TextBox runat="server" Width="115px" SkinId="Usrinfo" ></asp:TextBox>
+<asp:TextBox runat="server" Width="210px" SkinId="Description" ></asp:TextBox>
+
+<asp:TextBox SkinId="credit" runat="server" Width="140px" ></asp:TextBox>
+<asp:DropDownList  runat="server" Width="230px" SkinId="HntQst" />
+
+<asp:RadioButtonList RepeatDirection="Horizontal" runat="server" BorderStyle="None" CellPadding="0" CellSpacing="0"></asp:RadioButtonList>

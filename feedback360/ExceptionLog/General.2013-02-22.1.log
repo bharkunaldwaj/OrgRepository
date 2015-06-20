@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 19/02/2013 12:13:37
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/02/2013 02:35:22
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/02/2013 09:08:19
+Message: Syntax error in parameters or arguments. The server response was: <craig.r.odonnell@rbs.co.uk'>: malformed address: '> may not follow <craig.r.odonnell@rbs.co.uk
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/02/2013 09:08:25
+Message: Syntax error in parameters or arguments. The server response was: <jim.mcintyre@rbs.co.uk'>: malformed address: '> may not follow <jim.mcintyre@rbs.co.uk
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

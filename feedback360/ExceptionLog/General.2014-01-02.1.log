@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 30/12/2013 02:28:20
+Message: Syntax error in parameters or arguments. The server response was: <'newstrength.co.ltd@gmail.com'>: malformed address: '> may not follow <'newstrength.co.ltd@gmail.com
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 30/12/2013 11:37:52
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

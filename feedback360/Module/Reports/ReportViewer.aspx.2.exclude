@@ -1,0 +1,89 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="ReportViewer.aspx.cs" MasterPageFile="~/Layouts/MasterPages/Feedback360.master"
+        Inherits="Module_Reports_ReportViewer" %>
+
+<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
+    Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" Runat="Server">
+
+     <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+  <div id="bodytextcontainer">        				
+    <div id="pnlForm" style="margin: 0 auto; padding: 10px; border: 1px solid #2f4f4f; width: 470px;">					     
+     <table cellpadding="0" cellspacing="0" border="0">
+      <tr>
+         <td valign="top">
+            <br>
+            <div>
+                <span><input id="chkCoverPage" runat="server" type="checkbox" /><asp:Label ID="lblCoverPage" runat="server" Text="<% $Resources:lblCoverPage %>"></asp:Label></span>
+            </div><br>           
+            <div>                
+               <asp:CheckBox id="chkReportIntro" runat="server" AutoPostBack="true" 
+                    oncheckedchanged="chkReportIntro_CheckedChanged" /><asp:Label ID="lblReportIntro" runat="server" Text="<% $Resources:lblReportIntro %>"></asp:Label></span>
+            </div>            
+            <div style="margin: 0 0 0 20px;">
+				<span><asp:CheckBox id="chkRadarChart" runat="server" AutoPostBack="true" 
+                    oncheckedchanged="chkRadarChart_CheckedChanged" /><asp:Label ID="lblRadarChart" runat="server" Text="<% $Resources:lblRadarChart %>"></asp:Label></span>
+            </div>
+            <div style="margin: 15px 0 0 0;">
+               <span><asp:CheckBox id="chkCategoryIntro" runat="server" AutoPostBack="true" 
+                    oncheckedchanged="chkCategoryIntro_CheckedChanged" /><asp:Label ID="lblCategoryIntro" runat="server" Text="<% $Resources:lblCategoryIntro %>"></asp:Label></span>
+               <div style="margin: 0 0 0 20px;">
+                  <div>
+                     <span><asp:CheckBox id="chkCatQstlist" runat="server" AutoPostBack="true" 
+                          oncheckedchanged="chkCatQstlist_CheckedChanged" /><asp:Label ID="lblCatQstlist" runat="server" Text="<% $Resources:lblCatQstlist %>"></asp:Label></span>
+                  </div>
+                  <div>
+                     <span><asp:CheckBox id="chkCatQstChart" runat="server" AutoPostBack="true" 
+                          oncheckedchanged="chkCatQstChart_CheckedChanged" /><asp:Label ID="lblCatQstChart" runat="server" Text="<% $Resources:lblCatQstChart %>"></asp:Label></span>
+                  </div>                  
+               </div>
+            </div>
+            <div style="margin: 15px 0 0 0;">
+               <span><input id="chkCatQstText" runat="server" type="checkbox" /><asp:Label ID="lblCatQstText" runat="server" Text="<% $Resources:lblCatQstText %>"></asp:Label></span>
+            </div>                     
+            
+            <div style="margin: 15px 0 0 0;">
+               <span><input id="chkConclusion" runat="server" type="checkbox" /><asp:Label ID="lblConclusion" runat="server" Text="<% $Resources:lblConclusion %>"></asp:Label></span>
+            </div><br><br><br><br><br><br>
+            
+            <div style="margin: 30px 0 0 0; text-align: center;">               
+               <div style="margin: 10px; 0 0 0;">
+                  <asp:ImageButton ID="ibtnSave" ImageUrl="~/Layouts/Resources/images/save.png" 
+                       runat="server" onclick="ibtnSave_Click"  />&nbsp;
+               </div>
+            </div>
+         </td>
+         <td valign="top">
+            <div style="margin: 25px 0 20px 20px;">
+               <p>Included Selection Groups:</p>
+               <div style="margin: 0 0 0 12px;">
+				<span><input id="chkSelfNameGrp" runat="server" type="checkbox" /><asp:Label ID="lblSelfNameGrp" runat="server" ></asp:Label></span>
+               </div>
+               <div style="margin-left: 10px;">
+                  <span id="chklReportResponseSelectionList">
+                      <asp:checkboxlist id="chkGroupList" runat="server" AppendDataBoundItems="true" >                          
+                      </asp:checkboxlist>
+                  </span>
+               </div>
+               <div style="margin: 0 0 0 12px;">
+				<span><input id="chkFullPrjGrp" runat="server" type="checkbox" /><asp:Label ID="lblFullPrjGrp" runat="server" Text="<% $Resources:lblFullPrjGrp %>"></asp:Label></span>
+               </div>
+               <div style="margin-top: 10px;">
+                  <span><asp:Label ID="lblavailable" runat="server"></asp:Label></span>
+               </div>
+            </div>
+         </td>
+      </tr>
+   </table>
+	</div>
+
+    <div>
+    
+        <rsweb:ReportViewer ID="rview" runat="server">
+        </rsweb:ReportViewer>
+    </div>
+  </div>
+</asp:Content>

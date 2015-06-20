@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 27/04/2014 14:36:11
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 27/04/2014 14:36:13
+Message: Mailbox unavailable. The server response was: The domain in the email address 'clare.kneale@kcc' does not exist. Sorry.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/04/2014 07:28:41
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

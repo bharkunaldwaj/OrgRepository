@@ -1,0 +1,270 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblIncrement" xml:space="preserve">
+    <value>Increment</value>
+  </data>
+  <data name="lblLowerBound" xml:space="preserve">
+    <value>Lower Bound</value>
+  </data>
+  <data name="lblLowerLebel" xml:space="preserve">
+    <value>Lower Label</value>
+  </data>
+  <data name="lblMaxLength" xml:space="preserve">
+    <value>Maximum Length</value>
+  </data>
+  <data name="lblMinLength" xml:space="preserve">
+    <value>Minimum Length</value>
+  </data>
+  <data name="lblMultiline" xml:space="preserve">
+    <value>Multi–Line</value>
+  </data>
+  <data name="lblQuestionCategory" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="lblQuestionnaire" xml:space="preserve">
+    <value>Questionnaire</value>
+  </data>
+  <data name="lblQuestionText" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="lblQuestionType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="lblReverse" xml:space="preserve">
+    <value>Reverse</value>
+  </data>
+  <data name="lblSequence" xml:space="preserve">
+    <value>Sequence</value>
+  </data>
+  <data name="lblTitle" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="lblTokens" xml:space="preserve">
+    <value>Tokens</value>
+  </data>
+  <data name="lblUpperBound" xml:space="preserve">
+    <value>Upper Bound</value>
+  </data>
+  <data name="lblUpperLebel" xml:space="preserve">
+    <value>Upper Label</value>
+  </data>
+  <data name="lblUsageHint" xml:space="preserve">
+    <value>Usage Hint</value>
+  </data>
+  <data name="lblAccountcode" xml:space="preserve">
+    <value>Account Code</value>
+  </data>
+  <data name="lblCompany" xml:space="preserve">
+    <value>Company Name</value>
+  </data>
+  <data name="lblAccountDetail" xml:space="preserve">
+    <value>Account Details</value>
+  </data>
+  <data name="lblCharactersLimit" xml:space="preserve">
+    <value>(Max. 1000 characters)</value>
+  </data>
+  <data name="lblCharactersLimit1" xml:space="preserve">
+    <value>(Max. 1000 characters)</value>
+  </data>
+  <data name="lblGeneralDetail" xml:space="preserve">
+    <value>General Details</value>
+  </data>
+  <data name="lblHeading" xml:space="preserve">
+    <value>Create New Question</value>
+  </data>
+  <data name="lblRangeSettings" xml:space="preserve">
+    <value>Range Settings</value>
+  </data>
+  <data name="lblToolTip" xml:space="preserve">
+    <value>Create New Question</value>
+  </data>
+  <data name="lblValidation" xml:space="preserve">
+    <value>Validation</value>
+  </data>
+  <data name="RangeValidator2" xml:space="preserve">
+    <value>Sequence No. cannot be 0</value>
+  </data>
+  <data name="RegMaxLgt" xml:space="preserve">
+    <value>Please enter number in maximum length</value>
+  </data>
+  <data name="RegMinLgt" xml:space="preserve">
+    <value>Please enter number in minimum length</value>
+  </data>
+  <data name="resincrement" xml:space="preserve">
+    <value>Please enter number in increment</value>
+  </data>
+  <data name="reslowerbound" xml:space="preserve">
+    <value>Please enter number in lower bound</value>
+  </data>
+  <data name="resupperbound" xml:space="preserve">
+    <value>Please enter number in upper bound</value>
+  </data>
+  <data name="Rq1" xml:space="preserve">
+    <value>Please Select Question Type Details</value>
+  </data>
+  <data name="Rq11" xml:space="preserve">
+    <value>Please Enter Minimum Length Details</value>
+  </data>
+  <data name="Rq12" xml:space="preserve">
+    <value>Please Enter Maximum Length Details</value>
+  </data>
+  <data name="Rq13" xml:space="preserve">
+    <value>Please Enter Lower Label Details</value>
+  </data>
+  <data name="Rq14" xml:space="preserve">
+    <value>Please Enter Upper Label Details</value>
+  </data>
+  <data name="Rq15" xml:space="preserve">
+    <value>Please Enter Upper Bound Details</value>
+  </data>
+  <data name="Rq16" xml:space="preserve">
+    <value>Please Enter Increment Details</value>
+  </data>
+  <data name="Rq17" xml:space="preserve">
+    <value>Please Enter Question Text</value>
+  </data>
+  <data name="Rq2" xml:space="preserve">
+    <value>Please Select Category Details</value>
+  </data>
+  <data name="Rq3" xml:space="preserve">
+    <value>Please Select Validation Details</value>
+  </data>
+  <data name="Rq5" xml:space="preserve">
+    <value>Please Select Questionnaire Details</value>
+  </data>
+  <data name="Rq7" xml:space="preserve">
+    <value>Please Enter Title Details</value>
+  </data>
+  <data name="Rq8" xml:space="preserve">
+    <value>Please enter sequence details</value>
+  </data>
+  <data name="Rq94" xml:space="preserve">
+    <value>Please Select Lower Bound Details</value>
+  </data>
+  <data name="lblMandatory" xml:space="preserve">
+    <value>&lt;span class="style3"&gt;(*) indicates mandatory&lt;/span&gt;</value>
+  </data>
+  <data name="lblQuestionSelfText" xml:space="preserve">
+    <value>Text (Self)</value>
+  </data>
+  <data name="rqvQuestionSelfText" xml:space="preserve">
+    <value>Please Enter Self Question Text</value>
+  </data>
+</root>

@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 08/05/2012 10:40:41
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 08/05/2012 21:05:55
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/05/2012 07:56:34
+Message: Mailbox unavailable. The server response was: The domain in the email address 'james.douglas@lloydsbankign.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,44 @@
+Error Occured on: 10/9/2012 12:21:34 PM
+Error Application: Feedback 360 - UI
+Error Function: Void Send(System.Net.Mail.MailMessage)
+Error Line:    at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at Survey_Scheduler.SendEmail.Send(String To String From String strCC String strBCC String Subject String Body Boolean IsBodyHtml String emailImage) in D:\WebProjects\360 Degree Feedback\Survey_Scheduler\Survey_Scheduler\SendEmail.cs:line 88
+Error Source: System
+Error Message: Failure sending mail.
+
+Error Occured on: 10/9/2012 12:50:56 PM
+Error Application: Feedback 360 - UI
+Error Function: System.Data.DataColumn GetDataColumn(System.String)
+Error Line:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Survey_Scheduler.Survey_SchedulerApp.SendReminder1Email() in D:\WebProjects\360 Degree Feedback\Survey_Scheduler\Survey_Scheduler\SchedulerApp.cs:line 109
+Error Source: System.Data
+Error Message: Column 'EmailText' does not belong to table Table.
+
+Error Occured on: 10/9/2012 12:52:15 PM
+Error Application: Feedback 360 - UI
+Error Function: System.Data.DataColumn GetDataColumn(System.String)
+Error Line:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Survey_Scheduler.Survey_SchedulerApp.SendReminder1Email() in D:\WebProjects\360 Degree Feedback\Survey_Scheduler\Survey_Scheduler\SchedulerApp.cs:line 109
+Error Source: System.Data
+Error Message: Column 'EmailText' does not belong to table Table.
+
+Error Occured on: 10/9/2012 12:55:22 PM
+Error Application: Feedback 360 - UI
+Error Function: System.Data.DataColumn GetDataColumn(System.String)
+Error Line:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Survey_Scheduler.Survey_SchedulerApp.SendReminder1Email() in D:\WebProjects\360 Degree Feedback\Survey_Scheduler\Survey_Scheduler\SchedulerApp.cs:line 127
+Error Source: System.Data
+Error Message: Column 'UserID' does not belong to table Table.
+
+Error Occured on: 10/9/2012 12:57:53 PM
+Error Application: Feedback 360 - UI
+Error Function: System.Data.DataColumn GetDataColumn(System.String)
+Error Line:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Survey_Scheduler.Survey_SchedulerApp.SendReminder1Email() in D:\WebProjects\360 Degree Feedback\Survey_Scheduler\Survey_Scheduler\SchedulerApp.cs:line 134
+Error Source: System.Data
+Error Message: Column 'ParticipantName' does not belong to table Table.
+

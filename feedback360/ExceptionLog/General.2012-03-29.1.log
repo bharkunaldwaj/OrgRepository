@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 26/03/2012 22:09:05
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 27/03/2012 13:38:59
+Message: Mailbox unavailable. The server response was: The domain in the email address 'anna.julin@pernod-ricard-nordic-travel-retail.co'
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,406 @@
+----------------------------------------
+Timestamp: 11/8/2010 12:59:26 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:26 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:26 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:27 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:33 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:33 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:59 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 12:59:59 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:01:13 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:01:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:01:36 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_Question". The conflict occurred in database "Feedback360", table "dbo.Question", column 'QuestionID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:01:36 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:19:35 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:19:36 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:21:22 PM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/8/2010 1:21:22 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:00:06 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:00:06 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:01:29 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:01:29 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:04:32 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:04:32 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:06:45 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:06:45 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:07:58 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:07:58 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:10:13 AM
+Message: System.Exception: UspQuestionAnswerManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_QuestionAnswer_AssignmentDetails". The conflict occurred in database "Feedback360", table "dbo.AssignmentDetails", column 'AsgnDetailID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/9/2010 4:10:13 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.QuestionAnswer_DAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\QuestionAnswer_DAO.cs:line 45
+   at Questionnaire_BAO.QuestionAnswer_BAO.AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\QuestionAnswer_BAO.cs:line 34
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

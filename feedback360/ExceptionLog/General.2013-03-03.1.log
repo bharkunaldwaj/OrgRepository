@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 01/03/2013 13:56:55
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 01/03/2013 16:50:49
+Message: Mailbox unavailable. The server response was: The domain in the email address 'kevinnolan@wallcolmomoy.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

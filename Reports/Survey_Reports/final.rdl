@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="Survey_DataSource">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:DataSourceID>c0565df9-cb6a-45b9-9472-1c215a8d7d74</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DataSet1">
+      <Fields>
+        <Field Name="Programme_Name">
+          <DataField>Programme Name</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Analysis_Header</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Subreport Name="Subreport4">
+        <ReportName>Survey_Report_Analysis_I_by_category</ReportName>
+        <Parameters>
+          <Parameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+          </Parameter>
+          <Parameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+          </Parameter>
+          <Parameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>0.28833in</Top>
+        <Left>0.22583in</Left>
+        <Height>0.14583in</Height>
+        <Width>7.55209in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
+      <Subreport Name="Subreport5">
+        <ReportName>Analysis_I_SubQuestionList</ReportName>
+        <Parameters>
+          <Parameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+          </Parameter>
+          <Parameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+          </Parameter>
+          <Parameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>0.66333in</Top>
+        <Left>0.22583in</Left>
+        <Height>0.17708in</Height>
+        <Width>7.55209in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
+    </ReportItems>
+    <Height>14.00708in</Height>
+    <Style>
+      <Border />
+    </Style>
+  </Body>
+  <ReportParameters>
+    <ReportParameter Name="accountid">
+      <DataType>Integer</DataType>
+      <Prompt>accountid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="projectid">
+      <DataType>Integer</DataType>
+      <Prompt>projectid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="programmeid">
+      <DataType>Integer</DataType>
+      <Prompt>programmeid</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>7.99666in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.98958in</Height>
+      <PrintOnFirstPage>true</PrintOnFirstPage>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Textbox Name="Textbox1">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>="Page " &amp; Globals!PageNumber &amp; " of " &amp; Globals!TotalPages</Value>
+                  <Style>
+                    <FontSize>14pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.19458in</Top>
+          <Left>5.59042in</Left>
+          <Height>0.25in</Height>
+          <Width>2.1875in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Programme_Name">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!Programme_Name.Value, "DataSet1")</Value>
+                  <Style>
+                    <FontSize>14pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Programme_Name</rd:DefaultName>
+          <Top>0.19458in</Top>
+          <Left>0.22583in</Left>
+          <Height>0.25in</Height>
+          <Width>5.14583in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Line Name="Line1">
+          <Top>0.62167in</Top>
+          <Left>0.22583in</Left>
+          <Height>0in</Height>
+          <Width>7.55209in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>Solid</Style>
+            </Border>
+          </Style>
+        </Line>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <LeftMargin>0.25in</LeftMargin>
+    <RightMargin>0.25in</RightMargin>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style />
+  </Page>
+  <rd:ReportID>9043d5d8-e57c-41e6-be76-4d6fc44ca7f1</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 19/07/2011 15:01:23
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 19/07/2011 15:28:45
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/07/2011 08:26:43
+Message: Mailbox unavailable. The server response was: The domain in the email address 'nick.szulist@permierfoods.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/07/2011 08:26:48
+Message: Mailbox unavailable. The server response was: The domain in the email address 'nick.szulist@permierfoods.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

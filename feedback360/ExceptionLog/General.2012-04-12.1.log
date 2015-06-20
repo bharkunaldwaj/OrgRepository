@@ -1,0 +1,133 @@
+----------------------------------------
+Timestamp: 11/04/2012 12:56:44
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 12:56:50
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:01:07
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:01:26
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:16:23
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:16:44
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:17:03
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:17:18
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:17:20
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:20:56
+Message: Mailbox unavailable. The server response was: ATLAS(2503): Your ASMTP email was detected as spam. (RCPTs:
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:20:57
+Message: Service not available, closing transmission channel. The server response was: mail10.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:20:57
+Message: Service not available, closing transmission channel. The server response was: mail10.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:20:57
+Message: Service not available, closing transmission channel. The server response was: mail10.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:21:02
+Message: Mailbox unavailable. The server response was: ATLAS(2503): Your ASMTP email was detected as spam. (RCPTs:
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:35:47
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 13:41:11
+Message: Mailbox unavailable. The server response was: The domain in the email address 'david.walter@dunnhummby.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 15:51:28
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/04/2012 16:20:07
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 12/04/2012 08:12:33
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

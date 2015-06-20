@@ -1,0 +1,265 @@
+----------------------------------------
+Timestamp: 11/1/2010 6:30:47 AM
+Message: System.ArgumentException: Column 'Questionnaire' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:30:47 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:30:52 AM
+Message: System.ArgumentException: Column 'Questionnaire' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:30:52 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:33:35 AM
+Message: System.ArgumentException: Column 'Questionnaire' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:33:35 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:34:45 AM
+Message: System.ArgumentException: Column 'Questionnaire' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:34:45 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:37:53 AM
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:37:53 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:39:21 AM
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 208
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 146
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 6:39:21 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 152
+   at Questionnaire_BAO.Category_BAO.GetCategoryByID(Int32 categoryID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 9:25:37 AM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Questionnaire_DAO.Category_DAO.getcategory(Int32 questionnaireid) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 249
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 9:25:37 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.getcategory(Int32 questionnaireid) in D:\Projects\feedback360\Questionnaire_DAO\Category_DAO.cs:line 254
+   at Questionnaire_BAO.Category_BAO.SelectCategory(Int32 Questionnaireid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 219
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 12:50:10 PM
+Message: System.Exception: UspProjectCopy
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 289
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 12:50:10 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 293
+   at Questionnaire_BAO.Project_BAO.InsertProjID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Project_BAO.cs:line 263
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 12:55:13 PM
+Message: System.Exception: UspProjectCopy
+Conversion failed when converting the varchar value '27,11' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 289
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 12:55:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 293
+   at Questionnaire_BAO.Project_BAO.InsertProjID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Project_BAO.cs:line 263
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 1:01:47 PM
+Message: System.Exception: UspProjectCopy
+Conversion failed when converting the varchar value '27,11' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 289
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 11/1/2010 1:01:47 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Project_DAO.InsertprojID(String id, Int32 accountid) in D:\Projects\feedback360\Questionnaire_DAO\Project_DAO.cs:line 293
+   at Questionnaire_BAO.Project_BAO.InsertProjID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Project_BAO.cs:line 263
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

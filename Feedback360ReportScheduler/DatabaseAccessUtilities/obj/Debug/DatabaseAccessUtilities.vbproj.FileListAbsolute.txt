@@ -1,0 +1,97 @@
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\WebProjects\Archietecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\Sumnesh\OrgRef\Code\Damco_Architecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\Sumnesh\OrgRef\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.xml
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.xml
+D:\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.xml
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.vbproj.GenerateResource.Cache
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.dll
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.xml
+C:\Documents and Settings\User\Desktop\FeedbackReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll.config
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.dll
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\DAU.xml
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\MySql.Data.dll
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\bin\Debug\Oracle.DataAccess.dll
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.Resources.resources
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\GenerateResource-ResGen.read.1.tlog
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\GenerateResource-ResGen.write.1.tlog
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.dll
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.xml
+C:\Damco Projects\Feedback360\Feedback360ReportScheduler\DatabaseAccessUtilities\obj\Debug\DAU.pdb

@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 13/04/2013 08:40:28
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 14/04/2013 05:03:14
+Message: Mailbox unavailable. The server response was: The domain in the email address 'vasant.pillai@unilever' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

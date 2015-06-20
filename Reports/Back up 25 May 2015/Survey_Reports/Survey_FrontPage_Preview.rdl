@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle3">
+        <ReportItems>
+          <Rectangle Name="Rectangle1">
+            <ReportItems>
+              <Textbox Name="PageHeading1">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading1.Value, "Report_Survey_FrontPage")</Value>
+                        <Style>
+                          <FontSize>18pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>PageHeading1</rd:DefaultName>
+                <Top>0.13528in</Top>
+                <Left>1.86126in</Left>
+                <Height>0.35764in</Height>
+                <Width>2.92708in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="PageHeading2">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading2.Value, "Report_Survey_FrontPage")</Value>
+                        <Style>
+                          <FontSize>16pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>PageHeading2</rd:DefaultName>
+                <Top>0.56236in</Top>
+                <Left>1.86126in</Left>
+                <Height>0.25in</Height>
+                <Width>2.92708in</Width>
+                <ZIndex>1</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="PageHeading3">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading3.Value, "Report_Survey_FrontPage")</Value>
+                        <Style>
+                          <FontSize>14pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>PageHeading3</rd:DefaultName>
+                <Top>0.98598in</Top>
+                <Left>1.86126in</Left>
+                <Height>0.25in</Height>
+                <Width>2.92708in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+            </ReportItems>
+            <KeepTogether>true</KeepTogether>
+            <Left>0.58in</Left>
+            <Height>1.23598in</Height>
+            <Width>6.57292in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+              <BackgroundColor>=First(Fields!PageHeadingColor.Value, "Report_Survey_FrontPage")</BackgroundColor>
+            </Style>
+          </Rectangle>
+          <Image Name="Frontpagelogo2">
+            <Source>External</Source>
+            <Value>=First(Fields!FrontPageLogo2.Value, "Report_Survey_FrontPage")</Value>
+            <Top>3.2882in</Top>
+            <Left>0.58in</Left>
+            <Height>1.98958in</Height>
+            <Width>6.57292in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Frontpagelogo3">
+            <Source>External</Source>
+            <Value>=First(Fields!FrontPageLogo3.Value, "Report_Survey_FrontPage")</Value>
+            <Top>5.81931in</Top>
+            <Left>0.58in</Left>
+            <Height>1.375in</Height>
+            <Width>6.57292in</Width>
+            <ZIndex>2</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Image6">
+            <Source>External</Source>
+            <Value>=First(Fields!PageLogo.Value, "Report_Survey_FrontPage")</Value>
+            <Top>1.51736in</Top>
+            <Left>0.58in</Left>
+            <Height>1.37501in</Height>
+            <Width>6.57292in</Width>
+            <ZIndex>3</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <PageBreak>
+          <BreakLocation>End</BreakLocation>
+        </PageBreak>
+        <KeepTogether>true</KeepTogether>
+        <Top>0.01069in</Top>
+        <Height>7.19431in</Height>
+        <Width>7.15292in</Width>
+        <Visibility>
+          <Hidden>=IIF(First(Fields!CoverPage.Value,"Report_Survey_FrontPage")=0,true,false)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>7.205in</Height>
+    <Style />
+  </Body>
+  <Width>7.15292in</Width>
+  <Page>
+    <LeftMargin>0.25in</LeftMargin>
+    <RightMargin>0.25in</RightMargin>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Survey_DataSource">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>9273559e-7bfd-441a-ae22-5a988ee1ad3a</rd:DataSourceID>
+    </DataSource>
+    <DataSource Name="DataSource1">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>d83513b9-6f31-4ca3-b03d-a6e9c48511fc</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Report_Survey_FrontPage">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ProjectReportSettingID">
+            <Value>=Parameters!ProjectReportSettingID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>declare @path varchar(100)	
+    set @path=(SELECT [dbo].[GetUploadDocsPath]())
+
+Select [ProjectReportSettingID],'' As FirstNAme,'' As LastName
+      ,[AccountID]
+      ,[ProjectID]
+      ,[CoverPage]
+      ,[ReportIntroduction]
+      --,[RadarChart]
+      ,[CatQstList]
+      ,[CatDataChart]
+      ,[QstTextResponses]
+      ,[Conclusionpage]
+      --,[CandidateSelfStatus]
+      ,[ProjectRelationGrp]
+      ,[FullProjectGrp]
+     -- ,[ProgrammeGrp]
+      ,[ReportType]
+      ,[PageHeading1]
+      ,[PageHeading2]
+      ,[PageHeading3]
+      ,[PageHeadingColor]
+      ,[PageHeadingCopyright]
+      ,[PageHeadingIntro]
+      ,[PageHeadingConclusion]
+      ,@path + PageLogo as pagelogo
+      ,[PageLogo] as VPageLogo
+      ,@path+ FrontPageLogo2 as FrontPageLogo2
+      ,FrontPageLogo2 as VFrontPageLogo2  
+      ,@path + FrontPageLogo3 as FrontPageLogo3
+      ,FrontPageLogo3 as VFrontPageLogo3
+      ,[ConclusionHighLowRange]
+      ,[PreviousScoreVisible]
+      
+      --,[BenchMarkScoreVisible]
+      --,[BenchMarkGrpVisible]
+      --,[BenchConclusionpage]
+      ,[ConclusionHeading] from Survey_ProjectReportSetting WHERE ProjectReportSettingID=@ProjectReportSettingID</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="PageHeading1">
+          <DataField>PageHeading1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectReportSettingID">
+          <DataField>ProjectReportSettingID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading2">
+          <DataField>PageHeading2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FirstNAme">
+          <DataField>FirstNAme</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading3">
+          <DataField>PageHeading3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingColor">
+          <DataField>PageHeadingColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectID">
+          <DataField>ProjectID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PageLogo">
+          <DataField>pagelogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CoverPage">
+          <DataField>CoverPage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo2">
+          <DataField>FrontPageLogo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportIntroduction">
+          <DataField>ReportIntroduction</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo3">
+          <DataField>FrontPageLogo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatQstList">
+          <DataField>CatQstList</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatDataChart">
+          <DataField>CatDataChart</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QstTextResponses">
+          <DataField>QstTextResponses</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Conclusionpage">
+          <DataField>Conclusionpage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectRelationGrp">
+          <DataField>ProjectRelationGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FullProjectGrp">
+          <DataField>FullProjectGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingCopyright">
+          <DataField>PageHeadingCopyright</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingIntro">
+          <DataField>PageHeadingIntro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingConclusion">
+          <DataField>PageHeadingConclusion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VPageLogo">
+          <DataField>VPageLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VFrontPageLogo2">
+          <DataField>VFrontPageLogo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VFrontPageLogo3">
+          <DataField>VFrontPageLogo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHighLowRange">
+          <DataField>ConclusionHighLowRange</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PreviousScoreVisible">
+          <DataField>PreviousScoreVisible</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHeading">
+          <DataField>ConclusionHeading</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="ProjectReportSettingID">
+      <DataType>String</DataType>
+      <Prompt>Project Report Setting ID</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>25e323a0-824e-4602-aeb7-e4c0fcdd1be8</rd:ReportID>
+</Report>

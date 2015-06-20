@@ -1,0 +1,324 @@
+﻿using System;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Diagnostics;
+using Telerik.Web.UI;
+
+using Administration_BAO;
+using Administration_BE;
+
+public partial class GridDisplay : System.Web.UI.Page
+{
+    /// <summary>
+    /// Page Load event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       // HandleWriteLog("Start", new StackTrace(true));
+        if (!Page.IsPostBack)
+        {
+            BindDropDowns();
+            PopulateGrid();
+            RadVendor.DataBind();
+        }
+       // HandleWriteLog("End", new StackTrace(true));
+    }
+
+    /// <summary>
+    /// Bind Country Drop Down
+    /// </summary>
+    private void BindDropDowns()
+    {
+        try
+        {
+           // HandleWriteLog("Start", new StackTrace(true));
+            Country_BAO country_BAO = new Country_BAO();
+            Country_BE country_BE = new Country_BE();
+            ddlCountryID.DataSource = country_BAO.GetCountry(country_BE);
+            ddlCountryID.DataTextField = "Name";
+            ddlCountryID.DataValueField = "CountryID";
+            ddlCountryID.DataBind();
+            ddlCountryID.Items.Insert(0, new ListItem("---Select Country---", "-1"));
+
+            country_BAO = null;
+            country_BE = null;
+          //  HandleWriteLog("End", new StackTrace(true));
+        }
+        catch (Exception ex)
+        {
+          //  HandleException(ex);
+        }
+    }
+
+    /// <summary>
+    /// Search Button is Clicked
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnSearch_Click(object sender, EventArgs e)
+    {
+        try
+        {
+          //  HandleWriteLog("Start", new StackTrace(true));
+            PopulateGrid();
+            RadVendor.DataBind();
+            //HandleWriteLog("End", new StackTrace(true));
+        }
+        catch (Exception ex)
+        { //HandleException(ex); 
+        }
+    }
+
+    /// <summary>
+    /// Add new button is Clicked
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void btnAddNew_Click(object sender, EventArgs e)
+    {
+        try
+        {
+           //HandleWriteLog("Start", new StackTrace(true));
+            User_BE user_BE = new User_BE();
+            Vendor_BAO vendor_BAO = new Vendor_BAO();
+
+            user_BE.GroupID = -1;
+            user_BE.LoginID = "";
+            user_BE.UserCode = "";
+            user_BE.Password = "";
+            user_BE.FName = "";
+            user_BE.MName = "";
+            user_BE.LName = "";
+            user_BE.Email = "";
+            user_BE.IsActive = false;
+            user_BE.Address1 = "";
+            user_BE.Address2 = "";
+            user_BE.City = "";
+            user_BE.State = "";
+            user_BE.CountryID = -2;
+            user_BE.Zip = "";
+            user_BE.TelNumber = "";
+            user_BE.FaxNumber = "";
+            user_BE.Website = "";
+            user_BE.Note = "";
+            user_BE.IsConfirmed = false;
+            user_BE.Type = "";
+            user_BE.BPNumber = "";
+            int userID = vendor_BAO.AddVendor(user_BE);
+            Session["userID"] = userID;
+            //Response.Redirect("VendorMaintenance.aspx?userID=" + userID + " &mode=Add", false);
+            Response.Redirect("VendorMaintenance.aspx?mode=Add", false);
+
+            user_BE = null;
+            vendor_BAO = null;
+        }
+        catch (Exception ex)
+        { //HandleException(ex); 
+        }
+    }
+
+    #region "Grid Functions"
+    /// <summary>
+    /// Method to populate Vendor Grid
+    /// </summary>
+    private void PopulateGrid()
+    {
+        try
+        {
+            //HandleWriteLog("Start", new StackTrace(true));
+            Vendor_BAO vendor_BAO = new Vendor_BAO();
+            User_BE user_BE = new User_BE();
+
+            user_BE.FName = txtVendorName.Text;
+            if (ddlCountryID.SelectedValue == "-1")
+            {
+                user_BE.CountryID = null;
+            }
+            else
+            {
+                user_BE.CountryID = Convert.ToInt32(ddlCountryID.SelectedValue);
+            }
+            user_BE.Email = txtEmail.Text;
+            user_BE.IsActive = true;
+
+            RadVendor.PageSize = Convert.ToInt32(ConfigurationManager.AppSettings["telerikGridPageSize"]);
+            RadVendor.AllowSorting = Convert.ToBoolean(ConfigurationManager.AppSettings["telerikGridSort"]);
+            RadVendor.MasterTableView.SortExpressions.AllowMultiColumnSorting = Convert.ToBoolean(ConfigurationManager.AppSettings["telerikGridSort"]);
+            RadVendor.MasterTableView.SortExpressions.AllowNaturalSort = true;
+
+            RadVendor.DataSource = vendor_BAO.GetVendor(user_BE);
+
+            vendor_BAO = null;
+            user_BE = null;
+           // HandleWriteLog("End", new StackTrace(true));
+        }
+        catch (Exception ex)
+        {// HandleException(ex); 
+        }
+    }
+
+    /// <summary>
+    /// This event is needed for Paging, Filtering
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="e"></param>
+    protected void RadVendor_NeedDataSource(object source, Telerik.Web.UI.GridNeedDataSourceEventArgs e)
+    {
+        try
+        {
+            lblMessage.Visible = false;
+            PopulateGrid();
+        }
+        catch (Exception ex)
+        { //HandleException(ex); 
+        }
+    }
+
+    protected void RadVendor_ColumnCreated(object sender, GridColumnCreatedEventArgs e)
+    {
+        e.Column.SortAscImageUrl = "../../../Layouts/Resources/Images/SortAsc.gif";
+
+        // e.Column.SortDescImageUrl = "../../../Layouts/Resources/Images/SortDesc.gif";
+    }
+
+
+    /// <summary>
+    /// Item Data Bound of the Vendor Grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void RadVendor_ItemDataBound(object sender, GridItemEventArgs e)
+    {
+        try
+        {
+            if (e.Item.ItemType == GridItemType.Item)
+                e.Item.Style["background-color"] = "white";
+            else if (e.Item.ItemType == GridItemType.AlternatingItem)
+                e.Item.Style["background-color"] = "#f4faff";
+
+
+            if (e.Item is GridCommandItem)
+            {
+                Button addButton = e.Item.FindControl("AddNewRecordButton") as Button;
+                addButton.Visible = false;
+
+                LinkButton lnkButton = e.Item.FindControl("InitInsertButton") as LinkButton;
+                lnkButton.Visible = false;
+            }
+
+            else if (e.Item is GridDataItem)
+            {
+                GridDataItem dataItem = e.Item as GridDataItem;
+
+                ImageButton imageDelete = (ImageButton)dataItem.FindControl("imgDelete");
+                imageDelete.Attributes["onclick"] = "return confirm('Are you sure you want to delete the Vendor?')";
+            }
+
+            else if (e.Item is GridPagerItem)
+            {
+                GridPagerItem pager = (GridPagerItem)e.Item;
+                RadComboBox PageSizeComboBox = (RadComboBox)pager.FindControl("PageSizeComboBox");
+                PageSizeComboBox.Visible = false;
+
+                Label lbl = (Label)pager.FindControl("ChangePageSizeLabel");
+                lbl.Visible = false;
+            }
+           // CheckSecurity(true);
+        }
+        catch (Exception ex)
+        { //HandleException(ex); 
+        }
+    }
+
+    /// <summary>
+    /// When Delete Button is clicked in the Vendor Grid
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="e"></param>
+    protected void RadVendor_DeleteCommand(object source, GridCommandEventArgs e)
+    {
+        try
+        {
+           // HandleWriteLog("Start", new StackTrace(true));
+            Vendor_BAO vendor_BAO = new Vendor_BAO();
+            User_BE user_BE = new User_BE();
+
+            Label lblUserID = (Label)e.Item.FindControl("lblUserID");
+            int userID = Convert.ToInt32(lblUserID.Text);
+
+            if (e.CommandName == "Delete")
+            {
+                // Delete button clicked
+                user_BE.UserID = userID;
+
+                user_BE.GroupID = Convert.ToInt32(((Label)e.Item.FindControl("lblGroupID")).Text);
+                user_BE.LoginID = ((Label)e.Item.FindControl("lblLoginID")).Text;
+                user_BE.UserCode = ((Label)e.Item.FindControl("lblUserCode")).Text;
+                user_BE.Password = ((Label)e.Item.FindControl("lblPassword")).Text;
+                user_BE.FName = ((Label)e.Item.FindControl("lblVName")).Text;
+                user_BE.MName = ((Label)e.Item.FindControl("lblMName")).Text;
+                user_BE.LName = ((Label)e.Item.FindControl("lblLName")).Text;
+                user_BE.Email = ((Label)e.Item.FindControl("lblEmail")).Text;
+                user_BE.IsActive = false;
+                user_BE.Address1 = ((Label)e.Item.FindControl("lblAddress1")).Text;
+                user_BE.Address2 = ((Label)e.Item.FindControl("lblAddress2")).Text;
+                user_BE.City = ((Label)e.Item.FindControl("lblCity")).Text;
+                user_BE.State = ((Label)e.Item.FindControl("lblState")).Text;
+                user_BE.CountryID = Convert.ToInt32(((Label)e.Item.FindControl("lblCountryID")).Text);
+                user_BE.Zip = ((Label)e.Item.FindControl("lblZip")).Text;
+                user_BE.TelNumber = ((Label)e.Item.FindControl("lblTelNumber")).Text;
+                user_BE.FaxNumber = ((Label)e.Item.FindControl("lblFaxNumber")).Text;
+                user_BE.Website = ((Label)e.Item.FindControl("lblWebsite")).Text;
+                user_BE.Note = ((Label)e.Item.FindControl("lblNote")).Text;
+                user_BE.IsConfirmed = Convert.ToBoolean(((Label)e.Item.FindControl("lblIsConfirmed")).Text);
+
+                user_BE.BPNumber = ((Label)e.Item.FindControl("lblBPNumber")).Text;
+                user_BE.Type = "Vendor";
+                vendor_BAO.DeleteVendor(user_BE);
+
+                PopulateGrid();
+                RadVendor.DataBind();
+
+                lblMessage.Visible = true;
+                lblMessage.Text = "Record Successfully Deleted";
+                lblMessage.Font.Bold = true;
+                lblMessage.ForeColor = System.Drawing.Color.Green;
+            }
+            vendor_BAO = null;
+            user_BE = null;
+            //HandleWriteLog("End", new StackTrace(true));
+        }
+        catch (Exception ex)
+        { //HandleException(ex);
+        }
+    }
+
+    /// <summary>
+    /// When Edit Button is clicked in the Grid
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="e"></param>
+    protected void RadVendor_EditCommand(object source, GridCommandEventArgs e)
+    {
+        try
+        {
+           // HandleWriteLog("Start", new StackTrace(true));
+            Label lblUserID = (Label)e.Item.FindControl("lblUserID");
+            int userID = Convert.ToInt32(lblUserID.Text);
+
+            //Response.Redirect("VendorMaintenance.aspx?userID=" + userID + "&mode=Edit", false);
+            Response.Redirect("test.aspx", false);
+        }
+        catch (Exception ex)
+        { //HandleException(ex); 
+        }
+    }
+
+    #endregion
+}

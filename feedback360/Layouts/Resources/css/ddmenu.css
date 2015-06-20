@@ -1,0 +1,106 @@
+#ctl00_menurow{height:28px;padding-top:3px;} /*background:#0090cd !important;*/
+#ctl00_menurow ul li{float:left;padding:0px 0px 0 20px;}
+.ddsmoothmenu{ float:left;
+}
+
+.ddsmoothmenu ul{
+z-index:999;
+margin: 0;
+padding: 0;
+list-style-type: none;
+}
+
+/*Top level list items*/
+.ddsmoothmenu ul li
+{
+z-index:999;
+position: relative;
+display: inline;
+float: left;
+}
+
+/*Top level menu link items style*/
+.ddsmoothmenu ul li a
+{
+	z-index:999;
+display:block;color:#fff;font-size:13px;font-weight:bold;text-decoration:none;padding:4px 0 5px 9px;
+}
+
+* html .ddsmoothmenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/
+display: inline-block;
+}
+
+.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited{
+color: #fff;
+}
+
+	
+/*1st sub level menu*/
+.ddsmoothmenu ul li ul
+{
+	z-index:999;
+position: absolute;
+left: 0;
+display: none; /*collapse all sub menus to begin with*/
+visibility: hidden;
+}
+
+/*Sub level menu list items (undo style from Top level List Items)*/
+.ddsmoothmenu ul li ul li
+{
+	z-index:999;
+display: list-item;
+float: none;
+}
+
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.ddsmoothmenu ul li ul li ul{
+top: 0;
+}
+
+/* Sub level menu links style */
+.ddsmoothmenu ul li ul li a
+{
+	z-index:999;
+font: normal 13px Verdana;
+width: 193px; /*width of sub menus*/
+padding: 5px;
+margin: 0;
+border-top-width: 0;
+border-bottom: 1px solid #fff;
+}
+
+/* Holly Hack for IE \*/
+* html .ddsmoothmenu{height: 1%;} /*Holly Hack for IE7 and below*/
+
+
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass{
+position: absolute;
+top: 12px;
+right: 7px;
+display:none;
+}
+
+.rightarrowclass{
+position: absolute;
+top: 6px;
+right: 5px;
+display:none;
+
+}
+
+/* ######### CSS for shadow added to sub menus  ######### */
+
+.ddshadow{
+position: absolute;
+left: 0;
+top: 0;
+width: 0;
+height: 0;
+}
+
+.toplevelshadow{ /*shadow opacity. Doesn't work in IE*/
+
+}

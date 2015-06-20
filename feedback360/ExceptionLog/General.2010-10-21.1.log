@@ -1,0 +1,111 @@
+----------------------------------------
+Timestamp: 10/19/2010 10:36:50 AM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101019.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:36:50 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 70
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:36:50 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 86
+   at Login.ibtnLogin_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:05 AM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101019.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:05 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 70
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:05 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 86
+   at Login.ibtnLogin_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:30 AM
+Message: System.UnauthorizedAccessException: Access to the path 'D:\Sumnesh\OrgRef\Code\Feedback360\feedback360\TraceLog\TraceLog_20101019.log' is denied.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access)
+   at Miscellaneous.TraceLogger.WriteLog(String p_userName, LogLevel p_loggedInformationLevel, StackTrace p_stkInfo, String p_log) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\Miscellaneous\TraceLogger.cs:line 58
+   at DAF_BAO.Base_BAO.HandleWriteLog(String Log, StackTrace stackTrace) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 25
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:30 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Administration_BAO.User_BAO.GetUser(User_BE user_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Administration_BAO\User_BAO.cs:line 49
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 70
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/19/2010 10:37:30 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Login.ValidateUser(String loginName, String password, String accountCode) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 86
+   at Login.ibtnLogin_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Login.aspx.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

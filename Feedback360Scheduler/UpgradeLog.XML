@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="Feedback360Scheduler">
+</Property><Property Name="Solution File" Value="D:\Web Projects\Feedback360\Feedback360Scheduler\Feedback360Scheduler.sln">
+</Property><Property Name="Date" Value="Friday, June 06, 2014">
+</Property><Property Name="Time" Value="12:28:31 PM">
+</Property></Properties><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Feedback360Scheduler.csproj" Description="Project file successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Feedback360Scheduler.csproj">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="PasswordGenerator.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\PasswordGenerator.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="SchedulerApp.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\SchedulerApp.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="SchedulerApp.Designer.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\SchedulerApp.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="LookUp.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\LookUp.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Program.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Program.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Properties\AssemblyInfo.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Properties\AssemblyInfo.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Properties\Resources.Designer.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Properties\Resources.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Properties\Settings.Designer.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Properties\Settings.Designer.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="SendEmail.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\SendEmail.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="SQLHelper.cs" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\SQLHelper.cs">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="App.config" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\App.config">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Properties\Settings.settings" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Properties\Settings.settings">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Properties\Resources.resx" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\Properties\Resources.resx">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="SchedulerApp.resx" Description="File successfully backed up as D:\Web Projects\Feedback360\Feedback360Scheduler\Backup\SchedulerApp.resx">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Feedback360Scheduler.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="Feedback360Scheduler" Source="Feedback360Scheduler.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="Feedback360Scheduler" Source="Feedback360Scheduler.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 29/11/2013 12:34:55
+Message: Syntax error in parameters or arguments. The server response was: <craig.r.odonnell@rbs.co.uk'>: malformed address: '> may not follow <craig.r.odonnell@rbs.co.uk
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/11/2013 15:19:37
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/11/2013 15:29:38
+Message: Mailbox unavailable. The server response was: The domain in the email address 'janet.cameron@abellio.co.u' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/11/2013 15:29:40
+Message: Mailbox unavailable. The server response was: The domain in the email address 'debie.waring@abellio.co.u' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

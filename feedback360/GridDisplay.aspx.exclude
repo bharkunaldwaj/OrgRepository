@@ -1,0 +1,224 @@
+﻿<%@ Page Language="C#"  AutoEventWireup="true" CodeFile="GridDisplay.aspx.cs" Inherits="GridDisplay" Title="Untitled Page" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<%@ Register Assembly="Telerik.Web.UI" Namespace="Telerik.Web.UI" TagPrefix="telerik" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>MultiColumn Sorting</title>
+    <style type="text/css">
+        th {background-color:#66CCFF; }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+<link href="Layouts/Resources/CSS/main.css" rel="Stylesheet" type="text/css" />
+
+<asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+    </asp:ToolkitScriptManager>
+    <%--<div style="position: absolute; top: 50%; background: url(../../../Layouts/Resources/Images/arrow.gif) no-repeat left center;
+            height: 75px; width: 16px; margin-left: 0px; cursor: hand; display: none" id="open">
+            &nbsp;
+        </div>
+        <div style="position: absolute; top: 50%; background: url(../../../Layouts/Resources/Images/arrow-close.gif) no-repeat left center;
+            height: 75px; width: 16px; margin-left: -5px; cursor: hand" id="close">
+            &nbsp;
+        </div>--%>
+    <div class="rightpanel" align="left" style="width: 720; float: left; padding-left: 2px"
+        id="rightpanel">
+        <h1 align="left">
+            View Vendors</h1>
+        <div align="right" style="margin-top: -22px;">
+            <a href="#">
+                <img src="Layouts/Resources/Images/email.png" align="absmiddle" alt="Email" border="0"/></a>
+            | <a href="#">
+                <img src="Layouts/Resources/Images/print-icon.png" align="absmiddle" alt="Print" border="0" /></a>
+            | <a href="#">
+                <img src="Layouts/Resources/Images/save.png" align="absmiddle" alt="Save" border="0"/></a>
+            | <a href="#">
+                <img src="Layouts/Resources/Images/excel.png" align="absmiddle" alt="Export" border="0"/></a></div>
+        <asp:UpdateProgress ID="UpdateProgress1" AssociatedUpdatePanelID="upPanel" runat="server"
+            DisplayAfter="50">
+            <ProgressTemplate>
+                <div align="center" style="background-color: #000; top: 0px; left: 0px; bottom: 0px;
+                    right: 0px; padding-top: 500px; margin: 0; width: 100%; height: 100%; overflow: hidden;
+                    position: absolute; z-index: 1000; filter: alpha(opacity=50); opacity: 0.5;">
+                    <asp:Image ID="imgWait" runat="server" ImageUrl="Layouts/Resources/Images/wait.gif"
+                        ImageAlign="Middle" />
+                </div>
+            </ProgressTemplate>
+        </asp:UpdateProgress>
+        <asp:UpdatePanel ID="upPanel" runat="server" UpdateMode="Always">
+            <ContentTemplate>
+                <asp:Panel ID="pnlSearch" runat="server">
+                    <table width="100%" border="0" cellspacing="7" cellpadding="3" style="margin-left: -7px;">
+                        <tr>
+                            <%--  <asp:AutoCompleteExtender ID="VendorAutoComplete" runat="server" TargetControlID="txtVendorName"
+                                        EnableCaching="false" CompletionSetCount="20" MinimumPrefixLength="1"
+                                        ServicePath="~/Module/Administration_UI/Pages/VendorDetails.asmx" ServiceMethod="GetVendorDetails">
+                                    </asp:AutoCompleteExtender>--%>
+                            <td width="25%">
+                                <label>
+                                    Vendor Name:</label>
+                                <asp:TextBox ID="txtVendorName" runat="server" MaxLength="50" CssClass="i-box"></asp:TextBox>
+                            </td>
+                            <td width="25%">
+                                <label>
+                                    Email:</label>
+                                <asp:TextBox ID="txtEmail" runat="server" MaxLength="100" CssClass="i-box"></asp:TextBox>
+                            </td>
+                            <td width="25%">
+                                <label>
+                                    Country:</label>
+                                <asp:DropDownList ID="ddlCountryID" runat="server" Width="120" CssClass="dd-box">
+                                </asp:DropDownList>
+                            </td>
+                            <td style="padding-top: 25px">
+                                <asp:Button ID="btnSearch" runat="server" OnClick="btnSearch_Click" CssClass="login"
+                                    Text="Search" />
+                            </td>
+                            <td width="25%" valign="top">
+                                &nbsp;
+                            </td>
+                        </tr>
+                    </table>
+                </asp:Panel>
+                <table width="100%" border="0" cellspacing="0" cellpadding="3">
+                    <tr>
+                        <td class="filter">
+                            <asp:Label ID="lblMessage" runat="server" Visible="false"></asp:Label>
+                        </td>
+                    </tr>
+                </table>
+                <div class="asnlist" style="margin-top: 7px;">
+                    <div class="aaa" style="overflow: auto; height: 330px; width: 750px">
+                        <telerik:RadGrid ID="RadVendor" runat="server" OnItemDataBound="RadVendor_ItemDataBound"
+                            AutoGenerateColumns="false" AllowPaging="True" OnNeedDataSource="RadVendor_NeedDataSource"
+                            AllowFilteringByColumn="true" OnDeleteCommand="RadVendor_DeleteCommand" OnEditCommand="RadVendor_EditCommand"
+                            OnColumnCreated="RadVendor_ColumnCreated"  ><%--CssClass="grid1" Skin="None"  EnableEmbeddedSkins=false--%>
+                            <PagerStyle Mode="NextPrevAndNumeric" />
+                            <HeaderStyle CssClass="RadGridHeader" />
+                            <SortingSettings EnableSkinSortStyles="false" />
+                           
+                            <MasterTableView CommandItemDisplay="Bottom" InsertItemDisplay="Bottom" AllowFilteringByColumn="true">
+                                <Columns>
+                                    <telerik:GridTemplateColumn AllowFiltering="false" HeaderText="Action" HeaderButtonType="TextButton">
+                                        <HeaderTemplate>
+                                            Action
+                                        </HeaderTemplate>
+                                        <ItemTemplate>
+                                            <asp:ImageButton ID="imgEdit" runat="server" ImageAlign="Middle" ImageUrl="Layouts/Resources/Images/edit.png"
+                                                CommandName="Edit" Permission="E" />
+                                            |
+                                            <asp:ImageButton ID="imgDelete" runat="server" ImageAlign="Middle" ImageUrl="Layouts/Resources/Images/delete.png"
+                                                CommandName="Delete" Permission="D" />
+                                            <asp:Label ID="lblIsActive" runat="server" Text='<%# Eval("IsActive")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblGroupID" runat="server" Text='<%# Eval("GroupID")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblLoginID" runat="server" Text='<%# Eval("LoginID")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblUserCode" runat="server" Text='<%# Eval("UserCode")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblPassword" runat="server" Text='<%# Eval("Password")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblMName" runat="server" Text='<%# Eval("MName")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblLName" runat="server" Text='<%# Eval("LName")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblWebsite" runat="server" Text='<%# Eval("Website")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblNote" runat="server" Text='<%# Eval("Note")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblIsConfirmed" runat="server" Text='<%# Eval("IsConfirmed")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblBPNumber" runat="server" Text='<%# Eval("BPNumber")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblUserID" runat="server" Text='<%# Eval("UserID")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblVName" runat="server" Text='<%# Eval("FName")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblEmail" runat="server" Text='<%# Eval("Email")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblAddress1" runat="server" Text='<%# Eval("Address1")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblAddress2" runat="server" Text='<%# Eval("Address2")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblCity" runat="server" Text='<%# Eval("City")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblState" runat="server" Text='<%# Eval("State")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblCountryID" runat="server" Text='<%# Eval("CountryID")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblZip" runat="server" Text='<%# Eval("Zip")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblTelNumber" runat="server" Text='<%# Eval("TelNumber")%>' Visible="false"></asp:Label>
+                                            <asp:Label ID="lblFaxNumber" runat="server" Text='<%# Eval("FaxNumber")%>' Visible="false"></asp:Label>
+                                        </ItemTemplate>
+                                        <HeaderStyle Height="40px" CssClass="RadGridHeader" Width="5%" HorizontalAlign="left"
+                                            VerticalAlign="Middle" />
+                                        <ItemStyle Width="5%" VerticalAlign="Top" HorizontalAlign="left"></ItemStyle>
+                                    </telerik:GridTemplateColumn>
+                                    <telerik:GridBoundColumn UniqueName="FName" HeaderText="Name" HeaderButtonType="TextButton"
+                                        DataField="FName">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Group Name" HeaderText="Group Name" HeaderButtonType="TextButton"
+                                        DataField="PKGroup_BE.GroupName" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Email" HeaderText="Email" FilterControlWidth="150px"
+                                        HeaderButtonType="TextButton" DataField="Email" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="180px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Address1" HeaderText="Address 1" HeaderButtonType="TextButton"
+                                        DataField="Address1" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="120px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Address2" HeaderText="Address 2" HeaderButtonType="TextButton"
+                                        DataField="Address2" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="120px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="City" HeaderText="City" HeaderButtonType="TextButton"
+                                        DataField="City" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="State" HeaderText="State" HeaderButtonType="TextButton"
+                                        DataField="State" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Country" HeaderText="Country" HeaderButtonType="TextButton"
+                                        DataField="PKCountry_BE.Name" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="Zip" HeaderText="Zip" HeaderButtonType="TextButton"
+                                        DataField="Zip" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="TelNumber" HeaderText="Tel Number" HeaderButtonType="TextButton"
+                                        DataField="TelNumber" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                    <telerik:GridBoundColumn UniqueName="FaxNumber" HeaderText="Fax Number" HeaderButtonType="TextButton"
+                                        DataField="FaxNumber" SortAscImageUrl="Layouts/Resources/Images/SortAsc.gif"
+                                        SortDescImageUrl="Layouts/Resources/Images/SortDesc.gif">
+                                        <HeaderStyle Width="100px" CssClass="RadGridHeader" VerticalAlign="Middle"></HeaderStyle>
+                                    </telerik:GridBoundColumn>
+                                </Columns>
+                            </MasterTableView>
+                        </telerik:RadGrid>
+                    </div>
+                </div>
+                <%--<div class="paging" align="right"><a href="#"><img border="0" align="absmiddle" src="../../../Layouts/Resources/Images/backward.png"></a> <a href="#"><img border="0" align="absmiddle" src="../../../Layouts/Resources/Images/back.png"></a>&nbsp;1 of 1&nbsp;<a href="#"><img border="0" align="absmiddle" src="../../../Layouts/Resources/Images/next.png"></a> <a href="#"><img border="0" align="absmiddle" src="../../../Layouts/Resources/Images/forward.png"></a>&nbsp;Goto Page&nbsp;&nbsp; 
+			  <input type="text" style="width: 20px;" name="">&nbsp;&nbsp;<input type="button" value="Go" class="go"/></div>
+                </div>--%>
+                <br />
+                <br />
+                <div align="center">
+                    <asp:Button ID="btnAddNew" runat="server" OnClick="btnAddNew_Click" Text="Add New"
+                        CssClass="login" Permission="A" />&nbsp;&nbsp;<input name="" type="button" class="login"
+                            value="Cancel" />
+                </div>
+            </ContentTemplate>
+            <Triggers>
+                <asp:AsyncPostBackTrigger ControlID="btnSearch" EventName="Click" />
+            </Triggers>
+        </asp:UpdatePanel>
+        <br />
+        <br />
+    </div>
+      </form>
+</body>
+</html>
+
+

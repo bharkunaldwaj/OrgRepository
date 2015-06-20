@@ -1,0 +1,668 @@
+----------------------------------------
+Timestamp: 10/7/2010 12:52:21 PM
+Message: System.FormatException: String was not recognized as a valid Boolean.
+   at System.Boolean.Parse(String value)
+   at System.Convert.ToBoolean(String value)
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 91
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:55:24 PM
+Message: System.FormatException: String was not recognized as a valid Boolean.
+   at System.Boolean.Parse(String value)
+   at System.Convert.ToBoolean(String value)
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 91
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:56:52 PM
+Message: System.FormatException: String was not recognized as a valid Boolean.
+   at System.Boolean.Parse(String value)
+   at System.Convert.ToBoolean(String value)
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 91
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:57:57 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:57:57 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:58:57 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at DatabaseAccessUtilities.CSqlClient.Connection() in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 23
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 37
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 12:58:57 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:01:11 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:01:11 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:01:40 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at DatabaseAccessUtilities.CSqlClient.Connection() in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 23
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 37
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:01:40 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:02:15 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:02:53 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 56
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:02:53 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:02:53 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:04:42 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:04:42 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:04:42 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:11:32 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:11:32 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:11:32 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:25:12 PM
+Message: System.Exception: UspAccountUserManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 72
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:25:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 79
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 42
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:25:13 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.AddAccountUser(AccountUser_BE accountuser_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 55
+   at Module_Admin_AccountUser.imbSave_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 109
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:26:19 PM
+Message: System.ArgumentException: Column 'Code' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Admin_DAO.AccountUser_DAO.ShiftDataTableToBEList(DataTable dtAccountUser) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 219
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 159
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:26:19 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 165
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 133
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:26:30 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 141
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 27
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:26:30 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 50
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:28:15 PM
+Message: System.ArgumentException: Column 'Code' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Admin_DAO.AccountUser_DAO.ShiftDataTableToBEList(DataTable dtAccountUser) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 219
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 159
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:28:16 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 165
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 133
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:29:02 PM
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 133
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:29:40 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Globalization.TextInfo.nativeCompareOrdinalIgnoreCase(Void* pNativeTextInfo, String str1, String str2)
+   at System.OrdinalComparer.Equals(String x, String y)
+   at System.StringComparer.Equals(Object x, Object y)
+   at System.Collections.Hashtable.KeyEquals(Object item, Object key)
+   at System.Collections.Hashtable.get_Item(Object key)
+   at System.Collections.Specialized.NameObjectCollectionBase.FindEntry(String key)
+   at System.Collections.Specialized.NameObjectCollectionBase.BaseGet(String name)
+   at System.Collections.Specialized.NameValueCollection.Get(String name)
+   at System.Collections.Specialized.NameValueCollection.get_Item(String name)
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 26
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:29:40 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 50
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:32:14 PM
+Message: System.ArgumentException: Column 'Code' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Admin_DAO.AccountUser_DAO.ShiftDataTableToBEList(DataTable dtAccountUser) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 219
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 159
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:32:14 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.AccountUser_DAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\Module DAL\Admin_DAO\AccountUser_DAO.cs:line 165
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 133
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:32:15 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.AccountUser_BAO.GetAccountUserByID(Int32 accountuserID) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\AccountUser_BAO.cs:line 141
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 27
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/7/2010 1:32:15 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Admin_AccountUser.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Admin\AccountUser.aspx.cs:line 50
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:17:58 AM
+Message: System.IndexOutOfRangeException: Invalid index 7 for this SqlParameterCollection with Count=7.
+   at System.Data.SqlClient.SqlParameterCollection.RangeCheck(Int32 index)
+   at System.Data.SqlClient.SqlParameterCollection.GetParameter(Int32 index)
+   at System.Data.Common.DbParameterCollection.System.Collections.IList.get_Item(Int32 index)
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 468
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 66
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:17:59 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 73
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:17:59 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:21:43 AM
+Message: System.IndexOutOfRangeException: Invalid index 7 for this SqlParameterCollection with Count=7.
+   at System.Data.SqlClient.SqlParameterCollection.RangeCheck(Int32 index)
+   at System.Data.SqlClient.SqlParameterCollection.GetParameter(Int32 index)
+   at System.Data.Common.DbParameterCollection.System.Collections.IList.get_Item(Int32 index)
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 468
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 66
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:21:43 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 73
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:21:43 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 38
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:23:18 AM
+Message: System.IndexOutOfRangeException: Invalid index 7 for this SqlParameterCollection with Count=7.
+   at System.Data.SqlClient.SqlParameterCollection.RangeCheck(Int32 index)
+   at System.Data.SqlClient.SqlParameterCollection.GetParameter(Int32 index)
+   at System.Data.Common.DbParameterCollection.System.Collections.IList.get_Item(Int32 index)
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 468
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 66
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:23:18 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 73
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:23:19 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 39
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:52:19 AM
+Message: System.Exception: UspAssignmentDetailsManagement
+The INSERT statement conflicted with the FOREIGN KEY constraint "FK_AssignmentDetails_AssignQuestionnaire". The conflict occurred in database "Feedback360", table "dbo.AssignQuestionnaire", column 'AssignmentID'.
+The statement has been terminated.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Sumnesh\OrgRef\Code\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 81
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:52:20 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction) in D:\Sumnesh\OrgRef\Code\Feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 89
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 40
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 9:52:23 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE) in D:\Sumnesh\OrgRef\Code\Feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 53
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Sumnesh\OrgRef\Code\Feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 39
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

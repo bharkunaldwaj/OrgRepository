@@ -1,0 +1,614 @@
+----------------------------------------
+Timestamp: 25/10/2010 11:52:01
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 11:52:01
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 11:52:34
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 11:52:34
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 11:56:33
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 11:56:33
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:03:13
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:03:13
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:10:17
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:10:17
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:19:15
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:19:15
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:30:19
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 231
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:30:19
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 242
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:59:14
+Message: System.InvalidOperationException: The stored procedure 'UspEmailTemplateCopy' doesn't exist.
+   at System.Data.SqlClient.SqlCommand.DeriveParameters()
+   at System.Data.SqlClient.SqlCommandBuilder.DeriveParameters(SqlCommand command)
+   at DatabaseAccessUtilities.CSqlClient.DeriveParameters(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 33
+   at DatabaseAccessUtilities.CDataSrcLocal.DiscoverSpParameterSet(String spName, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 491
+   at DatabaseAccessUtilities.CDataSrcLocal.GetSpParameters(IDbCommand cmd, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 482
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 451
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 237
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 12:59:14
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 243
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 14:45:31
+Message: System.Exception: UspEmailTemplateCopy
+Conversion failed when converting the varchar value '18,17,' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 237
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 14:45:31
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 243
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 14:50:00
+Message: System.Exception: UspEmailTemplateCopy
+Conversion failed when converting the varchar value '18,17,' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 237
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 14:50:00
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 243
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:02:01
+Message: System.Exception: UspEmailTemplateCopy
+Conversion failed when converting the varchar value '18,17,' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 241
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:02:01
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 247
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:03:18
+Message: System.Exception: UspEmailTemplateCopy
+Conversion failed when converting the varchar value '18,17,' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 241
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:03:18
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 247
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:03:59
+Message: System.Exception: UspEmailTemplateCopy
+Conversion failed when converting the varchar value '18,17' to data type int.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 241
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:04:00
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 247
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:13:01
+Message: System.Exception: UspEmailTemplateCopy
+Failed to convert parameter value from a Int32[] to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 241
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:13:01
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 247
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:34:30
+Message: System.Exception: UspEmailTemplateCopy
+Cannot find either column "dbo" or the user-defined function or aggregate "dbo.fn_CSVToTable", or the name is ambiguous.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 61
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 240
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 25/10/2010 15:34:30
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.InsertMailTemplateID(String id, Int32 accountid) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 246
+   at Admin_BAO.EmailTemplate_BAO.InsertMailTemplateID(String Id, Int32 accountid) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 229
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:06:36
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Admin_EmailTemplates.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Admin\EmailTemplates.aspx.cs:line 112
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:07:24
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Admin_EmailTemplates.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Admin\EmailTemplates.aspx.cs:line 112
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:08:27
+Message: System.Exception: UspEmailTemplateManagement
+Failed to convert parameter value from a String to a Int32.
+   at DatabaseAccessUtilities.CDataSrc.Rethrow(Exception ex, String sql) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 371
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 150
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Admin_DAO.EmailTemplate_DAO.UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 112
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:08:27
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.EmailTemplate_DAO.UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\EmailTemplate_DAO.cs:line 119
+   at Admin_BAO.EmailTemplate_BAO.UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 77
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:08:27
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.EmailTemplate_BAO.UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\EmailTemplate_BAO.cs:line 90
+   at Module_Admin_EmailTemplates.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Admin\EmailTemplates.aspx.cs:line 135
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:51:30
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_Questions.ibtnSave_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 172
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:53:58
+Message: System.ArgumentException: Column 'AccountID' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Questions_DAO.ShiftDataTableToBEList(DataTable dtQuestions) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 256
+   at Questionnaire_DAO.Questions_DAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 195
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:53:59
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Questions_DAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 201
+   at Questionnaire_BAO.Questions_BAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Questions_BAO.cs:line 131
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:53:59
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.Questions_BAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Questions_BAO.cs:line 139
+   at Module_Questionnaire_Questions.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 56
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:53:59
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Questionnaire_Questions.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 110
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Projects\feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:57:49
+Message: System.ArgumentException: Column 'AccountID' does not belong to table Table.
+   at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at Questionnaire_DAO.Questions_DAO.ShiftDataTableToBEList(DataTable dtQuestions) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 256
+   at Questionnaire_DAO.Questions_DAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 195
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 06:57:49
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Questions_DAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\Questionnaire_DAO\Questions_DAO.cs:line 201
+   at Questionnaire_BAO.Questions_BAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Questions_BAO.cs:line 131
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 07:00:58
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.Questions_BAO.GetQuestionsByID(Int32 questionsID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Questions_BAO.cs:line 139
+   at Module_Questionnaire_Questions.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 56
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 07:00:58
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Questionnaire_Questions.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 110
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Projects\feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 07:01:43
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_Questions.SetQuestionsValue(List`1 questions_BEList) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 119
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 07:03:22
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_Questions.SetQuestionsValue(List`1 questions_BEList) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 119
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 07:04:49
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_Questions.SetQuestionsValue(List`1 questions_BEList) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Questions.aspx.cs:line 119
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 10:50:32
+Message: System.ArgumentOutOfRangeException: 'ddlAccountCode' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Category.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Category.aspx.cs:line 48
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/10/2010 10:54:15
+Message: System.ArgumentOutOfRangeException: 'ddlAccountCode' has a SelectedValue which is invalid because it does not exist in the list of items.
+Parameter name: value
+   at System.Web.UI.WebControls.ListControl.PerformDataBinding(IEnumerable dataSource)
+   at System.Web.UI.WebControls.ListControl.OnDataBinding(EventArgs e)
+   at System.Web.UI.WebControls.ListControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at Module_Questionnaire_Category.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\Category.aspx.cs:line 48
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

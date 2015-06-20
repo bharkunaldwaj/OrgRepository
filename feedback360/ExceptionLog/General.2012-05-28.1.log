@@ -1,0 +1,49 @@
+----------------------------------------
+Timestamp: 23/05/2012 11:48:14
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:06:40
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:07:00
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:07:20
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:07:25
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:20:06
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/05/2012 13:20:06
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

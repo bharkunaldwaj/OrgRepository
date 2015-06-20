@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 17/03/2013 20:43:28
+Message: Mailbox unavailable. The server response was: The domain in the email address 'ricky.rosen@unilever.comm' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 18/03/2013 10:45:10
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 18/03/2013 11:58:13
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

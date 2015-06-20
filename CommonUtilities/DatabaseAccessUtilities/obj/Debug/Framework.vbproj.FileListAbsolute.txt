@@ -1,0 +1,22 @@
+D:\APD_Projects\SCM\Framework\bin\Debug\Framework.dll
+D:\APD_Projects\SCM\Framework\bin\Debug\Framework.pdb
+D:\APD_Projects\SCM\Framework\bin\Debug\Framework.xml
+D:\APD_Projects\SCM\Framework\bin\Debug\MySql.Data.dll
+D:\APD_Projects\SCM\Framework\bin\Debug\Oracle.DataAccess.dll
+D:\APD_Projects\SCM\Framework\obj\Debug\ResolveAssemblyReference.cache
+D:\APD_Projects\SCM\Framework\obj\Debug\Framework.Resources.resources
+D:\APD_Projects\SCM\Framework\obj\Debug\Framework.vbproj.GenerateResource.Cache
+D:\APD_Projects\SCM\Framework\obj\Debug\Framework.dll
+D:\APD_Projects\SCM\Framework\obj\Debug\Framework.xml
+D:\APD_Projects\SCM\Framework\obj\Debug\Framework.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\bin\Debug\Framework.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\bin\Debug\Framework.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\bin\Debug\Framework.xml
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\bin\Debug\MySql.Data.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\bin\Debug\Oracle.DataAccess.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\Framework.Resources.resources
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\Framework.vbproj.GenerateResource.Cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\Framework.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\Framework.xml
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\Framework\obj\Debug\Framework.pdb

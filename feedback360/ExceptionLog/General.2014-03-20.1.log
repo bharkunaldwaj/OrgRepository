@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 17/03/2014 14:38:01
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 17/03/2014 21:13:34
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 17/03/2014 21:16:25
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

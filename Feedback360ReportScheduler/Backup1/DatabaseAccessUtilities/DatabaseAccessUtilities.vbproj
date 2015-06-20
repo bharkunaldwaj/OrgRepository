@@ -1,0 +1,236 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DE7FDE19-414E-4CD5-9AE3-25BC7B1A2A05}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DatabaseAccessUtilities</RootNamespace>
+    <AssemblyName>DAU</AssemblyName>
+    <MyType>Windows</MyType>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <OptionStrict>On</OptionStrict>
+    <FileUpgradeFlags>40</FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation>C:\Damco Projects\Feedback360\Feedback360ReportScheduler\Backup\DatabaseAccessUtilities\</UpgradeBackupLocation>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>DAU.xml</DocumentationFile>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>DAU.xml</DocumentationFile>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=5.2.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="Oracle.DataAccess, Version=9.2.0.700, Culture=neutral, PublicKeyToken=89b483f429c47342" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.OracleClient, Version=1.0.3300.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\BusinessObjects\basic\CBase.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\CBaseDynamic3Way.vb" />
+    <Compile Include="Classes\BusinessObjects\basic\CBaseCommon.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\CBaseDynamic3WayNoEdit.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\CBaseDynamicM2M.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\CBaseDynamic.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\CBaseDynamicM2MNoEdit.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\smart\CBaseSmartM2M.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\smart\CBaseSmart.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\smart\CBaseSmart3Way.vb" />
+    <Compile Include="Classes\BusinessObjects\storedprocs\CBaseStoredProcs.vb" />
+    <Compile Include="Classes\BusinessObjects\storedprocs\CBaseStoredProcs3Way.vb" />
+    <Compile Include="Classes\BusinessObjects\storedprocs\CBaseStoredProcsM2M.vb" />
+    <Compile Include="Classes\CAdoData.vb" />
+    <Compile Include="Classes\CBinary.vb" />
+    <Compile Include="Classes\web\CApplication.vb" />
+    <Compile Include="Classes\web\CCache.vb" />
+    <Compile Include="Classes\CImplicitTransaction.vb" />
+    <Compile Include="Classes\CPagingInfo.vb" />
+    <Compile Include="Classes\CReflection.vb" />
+    <Compile Include="Classes\web\CActionlessForm.vb" />
+    <Compile Include="Classes\web\CSessionBase.vb" />
+    <Compile Include="Classes\CConfigBase.vb" />
+    <Compile Include="Classes\CFileNameAndContent.vb" />
+    <Compile Include="Classes\CShuffle.vb" />
+    <Compile Include="Classes\BusinessObjects\dynamic\smart\CSortByColumn.vb" />
+    <Compile Include="Classes\web\CTextbox.vb" />
+    <Compile Include="Classes\web\CUrlRewrite.vb" />
+    <Compile Include="Classes\CUtilities.vb" />
+    <Compile Include="Classes\CStem.vb" />
+    <Compile Include="Classes\web\CWeb.vb" />
+    <Compile Include="Classes\CWinforms.vb" />
+    <Compile Include="Classes\Drivers\Abstract\CDataSrc.vb" />
+    <Compile Include="Classes\Drivers\Abstract\CDataSrcLocal.vb" />
+    <Compile Include="Classes\Drivers\Abstract\CDataSrcRemote.vb" />
+    <Compile Include="Classes\Drivers\Abstract\COracleClient.vb" />
+    <Compile Include="Classes\Drivers\Abstract\CWebSrc.vb" />
+    <Compile Include="Classes\Drivers\CMySqlClient.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\COdbc.vb" />
+    <Compile Include="Classes\Drivers\COleDb.vb" />
+    <Compile Include="Classes\Drivers\COracleClientMs.vb" />
+    <Compile Include="Classes\Drivers\COracleClientOdp.vb" />
+    <Compile Include="Classes\Drivers\CSqlClient.vb" />
+    <Compile Include="Classes\Drivers\CWebSrcSoap.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\CWebSrcBinary.vb" />
+    <Compile Include="Classes\Drivers\Abstract\webservices\CWebPage.vb">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\Abstract\webservices\CWSDataSrc.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CCommand.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CConflictException.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CCriteria.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CCriteriaGroup.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CCriteriaList.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CNameValue.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CNameValueList.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CSelectWhere.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\Drivers\support\CWhere.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Web References\WRDataSrc\Reference.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Classes\web\CDropdown.vb" />
+    <Compile Include="Classes\Xml\Dom\CDocument.vb" />
+    <Compile Include="Classes\Xml\Dom\CElement.vb" />
+    <Compile Include="Classes\Xml\Dom\CXml.vb" />
+    <Compile Include="Classes\Xml\Stream\CNode.vb" />
+    <Compile Include="Classes\Xml\Stream\CRoot.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://localhost:11254/Website/webservices/soap/WSDataSrc.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\WRDataSrc\</RelPath>
+      <UpdateFromURL>http://localhost:11254/Website/webservices/soap/WSDataSrc.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>MySettings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>AbstractionLayer_WRDataSrc_WSDataSrc</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\WRDataSrc\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Dlls\MySql.Data.dll" />
+    <Content Include="Dlls\Oracle.DataAccess.dll" />
+    <Content Include="Dlls\System.Data.OracleClient.dll" />
+    <None Include="app.config" />
+    <None Include="My Project\DataSources\System.Data.DataSet.datasource" />
+    <None Include="Web References\WRDataSrc\WSDataSrc.disco" />
+    <None Include="Web References\WRDataSrc\WSDataSrc.wsdl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

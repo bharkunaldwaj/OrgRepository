@@ -1,0 +1,277 @@
+﻿#region Namespaces
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Globalization;
+using System.Data;
+using System.Diagnostics;
+using DAF_BAO;
+using Admin_BE;
+using Admin_BAO;
+#endregion
+
+public partial class Module_Admin_EmailTemplates : CodeBehindBase
+{
+    
+    EmailTemplate_BAO emailtemplate_BAO = new EmailTemplate_BAO();
+    EmailTemplate_BE emailtemplate_BE = new EmailTemplate_BE();
+    List<EmailTemplate_BE> emailtemplate_BEList = new List<EmailTemplate_BE>();
+
+    WADIdentity identity;
+    DataTable CompanyName;
+    DataTable dtAllAccount;
+    string expression1;
+    string Finalexpression;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        try
+        {
+            if (!Page.IsPostBack)
+            {
+                identity = this.Page.User.Identity as WADIdentity;
+                
+                int emailtemplateID = Convert.ToInt32(Request.QueryString["EmailTempID"]);
+
+                emailtemplate_BEList = emailtemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(identity.User.AccountID), emailtemplateID);
+
+
+                Account_BAO account_BAO = new Account_BAO();
+                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                ddlAccountCode.DataValueField = "AccountID";
+                ddlAccountCode.DataTextField = "Code";
+                ddlAccountCode.DataBind();
+                
+                
+                
+                if (emailtemplate_BEList.Count > 0)
+                {
+                    SetEmailTemplateValue(emailtemplate_BEList);
+                }
+               
+
+                if (Request.QueryString["Mode"] == "E")
+                {
+                    ibtnSave.Visible = true;
+                    ibtnCancel.Visible = true;
+                    imbBack.Visible = false;
+                    lblheader.Text = "Edit Email Templates";
+                }
+                else if (Request.QueryString["Mode"] == "R")
+                {
+                    ibtnSave.Visible = false;
+                    ibtnCancel.Visible = false;
+                    imbBack.Visible = true;
+                    lblheader.Text = "Edit Email Templates";
+                }
+
+                
+                if (identity.User.GroupID == 1)
+                {
+                    divAccount.Visible = true;
+                    if (Request.QueryString["Mode"] == null)
+                    {
+                        ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+                        ddlAccountCode_SelectedIndexChanged(sender, e);
+                    }
+                }
+                else
+                {
+                    divAccount.Visible = false;
+                }
+
+
+
+              
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+
+    private void SetEmailTemplateValue(List<EmailTemplate_BE> emailtemplate_BEList)
+    {
+        try
+        {
+            //HandleWriteLog("Start", new StackTrace(true));
+            identity = this.Page.User.Identity as WADIdentity;
+
+            if (identity.User.GroupID == 1)
+            {
+                //ddlAccountCode.SelectedValue = category_BEList[0].AccountID.ToString();
+                string abc = emailtemplate_BEList[0].AccountID.ToString();
+                ddlAccountCode.SelectedValue = abc;
+
+                if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
+                {
+
+                    int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
+
+                    Account_BAO account_BAO = new Account_BAO();
+
+                    CompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+
+                    expression1 = "AccountID='" + companycode + "'";
+
+                    Finalexpression = expression1;
+
+                    DataRow[] resultsAccount = CompanyName.Select(Finalexpression);
+
+                    DataTable dtAccount = CompanyName.Clone();
+
+                    foreach (DataRow drAccount in resultsAccount)
+                    {
+                        dtAccount.ImportRow(drAccount);
+                    }
+
+                    lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                }
+                else
+                {
+                    lblcompanyname.Text = "";
+                }
+
+
+            }
+            txttitle.Text = emailtemplate_BEList[0].Title;
+            txtDescription.Text = emailtemplate_BEList[0].Description;
+            txtEmailText.Value = emailtemplate_BEList[0].EmailText;
+
+            //HandleWriteLog("Start", new StackTrace(true));
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+
+    protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            //HandleWriteLog("Start", new StackTrace(true));
+            EmailTemplate_BE emailtemplate_BE = new EmailTemplate_BE();
+            EmailTemplate_BAO emailtemplate_BAO = new EmailTemplate_BAO();
+
+            if (txtEmailText.Value.Trim() == "")
+            {
+                //lblMessage.Text = "Please Enter Email Text";
+                //txtEmailText.Focus();
+                //return;
+            }
+            else
+            {
+                identity = this.Page.User.Identity as WADIdentity;
+
+                if (identity.User.GroupID == 1)
+                {
+                    emailtemplate_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+
+                }
+                else
+                {
+
+
+                    emailtemplate_BE.AccountID = identity.User.AccountID;
+                }
+
+
+                emailtemplate_BE.Title = GetString(txttitle.Text);
+                emailtemplate_BE.Description = GetString(txtDescription.Text);
+                emailtemplate_BE.EmailText = GetString(txtEmailText.Value.Trim());
+                emailtemplate_BE.ModifyBy = 1;
+                emailtemplate_BE.ModifyDate = DateTime.Now;
+                emailtemplate_BE.IsActive = 1;
+
+                if (Request.QueryString["Mode"] == "E")
+                {
+                    emailtemplate_BE.EmailTemplateID = Convert.ToInt32(Request.QueryString["EmailTempID"]);
+                    emailtemplate_BAO.UpdateEmailTemplate(emailtemplate_BE);
+                }
+                else
+                {
+                    emailtemplate_BAO.AddEmailTemplate(emailtemplate_BE);
+                }
+
+                Response.Redirect("EmailTemplatesList.aspx", false);
+                //HandleWriteLog("Start", new StackTrace(true));
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+    protected void ibtnCancel_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            //HandleWriteLog("Start", new StackTrace(true));
+
+            Response.Redirect("EmailTemplatesList.aspx", false);
+
+            //HandleWriteLog("Start", new StackTrace(true));
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+    protected void imbBack_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            //HandleWriteLog("Start", new StackTrace(true));
+
+            Response.Redirect("EmailTemplatesList.aspx", false);
+
+            //HandleWriteLog("Start", new StackTrace(true));
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+
+
+    protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
+        {
+
+            int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
+
+            Account_BAO account_BAO = new Account_BAO();
+
+            CompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+
+            expression1 = "AccountID='" + companycode + "'";
+
+            Finalexpression = expression1;
+
+            DataRow[] resultsAccount = CompanyName.Select(Finalexpression);
+
+            DataTable dtAccount = CompanyName.Clone();
+
+            foreach (DataRow drAccount in resultsAccount)
+            {
+                dtAccount.ImportRow(drAccount);
+            }
+
+            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+        }
+        else
+        {
+            lblcompanyname.Text = "";
+        }
+    }
+
+
+
+
+}

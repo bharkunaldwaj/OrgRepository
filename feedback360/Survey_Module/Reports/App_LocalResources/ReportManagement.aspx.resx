@@ -1,0 +1,258 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblCategoryIntro" xml:space="preserve">
+    <value>Show category introductions</value>
+  </data>
+  <data name="lblCatQstChart" xml:space="preserve">
+    <value>Show category data charts</value>
+  </data>
+  <data name="lblCatQstlist" xml:space="preserve">
+    <value>Show category question list</value>
+  </data>
+  <data name="lblCatQstText" xml:space="preserve">
+    <value>Show question 'free text' responses</value>
+  </data>
+  <data name="lblConclusion" xml:space="preserve">
+    <value>Show report conclusion</value>
+  </data>
+  <data name="lblCoverPage" xml:space="preserve">
+    <value>Show cover page</value>
+  </data>
+  <data name="lblRadarChart" xml:space="preserve">
+    <value>Show radar summary chart</value>
+  </data>
+  <data name="lblReportIntro" xml:space="preserve">
+    <value>Show report introduction </value>
+  </data>
+  <data name="lblFullPrjGrp" xml:space="preserve">
+    <value>Full Project Group</value>
+  </data>
+  <data name="lblConclus" xml:space="preserve">
+    <value>Conclusion</value>
+  </data>
+  <data name="lblCopyright" xml:space="preserve">
+    <value>Copyright</value>
+  </data>
+  <data name="lblHeading1" xml:space="preserve">
+    <value>Heading 1</value>
+  </data>
+  <data name="lblHeading2" xml:space="preserve">
+    <value>Heading 2</value>
+  </data>
+  <data name="lblHeading3" xml:space="preserve">
+    <value>Heading 3</value>
+  </data>
+  <data name="lblHeadingColour" xml:space="preserve">
+    <value>Heading Colour</value>
+  </data>
+  <data name="lblIntroduction" xml:space="preserve">
+    <value>Introduction</value>
+  </data>
+  <data name="lblProgramme" xml:space="preserve">
+    <value>Programme</value>
+  </data>
+  <data name="lblConHighLowRange1" xml:space="preserve">
+    <value>Show </value>
+  </data>
+  <data name="lblConHighLowRange2" xml:space="preserve">
+    <value> Highest/Lowest Scores</value>
+  </data>
+  <data name="lblAccountcode" xml:space="preserve">
+    <value>Account Code</value>
+  </data>
+  <data name="lblAccountDetail" xml:space="preserve">
+    <value>Account Details</value>
+  </data>
+  <data name="lblCompanyName" xml:space="preserve">
+    <value>Company  Name</value>
+  </data>
+  <data name="lblHeading" xml:space="preserve">
+    <value>Report Management</value>
+  </data>
+  <data name="lblProject" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="lblProjectDetail" xml:space="preserve">
+    <value>Project Details</value>
+  </data>
+  <data name="lblReportSelection" xml:space="preserve">
+    <value>Report Selection</value>
+  </data>
+  <data name="lblReportType" xml:space="preserve">
+    <value>Report Type</value>
+  </data>
+  <data name="lblRerportSetting" xml:space="preserve">
+    <value>Report Settings</value>
+  </data>
+  <data name="lblSelectionGroup" xml:space="preserve">
+    <value>&lt;p &gt;Included Selection Groups:&lt;/p&gt;</value>
+  </data>
+  <data name="lblToolTip" xml:space="preserve">
+    <value>Report Management</value>
+  </data>
+  <data name="RequiredFieldValidator1" xml:space="preserve">
+    <value>Please Select Project Code Details</value>
+  </data>
+  <data name="RequiredFieldValidator2" xml:space="preserve">
+    <value>Please Select Report Type</value>
+  </data>
+  <data name="Rq21" xml:space="preserve">
+    <value>Please Select Account Code Details</value>
+  </data>
+  <data name="lblPreviousScore" xml:space="preserve">
+    <value>Show Previous Score Graph</value>
+  </data>
+  <data name="lblBenchMark" xml:space="preserve">
+    <value>Show Benchmark Score Graph</value>
+  </data>
+  <data name="lblBenckMarkGrp" xml:space="preserve">
+    <value>Benchmark</value>
+  </data>
+  <data name="lblBecnhConclusion" xml:space="preserve">
+    <value>Benchmark Conclusion</value>
+  </data>
+  <data name="lblConclusionHeading" xml:space="preserve">
+    <value>Conclusion Heading</value>
+  </data>
+  <data name="lblBottomImage" xml:space="preserve">
+    <value>Bottom Image</value>
+  </data>
+  <data name="lblMiddleImage" xml:space="preserve">
+    <value>Middle Image</value>
+  </data>
+  <data name="lblTopImage" xml:space="preserve">
+    <value>Top Image</value>
+  </data>
+  <data name="lblShowScoreRespondents" xml:space="preserve">
+    <value>Show Score Respondents</value>
+  </data>
+  <data name="lblFrontPdf" xml:space="preserve">
+    <value>Front page PDF</value>
+  </data>
+  <data name="lblPdfSize" xml:space="preserve">
+    <value>(Recomended Size (Width X Height): 8 X 10.5)</value>
+  </data>
+  <data name="lblScoreTableImage" xml:space="preserve">
+    <value>Score Table Image</value>
+  </data>
+  <data name="lblFooterImage" xml:space="preserve">
+    <value>Footer Image</value>
+  </data>
+</root>

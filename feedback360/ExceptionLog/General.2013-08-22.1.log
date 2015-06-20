@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 20/08/2013 11:08:09
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 21/08/2013 10:01:02
+Message: Service not available, closing transmission channel. The server response was: mail11.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 16/05/2013 20:46:38
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 17/05/2013 02:29:39
+Message: Mailbox unavailable. The server response was: The domain in the email address 'mariela.volpato@unilever' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 17/05/2013 02:29:41
+Message: Mailbox unavailable. The server response was: The domain in the email address 'basirah.alam@unilever' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

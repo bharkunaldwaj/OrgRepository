@@ -1,0 +1,136 @@
+----------------------------------------
+Timestamp: 9/30/2010 12:24:57 PM
+Message: System.InvalidCastException: Specified cast is not valid.
+   at feedbackFramework_DAO.DAO_Base.GetInt(Object p_objValue) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 103
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 181
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 160
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:24:57 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 166
+   at Questionnaire_BAO.Category_BAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 154
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:28:36 PM
+Message: System.InvalidCastException: Specified cast is not valid.
+   at feedbackFramework_DAO.DAO_Base.GetInt(Object p_objValue) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 103
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 181
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 160
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:28:36 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 166
+   at Questionnaire_BAO.Category_BAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 154
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:30:25 PM
+Message: System.InvalidCastException: Specified cast is not valid.
+   at feedbackFramework_DAO.DAO_Base.GetInt(Object p_objValue) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 103
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 184
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 160
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:30:26 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 166
+   at Questionnaire_BAO.Category_BAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 154
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:32:20 PM
+Message: System.InvalidCastException: Specified cast is not valid.
+   at feedbackFramework_DAO.DAO_Base.GetBool(Object objValue) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 116
+   at Questionnaire_DAO.Category_DAO.ShiftDataTableToBEList(DataTable dtCategory) in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 185
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 160
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 9/30/2010 12:32:20 PM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Sumnesh\OrgRef\Code\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.Category_DAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\Questionnaire_DAO\Category_DAO.cs:line 166
+   at Questionnaire_BAO.Category_BAO.GetCategoryList() in D:\Sumnesh\OrgRef\Code\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\Category_BAO.cs:line 154
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/1/2010 10:43:56 AM
+Message: System.InvalidOperationException: Both DataSource and DataSourceID are defined on 'grdvCategory'.  Remove one definition.
+   at System.Web.UI.WebControls.DataBoundControl.ConnectToDataSourceView()
+   at System.Web.UI.WebControls.DataBoundControl.GetData()
+   at System.Web.UI.WebControls.DataBoundControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at System.Web.UI.WebControls.GridView.DataBind()
+   at Module_Questionnaire_CategoryList.bindData() in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\Module\Questionnaire\CategoryList.aspx.cs:line 66
+   at Module_Questionnaire_CategoryList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\Module\Questionnaire\CategoryList.aspx.cs:line 22
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\App_Code\CodeBehindBase.cs:line 118
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/1/2010 12:14:46 PM
+Message: System.InvalidOperationException: Both DataSource and DataSourceID are defined on 'grdvCategory'.  Remove one definition.
+   at System.Web.UI.WebControls.DataBoundControl.ConnectToDataSourceView()
+   at System.Web.UI.WebControls.DataBoundControl.GetData()
+   at System.Web.UI.WebControls.DataBoundControl.PerformSelect()
+   at System.Web.UI.WebControls.BaseDataBoundControl.DataBind()
+   at System.Web.UI.WebControls.GridView.DataBind()
+   at Module_Questionnaire_CategoryList.bindData() in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\Module\Questionnaire\CategoryList.aspx.cs:line 67
+   at Module_Questionnaire_CategoryList.Page_Load(Object sender, EventArgs e) in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\Module\Questionnaire\CategoryList.aspx.cs:line 26
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Sumnesh\OrgRef\Code\feedback360\feedback360\App_Code\CodeBehindBase.cs:line 118
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------

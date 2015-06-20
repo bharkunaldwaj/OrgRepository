@@ -1,0 +1,28 @@
+----------------------------------------
+Timestamp: 26/04/2012 09:45:02
+Message: Mailbox unavailable. The server response was: The domain in the email address 'joanne.newling@global.lloydsbanking.com'
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/04/2012 13:47:44
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/04/2012 15:00:59
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 26/04/2012 15:51:10
+Message: Syntax error in parameters or arguments. The server response was: <'supatchaya.dimichai@frieslandcampina.com'>: malformed address: '> may not follow <'supatchaya.dimichai@frieslandcampina.com
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

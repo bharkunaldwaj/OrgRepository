@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 29/10/2013 11:44:19
+Message: Syntax error in parameters or arguments. The server response was: <'abarratt@polyflor.com'>: malformed address: '> may not follow <'abarratt@polyflor.com
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 29/10/2013 11:44:19
+Message: Syntax error in parameters or arguments. The server response was: <'Paul.Baines@mt.com'>: malformed address: '> may not follow <'Paul.Baines@mt.com
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

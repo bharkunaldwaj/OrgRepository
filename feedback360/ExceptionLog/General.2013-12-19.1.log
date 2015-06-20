@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 18/12/2013 08:36:29
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 18/12/2013 09:53:27
+Message: Mailbox unavailable. The server response was: The domain in the email address 'phil.pannell@abelio.co.uk' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 18/12/2013 13:33:02
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

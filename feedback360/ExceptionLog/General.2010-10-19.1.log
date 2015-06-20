@@ -1,0 +1,274 @@
+----------------------------------------
+Timestamp: 10/8/2010 11:34:52 AM
+Message: System.InvalidOperationException: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DatabaseAccessUtilities.CSqlClient.Connection() in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 24
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 416
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Admin_DAO.Account_DAO.GetAccountByID(Int32 accountID) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\Account_DAO.cs:line 162
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 11:34:53 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Admin_DAO.Account_DAO.GetAccountByID(Int32 accountID) in D:\Projects\feedback360\DataAccessLayer\Module DAL\Admin_DAO\Account_DAO.cs:line 170
+   at Admin_BAO.Account_BAO.GetAccountByID(Int32 accountID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\Account_BAO.cs:line 132
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 11:34:53 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Admin_BAO.Account_BAO.GetAccountByID(Int32 accountID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Admin_BAO\Account_BAO.cs:line 140
+   at Module_Admin_Accounts.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Admin\Accounts.aspx.cs:line 29
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 10/8/2010 11:34:53 AM
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at Module_Admin_Accounts.Page_Load(Object sender, EventArgs e) in d:\Projects\feedback360\feedback360\Module\Admin\Accounts.aspx.cs:line 54
+   at System.Web.Util.CalliHelper.EventArgFunctionCaller(IntPtr fp, Object o, Object t, EventArgs e)
+   at System.Web.Util.CalliEventHandlerDelegateProxy.Callback(Object sender, EventArgs e)
+   at System.Web.UI.Control.OnLoad(EventArgs e)
+   at CodeBehindBase.OnLoad(EventArgs e) in d:\Projects\feedback360\feedback360\App_Code\CodeBehindBase.cs:line 117
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 07:36:38
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 105
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 07:42:22
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 105
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 07:45:12
+Message: System.NullReferenceException: Object reference not set to an instance of an object.
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 105
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:22:09
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:23:57
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:26:52
+Message: System.InvalidOperationException: The stored procedure 'UspFindTemplate' doesn't exist.
+   at System.Data.SqlClient.SqlCommand.DeriveParameters()
+   at System.Data.SqlClient.SqlCommandBuilder.DeriveParameters(SqlCommand command)
+   at DatabaseAccessUtilities.CSqlClient.DeriveParameters(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 33
+   at DatabaseAccessUtilities.CDataSrcLocal.DiscoverSpParameterSet(String spName, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 491
+   at DatabaseAccessUtilities.CDataSrcLocal.GetSpParameters(IDbCommand cmd, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 482
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 451
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 263
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:26:52
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 269
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 224
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:27:26
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.AppDomain.GetId()
+   at System.Threading.Thread.get_CurrentCulture()
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 100
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:31:16
+Message: System.InvalidOperationException: The stored procedure 'UspFindTemplate' doesn't exist.
+   at System.Data.SqlClient.SqlCommand.DeriveParameters()
+   at System.Data.SqlClient.SqlCommandBuilder.DeriveParameters(SqlCommand command)
+   at DatabaseAccessUtilities.CSqlClient.DeriveParameters(IDbCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 33
+   at DatabaseAccessUtilities.CDataSrcLocal.DiscoverSpParameterSet(String spName, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 491
+   at DatabaseAccessUtilities.CDataSrcLocal.GetSpParameters(IDbCommand cmd, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 482
+   at DatabaseAccessUtilities.CDataSrcLocal.ApplyParameters(IDbCommand cmd, Object[] values, Boolean includeReturnValueParameter) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 451
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 419
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteScalar(CCommand cmdProxy) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 139
+   at DatabaseAccessUtilities.CDataSrc.ExecuteScalar(String spName, Object[] parameterValues, IDbTransaction txOrNull) in D:\Projects\feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 124
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 263
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:31:16
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in D:\Projects\feedback360\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 80
+   at Questionnaire_DAO.AssignQuestionnaire_DAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 269
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 224
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:31:16
+Message: System.Threading.ThreadAbortException: Thread was being aborted.
+   at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in D:\Projects\feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 32
+   at Questionnaire_BAO.AssignQuestionnaire_BAO.FindTemplate(Int32 ProjectID) in D:\Projects\feedback360\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 237
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 100
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:32:32
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:38:15
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:45:09
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 09:47:26
+Message: System.FormatException: Input string was not in a correct format.
+   at System.Number.StringToNumber(String str, NumberStyles options, NumberBuffer& number, NumberFormatInfo info, Boolean parseDecimal)
+   at System.Number.ParseInt32(String s, NumberStyles style, NumberFormatInfo info)
+   at System.Convert.ToInt32(String value)
+   at Module_Questionnaire_AssignQuestionnaire.imbAssign_Click(Object sender, ImageClickEventArgs e) in d:\Projects\feedback360\feedback360\Module\Questionnaire\AssignQuestionnaire.aspx.cs:line 89
+Category: Presentation
+Severity: Information
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 10:05:41
+Message: The parameter 'address' cannot be an empty string.
+Parameter name: address
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 10:07:52
+Message: The parameter 'address' cannot be an empty string.
+Parameter name: address
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 10:08:39
+Message: The parameter 'address' cannot be an empty string.
+Parameter name: address
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 09/10/2010 10:16:56
+Message: Mailbox unavailable. The server response was: <Aishishg1@damcogroup.com>, Recipient unknown
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

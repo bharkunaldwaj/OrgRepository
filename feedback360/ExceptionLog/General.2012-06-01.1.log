@@ -1,0 +1,42 @@
+----------------------------------------
+Timestamp: 28/05/2012 08:44:27
+Message: Mailbox unavailable. The server response was: The domain in the email address 'alvaro.dowding@lloydsbabking.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/05/2012 13:29:42
+Message: Mailbox unavailable. The server response was: The domain in the email address 'gordon.mcauley@unilver.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/05/2012 13:29:44
+Message: Mailbox unavailable. The server response was: The domain in the email address 'chris.ansell@unilver.com' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/05/2012 13:29:46
+Message: Mailbox unavailable. The server response was: The domain in the email address 'richard.marriott@unilver.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/05/2012 13:29:48
+Message: Mailbox unavailable. The server response was: The domain in the email address 'jon.walbanke@unilver.com' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/05/2012 14:24:25
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 31/10/2013 18:57:51
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 01/11/2013 11:09:30
+Message: Mailbox unavailable. The server response was: The domain in the email address 'jackie.tetchner@rbitvic.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

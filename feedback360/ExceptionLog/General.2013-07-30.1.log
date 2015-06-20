@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 23/07/2013 13:40:20
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 23/07/2013 16:03:16
+Message: Mailbox unavailable. The server response was: The domain in the email address 'garry.jaskierowicz@lloydsbanking' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

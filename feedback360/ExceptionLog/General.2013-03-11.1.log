@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 07/03/2013 23:55:03
+Message: Mailbox unavailable. The server response was: The domain in the email address 'david.a.taylor@unilever' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 08/03/2013 04:13:27
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

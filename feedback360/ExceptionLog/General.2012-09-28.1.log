@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 27/09/2012 10:37:47
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 27/09/2012 16:03:21
+Message: Service not available, closing transmission channel. The server response was: mail5.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 28/09/2012 09:13:20
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 15/01/2014 12:35:57
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 16/01/2014 09:50:01
+Message: Failure sending mail.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

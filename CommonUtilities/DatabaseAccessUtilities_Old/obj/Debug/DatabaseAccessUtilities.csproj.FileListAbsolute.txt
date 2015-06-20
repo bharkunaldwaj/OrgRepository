@@ -1,0 +1,47 @@
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\DatabaseAccessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\DatabaseAccessUtilities.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\DatabaseAccessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAcessUtilities\obj\Debug\DatabaseAccessUtilities.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\bin\Debug\DatabaseAccessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\bin\Debug\DatabaseAccessUtilities.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.dll
+C:\04 Projects\ERP\ERP_DataAccessObject\DatabaseAccessUtilities\obj\Debug\DatabaseAccessUtilities.pdb
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.pdb
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.dll
+C:\04 Projects\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.pdb
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.dll
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.pdb
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.dll
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.pdb
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.dll
+C:\04 Projects\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.pdb
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.dll
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DBU.pdb
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.dll
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.pdb
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.dll
+D:\01 Projects\Knowledge Base\PAMS\Source Code\PayAnalysisManagementSystem\PAMS_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DBU.pdb
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.dll
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\SessionManager.pdb
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Applications\Damco Framework\ERP\ERP_CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\ResolveAssemblyReference.cache
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\obj\Debug\DAU.pdb
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.dll
+D:\01 Projects\01 Dot Net Projects\Damco Framework\DamcoArchitecture\CommonUtilities\DatabaseAccessUtilities\bin\Debug\DAU.pdb

@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 22/08/2013 13:11:23
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 22/08/2013 14:19:34
+Message: Mailbox unavailable. The server response was: The domain in the email address 'terri.leitgeb@dunnhumy.com' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

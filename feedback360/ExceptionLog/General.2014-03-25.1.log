@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 20/03/2014 11:56:25
+Message: Error in processing. The server response was: Temporary local problem - please try later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/03/2014 16:07:53
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 20/03/2014 16:22:35
+Message: Service not available, closing transmission channel. The server response was: too many messages in this connection
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

@@ -1,0 +1,199 @@
+﻿<%@ Page Title="Create New Email Templates" Language="C#" MasterPageFile="~/Layouts/MasterPages/Feedback360.master"
+    ValidateRequest="false" AutoEventWireup="true" CodeFile="EmailTemplates.aspx.cs"
+    Inherits="Module_Admin_EmailTemplates" %>
+
+<%@ Register Assembly="FredCK.FCKeditorV2" Namespace="FredCK.FCKeditorV2" TagPrefix="FCKeditorV2" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+
+    <script type="text/javascript">
+
+        var TextAreaMaxLengthCheck = function(id, length) {
+
+            length = length - 1;
+            var val = document.getElementById(id).value;
+            if (val.length <= length)
+                return true;
+            else {
+
+                event.keyCode = 0;
+
+
+            }
+        }
+
+        function GenerateText() {
+            //document.getElementById('divEmailOutput').innerHTML=document.getElementById('ctl00_cphMaster_txtEmailText').value;
+            document.getElementById('ctl00_cphMaster_hdnEmailText').innerHTML = document.getElementById('ctl00_cphMaster_txtEmailText').value;
+        }
+
+        function CheckData() {
+            var str = document.getElementById('ctl00_cphMaster_txtEmailText').value;
+            str = str.replace(/^[\s]+/, '').replace(/[\s]+$/, '');
+            
+            if (str == "") {
+                document.getElementById('divMessage').innerHTML = "Please Enter Email Text";
+                return false;
+            }
+        }
+    
+    </script>
+
+    <div id="bodytextcontainer">
+        <div class="innercontainer">
+            <!-- start heading logout -->
+            <div class="topheadingdetails">
+                <h3>
+                    <img src="../../Layouts/Resources/images/create_email.png" title="Create New Email Templates"
+                        align="absmiddle" />
+                   <asp:Label ID="lblheader" runat="server" Text="Create New Email Templates"></asp:Label>
+                </h3>
+                <div class="clear">
+                </div>
+            </div>
+            <!-- end heading logout -->
+            <!-- start user form -->
+            <table border="0" width="100%">
+                <tr>
+                    <td>
+                        <div id="Div1" runat="server" class="validation-align">
+                            <asp:ValidationSummary ID="ValidationSummary1" runat="server" DisplayMode="BulletList"
+                                ShowSummary="true" ValidationGroup="group1" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="style3" >
+                        <div id="divMessage" class="validation-align"></div>
+                        <asp:Label ID="lblMessage" class="style3" runat="server" Text=""></asp:Label>
+                    </td>
+                </tr>
+            </table>
+            <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>
+                    <div class="userform">
+                        <div id="divAccount" runat="server" visible="false">
+                            <fieldset class="fieldsetform">
+                                <legend>Account Details </legend>
+                                <table width="100%" border="0" cellspacing="5" cellpadding="0">
+                                    <tr>
+                                        <td width="13%">
+                                            <asp:Label ID="lblAccountcode" runat="server" Text="<% $Resources:lblAccountcode %>"></asp:Label><span
+                                                class="style3">*</span>
+                                        </td>
+                                        <td width="36%">
+                                            <asp:DropDownList ID="ddlAccountCode" runat="server" Style="width: 155px" AppendDataBoundItems="True"
+                                                OnSelectedIndexChanged="ddlAccountCode_SelectedIndexChanged" AutoPostBack="true">
+                                                <asp:ListItem Value="0">Select</asp:ListItem>
+                                            </asp:DropDownList>
+                                            <asp:RequiredFieldValidator ID="Rq21" runat="server" ValidationGroup="group1" ErrorMessage=" Please Select Account Code Details "
+                                                SetFocusOnError="True" ControlToValidate="ddlAccountCode" InitialValue="0">&nbsp;</asp:RequiredFieldValidator>
+                                        </td>
+                                        <td width="13%">
+                                            <asp:Label ID="lblCompany" runat="server" Text="<% $Resources:lblCompany %>"></asp:Label>
+                                        </td>
+                                        <td width="38%">
+                                            <asp:Label ID="lblcompanyname" runat="server" Text=""></asp:Label>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
+                        <fieldset class="fieldsetform">
+                            <legend>General Detail</legend>
+                            <table width="100%" border="0" cellspacing="5" cellpadding="0">
+                                <tr>
+                                    <td width="13%">
+                                        <asp:Label ID="lblTitle" runat="server" Text="<% $Resources:lblTitle %>"></asp:Label><span
+                                            class="style3">*</span>
+                                    </td>
+                                    <td width="36%">
+                                        <asp:TextBox ID="txttitle" MaxLength="25" runat="server"></asp:TextBox>
+                                        &nbsp;<asp:RequiredFieldValidator ID="rq1" runat="server" ControlToValidate="txttitle"
+                                            ErrorMessage="Please Enter Title " SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
+                                    </td>
+                                    <td width="13%">
+                                        &nbsp;
+                                    </td>
+                                    <td width="38%">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td width="13%" valign="top">
+                                        <asp:Label ID="lblDesc" runat="server" Text="<% $Resources:lblDesc %>"></asp:Label>
+                                    </td>
+                                    <td>
+                                        <asp:TextBox ID="txtDescription" runat="server" onkeypress="javascript:TextAreaMaxLengthCheck(this.id,999);"
+                                            SkinID="txtarea300X3" Rows="3" TextMode="MultiLine" />
+                                        <div class="maxlength-msg">
+                                            (Max. 1000 characters)</div>
+                                    </td>
+                                    <td valign="top">
+                                        &nbsp;
+                                    </td>
+                                    <td valign="top">
+                                        &nbsp;
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset class="fieldsetform">
+                            <legend>Email Text Detail </legend>
+                            <table width="100%" border="0" cellspacing="5" cellpadding="0">
+                                <tr>
+                                    <td width="13%" valign="top">
+                                        <asp:Label ID="lblEmailText" runat="server" Text="<% $Resources:lblEmailText %>">"></asp:Label>
+                                        <%--<span class="style3">*</span>--%>
+                                    </td>
+                                    <td width="87%" valign="top" colspan="3">
+                                        <%--<asp:TextBox ID="txtEmailText" runat="server" SkinID="txtarea300X3" Rows="14" onkeypress="javascript:TextAreaMaxLengthCheck(this.id,4999);" onblur="GenerateText();" TextMode="MultiLine" 
+                  Text= ""  />--%>
+                                        <FCKeditorV2:FCKeditor ID="txtEmailText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                            Value=" " ToolbarSet="Feedback">
+                                        </FCKeditorV2:FCKeditor>
+                                        &nbsp;
+                                        <%--              <asp:RequiredFieldValidator ID="Rq2" runat="server" 
+                                            ControlToValidate="hdnEmailText" ErrorMessage=" Please Enter Email Text " 
+                                            SetFocusOnError="True" ValidationGroup ="group1">&nbsp;</asp:RequiredFieldValidator>--%><div
+                                                id="div1" class="maxlength-msg">
+                                                (Max. 5000 characters)</div>
+                                    </td>
+                                    <%--<td width="13%" valign="top">Html Output</td>
+              <td width="38%" valign="top">
+              <div id="divEmailOutput" style="height:200px; width:300px; border:1px solid gray; padding:5px;overflow-y:auto;overflow-x:hidden;" ></div>              
+             </td>--%>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <span class="style3">(*) indicates mandatory</span>
+                        <br />
+                        <center>
+                        </center>
+                        </br>
+                        <div align="center">
+                            &nbsp;<asp:ImageButton ID="ibtnSave" ImageUrl="~/Layouts/Resources/images/Save.png"
+                                runat="server" OnClick="ibtnSave_Click" OnClientClick="" ValidationGroup="group1" ToolTip="Save" />&nbsp;
+                            <asp:ImageButton ID="ibtnCancel" ImageUrl="~/Layouts/Resources/images/Cancel.png"
+                                runat="server" OnClick="ibtnCancel_Click" ToolTip="Back to list" />
+                            <asp:ImageButton ID="imbBack" Visible="false" CausesValidation="false" ImageUrl="~/Layouts/Resources/images/Back.png"
+                                runat="server" ToolTip="Back to list" OnClick="imbBack_Click" />
+                        </div>
+                    </div>
+                    <br />
+                </ContentTemplate>
+                <Triggers>
+                </Triggers>
+            </asp:UpdatePanel>
+            <!-- start user form -->
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        //document.getElementById('divEmailOutput').innerHTML = document.getElementById('ctl00_cphMaster_txtEmailText').value;  
+    </script>
+
+</asp:Content>

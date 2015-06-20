@@ -1,0 +1,14 @@
+----------------------------------------
+Timestamp: 05/02/2014 11:54:03
+Message: Service not available, closing transmission channel. The server response was: mail10.atlas.pipex.net: Too much load; please try again later
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 05/02/2014 13:41:02
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------

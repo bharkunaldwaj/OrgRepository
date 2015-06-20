@@ -1,0 +1,21 @@
+----------------------------------------
+Timestamp: 24/04/2014 10:49:34
+Message: Mailbox unavailable. The server response was: The domain in the email address 'des.victory@uninlever.com' does not exist.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 24/04/2014 15:54:48
+Message: Mailbox unavailable. The server response was: The domain in the email address 'iantwinley@johnsgrose.co.uk' does not
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
+----------------------------------------
+Timestamp: 24/04/2014 17:26:05
+Message: The specified string is not in the form required for an e-mail address.
+Category: Presentation
+Severity: Error
+ Extended Properties: 
+----------------------------------------
