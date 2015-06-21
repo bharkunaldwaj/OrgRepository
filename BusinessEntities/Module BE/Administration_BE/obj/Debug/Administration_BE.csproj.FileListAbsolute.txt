@@ -26,3 +26,10 @@ C:\Damco Projects\Feedback360\BusinessEntities\Module BE\Administration_BE\bin\D
 C:\Damco Projects\Feedback360\BusinessEntities\Module BE\Administration_BE\obj\Debug\ResolveAssemblyReference.cache
 C:\Damco Projects\Feedback360\BusinessEntities\Module BE\Administration_BE\obj\Debug\Administration_BE.dll
 C:\Damco Projects\Feedback360\BusinessEntities\Module BE\Administration_BE\obj\Debug\Administration_BE.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\bin\Debug\Administration_BE.dll
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\bin\Debug\Administration_BE.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\bin\Debug\DAF_BE.dll
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\bin\Debug\DAF_BE.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\obj\Debug\ResolveAssemblyReference.cache
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\obj\Debug\Administration_BE.dll
+C:\Damco Projects\Feedback360\trunk\BusinessEntities\Module BE\Administration_BE\obj\Debug\Administration_BE.pdb

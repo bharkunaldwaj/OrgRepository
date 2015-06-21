@@ -59,3 +59,17 @@ C:\Damco Projects\Feedback360\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Mi
 C:\Damco Projects\Feedback360\DataAccessLayer\feedbackFramework_DAL\obj\Debug\ResolveAssemblyReference.cache
 C:\Damco Projects\Feedback360\DataAccessLayer\feedbackFramework_DAL\obj\Debug\DAF_DAO.dll
 C:\Damco Projects\Feedback360\DataAccessLayer\feedbackFramework_DAL\obj\Debug\DAF_DAO.pdb
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\DAF_DAO.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\DAF_DAO.pdb
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\DAU.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Miscellaneous.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\MySql.Data.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Oracle.DataAccess.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\DAU.pdb
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\DAU.xml
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\bin\Debug\Miscellaneous.pdb
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\obj\Debug\ResolveAssemblyReference.cache
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\obj\Debug\DAF_DAO.dll
+C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\obj\Debug\DAF_DAO.pdb

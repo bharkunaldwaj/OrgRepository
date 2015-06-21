@@ -39,3 +39,12 @@ C:\Damco Projects\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\
 C:\Damco Projects\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\ResolveAssemblyReference.cache
 C:\Damco Projects\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\DAF_BAO.dll
 C:\Damco Projects\Feedback360\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\DAF_BAO.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\DAF_BAO.dll
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\DAF_BAO.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\Miscellaneous.dll
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\bin\Debug\Miscellaneous.pdb
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\ResolveAssemblyReference.cache
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\DAF_BAO.dll
+C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\obj\Debug\DAF_BAO.pdb

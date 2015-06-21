@@ -22,3 +22,8 @@ C:\Damco Projects\Feedback360\CommonUtilities\Miscellaneous\bin\Debug\Miscellane
 C:\Damco Projects\Feedback360\CommonUtilities\Miscellaneous\obj\Debug\ResolveAssemblyReference.cache
 C:\Damco Projects\Feedback360\CommonUtilities\Miscellaneous\obj\Debug\Miscellaneous.dll
 C:\Damco Projects\Feedback360\CommonUtilities\Miscellaneous\obj\Debug\Miscellaneous.pdb
+C:\Damco Projects\Feedback360\trunk\CommonUtilities\Miscellaneous\bin\Debug\Miscellaneous.dll
+C:\Damco Projects\Feedback360\trunk\CommonUtilities\Miscellaneous\bin\Debug\Miscellaneous.pdb
+C:\Damco Projects\Feedback360\trunk\CommonUtilities\Miscellaneous\obj\Debug\ResolveAssemblyReference.cache
+C:\Damco Projects\Feedback360\trunk\CommonUtilities\Miscellaneous\obj\Debug\Miscellaneous.dll
+C:\Damco Projects\Feedback360\trunk\CommonUtilities\Miscellaneous\obj\Debug\Miscellaneous.pdb
