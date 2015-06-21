@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="FeedbackDS">
+      <DataSourceReference>FeedbackDS</DataSourceReference>
+      <rd:DataSourceID>972c6960-c550-4be3-a564-aac3c85a8fcf</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DSQuestion">
+      <Fields>
+        <Field Name="RelationShip">
+          <DataField>RelationShip</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Answer">
+          <DataField>Answer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="No_Of_Candidate">
+          <DataField>No Of Candidate</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CandidateName">
+          <DataField>CandidateName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QuestionID">
+          <DataField>QuestionID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>FeedbackDS</DataSourceName>
+        <CommandText>select ad.RelationShip,c.CategoryName, Answer, count(*) as "No Of Candidate", ad.CandidateName, q.QuestionID
+from Account a
+left join Category c on c.AccountID = a.AccountID
+left join Question q on q.CateogryId = c.CategoryId
+left join QuestionAnswer qa on qa.QuestionId = q.QuestionId
+left join AssignmentDetails ad on ad.AsgnDetailID = qa.AssignDetId
+where a.Code = 'AC004' and q.QuestionTypeID = 1 and  q.QuestionID = @questionid
+Group By ad.RelationShip,c.CategoryName, Answer, ad.CandidateName, q.QuestionID</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@questionid">
+            <Value>=Parameters!ParamQuestionId.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Tablix Name="Tablix1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>7.68417in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Subreport Name="SSSubQuestionDetailed">
+                      <ReportName>SSSubQuestionDetailed</ReportName>
+                      <Parameters>
+                        <Parameter Name="ParamQuestionId">
+                          <Value>=Fields!QuestionID.Value</Value>
+                        </Parameter>
+                      </Parameters>
+                      <Style>
+                        <Border>
+                          <Style>None</Style>
+                        </Border>
+                      </Style>
+                    </Subreport>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details" />
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>DSQuestion</DataSetName>
+        <Height>0.25in</Height>
+        <Width>7.68417in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>0.35083in</Height>
+    <Style />
+  </Body>
+  <ReportParameters>
+    <ReportParameter Name="ParamQuestionId">
+      <DataType>Integer</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>ParamQuestionId</Prompt>
+      <Hidden>true</Hidden>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>7.85416in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <rd:ReportID>d405916b-122b-4bb0-b26b-2322492d1afe</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

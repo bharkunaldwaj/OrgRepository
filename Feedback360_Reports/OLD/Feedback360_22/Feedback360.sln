@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "Feedback360", "Feedback360\Feedback360.rptproj", "{C514A1B5-6318-4587-814A-7BBE7EE82E17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Debug|Default.ActiveCfg = Debug
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Debug|Default.Build.0 = DebugLocal
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Debug|Default.Deploy.0 = DebugLocal
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.DebugLocal|Default.Build.0 = DebugLocal
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Release|Default.ActiveCfg = Release
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Release|Default.Build.0 = Release
+		{C514A1B5-6318-4587-814A-7BBE7EE82E17}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

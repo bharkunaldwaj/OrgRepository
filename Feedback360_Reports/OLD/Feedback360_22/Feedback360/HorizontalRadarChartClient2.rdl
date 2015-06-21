@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Textbox Name="Textbox15">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Radar Summary Chart:</Value>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>DarkBlue</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox12</rd:DefaultName>
+        <Top>0.04688in</Top>
+        <Left>0.07135in</Left>
+        <Height>0.25in</Height>
+        <Width>3.65625in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox8">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>The self-assessment score compared to the average of other scores for the particpant</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>4.0659in</Top>
+        <Left>0.09818in</Left>
+        <Height>0.1875in</Height>
+        <Width>6.96688in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Image Name="Image5">
+        <Source>External</Source>
+        <Value>="file://" &amp; Parameters!TargetRadarName.Value</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>0.47098in</Top>
+        <Left>0.09818in</Left>
+        <Height>3.42708in</Height>
+        <Width>6.96688in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="Textbox9">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>On this page your average scores for the previous programme are compared to your current average scores.</Value>
+                <Style>
+                  <FontSize>8pt</FontSize>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox2</rd:DefaultName>
+        <Top>8.27573in</Top>
+        <Left>0.16224in</Left>
+        <Height>0.1875in</Height>
+        <Width>6.96688in</Width>
+        <ZIndex>3</ZIndex>
+        <Visibility>
+          <Hidden>=IIf(Parameters!TargetRadarNamePrevious.Value &lt;&gt; "RadarChartNoImage",false,true)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>Solid</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Image Name="Image6">
+        <Source>External</Source>
+        <Value>="file://" &amp; Parameters!TargetRadarNamePrevious.Value</Value>
+        <Sizing>FitProportional</Sizing>
+        <Top>4.6808in</Top>
+        <Left>0.09818in</Left>
+        <Height>3.42708in</Height>
+        <Width>6.96688in</Width>
+        <ZIndex>4</ZIndex>
+        <Visibility>
+          <Hidden>=IIf(Parameters!TargetRadarNamePrevious.Value &lt;&gt; "RadarChartNoImage",false,true)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Image>
+      <Textbox Name="Textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>Comparison with Previous Scores</Value>
+                <Style>
+                  <FontSize>11pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                  <Color>DarkBlue</Color>
+                </Style>
+              </TextRun>
+            </TextRuns>
+            <Style>
+              <TextAlign>Center</TextAlign>
+            </Style>
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>4.38452in</Top>
+        <Left>2.01469in</Left>
+        <Height>0.25in</Height>
+        <Width>3.19792in</Width>
+        <ZIndex>5</ZIndex>
+        <Visibility>
+          <Hidden>=IIf(Parameters!TargetRadarNamePrevious.Value &lt;&gt; "RadarChartNoImage",false,true)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Rectangle Name="Rectangle1">
+        <PageBreak>
+          <BreakLocation>End</BreakLocation>
+        </PageBreak>
+        <KeepTogether>true</KeepTogether>
+        <Top>8.49042in</Top>
+        <Left>2.21542in</Left>
+        <Height>0.05208in</Height>
+        <Width>2in</Width>
+        <ZIndex>6</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>8.5425in</Height>
+    <Style />
+  </Body>
+  <Width>7.2273in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <ReportParameters>
+    <ReportParameter Name="TargetRadarName">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>TargetRadarName</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="TargetRadarNamePrevious">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <Prompt>TargetRadarNamePrevious</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>496e8e32-d6ff-4b31-a343-21643818d188</rd:ReportID>
+</Report>

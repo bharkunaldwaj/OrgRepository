@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <DataSourceReference>FeedbackDS</DataSourceReference>
+      <rd:DataSourceID>14330c14-26c8-45c1-8edc-927d222e857e</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="PageHeaderFooter">
+      <Fields>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstNAme</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectReportSettingID">
+          <DataField>ProjectReportSettingID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="PRS_ProjectID">
+          <DataField>ProjectID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CoverPage">
+          <DataField>CoverPage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="RadarChart">
+          <DataField>RadarChart</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ReportIntroduction">
+          <DataField>ReportIntroduction</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VPageLogo">
+          <DataField>VPageLogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatQstList">
+          <DataField>CatQstList</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo2">
+          <DataField>FrontPageLogo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CatDataChart">
+          <DataField>CatDataChart</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="QstTextResponses">
+          <DataField>QstTextResponses</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VFrontPageLogo2">
+          <DataField>VFrontPageLogo2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FrontPageLogo3">
+          <DataField>FrontPageLogo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Conclusionpage">
+          <DataField>Conclusionpage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CandidateSelfStatus">
+          <DataField>CandidateSelfStatus</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="VFrontPageLogo3">
+          <DataField>VFrontPageLogo3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProjectRelationGrp">
+          <DataField>ProjectRelationGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FullProjectGrp">
+          <DataField>FullProjectGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PreviousScoreVisible">
+          <DataField>PreviousScoreVisible</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BenchMarkScoreVisible">
+          <DataField>BenchMarkScoreVisible</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading1">
+          <DataField>PageHeading1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BenchMarkGrpVisible">
+          <DataField>BenchMarkGrpVisible</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading2">
+          <DataField>PageHeading2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProgrammeGrp">
+          <DataField>ProgrammeGrp</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="BenchConclusionpage">
+          <DataField>BenchConclusionpage</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHeading">
+          <DataField>ConclusionHeading</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeading3">
+          <DataField>PageHeading3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingColor">
+          <DataField>PageHeadingColor</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingCopyright">
+          <DataField>PageHeadingCopyright</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingIntro">
+          <DataField>PageHeadingIntro</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageHeadingConclusion">
+          <DataField>PageHeadingConclusion</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PageLogo">
+          <DataField>pagelogo</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ConclusionHighLowRange">
+          <DataField>ConclusionHighLowRange</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <CommandText>declare @path varchar(100)	
+set @path='file://D:\360_Degree_Feedback\feedback360\UploadDocs\'
+
+Select [ProjectReportSettingID],'' As FirstNAme,'' As LastName
+      ,[AccountID]
+      ,[ProjectID]
+      ,[CoverPage]
+      ,[ReportIntroduction]
+      ,[RadarChart]
+      ,[CatQstList]
+      ,[CatDataChart]
+      ,[QstTextResponses]
+      ,[Conclusionpage]
+      ,[CandidateSelfStatus]
+      ,[ProjectRelationGrp]
+      ,[FullProjectGrp]
+      ,[ProgrammeGrp]
+      ,[ReportType]
+      ,[PageHeading1]
+      ,[PageHeading2]
+      ,[PageHeading3]
+      ,[PageHeadingColor]
+      ,[PageHeadingCopyright]
+      ,[PageHeadingIntro]
+      ,[PageHeadingConclusion]
+      ,@path + PageLogo as pagelogo
+      ,[PageLogo] as VPageLogo
+      ,@path+ FrontPageLogo2 as FrontPageLogo2
+      ,FrontPageLogo2 as VFrontPageLogo2  
+      ,@path + FrontPageLogo3 as FrontPageLogo3
+      ,FrontPageLogo3 as VFrontPageLogo3
+      ,[ConclusionHighLowRange]
+      ,[PreviousScoreVisible]
+      ,[BenchMarkScoreVisible]
+      ,[BenchMarkGrpVisible]
+      ,[BenchConclusionpage]
+      ,[ConclusionHeading] from ProjectReportSetting WHERE ProjectReportSettingID=@ProjectReportSettingID</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@ProjectReportSettingID">
+            <Value>=Parameters!ProjectReportSettingID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle7">
+        <ReportItems>
+          <Rectangle Name="Rectangle1">
+            <ReportItems>
+              <Textbox Name="Textbox5">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!FirstName.Value, "PageHeaderFooter") &amp; " " &amp; First(Fields!LastName.Value, "PageHeaderFooter")</Value>
+                        <Style>
+                          <FontSize>18pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Textbox2</rd:DefaultName>
+                <Top>0.075in</Top>
+                <Left>0.57719in</Left>
+                <Height>0.32292in</Height>
+                <Width>3.5625in</Width>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Title2">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading1.Value, "PageHeaderFooter")</Value>
+                        <Style>
+                          <FontSize>11pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Title</rd:DefaultName>
+                <Top>0.47917in</Top>
+                <Left>0.57719in</Left>
+                <Height>0.19792in</Height>
+                <Width>3.5625in</Width>
+                <ZIndex>1</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Title3">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading2.Value, "PageHeaderFooter")</Value>
+                        <Style>
+                          <FontSize>11pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Title</rd:DefaultName>
+                <Top>0.72708in</Top>
+                <Left>0.56469in</Left>
+                <Height>0.19792in</Height>
+                <Width>3.5875in</Width>
+                <ZIndex>2</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+              <Textbox Name="Title4">
+                <CanGrow>true</CanGrow>
+                <KeepTogether>true</KeepTogether>
+                <Paragraphs>
+                  <Paragraph>
+                    <TextRuns>
+                      <TextRun>
+                        <Value>=First(Fields!PageHeading3.Value, "PageHeaderFooter")</Value>
+                        <Style>
+                          <FontSize>11pt</FontSize>
+                          <FontWeight>Bold</FontWeight>
+                          <Color>White</Color>
+                        </Style>
+                      </TextRun>
+                    </TextRuns>
+                    <Style>
+                      <TextAlign>Center</TextAlign>
+                    </Style>
+                  </Paragraph>
+                </Paragraphs>
+                <rd:DefaultName>Title</rd:DefaultName>
+                <Top>0.96562in</Top>
+                <Left>0.56469in</Left>
+                <Height>0.19792in</Height>
+                <Width>3.6in</Width>
+                <ZIndex>3</ZIndex>
+                <Style>
+                  <Border>
+                    <Style>None</Style>
+                  </Border>
+                  <PaddingLeft>2pt</PaddingLeft>
+                  <PaddingRight>2pt</PaddingRight>
+                  <PaddingTop>2pt</PaddingTop>
+                  <PaddingBottom>2pt</PaddingBottom>
+                </Style>
+              </Textbox>
+            </ReportItems>
+            <KeepTogether>true</KeepTogether>
+            <Left>0.94375in</Left>
+            <Height>1.21875in</Height>
+            <Width>4.59188in</Width>
+            <Style>
+              <Border>
+                <Style>Solid</Style>
+                <Width>1.2pt</Width>
+              </Border>
+              <BackgroundColor>=First(Fields!PageHeadingColor.Value, "PageHeaderFooter")</BackgroundColor>
+            </Style>
+          </Rectangle>
+          <Image Name="Image4">
+            <Source>External</Source>
+            <Value>=First(Fields!FrontPageLogo3.Value, "PageHeaderFooter")</Value>
+            <Top>7.075in</Top>
+            <Left>0.94375in</Left>
+            <Height>1.70833in</Height>
+            <Width>4.59188in</Width>
+            <ZIndex>1</ZIndex>
+            <Visibility>
+              <Hidden>=iif(LSet(First(Fields!VFrontPageLogo3.Value, "PageHeaderFooter"),1) = " ", True, False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Image5">
+            <Source>External</Source>
+            <Value>=First(Fields!FrontPageLogo2.Value, "PageHeaderFooter")</Value>
+            <Top>3.35521in</Top>
+            <Left>0.94375in</Left>
+            <Height>3.51041in</Height>
+            <Width>4.59188in</Width>
+            <ZIndex>2</ZIndex>
+            <Visibility>
+              <Hidden>=iif(LSet(First(Fields!VFrontPageLogo2.Value, "PageHeaderFooter"),1) = " ", True, False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Image6">
+            <Source>External</Source>
+            <Value>=First(Fields!PageLogo.Value, "PageHeaderFooter")</Value>
+            <Top>1.44896in</Top>
+            <Left>0.94375in</Left>
+            <Height>1.78124in</Height>
+            <Width>4.59188in</Width>
+            <ZIndex>3</ZIndex>
+            <Visibility>
+              <Hidden>=iif(LSet(First(Fields!VPageLogo.Value, "PageHeaderFooter"),1) = " ", True, False)</Hidden>
+            </Visibility>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <KeepTogether>true</KeepTogether>
+        <Height>8.78333in</Height>
+        <Width>6.38209in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>8.78333in</Height>
+    <Style />
+  </Body>
+  <ReportParameters>
+    <ReportParameter Name="ProjectReportSettingID">
+      <DataType>String</DataType>
+      <Prompt>Project Report Setting ID</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>6.38209in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <rd:ReportID>30690de6-bb1e-4269-a71b-024ec245a1af</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>
