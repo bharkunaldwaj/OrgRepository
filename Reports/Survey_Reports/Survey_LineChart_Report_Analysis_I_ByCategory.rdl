@@ -16,7 +16,6 @@
                   <SortExpressions>
                     <SortExpression>
                       <Value>=Fields!SR_No.Value</Value>
-                      <Direction>Descending</Direction>
                     </SortExpression>
                   </SortExpressions>
                   <Label>=Fields!CategoryName.Value</Label>

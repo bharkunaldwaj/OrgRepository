@@ -217,6 +217,32 @@ public partial class Module_Reports_ExportData : CodeBehindBase
 
         if (ddlExportType.SelectedValue == "C")
         {
+
+            // --> 1.0.0.1.3 [Export data]
+            DataTable Full_Programme_Group_by_category = reportManagement_BAO.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cp");
+            Full_Programme_Group_by_category = GenerateTransposedTable(Full_Programme_Group_by_category);
+            if (dtfinal != null && dtfinal.Rows.Count > 0)
+            {
+                foreach (DataRow dc in Full_Programme_Group_by_category.Rows)
+                {
+                    dtfinal.ImportRow(dc);
+                }
+                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Programme Average";
+                noData = true;
+                lbl_no_data_to_export_message.Text = "";
+            }
+            else
+            {
+
+                DataColumn dc = new DataColumn("No Row Found");
+                dtfinal.Columns.Add(dc);
+                DataRow dr = dtfinal.NewRow();
+                dr[0] = "";
+                dtfinal.Rows.Add(dr);
+                dtfinal.AcceptChanges();
+            }
+
+
             // noData = true;
             lbl_no_data_to_export_message.Text = "";
             DataTable Full_Project_Group_by_category = reportManagement_BAO.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cf");
@@ -246,22 +272,25 @@ public partial class Module_Reports_ExportData : CodeBehindBase
                 //  return;
             }
 
-            // --> 1.0.0.1.3 [Export data]
-            DataTable Full_Programme_Group_by_category = reportManagement_BAO.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cp");
-            Full_Programme_Group_by_category = GenerateTransposedTable(Full_Programme_Group_by_category);
+            
+
+            // [Export data] 1.0.0.1.3 <--
+        }
+
+        if (ddlExportType.SelectedValue == "Q")
+        {
+
+            // --> 1.0.0.1.3 [Data Export]
+
+            DataTable Programme_Group_qf_or_qg = reportManagement_BAO.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qp");
+            Programme_Group_qf_or_qg = GenerateTransposedTable(Programme_Group_qf_or_qg);
             if (dtfinal != null && dtfinal.Rows.Count > 0)
             {
-                foreach (DataRow dc in Full_Programme_Group_by_category.Rows)
-                {
-                    dtfinal.ImportRow(dc);
-                }
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Full Programme Group";
-                noData = true;
-                lbl_no_data_to_export_message.Text = "";
+                dtfinal.Rows.Add(Programme_Group_qf_or_qg.Rows[0].ItemArray);
+                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Programme Average";
             }
             else
             {
-
                 DataColumn dc = new DataColumn("No Row Found");
                 dtfinal.Columns.Add(dc);
                 DataRow dr = dtfinal.NewRow();
@@ -270,11 +299,9 @@ public partial class Module_Reports_ExportData : CodeBehindBase
                 dtfinal.AcceptChanges();
             }
 
-            // [Export data] 1.0.0.1.3 <--
-        }
+            // 1.0.0.1.3 [Data Export] <--
 
-        if (ddlExportType.SelectedValue == "Q")
-        {
+
             // noData = true;
             DataTable Project_Group_qf_or_qg = reportManagement_BAO.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qf");
             Project_Group_qf_or_qg = GenerateTransposedTable(Project_Group_qf_or_qg);
@@ -298,26 +325,7 @@ public partial class Module_Reports_ExportData : CodeBehindBase
                 //    return;
             }
 
-            // --> 1.0.0.1.3 [Data Export]
-
-            DataTable Programme_Group_qf_or_qg = reportManagement_BAO.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qp");
-            Programme_Group_qf_or_qg = GenerateTransposedTable(Programme_Group_qf_or_qg);
-            if (dtfinal != null && dtfinal.Rows.Count > 0)
-            {
-                dtfinal.Rows.Add(Programme_Group_qf_or_qg.Rows[0].ItemArray);
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Full Project Group";
-            }
-            else
-            {
-                DataColumn dc = new DataColumn("No Row Found");
-                dtfinal.Columns.Add(dc);
-                DataRow dr = dtfinal.NewRow();
-                dr[0] = "";
-                dtfinal.Rows.Add(dr);
-                dtfinal.AcceptChanges();
-            }
-
-            // 1.0.0.1.3 [Data Export] <--
+            
         }
 
 

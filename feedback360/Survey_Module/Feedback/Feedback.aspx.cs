@@ -892,7 +892,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         DataTable dtResult = new DataTable();
         Survey_AssignQuestionnaire_BAO assignQuestionnaire_BAO = new Survey_AssignQuestionnaire_BAO();
         dtResult = assignQuestionnaire_BAO.GetAllAssignmentInfo(Convert.ToInt32(hdnCandidateId.Value));
-
+        int result = questionnaire_BAO.UpdateSubmitFlag(Convert.ToInt32(hdnCandidateId.Value), 1);
         //Send mail to candidates
         for (int i = 0; i < dtResult.Rows.Count; i++)
         {
@@ -1088,7 +1088,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
             }
         }
 
-        int result = questionnaire_BAO.UpdateSubmitFlag(Convert.ToInt32(hdnCandidateId.Value), 1);
+        
     }
 
     protected void imbStart_Click(object sender, ImageClickEventArgs e)
