@@ -1,0 +1,1489 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle1">
+        <ReportItems>
+          <Tablix Name="Tablix3">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>0.15625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.40625in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.3125in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>4.47499in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.23716in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.42708in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox17">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Results by Question</Value>
+                                  <Style>
+                                    <FontStyle>Normal</FontStyle>
+                                    <FontSize>22pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextDecoration>None</TextDecoration>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox17</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.23611in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CategoryName">
+                          <CanGrow>true</CanGrow>
+                          <HideDuplicates>Report_QuestionAnswer</HideDuplicates>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CategoryName.Value</Value>
+                                  <Style>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CategoryName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CategoryName2">
+                          <CanGrow>true</CanGrow>
+                          <HideDuplicates>Report_QuestionAnswer</HideDuplicates>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>="@@" &amp; Fields!CategoryName.Value &amp; "@@"</Value>
+                                  <Style>
+                                    <FontSize>1pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>White</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CategoryName</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.25in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="CategoryDesc">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!CategoryDesc.Value</Value>
+                                  <Style>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>CategoryDesc</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox9">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontWeight>Normal</FontWeight>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox9</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.22569in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox38">
+                          <CanGrow>true</CanGrow>
+                          <HideDuplicates>Report_QuestionAnswer</HideDuplicates>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value EvaluationMode="Constant">Questions:</Value>
+                                  <Style>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox38</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox11">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox11</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.19097in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox10">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Trim(Fields!Ana_Name.Value)</Value>
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox10</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.03125in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox18">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox18</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox13">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style>
+                                    <FontStyle>Italic</FontStyle>
+                                    <FontSize>12pt</FontSize>
+                                    <FontWeight>Bold</FontWeight>
+                                    <Color>DarkBlue</Color>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Left</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox13</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>1.95833in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle6">
+                          <ReportItems>
+                            <Chart Name="Chart1">
+                              <ChartCategoryHierarchy>
+                                <ChartMembers>
+                                  <ChartMember>
+                                    <Label />
+                                  </ChartMember>
+                                </ChartMembers>
+                              </ChartCategoryHierarchy>
+                              <ChartSeriesHierarchy>
+                                <ChartMembers>
+                                  <ChartMember>
+                                    <Group Name="Chart1_SeriesGroup1">
+                                      <GroupExpressions>
+                                        <GroupExpression>=Fields!Analysis_type.Value</GroupExpression>
+                                        <GroupExpression>=Fields!Ana_I_II_III.Value</GroupExpression>
+                                      </GroupExpressions>
+                                    </Group>
+                                    <SortExpressions>
+                                      <SortExpression>
+                                        <Value>=Fields!Analysis_Category_Id.Value</Value>
+                                      </SortExpression>
+                                    </SortExpressions>
+                                    <Label>=Fields!Analysis_type.Value</Label>
+                                  </ChartMember>
+                                </ChartMembers>
+                              </ChartSeriesHierarchy>
+                              <ChartData>
+                                <ChartSeriesCollection>
+                                  <ChartSeries Name="Answer">
+                                    <ChartDataPoints>
+                                      <ChartDataPoint>
+                                        <ChartDataPointValues>
+                                          <Y>=Fields!Answer.Value</Y>
+                                        </ChartDataPointValues>
+                                        <ChartDataLabel>
+                                          <Style>
+                                            <FontSize>5pt</FontSize>
+                                          </Style>
+                                          <UseValueAsLabel>true</UseValueAsLabel>
+                                          <Visible>true</Visible>
+                                        </ChartDataLabel>
+                                        <Style>
+                                          <Color>=IIf(Fields!Analysis_type.Value = "Programme Average","MediumSlateBlue",
+IIf(Fields!Analysis_type.Value = "Full Project Group","Black","#00000000"))</Color>
+                                        </Style>
+                                        <ChartMarker>
+                                          <Style />
+                                        </ChartMarker>
+                                        <DataElementOutput>Output</DataElementOutput>
+                                      </ChartDataPoint>
+                                    </ChartDataPoints>
+                                    <Type>Bar</Type>
+                                    <Style>
+                                      <ShadowOffset>0pt</ShadowOffset>
+                                    </Style>
+                                    <ChartEmptyPoints>
+                                      <Style />
+                                      <ChartMarker>
+                                        <Style />
+                                      </ChartMarker>
+                                      <ChartDataLabel>
+                                        <Style />
+                                      </ChartDataLabel>
+                                    </ChartEmptyPoints>
+                                    <ValueAxisName>Primary</ValueAxisName>
+                                    <CategoryAxisName>Primary</CategoryAxisName>
+                                    <ChartSmartLabel>
+                                      <CalloutLineColor>Black</CalloutLineColor>
+                                      <MinMovingDistance>0pt</MinMovingDistance>
+                                    </ChartSmartLabel>
+                                  </ChartSeries>
+                                </ChartSeriesCollection>
+                              </ChartData>
+                              <ChartAreas>
+                                <ChartArea Name="Default">
+                                  <ChartCategoryAxes>
+                                    <ChartAxis Name="Primary">
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption />
+                                        <Style>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Enabled>False</Enabled>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMinorTickMarks>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                    <ChartAxis Name="Secondary">
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption>Axis Title</Caption>
+                                        <Style>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Enabled>False</Enabled>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMinorTickMarks>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Location>Opposite</Location>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                  </ChartCategoryAxes>
+                                  <ChartValueAxes>
+                                    <ChartAxis Name="Primary">
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption />
+                                        <Style>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMinorTickMarks>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>=First(Fields!Max_Scale.Value, "Report_Get_max_scale")</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                    <ChartAxis Name="Secondary">
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                      <ChartAxisTitle>
+                                        <Caption>Axis Title</Caption>
+                                        <Style>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </ChartAxisTitle>
+                                      <ChartMajorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                          </Border>
+                                        </Style>
+                                      </ChartMajorGridLines>
+                                      <ChartMinorGridLines>
+                                        <Style>
+                                          <Border>
+                                            <Color>Gainsboro</Color>
+                                            <Style>Dotted</Style>
+                                          </Border>
+                                        </Style>
+                                      </ChartMinorGridLines>
+                                      <ChartMinorTickMarks>
+                                        <Length>0.5</Length>
+                                      </ChartMinorTickMarks>
+                                      <CrossAt>NaN</CrossAt>
+                                      <Location>Opposite</Location>
+                                      <Minimum>NaN</Minimum>
+                                      <Maximum>NaN</Maximum>
+                                      <ChartAxisScaleBreak>
+                                        <Style />
+                                      </ChartAxisScaleBreak>
+                                    </ChartAxis>
+                                  </ChartValueAxes>
+                                  <Style>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                  </Style>
+                                </ChartArea>
+                              </ChartAreas>
+                              <ChartLegends>
+                                <ChartLegend Name="Default">
+                                  <Style>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                    <FontSize>8pt</FontSize>
+                                    <BackgroundHatchType>None</BackgroundHatchType>
+                                  </Style>
+                                  <Position>TopCenter</Position>
+                                  <DockOutsideChartArea>true</DockOutsideChartArea>
+                                  <ChartLegendTitle>
+                                    <Caption />
+                                    <Style>
+                                      <FontSize>8pt</FontSize>
+                                      <FontWeight>Bold</FontWeight>
+                                      <TextAlign>Center</TextAlign>
+                                    </Style>
+                                  </ChartLegendTitle>
+                                  <HeaderSeparatorColor>Black</HeaderSeparatorColor>
+                                  <ColumnSeparatorColor>Black</ColumnSeparatorColor>
+                                  <Reversed>False</Reversed>
+                                </ChartLegend>
+                              </ChartLegends>
+                              <ChartTitles>
+                                <ChartTitle Name="Default">
+                                  <Caption />
+                                  <Style>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                    <FontWeight>Bold</FontWeight>
+                                    <TextAlign>General</TextAlign>
+                                    <VerticalAlign>Top</VerticalAlign>
+                                  </Style>
+                                  <Position>LeftTop</Position>
+                                  <DockOutsideChartArea>true</DockOutsideChartArea>
+                                </ChartTitle>
+                              </ChartTitles>
+                              <Palette>Pastel</Palette>
+                              <ChartCustomPaletteColors>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#097054","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#005B9A","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#9C16CB","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#ffde00","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#03B585","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#E47297","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#0599ff","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#8C8984","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FAC993","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#ff9900","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#0191C8","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#B675F7","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#009900","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#025E45","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FFCDCB","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#fcb3d0","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#B7C7D7","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#AA0114","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#990033","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#024575","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FC3232","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#e86850","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#03F7B8","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#6600CC","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#887058","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#5D5D5C","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F57E80","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#92cd00","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#74E2C1","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F6CEE3","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#c13100","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#D2D1CF","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#CA278C","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#999999","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#06D2D2","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F90421","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#8080C0","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#8080C0","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#8080C0","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#000000","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#000000","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#000000","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#C0D9AF","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#C0D9AF","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#C0D9AF","")</ChartCustomPaletteColor>
+                                <ChartCustomPaletteColor>=IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#A6D785","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#A6D785","") &amp;
+IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#A6D785","")</ChartCustomPaletteColor>
+                              </ChartCustomPaletteColors>
+                              <ChartBorderSkin>
+                                <Style>
+                                  <BackgroundColor>Gray</BackgroundColor>
+                                  <BackgroundGradientType>None</BackgroundGradientType>
+                                  <Color>White</Color>
+                                </Style>
+                              </ChartBorderSkin>
+                              <ChartNoDataMessage Name="NoDataMessage">
+                                <Caption>No Data Available</Caption>
+                                <Style>
+                                  <BackgroundGradientType>None</BackgroundGradientType>
+                                  <TextAlign>General</TextAlign>
+                                  <VerticalAlign>Top</VerticalAlign>
+                                </Style>
+                              </ChartNoDataMessage>
+                              <DataSetName>Report_QuestionAnswer</DataSetName>
+                              <Top>0.26389in</Top>
+                              <Height>1.51736in</Height>
+                              <Width>5.3in</Width>
+                              <Style>
+                                <Border>
+                                  <Color>White</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>White</BackgroundColor>
+                                <BackgroundGradientType>None</BackgroundGradientType>
+                              </Style>
+                            </Chart>
+                            <Textbox Name="Textbox83">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!Description.Value</Value>
+                                      <Style>
+                                        <FontSize>12pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox82</rd:DefaultName>
+                              <Left>0.82639in</Left>
+                              <Height>0.25in</Height>
+                              <Width>4.04096in</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>White</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>White</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="SerialNo">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Variables!GroupCountValue.Value &amp; ". "</Value>
+                                      <Style>
+                                        <FontSize>12pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style>
+                                    <TextAlign>Right</TextAlign>
+                                  </Style>
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>SerialNo</rd:DefaultName>
+                              <Top>0.01389in</Top>
+                              <Height>0.25in</Height>
+                              <Width>0.8125in</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Color>White</Color>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>White</BackgroundColor>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <ZIndex>1</ZIndex>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                        <ColSpan>4</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell>
+                      <CellContents>
+                        <Subreport Name="Subreport2">
+                          <ReportName>SubAnswerChoiceSummary</ReportName>
+                          <Parameters>
+                            <Parameter Name="QuestionId">
+                              <Value>=Fields!QuestionID.Value</Value>
+                            </Parameter>
+                            <Parameter Name="AssignmentID">
+                              <Value>=Fields!AssignmentID.Value</Value>
+                            </Parameter>
+                          </Parameters>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Subreport>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.11458in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox2">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox2</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox4">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox4</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox5">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox5</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox6">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value />
+                                  <Style />
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox6</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.75in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Image Name="Image2">
+                          <Source>External</Source>
+                          <Value>=Fields!IntroImgFileName.Value</Value>
+                          <Visibility>
+                            <Hidden>=IIF(Fields!IntroImgFileName.Value =nothing or Fields!IntroImgFileName.Value="",true,false)</Hidden>
+                          </Visibility>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Image>
+                        <ColSpan>5</ColSpan>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                    <TablixCell />
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="Group1">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!CategoryName.Value</GroupExpression>
+                        </GroupExpressions>
+                        <PageBreak>
+                          <BreakLocation>Between</BreakLocation>
+                        </PageBreak>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!CategorySequence.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixMembers>
+                        <TablixMember />
+                        <TablixMember />
+                        <TablixMember>
+                          <Visibility>
+                            <Hidden>true</Hidden>
+                          </Visibility>
+                        </TablixMember>
+                        <TablixMember>
+                          <TablixMembers>
+                            <TablixMember>
+                              <Group Name="Group2">
+                                <GroupExpressions>
+                                  <GroupExpression>=Trim(Fields!Ana_I_II_III.Value)</GroupExpression>
+                                </GroupExpressions>
+                                <PageBreak>
+                                  <BreakLocation>Between</BreakLocation>
+                                </PageBreak>
+                                <Filters>
+                                  <Filter>
+                                    <FilterExpression>=Fields!CategoryName.Value</FilterExpression>
+                                    <Operator>Equal</Operator>
+                                    <FilterValues>
+                                      <FilterValue>=Fields!CategoryName.Value</FilterValue>
+                                    </FilterValues>
+                                  </Filter>
+                                </Filters>
+                              </Group>
+                              <TablixMembers>
+                                <TablixMember>
+                                  <KeepWithGroup>After</KeepWithGroup>
+                                </TablixMember>
+                                <TablixMember>
+                                  <Group Name="Details1">
+                                    <GroupExpressions>
+                                      <GroupExpression>=Fields!QuestionID.Value</GroupExpression>
+                                    </GroupExpressions>
+                                    <Filters>
+                                      <Filter>
+                                        <FilterExpression>=Fields!Ana_I_II_III.Value</FilterExpression>
+                                        <Operator>Equal</Operator>
+                                        <FilterValues>
+                                          <FilterValue>=Fields!Ana_I_II_III.Value</FilterValue>
+                                        </FilterValues>
+                                      </Filter>
+                                    </Filters>
+                                    <Variables>
+                                      <Variable Name="GroupCountValue">
+                                        <Value>=Code.getGroupCounter</Value>
+                                      </Variable>
+                                    </Variables>
+                                  </Group>
+                                  <SortExpressions>
+                                    <SortExpression>
+                                      <Value>=Fields!Analysis_Type_ID.Value</Value>
+                                    </SortExpression>
+                                    <SortExpression>
+                                      <Value>=Fields!QuestionSequence.Value</Value>
+                                    </SortExpression>
+                                  </SortExpressions>
+                                  <TablixMembers>
+                                    <TablixMember />
+                                    <TablixMember />
+                                  </TablixMembers>
+                                </TablixMember>
+                              </TablixMembers>
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                        <TablixMember />
+                        <TablixMember />
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>Report_QuestionAnswer</DataSetName>
+            <Filters>
+              <Filter>
+                <FilterExpression>=Fields!QuestionID.Value</FilterExpression>
+                <Operator>Equal</Operator>
+                <FilterValues>
+                  <FilterValue>=Fields!QuestionID.Value</FilterValue>
+                </FilterValues>
+              </Filter>
+            </Filters>
+            <Height>4.18401in</Height>
+            <Width>6.58715in</Width>
+            <Style>
+              <Border>
+                <Color>White</Color>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <PageBreak>
+          <BreakLocation>StartAndEnd</BreakLocation>
+        </PageBreak>
+        <KeepTogether>true</KeepTogether>
+        <Height>4.18401in</Height>
+        <Width>6.58715in</Width>
+        <Visibility>
+          <Hidden>=IIF(First(Fields!Show.Value, "Report_Show_Detailed_Answers")=0,true,false)</Hidden>
+        </Visibility>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+    </ReportItems>
+    <Height>4.18401in</Height>
+    <Style />
+  </Body>
+  <Width>6.58715in</Width>
+  <Page>
+    <PageWidth>6.7in</PageWidth>
+    <TopMargin>0.5in</TopMargin>
+    <BottomMargin>0.5in</BottomMargin>
+    <Style>
+      <Border>
+        <Color>White</Color>
+        <Style>None</Style>
+      </Border>
+    </Style>
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Survey_DataSource">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>258e99a8-7d9d-4821-a6f6-5c8d9fc2a1e0</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Report_QuestionAnswer">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_QuestionAnswer</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Analysis_type">
+          <DataField>Analysis_type</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Answer">
+          <DataField>Answer</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="QuestionID">
+          <DataField>QuestionID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Ana_I_II_III">
+          <DataField>Ana_I_II_III</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Ana_Name">
+          <DataField>Ana_Name</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Analysis_Type_ID">
+          <DataField>Analysis_Type_ID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="SerialNo">
+          <DataField>SerialNo</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Analysis_Category_Id">
+          <DataField>Analysis_Category_Id</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategoryDesc">
+          <DataField>CategoryDesc</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ShowScoreRespondents">
+          <DataField>ShowScoreRespondents</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="AssignmentID">
+          <DataField>AssignmentID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategorySequence">
+          <DataField>CategorySequence</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="QuestionSequence">
+          <DataField>QuestionSequence</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="IntroImgFileName">
+          <DataField>IntroImgFileName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Report_Get_max_scale">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Get_max_scale</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Max_Scale">
+          <DataField>Max_Scale</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Report_Show_Detailed_Answers">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Show_Detailed_Answers</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Show">
+          <DataField>Show</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="accountid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>47</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>accountid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="projectid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>11</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>projectid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="programmeid">
+      <DataType>Integer</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>25</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>programmeid</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Code>
+    Private colorPalette_AnaI As String()={"#097054","#FFDE00","#0599FF","#FF9900","#009900","#FCB3D0","#990033","#E86850","#887058","#92CD00","#C13100","#999999","#8080C0","#000000","#C0D9AF","#A6D785","#61B329","#77896C","#687E5A","#3F602B","#8AA37B","#8FA880","#646F5E","#476A34","#5DFC0A","#435D36","#93DB70","#3B5E2B","#84BE6A","#4CBB17","#484D46","#3A6629","#49E20E","#308014","#9CA998","#55AE3A","#7BBF6A","#4DBD33","#C5E3BF","#596C56","#A9C9A4","#86C67C","#7BCC70","#8CDD81","#699864","#3D8B37","#5F755E","#B7C8B6","#63AB62","#4AC948","#838B83","#C1CDC1","#698B69","#2F4F2F","#426F42","#548B54","#8FBC8F","#E0EEE0","#9BCD9B","#71C671","#7CCD7C","#215E21","#228B22","#32CD32","#B4EEB4","#90EE90","#98FB98","#003300","#004F00","#006400","#008000","#008B00","#009900","#00CD00","#00EE00","#00FF00","#33FF33","#66FF66","#C1FFC1","#CCFFCC","#F0FFF0","#4BB74C","#6EFF70","#3D9140","#5D9160","#B2D0B4","#4D6B50","#5B9C64","#3F9E4D","#0AC92B","#BDFCC9","#3D5B43","#31B94D","#1DA237","#00FF33","#96C8A2","#3EA055","#487153","#00611C","#00AF33","#688571","#91B49C","#79A888","#B4D7BF","#337147","#37BC61","#70DB93","#40664D","#92CCA6","#329555","#0E8C3A","#78A489","#3E6B4F","#2C5D3F","#759B84","#2E6444","#00FF66","#2E8B57","#4EEE94","#00C957","#54FF9F","#DBE6E0","#34925E","#3CB371","#43CD80","#426352","#607C6E","#43D58C","#006633","#008B45","#00CD66","#00EE76","#00FF7F","#F5FFFA","#2E473B","#5EDA9E","#B6C5BE","#213D30","#3E7A5E","#4D7865","#597368","#28AE7B","#00FA9A","#238E68","#4C7064","#458B74","#66CDAA","#32CD99","#32CC99","#76EEC6","#00FFAA","#7FFFD4","#218868","#808A87","#138F6A","#00C78C","#3B8471","#49E9BD","#1B6453","#284942","#0FDDAF","#006B54","#668E86","#527F76","#A4DCD1","#174038","#20BF9F","#00FFCC","#4A766E","#4F8E83","#3E766D","#3E766D","#4CB7A5","#2FAA96","#DBFEF8","#DAF4F0","#108070","#2A8E82","#353F3E","#36DBCA","#40E0D0","#99CDC9","#45C3B8","#03A89E","#457371","#20B2AA","#01C5BB","#48D1CC","#90FEFB","#068481"}
+
+
+    Private colorPalette_AnaII As String()={"#005B9A","#03B585","#8C8984","#0191C8","#025E45","#B7C7D7","#024575","#03F7B8","#5D5D5C","#74E2C1","#D2D1CF","#06D2D2","#8080C0","#000000","#C0D9AF","#A6D785","#61B329","#77896C","#687E5A","#3F602B","#8AA37B","#8FA880","#646F5E","#476A34","#5DFC0A","#435D36","#93DB70","#3B5E2B","#84BE6A","#4CBB17","#484D46","#3A6629","#49E20E","#308014","#9CA998","#55AE3A","#7BBF6A","#4DBD33","#C5E3BF","#596C56","#A9C9A4","#86C67C","#7BCC70","#8CDD81","#699864","#3D8B37","#5F755E","#B7C8B6","#63AB62","#4AC948","#838B83","#C1CDC1","#698B69","#2F4F2F","#426F42","#548B54","#8FBC8F","#E0EEE0","#9BCD9B","#71C671","#7CCD7C","#215E21","#228B22","#32CD32","#B4EEB4","#90EE90","#98FB98","#003300","#004F00","#006400","#008000","#008B00","#009900","#00CD00","#00EE00","#00FF00","#33FF33","#66FF66","#C1FFC1","#CCFFCC","#F0FFF0","#4BB74C","#6EFF70","#3D9140","#5D9160","#B2D0B4","#4D6B50","#5B9C64","#3F9E4D","#0AC92B","#BDFCC9","#3D5B43","#31B94D","#1DA237","#00FF33","#96C8A2","#3EA055","#487153","#00611C","#00AF33","#688571","#91B49C","#79A888","#B4D7BF","#337147","#37BC61","#70DB93","#40664D","#92CCA6","#329555","#0E8C3A","#78A489","#3E6B4F","#2C5D3F","#759B84","#2E6444","#00FF66","#2E8B57","#4EEE94","#00C957","#54FF9F","#DBE6E0","#34925E","#3CB371","#43CD80","#426352","#607C6E","#43D58C","#006633","#008B45","#00CD66","#00EE76","#00FF7F","#F5FFFA","#2E473B","#5EDA9E","#B6C5BE","#213D30","#3E7A5E","#4D7865","#597368","#28AE7B","#00FA9A","#238E68","#4C7064","#458B74","#66CDAA","#32CD99","#32CC99","#76EEC6","#00FFAA","#7FFFD4","#218868","#808A87","#138F6A","#00C78C","#3B8471","#49E9BD","#1B6453","#284942","#0FDDAF","#006B54","#668E86","#527F76","#A4DCD1","#174038","#20BF9F","#00FFCC","#4A766E","#4F8E83","#3E766D","#3E766D","#4CB7A5","#2FAA96","#DBFEF8","#DAF4F0","#108070","#2A8E82","#353F3E","#36DBCA","#40E0D0","#99CDC9","#45C3B8","#03A89E","#457371","#20B2AA","#01C5BB","#48D1CC","#90FEFB","#068481"}
+
+
+    Private colorPalette_AnaIII As String()={"#9C16CB","#E47297","#FAC993","#B675F7","#FFCDCB","#AA0114","#FC3232","#6600CC","#F57E80","#F6CEE3","#CA278C","#F90421","#8080C0","#000000","#C0D9AF","#A6D785","#61B329","#77896C","#687E5A","#3F602B","#8AA37B","#8FA880","#646F5E","#476A34","#5DFC0A","#435D36","#93DB70","#3B5E2B","#84BE6A","#4CBB17","#484D46","#3A6629","#49E20E","#308014","#9CA998","#55AE3A","#7BBF6A","#4DBD33","#C5E3BF","#596C56","#A9C9A4","#86C67C","#7BCC70","#8CDD81","#699864","#3D8B37","#5F755E","#B7C8B6","#63AB62","#4AC948","#838B83","#C1CDC1","#698B69","#2F4F2F","#426F42","#548B54","#8FBC8F","#E0EEE0","#9BCD9B","#71C671","#7CCD7C","#215E21","#228B22","#32CD32","#B4EEB4","#90EE90","#98FB98","#003300","#004F00","#006400","#008000","#008B00","#009900","#00CD00","#00EE00","#00FF00","#33FF33","#66FF66","#C1FFC1","#CCFFCC","#F0FFF0","#4BB74C","#6EFF70","#3D9140","#5D9160","#B2D0B4","#4D6B50","#5B9C64","#3F9E4D","#0AC92B","#BDFCC9","#3D5B43","#31B94D","#1DA237","#00FF33","#96C8A2","#3EA055","#487153","#00611C","#00AF33","#688571","#91B49C","#79A888","#B4D7BF","#337147","#37BC61","#70DB93","#40664D","#92CCA6","#329555","#0E8C3A","#78A489","#3E6B4F","#2C5D3F","#759B84","#2E6444","#00FF66","#2E8B57","#4EEE94","#00C957","#54FF9F","#DBE6E0","#34925E","#3CB371","#43CD80","#426352","#607C6E","#43D58C","#006633","#008B45","#00CD66","#00EE76","#00FF7F","#F5FFFA","#2E473B","#5EDA9E","#B6C5BE","#213D30","#3E7A5E","#4D7865","#597368","#28AE7B","#00FA9A","#238E68","#4C7064","#458B74","#66CDAA","#32CD99","#32CC99","#76EEC6","#00FFAA","#7FFFD4","#218868","#808A87","#138F6A","#00C78C","#3B8471","#49E9BD","#1B6453","#284942","#0FDDAF","#006B54","#668E86","#527F76","#A4DCD1","#174038","#20BF9F","#00FFCC","#4A766E","#4F8E83","#3E766D","#3E766D","#4CB7A5","#2FAA96","#DBFEF8","#DAF4F0","#108070","#2A8E82","#353F3E","#36DBCA","#40E0D0","#99CDC9","#45C3B8","#03A89E","#457371","#20B2AA","#01C5BB","#48D1CC","#90FEFB","#068481"}
+
+
+    Private count_AnaI As Integer = 0
+    Private count_AnaII As Integer = 0
+    Private count_AnaIII As Integer = 0
+    Private mapping_AnaI As New System.Collections.Hashtable()
+    Private mapping_AnaII As New System.Collections.Hashtable()
+    Private mapping_AnaIII As New System.Collections.Hashtable()
+
+    Public Function GetColor_AnaI(ByVal groupingValue_AnaI As String) As String
+    If mapping_AnaI.ContainsKey(groupingValue_AnaI) Then
+    Return mapping_AnaI(groupingValue_AnaI)
+    End If
+    Dim c1 As String = colorPalette_AnaI(count_AnaI Mod colorPalette_AnaI.Length)
+    count_AnaI = count_AnaI + 1
+    mapping_AnaI.Add(groupingValue_AnaI, c1)
+    Return c1
+    End Function
+
+    Public Function GetColor_AnaII(ByVal groupingValue_AnaII As String) As String
+    If mapping_AnaII.ContainsKey(groupingValue_AnaII) Then
+    Return mapping_AnaII(groupingValue_AnaII)
+    End If
+    Dim c2 As String = colorPalette_AnaII(count_AnaI Mod colorPalette_AnaII.Length)
+    count_AnaII = count_AnaII + 1
+    mapping_AnaII.Add(groupingValue_AnaII, c2)
+    Return c2
+    End Function
+
+    Public Function GetColor_AnaIII(ByVal groupingValue_AnaIII As String) As String
+    If mapping_AnaIII.ContainsKey(groupingValue_AnaIII) Then
+    Return mapping_AnaIII(groupingValue_AnaIII)
+    End If
+    Dim c3 As String = colorPalette_AnaIII(count_AnaII Mod colorPalette_AnaIII.Length/2)
+    count_AnaIII = count_AnaIII + 1.0
+    mapping_AnaIII.Add(groupingValue_AnaIII, c3)
+    Return c3
+    End Function
+
+dim Counter as integer=0
+
+public function getGroupCounter() as Integer
+ Counter=Counter+1
+ return Counter
+end function
+  </Code>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>fb098fc7-0c13-4818-b761-6b91215d0061</rd:ReportID>
+</Report>
