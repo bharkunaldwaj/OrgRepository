@@ -15,7 +15,7 @@
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!SR_No.Value</Value>
+                      <Value>=Fields!Sequence.Value</Value>
                       <Direction>Descending</Direction>
                     </SortExpression>
                   </SortExpressions>
@@ -270,89 +270,89 @@ IIf(Fields!Analysis_type.Value = "Full Project Group","Black","#00000000"))</Col
                 </Style>
               </ChartTitle>
             </ChartTitles>
-			  <Palette>Pastel</Palette>
-			  <ChartCustomPaletteColors>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#097054","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#005B9A","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#9C16CB","")
+            <Palette>Pastel</Palette>
+            <ChartCustomPaletteColors>
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#097054","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#005B9A","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#9C16CB","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#ffde00","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#03B585","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#E47297","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#ffde00","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#03B585","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#E47297","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#0599ff","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#8C8984","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FAC993","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#0599ff","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#8C8984","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#FAC993","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#ff9900","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#0191C8","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#B675F7","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#ff9900","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#0191C8","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#B675F7","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#009900","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#025E45","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FFCDCB","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#009900","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#025E45","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#FFCDCB","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#fcb3d0","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#B7C7D7","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#AA0114","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#fcb3d0","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#B7C7D7","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#AA0114","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#990033","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#024575","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#FC3232","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#990033","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#024575","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#FC3232","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#e86850","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#03F7B8","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#6600CC","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#e86850","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#03F7B8","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#6600CC","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#887058","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#5D5D5C","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F57E80","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#887058","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#5D5D5C","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#F57E80","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#92cd00","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#74E2C1","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F6CEE3","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#92cd00","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#74E2C1","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#F6CEE3","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#c13100","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#D2D1CF","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#CA278C","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#c13100","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#D2D1CF","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#CA278C","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#999999","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#06D2D2","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#F90421","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#999999","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#06D2D2","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#F90421","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#8080C0","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#8080C0","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#8080C0","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#8080C0","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#8080C0","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#8080C0","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#000000","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#000000","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#000000","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#000000","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#000000","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#000000","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#C0D9AF","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#C0D9AF","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#C0D9AF","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#C0D9AF","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#C0D9AF","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#C0D9AF","")
 				  </ChartCustomPaletteColor>
-				  <ChartCustomPaletteColor>
-					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- I" ,"#A6D785","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- II" ,"#A6D785","") &amp;
-					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim(Fields!Ana_I_II_III.Value) = "ANALYSIS- III" ,"#A6D785","")
+              <ChartCustomPaletteColor>
+					  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- I" ,"#A6D785","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- II" ,"#A6D785","") &amp;
+					  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- I") = "ANALYSIS- III" ,"#A6D785","")
 				  </ChartCustomPaletteColor>
-			  </ChartCustomPaletteColors>
+            </ChartCustomPaletteColors>
             <ChartBorderSkin>
               <Style>
                 <BackgroundColor>Gray</BackgroundColor>
@@ -455,7 +455,11 @@ IIf(Fields!Analysis_type.Value = "Full Project Group","Black","#00000000"))</Col
         </Field>
         <Field Name="Answer">
           <DataField>Answer</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
+          <rd:TypeName>System.Decimal</rd:TypeName>
+        </Field>
+        <Field Name="Sequence">
+          <DataField>Sequence</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
     </DataSet>
