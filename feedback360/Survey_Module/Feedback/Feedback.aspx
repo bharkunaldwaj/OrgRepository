@@ -338,8 +338,8 @@ function TextAreaMaxLengthCheck(id, length)
                                                     &nbsp;
                                                     <asp:ImageButton ID="imbNext" title="Next" Visible="false" ImageUrl="~/Layouts/Resources/images/next.png"
                                                         runat="server" OnClick="imbNext_Click" />&nbsp;
-                                                    <asp:ImageButton ID="imbFinish" Visible="false" title="finish" ImageUrl="~/Layouts/Resources/images/finish.png"
-                                                        runat="server" OnClick="imbFinish_Click" OnClientClick="this.style.display='none';document.getElementById('imbPrevious').style.display='none';" />
+                                                    <asp:ImageButton ID="imbFinish"  data-close-btn="none" Visible="false" title="finish" ImageUrl="~/Layouts/Resources/images/finish.png"
+                                                        runat="server" OnClick="imbFinish_Click" OnClientClick="this.style.display='none';document.getElementById('imbPrevious').style.display='none'; $('#dialog').dialog('open');" />
                                                 </div>
                                             </td>
                                         </tr>
@@ -396,6 +396,53 @@ function TextAreaMaxLengthCheck(id, length)
             <asp:Label ID="lblFooter" runat="server" Text=""></asp:Label>
         </div>
     </div>
+   
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-dialog-titlebar-close {
+  visibility: hidden;
+}
+  </style>
+  <script>
+      $(function () {
+          $("#dialog").dialog({
+              autoOpen: false,
+              width: 600,
+              height: 170,
+              modal: true,
+              show: {
+                  duration: 1000
+              },
+              hide: {
+                  duration: 1000
+              },
+              buttons: {
+                  Ok: function () {
+                      $(this).dialog("close");
+                  }
+              }
+          });
+
+          $("#<%=ImageButton1.ClientID%>").click(function () {
+              $("#dialog").dialog("open");
+
+          });
+      });
+  </script>
+<div id="dialog" title="Please wait..." >
+  <p>Thank you for completing the questionnaire. Please wait while your questionnaire submitted successfully.
+      <br/>
+      <%-- <asp:Image ID="imgWait" runat="server" ImageUrl="~/Layouts/Resources/images/ajaxloading.gif"
+                                        ImageAlign="Middle" />--%>
+         
+
+  </p>
+  <div align=right> <img src="../../UploadDocs/Send1.gif" alt="Please wait..." /></div>
+
+</div>
 
     <script type="text/javascript">
 

@@ -285,6 +285,12 @@
                                     </td>
                                 <!-- 1.0.0.1.2 -->
                                 </tr>
+                                <tr>
+                                    <td valign="top" colspan="4" align=center>
+                                        <a href="../../SampleDocs/PreviousScore.xlsx">Click here to download the sample excel to add previous score</a>
+                                  </td>
+                                   
+                                </tr>
                             </table>
                         </fieldset>
                    <%-- </ContentTemplate>

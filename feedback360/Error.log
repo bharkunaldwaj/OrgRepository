@@ -317,3 +317,180 @@ Error Line:    at System.Convert.FromBase64String(String s)
 Error Source: mscorlib
 Error Message: Invalid character in a Base-64 string.
 
+Error Occured on: 29/06/2015 14:41:34
+Error Application: Feedback 360 - UI
+Error Function: Void WinIOError(Int32 System.String)
+Error Line:    at System.IO.__Error.WinIOError(Int32 errorCode String maybeFullPath)
+   at System.IO.FileStream.Init(String path FileMode mode FileAccess access Int32 rights Boolean useRights FileShare share Int32 bufferSize FileOptions options SECURITY_ATTRIBUTES secAttrs String msgPath Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path FileMode mode FileAccess access FileShare share Int32 bufferSize FileOptions options String msgPath Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path FileMode mode)
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at System.Web.UI.WebControls.FileUpload.SaveAs(String filename)
+   at Survey_Module_Questionnaire_AddPreviousScore.imgBtnUploadScoreExcel_Click(Object sender ImageClickEventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Survey_Module\Questionnaire\AddPreviousScore.aspx.cs:line 555
+Error Source: mscorlib
+Error Message: Could not find a part of the path 'C:\Damco Projects\Feedback360\trunk\feedback360\UploadDocs\PreviousScore635711856940937500.xlsx'.
+
+Error Occured on: 29/06/2015 14:44:53
+Error Application: Feedback 360 - UI
+Error Function: Void WinIOError(Int32 System.String)
+Error Line:    at System.IO.__Error.WinIOError(Int32 errorCode String maybeFullPath)
+   at System.IO.FileStream.Init(String path FileMode mode FileAccess access Int32 rights Boolean useRights FileShare share Int32 bufferSize FileOptions options SECURITY_ATTRIBUTES secAttrs String msgPath Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path FileMode mode FileAccess access FileShare share Int32 bufferSize FileOptions options String msgPath Boolean bFromProxy)
+   at System.IO.FileStream..ctor(String path FileMode mode)
+   at System.Web.HttpPostedFile.SaveAs(String filename)
+   at System.Web.UI.WebControls.FileUpload.SaveAs(String filename)
+   at Survey_Module_Questionnaire_AddPreviousScore.imgBtnUploadScoreExcel_Click(Object sender ImageClickEventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Survey_Module\Questionnaire\AddPreviousScore.aspx.cs:line 555
+Error Source: mscorlib
+Error Message: Could not find a part of the path 'C:\Damco Projects\Feedback360\trunk\feedback360\UploadDocs\PreviousScore635711857777812500.xlsx'.
+
+Error Occured on: 29/06/2015 17:54:47
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 17:54:48
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 18:26:24
+Error Application: Feedback 360 - UI
+Error Function: Byte[] FromBase64String(System.String)
+Error Line:    at System.Convert.FromBase64String(String s)
+   at EnCryptDecrypt.CryptorEngine.Decrypt(String Message Boolean Passphrase) in c:\Damco Projects\Feedback360\trunk\feedback360\App_Code\CryptorEngine.cs:line 78
+   at Login.OnInit(EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Login.aspx.cs:line 38
+Error Source: mscorlib
+Error Message: Invalid character in a Base-64 string.
+
+Error Occured on: 29/06/2015 19:19:15
+Error Application: Feedback 360 - DAO
+Error Function: System.Data.ProviderBase.DbConnectionInternal GetConnection(System.Data.Common.DbConnection)
+Error Line:    at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at DatabaseAccessUtilities.CSqlClient.Connection() in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\CSqlClient.vb:line 24
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName Object[] parameterValues) in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 416
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(String spName Object[] parameterValues IDbTransaction txOrNull) in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 353
+   at DatabaseAccessUtilities.CDataSrcLocal.Command(CCommand cmd) in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 316
+   at DatabaseAccessUtilities.CDataSrcLocal.ExecuteDataSet(CCommand cmdProxy) in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrcLocal.vb:line 49
+   at DatabaseAccessUtilities.CDataSrc.ExecuteDataSet(String spName Object[] parameterValues IDbTransaction txOrNull) in C:\Damco Projects\Feedback360\CommonUtilities\DatabaseAccessUtilities\Classes\Drivers\Abstract\CDataSrc.vb:line 112
+   at Questionnaire_DAO.Survey_AssignQuestionnaire_DAO.GetAllAssignmentInfo(Int32 candidateID) in C:\Damco Projects\Feedback360\trunk\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 1018
+Error Source: System.Data
+Error Message: Timeout expired.  The timeout period elapsed prior to obtaining a connection from the pool.  This may have occurred because all pooled connections were in use and max pool size was reached.
+
+Error Occured on: 29/06/2015 19:19:15
+Error Application: Feedback 360 - BAO
+Error Function: Void AbortInternal()
+Error Line:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at feedbackFramework_DAO.DAO_Base.HandleException(Exception ex) in C:\Damco Projects\Feedback360\trunk\DataAccessLayer\feedbackFramework_DAL\DAO_Base.cs:line 146
+   at Questionnaire_DAO.Survey_AssignQuestionnaire_DAO.GetAllAssignmentInfo(Int32 candidateID) in C:\Damco Projects\Feedback360\trunk\Questionnaire_DAO\AssignQuestionnaire_DAO.cs:line 1023
+   at Questionnaire_BAO.Survey_AssignQuestionnaire_BAO.GetAllAssignmentInfo(Int32 candidateID) in C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 980
+Error Source: mscorlib
+Error Message: Thread was being aborted.
+
+Error Occured on: 29/06/2015 19:19:16
+Error Application: Feedback 360 
+Error Function: Void AbortInternal()
+Error Line:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url Boolean endResponse)
+   at System.Web.HttpResponse.Redirect(String url)
+   at DAF_BAO.Base_BAO.HandleException(Exception ex) in C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\feedbackFramework_BAL\DAF_BAO\Base_BAO.cs:line 64
+   at Questionnaire_BAO.Survey_AssignQuestionnaire_BAO.GetAllAssignmentInfo(Int32 candidateID) in C:\Damco Projects\Feedback360\trunk\BusinessAccessLayer\Module BAL\Questionnaire_BAO\AssignQuestionnaire_BAO.cs:line 986
+   at Survey_Module_Feedback_Feedback.Page_Load(Object sender EventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Survey_Module\Feedback\Feedback.aspx.cs:line 119
+Error Source: mscorlib
+Error Message: Thread was being aborted.
+
+Error Occured on: 29/06/2015 19:39:48
+Error Application: Feedback 360 
+Error Function: Void BindQuestions(Int32)
+Error Line:    at Survey_Module_Feedback_Feedback.BindQuestions(Int32 qstCount) in c:\Damco Projects\Feedback360\trunk\feedback360\Survey_Module\Feedback\Feedback.aspx.cs:line 318
+   at Survey_Module_Feedback_Feedback.imbNext_Click(Object sender ImageClickEventArgs e) in c:\Damco Projects\Feedback360\trunk\feedback360\Survey_Module\Feedback\Feedback.aspx.cs:line 863
+Error Source: App_Web_hwgurbyr
+Error Message: Object reference not set to an instance of an object.
+

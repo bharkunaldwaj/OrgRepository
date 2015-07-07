@@ -96,7 +96,7 @@
                                 </td>
                                 <td width="21%">
                                     <asp:DropDownList ID="ddlProgramme" runat="server" Style="width: 155px" AppendDataBoundItems="True"
-                                        AutoPostBack="true" OnSelectedIndexChanged="ddlProgramme_SelectedIndexChanged">
+                                        AutoPostBack="False" OnSelectedIndexChanged="ddlProgramme_SelectedIndexChanged">
                                         <asp:ListItem Value="0">Select</asp:ListItem>
                                     </asp:DropDownList>
                                 </td>

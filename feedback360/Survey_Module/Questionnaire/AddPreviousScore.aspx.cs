@@ -594,6 +594,8 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                                     if (retVal > 0)
                                     {
                                         lbl_save_message.Text = "Score updated successfully.";
+
+                                        fillAnalysis();
                                     }
                                 }
                                 catch (Exception ex)
