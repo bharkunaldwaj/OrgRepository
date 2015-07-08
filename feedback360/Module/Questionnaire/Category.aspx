@@ -142,7 +142,7 @@
                                             Text="" Rows="3" /><div class="maxlength-msg">
                                                 <asp:Label ID="Label5" runat="server" Text="<% $Resources:divMaxChar %>"></asp:Label></div>
                                         &nbsp;<asp:RequiredFieldValidator ID="rq3" runat="server" ControlToValidate="txtDescription"
-                                            ErrorMessage="<% $Resources:Rq21 %> Please Enter Description " SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
+                                            ErrorMessage="Please Enter Description " SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
                                     </td>
                                     <td valign="top">
                                         <asp:Label ID="lblExclude" runat="server" Text="<% $Resources:lblExclude %>"></asp:Label>
@@ -150,6 +150,36 @@
                                     <td valign="top">
                                         <asp:CheckBox ID="chkExcludeFromAnalysis" runat="server" />
                                     </td>
+                                </tr>
+                                <tr>
+                                <td valign="top">
+                                        <asp:Label ID="LabeReportDescription" runat="server" Text="<% $Resources:Report_Category_Description %>"></asp:Label>
+                                        <span class="style3">*</span>
+                                    </td>
+                                     <td valign="top">
+                                        <asp:TextBox ID="TextBoxReportDescription" runat="server" MaxLength="1000" TextMode="MultiLine"
+                                            SkinID="txtarea300X3" onkeypress="javascript:TextAreaMaxLengthCheck(this.id,500);"
+                                            Text="" Rows="3" /><div class="maxlength-msg">
+                                                <asp:Label ID="LabelReportDataCount" runat="server" Text="<% $Resources:Label_Max_500_Char%>"></asp:Label></div>
+                                        &nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidatorReportDescription" runat="server" ControlToValidate="TextBoxReportDescription"
+                                            ErrorMessage="<% $Resources:Enter_Report_Description %>" SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                <td valign="top">
+                                        <asp:Label ID="LabelQuestionnaireDescription" runat="server" Text="<% $Resources:Questionnaire_Category_Description %>"></asp:Label>
+                                        <span class="style3">*</span>
+                                    </td>
+                                     <td valign="top">
+                                        <asp:TextBox ID="TextBoxQuestionnaireDescription" runat="server" MaxLength="1000" TextMode="MultiLine"
+                                            SkinID="txtarea300X3" onkeypress="javascript:TextAreaMaxLengthCheck(this.id,500);"
+                                            Text="" Rows="3" /><div class="maxlength-msg">
+                                                <asp:Label ID="LabelQuestionnaireDataCount" runat="server" Text="<% $Resources:Label_Max_500_Char%>"></asp:Label></div>
+                                        &nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidatorQuestionnaireDescription" runat="server" ControlToValidate="TextBoxQuestionnaireDescription"
+                                            ErrorMessage="<% $Resources:Enter_Questionnaire_Description %>" SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
+                                    </td>
+                                    <td colspan="2"></td>
                                 </tr>
                             </table>
                         </fieldset>
@@ -163,7 +193,9 @@
                             <asp:ImageButton ID="imbBack" runat="server" CausesValidation="false" ImageUrl="~/Layouts/Resources/images/Back.png"
                                 PostBackUrl="~/Module/Questionnaire/CategoryList.aspx" ToolTip="Back to List" Visible="false" />
                         </div>
+                        <br>
                         </br>
+                        <br>
                         </br>
                             <div align="center">
                                 <span class="style3">

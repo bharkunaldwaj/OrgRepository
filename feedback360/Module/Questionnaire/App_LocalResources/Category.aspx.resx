@@ -174,4 +174,19 @@
   <data name="rqCatTitle" xml:space="preserve">
     <value>Please Enter Category Title</value>
   </data>
+  <data name="Enter_Questionnaire_Description" xml:space="preserve">
+    <value>Please Enter Questionnaire Description.</value>
+  </data>
+  <data name="Enter_Report_Description" xml:space="preserve">
+    <value>Please Enter Report Description.</value>
+  </data>
+  <data name="Label_Max_500_Char" xml:space="preserve">
+    <value>(Max. 500 characters)</value>
+  </data>
+  <data name="Questionnaire_Category_Description" xml:space="preserve">
+    <value>Questionnaire Category Description</value>
+  </data>
+  <data name="Report_Category_Description" xml:space="preserve">
+    <value>Report Category Description</value>
+  </data>
 </root>

@@ -135,23 +135,23 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
                 {
                     lblcompanyname.Text = "";
                 }
-
-
             }
+
             txtCategoryName.Text = category_BEList[0].Name;
             txtCategoryTitle.Text = category_BEList[0].Title;
             txtDescription.Text = category_BEList[0].Description;
             ddlQuestionnaire.SelectedValue = category_BEList[0].Questionnaire.ToString();
             txtSequence.Text = category_BEList[0].Sequence.ToString();
             chkExcludeFromAnalysis.Checked = Convert.ToBoolean(category_BEList[0].ExcludeFromAnalysis);
-            
+            TextBoxQuestionnaireDescription.Text = category_BEList[0].QuestionnaireCategoryDescription;
+            TextBoxReportDescription.Text = category_BEList[0].ReportCategoryDescription;
+
             //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
-        
     }
 
     protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
@@ -175,8 +175,6 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
                 category_BE.AccountID = identity.User.AccountID;
             }
 
-
-
             category_BE.Name = GetString(txtCategoryName.Text);
             category_BE.Title = GetString(txtCategoryTitle.Text);
             category_BE.Description=GetString(txtDescription.Text);
@@ -186,6 +184,8 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
             category_BE.ModifiedBy=1;
             category_BE.ModifiedDate=DateTime.Now;
             category_BE.IsActive = 1;
+            category_BE.ReportCategoryDescription = TextBoxReportDescription.Text.Trim();
+            category_BE.QuestionnaireCategoryDescription = TextBoxQuestionnaireDescription.Text.Trim();
 
             if (Request.QueryString["Mode"] == "E")
             {
@@ -203,6 +203,8 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
             txtCategoryName.Text = "";
             txtDescription.Text = "";
             txtSequence.Text = "";
+            TextBoxReportDescription.Text = string.Empty;
+            TextBoxQuestionnaireDescription.Text = string.Empty;
             chkExcludeFromAnalysis.Checked = false;
 
             //Response.Redirect("CategoryList.aspx", false);
