@@ -19,6 +19,8 @@ namespace Questionnaire_BE
         public int? ModifiedBy { get; set; }
         public DateTime? ModifiedDate { get; set; }
         public int? IsActive { get; set; }
+        public string ReportCategoryDescription { get; set; }
+        public string QuestionnaireCategoryDescription { get; set; }
 
         public Category_BE()
         {
@@ -33,6 +35,8 @@ namespace Questionnaire_BE
             this.ModifiedBy = null;
             this.ModifiedDate = null;
             this.IsActive = null;
+            this.ReportCategoryDescription = string.Empty;
+            this.QuestionnaireCategoryDescription = string.Empty;
         }
     }
 
@@ -73,4 +77,4 @@ namespace Questionnaire_BE
 
         public string IntroImgFileName { get; set; }
     }
-    }
+}
