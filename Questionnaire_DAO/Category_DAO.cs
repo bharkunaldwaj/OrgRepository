@@ -52,7 +52,7 @@ namespace Questionnaire_DAO
             try {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[12] {null,
+                object[] param = new object[14] {null,
                                                 category_BE.AccountID,
                                                 category_BE.Name,
                                                 category_BE.Title,
@@ -63,6 +63,8 @@ namespace Questionnaire_DAO
                                                 category_BE.ModifiedBy,
                                                 category_BE.ModifiedDate,
                                                 category_BE.IsActive,
+                                                category_BE.ReportCategoryDescription,
+                                                category_BE.QuestionnaireCategoryDescription,
                                                 "I" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspCategoryManagement", param, null));
@@ -82,7 +84,7 @@ namespace Questionnaire_DAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[12] {category_BE.CategoryID,
+                object[] param = new object[14] {category_BE.CategoryID,
                                                 category_BE.AccountID,
                                                 category_BE.Name,
                                                 category_BE.Title,
@@ -93,10 +95,11 @@ namespace Questionnaire_DAO
                                                 category_BE.ModifiedBy,
                                                 category_BE.ModifiedDate,
                                                 category_BE.IsActive,
+                                                category_BE.ReportCategoryDescription,
+                                                category_BE.QuestionnaireCategoryDescription,
                                                 "U" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspCategoryManagement", param, null));
-
                 cDataSrc = null;
 
                 //HandleWriteLogDAU("UspCategoryManagement", param, new StackTrace(true));
@@ -216,6 +219,8 @@ namespace Questionnaire_DAO
                 category_BE.ModifiedBy = Convert.ToInt32(dtCategory.Rows[recordCounter]["ModifiedBy"].ToString());
                 category_BE.ModifiedDate = Convert.ToDateTime(dtCategory.Rows[recordCounter]["ModifiedDate"].ToString());
                 category_BE.IsActive = Convert.ToInt32(dtCategory.Rows[recordCounter]["IsActive"].ToString());
+                category_BE.ReportCategoryDescription = dtCategory.Rows[recordCounter].Field<string>("ReportCategoryDescription");
+                category_BE.QuestionnaireCategoryDescription = dtCategory.Rows[recordCounter].Field<string>("QuestionnaireCategoryDescription");
 
                 category_BEList.Add(category_BE);
             }
