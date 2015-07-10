@@ -88,19 +88,26 @@ namespace FeedbackReportScheduler
 
         #endregion
 
-        public frmMain()
+        private int? ProgramID
+        {
+            get;
+            set;
+        }
+
+        public frmMain(int? programID)
         {
             InitializeComponent();
+            this.ProgramID = programID;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            MakeReport();
+            MakeReport(ProgramID);
         }
 
         #region ReportMethods
 
-        public void MakeReport()
+        public void MakeReport(int? programID)
         {
             try
             {
@@ -112,7 +119,7 @@ namespace FeedbackReportScheduler
                 int submitCount = 0;
 
                 DataTable dtParticipant = new DataTable();
-                dtParticipant = reportManagement_BAO.GetParticipantData();
+                dtParticipant = reportManagement_BAO.GetParticipantData(programID);
                 HandleException("ParticipantCouont:"+dtParticipant.Rows.Count.ToString());
                 if (dtParticipant != null && dtParticipant.Rows.Count > 0)
                 {
