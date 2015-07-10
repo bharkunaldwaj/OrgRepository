@@ -339,6 +339,19 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
+
+        public int DeleteDynamicReport(int accountCode, int programID)
+        {
+            try
+            {
+                object[] param = new object[2] { accountCode, programID };
+
+                returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspDeleteReport", param, null));
+            }
+            catch (Exception ex) { HandleException(ex); }
+
+            return returnValue;
+        }
         #endregion
 
         #region Radarchart Method
