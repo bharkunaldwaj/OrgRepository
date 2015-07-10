@@ -398,6 +398,37 @@ namespace Questionnaire_BAO
             return addReportManagement;
         }
 
+        public int DeleteDynamicReport(int accountID, int programID)
+        {
+            int result = 0;
+            CSqlClient sqlClient = null;
+            IDbConnection conn = null;
+            IDbTransaction dbTransaction = null;
+
+            try
+            {
+                sqlClient = CDataSrc.Default as CSqlClient;
+                conn = sqlClient.Connection();
+                dbTransaction = conn.BeginTransaction();
+
+                ReportManagement_DAO ReportManagement_DAO = new ReportManagement_DAO();
+                result = ReportManagement_DAO.DeleteDynamicReport(accountID, programID);
+
+                dbTransaction.Commit();
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
+                    dbTransaction.Rollback();
+                }
+
+                HandleException(ex);
+            }
+            return result;
+        }
+
     }
 
 
