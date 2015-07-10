@@ -25,6 +25,8 @@ namespace Miscellaneous
 {
     public static class SendEmail
     {
+        const string Attachments = "";
+
         static Configuration configurationFile = WebConfigurationManager.OpenWebConfiguration(HttpContext.Current.Request.ApplicationPath);
         static MailSettingsSectionGroup mailSettings = configurationFile.GetSectionGroup("system.net/mailSettings") as MailSettingsSectionGroup;
 
@@ -234,6 +236,85 @@ namespace Miscellaneous
             }
         }
 
+        public static void SendMailAsync(string p_subject, string p_body, string p_toList,
+           MailAddress maddr, string emailImagepath, string attachement = Attachments)
+        {
+            SendAsync(p_subject, p_body, p_toList, null, null, true, maddr, attachement, emailImagepath);
+        }
+
+        private static void SendAsync(string p_subject, string p_body, string p_toList,
+            string p_ccList, string p_bccList, bool p_isBodyHtml, MailAddress maddr, string attachement, string emailImagepath)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                SmtpClient client = new SmtpClient();
+
+                if (!string.IsNullOrEmpty(p_toList))
+                {
+                    foreach (string to in p_toList.Split(';'))
+                    {
+                        message.To.Add(new MailAddress(to));
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(p_ccList))
+                {
+                    foreach (string cc in p_ccList.Split(';'))
+                    {
+                        message.CC.Add(new MailAddress(cc));
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(p_bccList))
+                {
+                    foreach (string bcc in p_bccList.Split(';'))
+                    {
+                        message.Bcc.Add(new MailAddress(bcc));
+                    }
+                }
+
+                if (maddr != null)
+                {
+                    message.From = maddr;
+                }
+
+                if (emailImagepath != string.Empty)
+                {
+                    ////Add Image to Email
+                    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(p_body, null, "text/html");
+                    LinkedResource logo = new LinkedResource(emailImagepath);
+                    logo.ContentId = "companylogo";
+                    htmlView.LinkedResources.Add(logo);
+
+                    message.AlternateViews.Add(htmlView);
+                }
+                else
+                {
+                    message.Body.Replace("<img src=cid:companylogo>", "");
+                }
+
+                message.IsBodyHtml = p_isBodyHtml;
+                message.Body = p_body;
+                message.Subject = p_subject;
+
+                if (!string.IsNullOrEmpty(attachement))
+                {
+                    message.Attachments.Add(new System.Net.Mail.Attachment(attachement));
+                }
+
+                object userSetate = message;
+                client.Host = mailSettings.Smtp.Network.Host;
+                client.Port = mailSettings.Smtp.Network.Port;
+
+                client.SendAsync(message, userSetate);
+            }
+            catch (Exception ex)
+            {
+                ExceptionLogger.WriteLogForSendEmailError(ex, null);
+            }
+        }
+
         static void EmbedImages()
         {
             //create the mail message
@@ -270,11 +351,6 @@ namespace Miscellaneous
             SmtpClient smtp = new SmtpClient("127.0.0.1"); //specify the mail server address
             smtp.Send(mail);
         }
-
-
-
-
-
         #endregion
     }
 }
