@@ -45,7 +45,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
 
             DataTable DataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-            string finalexpression = string.Format("AccountID={0}'", companycode); ;
+            string finalexpression = string.Format("AccountID={0}'", companycode);
 
             Labelcompanyname.Text = DataTableCompanyName.Rows[0]["OrganisationName"].ToString();
 
