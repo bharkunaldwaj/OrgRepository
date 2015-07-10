@@ -430,14 +430,14 @@ namespace Questionnaire_BAO
         }
 
 
-        internal DataTable GetParticipantData()
+        internal DataTable GetParticipantData(int? programID)
         {
             DataTable dtParticipant = new DataTable();
 
             try
             {
                 ReportManagement_DAO reportManagement_DAO = new ReportManagement_DAO();
-                dtParticipant = reportManagement_DAO.GetParticipantData();
+                dtParticipant = reportManagement_DAO.GetParticipantData(programID);
             }
             catch (Exception ex)
             {

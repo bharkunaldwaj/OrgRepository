@@ -471,12 +471,13 @@ namespace Questionnaire_DAO
         }
 
 
-        public DataTable GetParticipantData()
+        public DataTable GetParticipantData(int? programID)
         {
             DataTable dtParticipant = new DataTable();
             try
             {
-                dtParticipant = cDataSrc.ExecuteDataSet("UspGetParticipantData", null).Tables[0];
+                object[] param = new object[1] {programID};
+                dtParticipant = cDataSrc.ExecuteDataSet("UspGetParticipantData",param, null).Tables[0];
             }
             catch (Exception ex) { HandleException(ex); }
             return dtParticipant;
