@@ -3835,6 +3835,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     protected void ImageButtonSaveAll_Click(object sender, ImageClickEventArgs e)
     {
         string participantRoleId = string.Empty;
+        Session["ColleaguesIndex"] = null;
 
         for (int i = 0; i < rptrCandidateList.Items.Count; i++)
         {
@@ -3848,7 +3849,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             Label lblProjectID = (Label)rptrCandidateList.Items[i].FindControl("lblProjectID");
             TextBox txtCandidateName = (TextBox)rptrCandidateList.Items[i].FindControl("txtName");
             TextBox txtCandidateEmail = (TextBox)rptrCandidateList.Items[i].FindControl("txtEmailID");
-
+            Session["ColleaguesIndex"] = i.ToString() + ",";
             string relationship = ddlRelationship.SelectedItem.Text;
 
             if (assignButton.Visible)
