@@ -2436,7 +2436,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
                     emailSubject = emailSubject.Replace("[PARTICIPANTNAME]", participantName);
 
-                    SendEmail.Send(emailSubject, emailText, lineManagerEmail, "");
+                    SendEmail.SendMailAsync(Subject, Template, lineManagerEmail, null, string.Empty, "");
 
                     //lblMessage.Text = "Email has been sent successfully to Manager for further approval";
                     lblMessage2.Text = "Email has been sent successfully to Manager for further approval";

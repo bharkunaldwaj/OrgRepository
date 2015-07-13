@@ -503,6 +503,7 @@
         <Triggers>
             <asp:PostBackTrigger ControlID="ImgUpload" />
             <asp:PostBackTrigger ControlID="imbReportDownload" />
+             <asp:PostBackTrigger ControlID="ImageButtonSaveAll" />
         </Triggers>
     </asp:UpdatePanel>
     <div>
