@@ -8,6 +8,7 @@ using Admin_BAO;
 using Questionnaire_BAO;
 using System.Data;
 using System.Diagnostics;
+using System.Configuration;
 
 public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.Page
 {
@@ -16,11 +17,15 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
     const string ProjectValueField = "ProjectID";
     const string ProgramTextField = "ProgrammeName";
     const string ProgramValueField = "ProgrammeID";
+    const string AccountTextField = "Code";
+    const string AccountValueField = "AccountID";
     const string DefaulText = "Select";
     const string DefaulValue = "0";
+    const string FeedBackSchedularPath = "FeedBackSchedularPath";
     #endregion
 
     #region Global Variable
+    string SchedularPath = ConfigurationManager.AppSettings[FeedBackSchedularPath];
     Account_BAO account_BAO = new Account_BAO();
     Project_BAO project_BAO = new Project_BAO();
     Programme_BAO programme_BAO = new Programme_BAO();
@@ -81,7 +86,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
     #region Private Methods
     private void RestartSchedular()
     {
-        string filePath = @"E:\Damco Projects\OrgRef\trunk\Feedback360ReportScheduler\FeedbackReportScheduler\bin\Debug\FeedbackReportScheduler.exe";
+        string filePath = string.Format(@"{0}", SchedularPath);
         Process process = new Process();
         process.StartInfo.FileName = filePath;
         process.StartInfo.Arguments = DropDownListProgramme.SelectedValue;
@@ -105,11 +110,11 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         identity = this.Page.User.Identity as WADIdentity;
 
         BindDropDownList(DropDownListAccountCode, account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID)),
-           "AccountID", "Code");
+           AccountValueField, AccountTextField);
         DropDownListAccountCode.SelectedValue = identity.User.AccountID.ToString();
 
         BindDropDownList(DropDownListProject, project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID)),
-            "ProjectID", "Title");
+            ProjectValueField, ProjectTextField);
     }
 
     private void BindDropDownList(DropDownList dropDownControl, DataTable controlDataTable,
