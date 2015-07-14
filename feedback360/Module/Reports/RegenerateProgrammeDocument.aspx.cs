@@ -45,11 +45,13 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
 
             DataTable DataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-            string finalexpression = string.Format("AccountID={0}'", companycode);
+            var companyName = (DataTableCompanyName.AsEnumerable()).
+                Where(x => x.Field<int>("AccountID") == companycode).FirstOrDefault();
 
-            Labelcompanyname.Text = DataTableCompanyName.Rows[0]["OrganisationName"].ToString();
+            Labelcompanyname.Text = companyName.Field<string>("Organisationname");
 
-            BindDropDownList(DropDownListProject, project_BAO.GetdtProjectList(DropDownListAccountCode.SelectedValue), "ProjectID", "Title");
+            BindDropDownList(DropDownListProject, project_BAO.GetdtProjectList(DropDownListAccountCode.SelectedValue),
+                "ProjectID", "Title");
 
             DropDownListProgramme.Items.Clear();
             DropDownListProgramme.Items.Insert(0, new ListItem("Select", "0"));
