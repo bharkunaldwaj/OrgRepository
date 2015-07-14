@@ -479,7 +479,7 @@
                         <div align="center">
                             <asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel">
                                 <ProgressTemplate>
-                                    <img src="../../UploadDocs/Send1.gif" alt="Please wait..." />
+                                    <img src="../../Layouts/Resources/images/loading.gif" alt="Please wait..." />
                                 </ProgressTemplate>
                             </asp:UpdateProgress>
                             <asp:Label ID="lblMessage2" runat="server" ForeColor="Red" Text=""></asp:Label>
@@ -503,7 +503,7 @@
         <Triggers>
             <asp:PostBackTrigger ControlID="ImgUpload" />
             <asp:PostBackTrigger ControlID="imbReportDownload" />
-             <asp:PostBackTrigger ControlID="ImageButtonSaveAll" />
+            <asp:PostBackTrigger ControlID="ImageButtonSaveAll" />
         </Triggers>
     </asp:UpdatePanel>
     <div>

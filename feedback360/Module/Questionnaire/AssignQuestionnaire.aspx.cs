@@ -91,6 +91,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     string strColleagueNo = string.Empty;
     int iColleagueRecordCount = 0;
 
+    #region Protected Methods
     protected override void OnPreInit(EventArgs e)
     {
         base.OnPreInit(e);
@@ -204,86 +205,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                 }
             }
         }
-    }
-
-    public void RegisterPostbackTrigger(Control triggerOn)
-    {
-        ScriptManager1.RegisterPostBackControl(triggerOn);
-    }
-
-    public void SetValues()
-    {
-        identity = this.Page.User.Identity as WADIdentity;
-
-        AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
-        DataTable dtAssignDetails = new DataTable();
-        dtAssignDetails = assignquestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
-
-        Project_BAO project_BAO = new Project_BAO();
-        ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
-        ddlProject.DataValueField = "ProjectID";
-        ddlProject.DataTextField = "Title";
-        ddlProject.DataBind();
-        if (dtAssignDetails.Rows.Count > 0)
-        {
-            ddlProject.SelectedValue = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
-            hdnProjectId.Value = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
-        }
-
-        //ddlProject.SelectedIndex = 1;
-
-        Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-
-        //ddlQuestionnaire.Items.Clear();
-        //DataTable dtQuestionnaire = new DataTable();
-        //dtQuestionnaire = questionnaire_BAO.GetProjectQuestionnaire(Convert.ToInt32(ddlProject.SelectedValue));
-
-        //if (dtQuestionnaire.Rows.Count > 0)
-        //{
-        //    ddlQuestionnaire.DataSource = dtQuestionnaire;
-        //    ddlQuestionnaire.DataTextField = "QSTNName";
-        //    ddlQuestionnaire.DataValueField = "QuestionnaireID";
-        //    ddlQuestionnaire.DataBind();
-        //    if (dtAssignDetails.Rows[0]["QuestionnaireID"]!=null)
-        //    ddlQuestionnaire.SelectedValue = dtAssignDetails.Rows[0]["QuestionnaireID"].ToString();
-        //}
-
-        //ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
-
-        //Set Programme
-        Programme_BAO programme_BAO = new Programme_BAO();
-
-        ddlProgramme.Items.Clear();
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
-
-        if (dtProgramme.Rows.Count > 0)
-        {
-            ddlProgramme.DataSource = dtProgramme;
-            ddlProgramme.DataTextField = "ProgrammeName";
-            ddlProgramme.DataValueField = "ProgrammeID";
-            ddlProgramme.DataBind();
-
-            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
-
-            if (dtAssignDetails.Rows[0]["ProgrammeID"] != null)
-                ddlProgramme.SelectedValue = dtAssignDetails.Rows[0]["ProgrammeID"].ToString();
-            //ddlProgramme.SelectedIndex = ddlProgramme.Items.IndexOf(ddlProgramme.Items.FindByValue(dtAssignDetails.Rows[0]["ProgrammeID"].ToString()));
-
-            ddlProgramme_SelectedIndexChanged(this, EventArgs.Empty);
-        }
-        else
-            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
-
-        ddlProject.Enabled = false;
-        ddlProgramme.Enabled = false;
-        //ddlQuestionnaire.Enabled = false;
-
-        //Set Relationship
-        DataTable dtRelationship = new DataTable();
-
-        dtRelationship = project_BAO.GetProjectRelationship(Convert.ToInt32(ddlProject.SelectedValue));
-        Session["Relationship"] = dtRelationship;
     }
 
     //protected void imbAssign_Click(object sender, ImageClickEventArgs e)
@@ -652,132 +573,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     //    }
     //}
 
-    /// <summary>
-    /// Change to match managers
-    /// </summary>
-    /// <returns></returns>
-    private int CheckManagerCount()
-    {
-        return (Session["ColleagueTable"] as DataTable).Select("RelationShip='Manager'").Count();
 
-        //int managerCount = 0;
-
-        //if (dtCandidateList != null)
-        //{
-        //    for (int i = 0; i < dtCandidateList.Rows.Count; i++)
-        //    {
-        //        if (dtCandidateList.Rows[i]["RelationShip"].ToString() == "Manager")
-        //        {
-        //            managerCount = managerCount + 1;
-        //        }
-        //    }
-
-        //    List<AssignmentDetails_BE> lstCandidateList = new List<AssignmentDetails_BE>();
-        //    lstCandidateList = GetCandidateList();
-
-        //    foreach (AssignmentDetails_BE item in lstCandidateList)
-        //    {
-        //        if (item.RelationShip == "Manager")
-        //        {
-        //            managerCount = managerCount + 1;
-        //        }
-        //    }
-        //}
-
-        //return managerCount;
-    }
-
-    /// <summary>
-    /// Remove after changes and full testing   
-    /// </summary>
-    /// <returns></returns>
-    private List<AssignmentDetails_BE> GetCandidateList()
-    {
-        List<AssignmentDetails_BE> assignmentDetails_BEList = new List<AssignmentDetails_BE>();
-        bool flag = true;
-
-        foreach (RepeaterItem item in rptrCandidateList.Items)
-        {
-            DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
-            TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
-            TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
-
-            //if (ddlRelationship.SelectedValue == "0" || txtCandidateName.Text == "" || txtCandidateEmail.Text == "")
-            //    flag = false;
-        }
-
-        if (flag != false)
-        {
-            foreach (RepeaterItem item in rptrCandidateList.Items)
-            {
-                AssignmentDetails_BE assignmentDetails_BE = new AssignmentDetails_BE();
-
-                DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
-                TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
-                TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
-                if (ddlRelationship.SelectedValue != "0" && txtCandidateName.Text.Trim() != "" && txtCandidateEmail.Text.Trim() != "")
-                {
-                    if (ddlRelationship.SelectedItem.Text.ToUpper() == "MANAGER")
-                    {
-                        if (this.isManager)
-                            this.duplicateManager = true;
-
-                        this.isManager = true;
-                    }
-
-                    assignmentDetails_BE.RelationShip = ddlRelationship.SelectedValue; //txtRelationship.Text.Trim();
-                    assignmentDetails_BE.CandidateName = txtCandidateName.Text.Trim();
-                    assignmentDetails_BE.CandidateEmail = txtCandidateEmail.Text.Trim();
-                    assignmentDetails_BE.SubmitFlag = false;
-
-                    if (identity.User.GroupID == 1)
-                        UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-                    else
-                        UserAccountID = Convert.ToInt32(identity.User.AccountID);
-
-                    if (UserAccountID == Convert.ToInt32(ConfigurationManager.AppSettings["AccountID"].ToString()))
-                        assignmentDetails_BE.EmailSendFlag = 0;
-                    else
-                        assignmentDetails_BE.EmailSendFlag = 1;
-
-                    if (assignmentDetails_BE.RelationShip != "" && assignmentDetails_BE.CandidateName != "" && assignmentDetails_BE.CandidateEmail != "")
-                    {
-                        assignmentDetails_BEList.Add(assignmentDetails_BE);
-                        email += txtCandidateEmail.Text.Trim() + ";";
-                    }
-                }
-            }
-
-            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
-
-            if (identity.User.GroupID.ToString() != participantRoleId)
-                targetpersonid = Convert.ToInt32(ddlTargetPerson.SelectedValue);
-            else
-                targetpersonid = Convert.ToInt32(identity.User.UserID);
-
-            if (identity.User.GroupID == 1)
-                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            else
-                UserAccountID = Convert.ToInt32(identity.User.AccountID);
-
-            AccountUser_BAO user = new AccountUser_BAO();
-            List<AccountUser_BE> Userlist = user.GetAccountUserByID(UserAccountID, targetpersonid);
-            AssignmentDetails_BE assignmentDetails = new AssignmentDetails_BE();
-
-            assignmentDetails.CandidateEmail = Userlist[0].EmailID;
-            assignmentDetails.CandidateName = Userlist[0].FirstName + " " + Userlist[0].LastName;
-            assignmentDetails.RelationShip = "Self";
-            assignmentDetails.SubmitFlag = false;
-            assignmentDetails.EmailSendFlag = 0;
-            assignmentDetails_BEList.Add(assignmentDetails);
-
-            email += Userlist[0].EmailID + ";";
-            finalemail = email.TrimEnd(';');
-
-        }
-
-        return assignmentDetails_BEList;
-    }
 
     //protected void imbReset_Click(object sender, ImageClickEventArgs e)
     //{
@@ -823,205 +619,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         //int candidateCount = Convert.ToInt32(txtCandidateNo.Text.Trim());
         BindCandidateList(3);
         //}
-    }
-
-    private void BindCandidateList(int candidateCount)
-    {
-        try
-        {
-            //DataTable dtCandidate = new DataTable();
-            //dtCandidate.Columns.Add("Relationship");
-            //dtCandidate.Columns.Add("Name");
-            //dtCandidate.Columns.Add("EmailID");
-
-            if (Session["ColleagueTable"] != null)
-            {
-
-                DataTable dtCandidate = Session["ColleagueTable"] as DataTable;
-
-                for (int count = 0; count < candidateCount; count++)
-                {
-                    DataRow dr = dtCandidate.NewRow();
-                    dtCandidate.Rows.Add(dr);
-                }
-
-
-                BindColleagueRepeter(dtCandidate);
-            }
-
-
-
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex);
-        }
-    }
-
-    private void BindColleagueRepeter(DataTable dtCandidate)
-    {
-        DataTable dt = dtCandidate.Copy();
-
-
-        DataTable dtUSC = Session["UnsavedColleagueTable"] as DataTable;
-        //DataRow[] dr = dt.Select("Relationship='' AND Name='' AND EmailID=''"); 
-
-        if (Session["UnsavedColleagueTable"] != null)
-        {
-            bool isRowDeleted = false;
-            int removedRows = 0;
-            for (int i = 0; i < dt.Rows.Count; i++)
-            {
-                if ((dt.Rows[i]["Relationship"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Relationship"].ToString())) && (dt.Rows[i]["Name"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Name"].ToString())) && (dt.Rows[i]["EmailID"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["EmailID"].ToString())))
-                {
-                    dt.Rows[i].Delete();
-                    removedRows++;
-                    i--;
-                    isRowDeleted = true;
-                }
-            }
-
-            if (Session["ColleaguesIndex"] != null)
-            {
-                string[] strColleaguesIndex = null;
-                if (!string.IsNullOrEmpty(Session["ColleaguesIndex"].ToString()))
-                    strColleaguesIndex = Session["ColleaguesIndex"].ToString().TrimEnd(',').Split(',');
-
-                if (strColleaguesIndex == null || dt.Rows.Count == strColleaguesIndex.Count())
-                {
-                    DataTable dtOrderedColleagues = dt.Copy();
-                    dtOrderedColleagues.Clear();
-                    dtOrderedColleagues.Columns.Add(new DataColumn("ID", typeof(int)));
-
-                    for (int i = 0; i < dt.Rows.Count; i++)
-                    {
-                        DataRow dr = dtOrderedColleagues.NewRow();
-                        dr["ID"] = Convert.ToInt32(strColleaguesIndex[i]);
-                        dr["TargetPersonID"] = dt.Rows[i]["TargetPersonID"].ToString();
-                        dr["ProjectID"] = dt.Rows[i]["ProjectID"];
-                        dr["AssignID"] = dt.Rows[i]["AssignID"];
-                        dr["Relationship"] = dt.Rows[i]["Relationship"];
-                        dr["Name"] = dt.Rows[i]["Name"];
-                        dr["EmailID"] = dt.Rows[i]["EmailID"];
-                        dr["AssignmentID"] = dt.Rows[i]["AssignmentID"];
-                        dr["SubmitFlag"] = dt.Rows[i]["SubmitFlag"];
-                        dr["EmailSendFlag"] = dt.Rows[i]["EmailSendFlag"];
-
-                        dtOrderedColleagues.Rows.Add(dr);
-                    }
-                    dtOrderedColleagues.AcceptChanges();
-
-                    int totalRecords = dt.Rows.Count + dtUSC.Rows.Count;
-
-                    if (!dtUSC.Columns.Contains("ID"))
-                        dtUSC.Columns.Add("ID", typeof(int));
-                    int k = 0;
-
-                    for (int i = 0; i < dtUSC.Rows.Count; i++)
-                    {
-                        if (k <= totalRecords)
-                        {
-                            if (strColleaguesIndex != null)
-                            {
-                                for (int j = 0; j < strColleaguesIndex.Count(); j++)
-                                {
-                                    if (k.ToString() == strColleaguesIndex[j].ToString())
-                                    {
-                                        k++;
-                                    }
-                                }
-                            }
-                            dtUSC.Rows[i]["ID"] = k;
-                            k++;
-                        }
-                    }
-                    dtUSC.AcceptChanges();
-
-                    dtOrderedColleagues.Merge(dtUSC);
-                    dtOrderedColleagues.DefaultView.Sort = "ID";
-                    DataView dvSorted = dtOrderedColleagues.DefaultView;
-
-                    if (dvSorted.Table.Rows.Count > 0)
-                    {
-                        dt.Clear();
-
-                        foreach (DataRowView item in dvSorted)
-                        {
-                            dt.ImportRow(item.Row);
-                        }
-
-                        //for (int i = 0; i < dvSorted.Count; i++)
-                        //{
-                        //    DataRow dr = dt.NewRow();
-                        //    dr["TargetPersonID"] = dvSorted[i]["TargetPersonID"];
-                        //    dr["ProjectID"] = dvSorted[i]["ProjectID"];
-                        //    dr["AssignID"] = dvSorted[i]["AssignID"];
-                        //    dr["Relationship"] = dvSorted[i]["Relationship"];
-                        //    dr["Name"] = dvSorted[i]["Name"];
-                        //    dr["EmailID"] = dvSorted[i]["EmailID"];
-                        //    dr["AssignmentID"] = dvSorted[i]["AssignmentID"];
-                        //    dr["SubmitFlag"] = dvSorted[i]["SubmitFlag"];
-                        //    dr["EmailSendFlag"] = dvSorted[i]["EmailSendFlag"];
-
-                        //    dt.Rows.Add(dr);
-                        //}
-                        dt.AcceptChanges();
-                    }
-                }
-
-                int addDeletedRowCount = removedRows - dtUSC.Rows.Count;
-
-                if (addDeletedRowCount > 0)
-                {
-                    for (int i = 0; i < addDeletedRowCount; i++)
-                    {
-                        dt.Rows.Add(dt.NewRow());
-                    }
-                }
-                else
-                {
-                    addDeletedRowCount = Convert.ToInt32(strColleagueNo) - dt.Rows.Count;
-                    if (addDeletedRowCount > 0)
-                    {
-                        for (int i = 0; i < addDeletedRowCount; i++)
-                        {
-                            dt.Rows.Add(dt.NewRow());
-                        }
-                    }
-                }
-
-                if (iColleagueRecordCount > dt.Rows.Count)
-                {
-                    addDeletedRowCount = iColleagueRecordCount - dt.Rows.Count;
-                    for (int i = 0; i < addDeletedRowCount; i++)
-                    {
-                        dt.Rows.Add(dt.NewRow());
-                    }
-                }
-            }
-            else
-            {
-                dt.Merge(dtUSC);
-
-                if (dtUSC.Rows.Count != removedRows)
-                {
-                    removedRows = (removedRows - dtUSC.Rows.Count);
-                    if (isRowDeleted)
-                    {
-                        for (int i = 0; i < removedRows; i++)
-                        {
-                            dt.Rows.Add(dt.NewRow());
-                        }
-                        dt.AcceptChanges();
-                    }
-                }
-            }
-        }
-
-        rptrCandidateList.DataSource = dt;
-        rptrCandidateList.DataBind();
-
-        Session["ColleagueTable"] = dtCandidate;
     }
 
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
@@ -1264,234 +861,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
     }
 
-    public System.Data.DataTable ReturnExcelDataTableMot(string FullFileNamePath)
-    {
-        //DataTable dtExcel;
-        DateTime dt3 = new DateTime();
-
-        string SheetName = string.Empty;
-        try
-        {
-
-            Microsoft.Office.Interop.Excel.ApplicationClass app = new Microsoft.Office.Interop.Excel.ApplicationClass();
-            Microsoft.Office.Interop.Excel.Workbook workBook = app.Workbooks.Open(FullFileNamePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
-            Microsoft.Office.Interop.Excel.Worksheet workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
-
-            int index = 0;
-            object rowIndex = 2;
-
-            DataTable dtExcel = new DataTable();
-
-            dtExcel.Columns.Add("Relationship", typeof(string));
-            dtExcel.Columns.Add("Name", typeof(string));
-            dtExcel.Columns.Add("EmailID", typeof(string));
-
-
-
-            DataRow row;
-
-            try
-            {
-                while (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2 != null)
-                {
-                    //rowIndex = 2 + index;
-                    row = dtExcel.NewRow();
-                    DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
-
-                    string projid = ddlProject.SelectedValue.ToString();
-
-                    DataTable dtAllProject = new DataTable();
-                    object[] param1 = new object[3] { projid, "2", 'P' };
-
-
-
-                    dtAllProject = cDataSrc.ExecuteDataSet("UspProjectSelect", param1, null).Tables[0];
-
-                    expression2 = "Relationship1='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
-
-                    Finalexpression2 = expression2;
-
-                    DataRow[] results1 = dtAllProject.Select(Finalexpression2);
-
-
-
-                    DataTable dtProject = dtAllProject.Clone();
-
-
-                    foreach (DataRow dr1 in results1)
-                    {
-                        dtProject.ImportRow(dr1);
-                    }
-
-                    if (dtProject.Rows.Count > 0 || dtProject == null)
-                    {
-
-                        string ProjectId = Convert.ToString(dtProject.Rows[0]["Relationship1"]);
-
-
-
-                        row[0] = ProjectId;
-
-
-                    }
-                    else
-                    {
-
-
-                        expression2 = "Relationship2='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
-
-                        Finalexpression2 = expression2;
-
-                        DataRow[] results2 = dtAllProject.Select(Finalexpression2);
-
-
-                        DataTable dtProject1 = dtAllProject.Clone();
-
-
-
-                        foreach (DataRow dr2 in results2)
-                        {
-                            dtProject1.ImportRow(dr2);
-                        }
-
-                        if (dtProject1.Rows.Count > 0 || dtProject1 == null)
-                        {
-                            ProjectId1 = Convert.ToString(dtProject1.Rows[0]["Relationship2"]);
-
-
-
-
-                            row[0] = ProjectId1;
-
-                        }
-                        else
-                        {
-                            expression2 = "Relationship3='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
-
-                            Finalexpression2 = expression2;
-
-                            DataRow[] results3 = dtAllProject.Select(Finalexpression2);
-
-
-
-                            DataTable dtProject2 = dtAllProject.Clone();
-
-
-                            foreach (DataRow dr3 in results3)
-                            {
-                                dtProject2.ImportRow(dr3);
-                            }
-                            if (dtProject2.Rows.Count > 0 || dtProject2 == null)
-                            {
-                                ProjectId2 = Convert.ToString(dtProject2.Rows[0]["Relationship3"]);
-
-
-
-
-
-                                row[0] = ProjectId2;
-
-                            }
-                            else
-                            {
-                                expression2 = "Relationship4='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
-
-                                Finalexpression2 = expression2;
-
-                                DataRow[] results4 = dtAllProject.Select(Finalexpression2);
-
-
-
-                                DataTable dtProject4 = dtAllProject.Clone();
-
-
-
-                                foreach (DataRow dr4 in results4)
-                                {
-                                    dtProject4.ImportRow(dr4);
-                                }
-                                if (dtProject4.Rows.Count > 0 || dtProject4 == null)
-                                {
-                                    ProjectId3 = Convert.ToString(dtProject4.Rows[0]["Relationship4"]);
-
-
-
-                                    row[0] = ProjectId3;
-                                }
-                                else
-                                {
-                                    expression2 = "Relationship5='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
-
-                                    Finalexpression2 = expression2;
-
-                                    DataRow[] results5 = dtAllProject.Select(Finalexpression2);
-
-
-
-                                    DataTable dtProject5 = dtAllProject.Clone();
-
-
-                                    foreach (DataRow dr5 in results5)
-                                    {
-                                        dtProject5.ImportRow(dr5);
-                                    }
-                                    if (dtProject5.Rows.Count > 0 || dtProject5 == null)
-                                    {
-                                        ProjectId5 = Convert.ToString(dtProject5.Rows[0]["Relationship5"]);
-
-
-
-                                        row[0] = ProjectId5;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-
-                    //row[0] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2);
-                    row[1] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2);
-                    row[2] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 3]).Value2);
-
-
-
-
-
-
-                    index++;
-                    rowIndex = 2 + index;
-                    dtExcel.Rows.Add(row);
-                }
-
-
-            }
-            catch
-            {
-                lblMessage.Text = "Please check your file data.";
-                lblMessage2.Text = "Please check your file data.";
-
-                dtExcel = null;
-            }
-            app.Workbooks.Close();
-
-            return dtExcel;
-        }
-        catch (Exception ex)
-        {
-            throw ex;
-        }
-    }
-
-    private void errorMessage(string filename)
-    {
-
-        lblMessage.Text = "Upload Failed.Please fill the Correct Field Value";
-        lblMessage2.Text = "Upload Failed.Please fill the Correct Field Value";
-
-
-    }
-
     protected void lnkError_Click(object sender, EventArgs e)
     {
         Response.ContentType = "text/plain";
@@ -1499,14 +868,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         Response.WriteFile(Server.MapPath("~") + "//UploadDocs//" + Session["FinalName"].ToString() + ".txt");
         Response.End();
 
-    }
-
-    public string GetUniqueFilename(string filename)
-    {
-        string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
-        string uniquefilename = string.Format("{0}{1}{2}", basename, DateTime.Now.Ticks, Path.GetExtension(filename));
-        // Thread.Sleep(1); // To really prevent collisions, but usually not needed 
-        return uniquefilename;
     }
 
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
@@ -2026,520 +1387,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         {
             HandleException(ex);
         }
-    }
-
-    private void ReSendColleagueEmail(int assignmentID, int accountID, int targetPersonID, int assignmentDetailsID, int projectID, string candidateName, string colleagueEmail, string relationship, bool sendEmail)
-    {
-        //Send Email to Candidate
-
-        AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
-        DataTable dtResult = new DataTable();
-        dtResult = assignquestionnaire_BAO.GetdtAssignQuestionnaireList(assignmentID);
-
-        DataTable dtClone = new DataTable();
-        dtClone = dtResult.Clone();
-
-        DataRow[] result = dtResult.Select("AsgnDetailID=" + assignmentDetailsID);
-
-        foreach (DataRow dr in result)
-            dtClone.ImportRow(dr);
-
-        dtResult = dtClone;
-
-        if (result.Count() > 0)
-        {
-            if (dtResult.Rows[0]["CandidateEmail"].ToString().ToLower() != colleagueEmail.ToLower() || dtResult.Rows[0]["CandidateName"].ToString().ToLower() != candidateName.ToLower() || dtResult.Rows[0]["Relationship"].ToString().ToLower() != relationship.ToLower())
-            {
-                assignquestionnaire_BAO.UpdateCandidateEmail(assignmentDetailsID, colleagueEmail, candidateName, relationship);
-                dtResult.Rows[0]["CandidateEmail"] = colleagueEmail;
-                dtResult.AcceptChanges();
-            }
-        }
-
-        string imagepath = Server.MapPath("~/EmailImages/");
-
-        //Send mail to candidates     
-        if (sendEmail)
-        {
-            for (int i = 0; i < dtResult.Rows.Count; i++)
-            {
-                AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-                DataTable dtAccountAdmin = new DataTable();
-                dtAccountAdmin = accountUser_BAO.GetdtAccountUserByID(accountID, targetPersonID);
-
-                string Template = assignquestionnaire_BAO.FindTemplate(Convert.ToInt32(projectID));
-                string Subject = assignquestionnaire_BAO.FindCandidateSubjectTemplate(Convert.ToInt32(projectID));
-
-                // Get Candidate Email Image Name & Will Combined with EmailImagePath
-                DataTable dtCandidateEmailImage = new DataTable();
-                string emailimagepath = "";
-                dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(projectID));
-                if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
-                    emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
-
-                string candidateEmail = "";
-                string questionnaireID = "";
-                string candidateID = "";
-                string OrganisationName = "";
-                string Startdate = "";
-                string Enddate = "";
-                string CandidateName = "";
-                string FirstName = "";
-
-                candidateEmail = dtResult.Rows[i]["CandidateEmail"].ToString();
-                questionnaireID = dtResult.Rows[i]["QuestionnaireID"].ToString();
-                candidateID = dtResult.Rows[i]["AsgnDetailID"].ToString();
-                OrganisationName = dtResult.Rows[i]["OrganisationName"].ToString();
-                Startdate = Convert.ToDateTime(dtResult.Rows[i]["StartDate"]).ToString("dd-MMM-yyyy");
-                Enddate = Convert.ToDateTime(dtResult.Rows[i]["Enddate"]).ToString("dd-MMM-yyyy");
-                CandidateName = dtResult.Rows[i]["CandidateName"].ToString();
-                string[] strFName = CandidateName.Split(' ');
-                FirstName = strFName[0].ToString();
-
-                questionnaireID = PasswordGenerator.EnryptString(questionnaireID);
-                candidateID = PasswordGenerator.EnryptString(candidateID);
-
-                string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
-
-                string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
-
-                Template = Template.Replace("[LINK]", link);
-                Template = Template.Replace("[NAME]", CandidateName);
-                Template = Template.Replace("[FIRSTNAME]", FirstName);
-                Template = Template.Replace("[COMPANY]", OrganisationName);
-                Template = Template.Replace("[STARTDATE]", Startdate);
-                Template = Template.Replace("[CLOSEDATE]", Enddate);
-                Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
-
-                Subject = Subject.Replace("[NAME]", CandidateName);
-                Subject = Subject.Replace("[FIRSTNAME]", FirstName);
-                Subject = Subject.Replace("[COMPANY]", OrganisationName);
-                Subject = Subject.Replace("[STARTDATE]", Startdate);
-                Subject = Subject.Replace("[CLOSEDATE]", Enddate);
-
-
-                if (dtAccountAdmin.Rows.Count > 0)
-                {
-                    Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                    Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
-
-                    Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
-
-                    //MailAddress maddr = new MailAddress(dtAccountAdmin.Rows[0]["EmailID"].ToString(), dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                    MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
-
-                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, maddr, emailimagepath, "");
-                }
-                else
-                {
-                    Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
-                    Template = Template.Replace("[PARTICIPANTEMAIL]", "");
-
-                    Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
-                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
-
-                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, null, string.Empty, "");
-                }
-            }
-
-            // Create a new ListItem object for the contact in the row.     
-            ListItem item = new ListItem();
-            //lblMessage.Text = "Email sent successfully to " + candidateName;
-            lblMessage2.Text = "Email sent successfully to " + candidateName;
-        }
-    }
-
-    private void SaveCandidate(string relationShipID, string relationShip, string name, string emailID)
-    {
-        try
-        {
-            //imbAssign.Enabled = false;
-            lblMessage.Text = "";
-            lblMessage2.Text = "";
-            lblvalidation.Text = "";
-            //HandleWriteLog("Start", new StackTrace(true));
-            identity = this.Page.User.Identity as WADIdentity;
-
-            AssignQuestionnaire_BE assignquestionnaire_BE = new AssignQuestionnaire_BE();
-            AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
-
-            assignquestionnaire_BE.ProjecctID = Convert.ToInt32(ddlProject.SelectedValue);
-            assignquestionnaire_BE.ProgrammeID = Convert.ToInt32(ddlProgramme.SelectedValue);
-
-            //Changes here 
-            //assignquestionnaire_BE.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
-            Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-            assignquestionnaire_BE.QuestionnaireID = questionnaire_BAO.GetQuestionnaireID(assignquestionnaire_BE.ProjecctID.ToString());
-
-            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
-
-            if (ddlTargetPerson.Visible == false)
-            {
-                assignquestionnaire_BE.TargetPersonID = Convert.ToInt32(identity.User.UserID);
-            }
-            else
-            {
-                assignquestionnaire_BE.TargetPersonID = Convert.ToInt32(ddlTargetPerson.SelectedValue);
-            }
-
-            assignquestionnaire_BE.Description = "";
-            identity = this.Page.User.Identity as WADIdentity;
-
-            if (identity.User.GroupID == 1)
-            {
-                assignquestionnaire_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-                dtCandidateList = assignquestionnaire_BAO.GetdtAssignList(ddlTargetPerson.SelectedValue, ddlProgramme.SelectedValue);
-            }
-            else
-            {
-                assignquestionnaire_BE.AccountID = identity.User.AccountID;
-                dtCandidateList = assignquestionnaire_BAO.GetdtAssignList(identity.User.UserID.ToString(), ddlProgramme.SelectedValue);
-            }
-            //if (txtCandidateNo.Text.Trim() != "" || txtCandidateNo.Text.Trim() == "0")
-            //{
-            //    assignquestionnaire_BE.CandidateNo = Convert.ToInt32(txtCandidateNo.Text.Trim());
-            //}
-
-            //set just to run the code need to check this when work complete
-            //assignquestionnaire_BE.CandidateNo = 1;
-
-            string qId = PasswordGenerator.EnryptString(assignquestionnaire_BE.QuestionnaireID.ToString());
-            string cId = PasswordGenerator.EnryptString(assignquestionnaire_BE.TargetPersonID.ToString());
-            string path = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
-            string feedbackurl = path + "Feedback.aspx?QID=" + qId + "&CID=" + cId;
-
-            assignquestionnaire_BE.ModifiedBy = 1;
-            assignquestionnaire_BE.ModifiedDate = DateTime.Now;
-            assignquestionnaire_BE.IsActive = 1;
-            assignquestionnaire_BE.FeedbackURL = feedbackurl;
-
-            assignquestionnaire_BE.AssignmentDetails = GetCandidateListToAssign(relationShipID, relationShip, name, emailID);//GetCandidateList();
-
-            if (assignquestionnaire_BE.AssignmentDetails.Count > 1)
-            {
-                string accountID = ConfigurationManager.AppSettings["AccountID"].ToString();
-
-                if (assignquestionnaire_BE.AccountID == Convert.ToInt32(accountID))
-                {
-                    int managerCount = CheckManagerCount();
-
-                    int count = (from Ad in assignquestionnaire_BE.AssignmentDetails
-                                 where Ad.RelationShip.ToLower() == "manager"
-                                 select Ad).Count();
-
-                    managerCount = managerCount + count;
-
-                    if (managerCount > 1)
-                    {
-                        lblvalidation.Text = "Please select only one relationship as Manager.";
-                        return;
-                    }
-                    if (managerCount < 1)
-                    {
-                        lblvalidation.Text = "Please select one relationship as Manager.";
-                        return;
-                    }
-                }
-
-                //Save Assign questionnaire
-                int?[] assigDetailsID = assignquestionnaire_BAO.AddAssignQuestionnaireForColleagues(assignquestionnaire_BE);
-
-                string strassigDetailsIDs = string.Empty;
-                for (int i = 0; i < assigDetailsID.Count(); i++)
-                {
-                    if (assigDetailsID[i].HasValue)
-                        strassigDetailsIDs += assigDetailsID[i].Value.ToString() + ",";
-                }
-
-                strassigDetailsIDs = strassigDetailsIDs.TrimEnd(',');
-
-
-                DataTable dtResult = new DataTable();
-                dtResult = assignquestionnaire_BAO.GetdtAssignQuestionnaireListDetails(strassigDetailsIDs);
-
-                //int loopCount = 0;
-                //char loopFlag = 'N';
-
-                //for (int k = 0; k < Convert.ToInt32(txtCandidateNo.Text.Trim()); k++)
-                //{
-                //    if (dtResult.Rows[k]["RelationShip"].ToString() == "Self")
-                //        loopFlag = 'Y';
-                //}
-
-                //if (loopFlag == 'Y')
-                //    loopCount = Convert.ToInt32(assignquestionnaire_BE.CandidateNo) + 1;
-                //else
-                //    loopCount = Convert.ToInt32(assignquestionnaire_BE.CandidateNo);
-
-                if (assignquestionnaire_BE.AccountID != Convert.ToInt32(accountID))
-                {
-                    //Send mail to candidates
-                    string imagepath = Server.MapPath("~/EmailImages/");
-
-                    for (int i = 0; i < dtResult.Rows.Count; i++)
-                    {
-                        AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-                        DataTable dtAccountAdmin = new DataTable();
-
-                        dtAccountAdmin = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.TargetPersonID));
-
-                        Template = assignquestionnaire_BAO.FindTemplate(Convert.ToInt32(ddlProject.SelectedValue));
-                        Subject = assignquestionnaire_BAO.FindCandidateSubjectTemplate(Convert.ToInt32(ddlProject.SelectedValue));
-
-                        // Get Candidate Email Image Name & Will Combined with EmailImagePath
-                        DataTable dtCandidateEmailImage = new DataTable();
-                        string emailimagepath = "";
-                        dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(ddlProject.SelectedValue));
-                        if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
-                            emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
-
-                        string questionnaireID = "";
-                        string candidateID = "";
-                        string OrganisationName = "";
-                        string Startdate = "";
-                        string Enddate = "";
-                        string CandidateName = "";
-                        string FirstName = "";
-                        string candidateEmail = "";
-
-                        candidateEmail = dtResult.Rows[i]["CandidateEmail"].ToString();
-                        questionnaireID = dtResult.Rows[i]["QuestionnaireID"].ToString();
-                        candidateID = dtResult.Rows[i]["AsgnDetailID"].ToString();
-                        OrganisationName = dtResult.Rows[i]["OrganisationName"].ToString();
-                        Startdate = Convert.ToDateTime(dtResult.Rows[0]["StartDate"]).ToString("dd-MMM-yyyy");
-                        Enddate = Convert.ToDateTime(dtResult.Rows[0]["Enddate"]).ToString("dd-MMM-yyyy");
-                        CandidateName = dtResult.Rows[i]["CandidateName"].ToString();
-                        string[] strFName = CandidateName.Split(' ');
-                        FirstName = strFName[0].ToString();
-
-                        questionnaireID = PasswordGenerator.EnryptString(questionnaireID);
-                        candidateID = PasswordGenerator.EnryptString(candidateID);
-
-                        string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
-
-                        string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
-
-                        if (dtResult.Rows[i]["RelationShip"].ToString() == "Self")
-                        {
-                            string feedbackURL = urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + PasswordGenerator.EnryptString(dtResult.Rows[i]["AsgnDetailID"].ToString());
-                            assignquestionnaire_BAO.SetFeedbackURL(Convert.ToInt32(dtResult.Rows[i]["AsgnDetailID"].ToString()), Convert.ToInt32(dtResult.Rows[i]["AssignmentID"].ToString()), feedbackURL);
-                        }
-
-                        Template = Template.Replace("[LINK]", link);
-                        Template = Template.Replace("[NAME]", CandidateName);
-                        Template = Template.Replace("[FIRSTNAME]", FirstName);
-                        Template = Template.Replace("[COMPANY]", OrganisationName);
-                        Template = Template.Replace("[STARTDATE]", Startdate);
-                        Template = Template.Replace("[CLOSEDATE]", Enddate);
-                        Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
-
-                        Subject = Subject.Replace("[NAME]", CandidateName);
-                        Subject = Subject.Replace("[FIRSTNAME]", FirstName);
-                        Subject = Subject.Replace("[COMPANY]", OrganisationName);
-                        Subject = Subject.Replace("[STARTDATE]", Startdate);
-                        Subject = Subject.Replace("[CLOSEDATE]", Enddate);
-
-                        if (dtResult.Rows[i]["RelationShip"].ToString() != "Self")
-                        {
-                            if (dtAccountAdmin.Rows.Count > 0)
-                            {
-                                Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                                Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
-
-                                Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
-
-                                MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
-
-                                SendEmail.SendMailAsync(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath, "");
-                            }
-                            else
-                            {
-                                Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
-                                Template = Template.Replace("[PARTICIPANTEMAIL]", "");
-
-                                Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
-                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
-
-                                SendEmail.SendMailAsync(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), null, string.Empty, "");
-                            }
-                        }
-                    }
-
-                    //lblMessage.Text = "Email successfully sent";
-                    lblMessage2.Text = "Email successfully sent to " + name;
-                }
-                else
-                {
-                    int assignmentID = assignquestionnaire_BAO.GetAssignmentID(assignquestionnaire_BE);
-
-
-                    Project_BAO project_BAO = new Project_BAO();
-                    List<Project_BE> project_BEList = new List<Project_BE>();
-                    project_BEList = project_BAO.GetProjectByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.ProjecctID));
-
-                    int managerEmailId = Convert.ToInt32(project_BEList[0].EmailTMPManager);
-
-                    EmailTemplate_BAO emailTemplate_BAO = new EmailTemplate_BAO();
-                    List<EmailTemplate_BE> emailTemplate_BEList = new List<EmailTemplate_BE>();
-                    emailTemplate_BEList = emailTemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), managerEmailId);
-
-                    string emailText = emailTemplate_BEList[0].EmailText;
-                    string emailSubject = emailTemplate_BEList[0].Subject;
-
-                    StringBuilder candidatelist = new StringBuilder();
-                    candidatelist.Append("<table width='500' border='1' cellspacing='0'>");
-
-                    candidatelist.Append("<tr><td width='50%'><b>Name</b></td><td width='50%'><b>Relationship</b></td></tr>");
-
-                    DataTable dtColleagueList = new DataTable();
-                    dtColleagueList = assignquestionnaire_BAO.GetColleaguesList(assignmentID);
-
-                    string lineManagerName = "";
-                    string lineManagerEmail = "";
-                    string participantName = "";
-
-                    for (int i = 0; i < dtColleagueList.Rows.Count; i++)
-                    {
-                        candidatelist.Append("<tr>");
-                        candidatelist.Append("<td>");
-                        candidatelist.Append(dtColleagueList.Rows[i]["CandidateName"].ToString());
-                        candidatelist.Append("</td>");
-                        candidatelist.Append("<td>");
-                        candidatelist.Append(dtColleagueList.Rows[i]["RelationShip"].ToString());
-                        candidatelist.Append("</td>");
-                        candidatelist.Append("</tr>");
-
-                        if (dtColleagueList.Rows[i]["RelationShip"].ToString() == "Manager")
-                        {
-                            lineManagerName = dtColleagueList.Rows[i]["CandidateName"].ToString();
-                            lineManagerEmail = dtColleagueList.Rows[i]["CandidateEmail"].ToString();
-                        }
-
-                        if (dtColleagueList.Rows[i]["RelationShip"].ToString() == "Self")
-                            participantName = dtColleagueList.Rows[i]["CandidateName"].ToString();
-                    }
-
-                    candidatelist.Append("</table>");
-
-                    string listOfNames = Convert.ToString(candidatelist);
-                    string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
-                    string asgnmentID = PasswordGenerator.EnryptString(Convert.ToString(assignmentID));
-                    int candidateNumber = Convert.ToInt32(assignquestionnaire_BE.CandidateNo);
-
-                    emailText = emailText.Replace("[MANAGERFIRSTNAME]", lineManagerName);
-                    emailText = emailText.Replace("[PARTICIPANTNAME]", participantName);
-                    emailText = emailText.Replace("[LISTOFNAMES]", listOfNames);
-                    emailText = emailText.Replace("[ACCEPT]", "<a Target='_BLANK' href= '" + urlPath + "ProcessConfirmation.aspx?AsgnID=" + asgnmentID + "&CNo=" + PasswordGenerator.EnryptString(candidateNumber.ToString()) + "&Act=" + PasswordGenerator.EnryptString("1") + "' >Accept</a>");
-                    emailText = emailText.Replace("[DECLINE]", "<a Target='_BLANK' href= '" + urlPath + "ProcessConfirmation.aspx?AsgnID=" + asgnmentID + "&CNo=" + PasswordGenerator.EnryptString(candidateNumber.ToString()) + "&Act=" + PasswordGenerator.EnryptString("0") + "' >Decline</a>");
-
-                    emailSubject = emailSubject.Replace("[PARTICIPANTNAME]", participantName);
-
-                    SendEmail.SendMailAsync(Subject, Template, lineManagerEmail, null, string.Empty, "");
-
-                    //lblMessage.Text = "Email has been sent successfully to Manager for further approval";
-                    lblMessage2.Text = "Email has been sent successfully to Manager for further approval";
-                    //imbAssign.Enabled = true;
-                }
-
-                //txtCandidateNo.Text = "";
-
-                rptrCandidateList.DataSource = null;
-                rptrCandidateList.DataBind();
-            }
-            else
-            {
-                lblvalidation.Text = "Please  fill colleagues' information";
-            }
-        }
-        catch (Exception ex)
-        {
-            HandleException(ex);
-        }
-    }
-
-    private List<AssignmentDetails_BE> GetCandidateListToAssign(string relationShipID, string relationShip, string name, string emailID)
-    {
-        List<AssignmentDetails_BE> assignmentDetails_BEList = new List<AssignmentDetails_BE>();
-
-        AssignmentDetails_BE assignmentDetails_BE = new AssignmentDetails_BE();
-
-        //DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
-        //TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
-        //TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
-        if (relationShip.Trim() != "" && name.Trim() != "" && emailID.Trim() != "")
-        {
-            if (relationShip.ToUpper() == "MANAGER")
-            {
-                //if (this.isManager)
-                //    this.duplicateManager = true;
-
-                //this.isManager = true;
-            }
-
-            assignmentDetails_BE.RelationShip = relationShipID;
-            assignmentDetails_BE.CandidateName = name.Trim();
-            assignmentDetails_BE.CandidateEmail = emailID.Trim();
-            assignmentDetails_BE.SubmitFlag = false;
-
-            if (identity.User.GroupID == 1)
-                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            else
-                UserAccountID = Convert.ToInt32(identity.User.AccountID);
-
-            if (UserAccountID == Convert.ToInt32(ConfigurationManager.AppSettings["AccountID"].ToString()))
-                assignmentDetails_BE.EmailSendFlag = 0;
-            else
-                assignmentDetails_BE.EmailSendFlag = 1;
-
-            if (assignmentDetails_BE.RelationShip != "" && assignmentDetails_BE.CandidateName != "" && assignmentDetails_BE.CandidateEmail != "")
-            {
-                assignmentDetails_BEList.Add(assignmentDetails_BE);
-                email += emailID.Trim() + ";";
-            }
-        }
-
-        DataTable dt = Session["ColleagueTable"] as DataTable;
-        bool AddSelf = true;
-        if (dt != null && dt.Rows.Count > 1)
-        {
-            DataRow[] dr = dt.Select("RelationShip = 'Self'");
-
-            if (dr.Count() > 0)
-                AddSelf = false;
-        }
-
-        if (AddSelf)
-        {
-
-            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
-
-            if (identity.User.GroupID.ToString() != participantRoleId)
-                targetpersonid = Convert.ToInt32(ddlTargetPerson.SelectedValue);
-            else
-                targetpersonid = Convert.ToInt32(identity.User.UserID);
-
-            if (identity.User.GroupID == 1)
-                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            else
-                UserAccountID = Convert.ToInt32(identity.User.AccountID);
-
-            AccountUser_BAO user = new AccountUser_BAO();
-            List<AccountUser_BE> Userlist = user.GetAccountUserByID(UserAccountID, targetpersonid);
-            AssignmentDetails_BE assignmentDetails = new AssignmentDetails_BE();
-
-            assignmentDetails.CandidateEmail = Userlist[0].EmailID;
-            assignmentDetails.CandidateName = Userlist[0].FirstName + " " + Userlist[0].LastName;
-            assignmentDetails.RelationShip = "Self";
-            assignmentDetails.SubmitFlag = false;
-            assignmentDetails.EmailSendFlag = 1;
-            assignmentDetails_BEList.Add(assignmentDetails);
-            email += Userlist[0].EmailID + ";";
-        }
-        finalemail = email.TrimEnd(';');
-
-        return assignmentDetails_BEList;
     }
 
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
@@ -3746,7 +2593,8 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
     #endregion
 
-    protected void GetDetailFromTargetPersonID(string targetid, out string strTargetPersonID, out string strProjectID, out string strAccountID, out string strProgrammeID)
+    protected void GetDetailFromTargetPersonID(string targetid, out string strTargetPersonID,
+        out string strProjectID, out string strAccountID, out string strProgrammeID)
     {
         strTargetPersonID = targetid;
         ReportManagement_BAO reportManagement_BAO = new ReportManagement_BAO();
@@ -3834,7 +2682,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
     protected void ImageButtonSaveAll_Click(object sender, ImageClickEventArgs e)
     {
-        string participantRoleId = string.Empty;
         Session["ColleaguesIndex"] = null;
 
         for (int i = 0; i < rptrCandidateList.Items.Count; i++)
@@ -3849,7 +2696,12 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             Label lblProjectID = (Label)rptrCandidateList.Items[i].FindControl("lblProjectID");
             TextBox txtCandidateName = (TextBox)rptrCandidateList.Items[i].FindControl("txtName");
             TextBox txtCandidateEmail = (TextBox)rptrCandidateList.Items[i].FindControl("txtEmailID");
-            Session["ColleaguesIndex"] = i.ToString() + ",";
+
+            if (!string.IsNullOrEmpty((string)Session["ColleaguesIndex"]))
+                Session["ColleaguesIndex"] = string.Format("{0},{1},", Session["ColleaguesIndex"], i);
+            else
+                Session["ColleaguesIndex"] = i.ToString();
+
             string relationship = ddlRelationship.SelectedItem.Text;
 
             if (assignButton.Visible)
@@ -3858,14 +2710,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
                 SaveCandidate(ddlRelationship.SelectedValue, ddlRelationship.SelectedItem.Text,
                     txtCandidateName.Text, txtCandidateEmail.Text);
-
-                WADIdentity uIdentity = this.Page.User.Identity as WADIdentity;
-                participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
-
-                if (uIdentity.User.GroupID.ToString() != participantRoleId)
-                    ddlTargetPerson_SelectedIndexChanged(this, EventArgs.Empty);
-                else
-                    ddlProgramme_SelectedIndexChanged(this, EventArgs.Empty);
             }
             else
             {
@@ -3883,8 +2727,12 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                 }
             }
         }
-    }
 
+        ReBindGrid();
+    }
+    #endregion
+
+    #region Private Methods
     private DataTable GetUnSavedCandidatureList()
     {
         DataTable dataTableCandidateClone = new DataTable();
@@ -3918,4 +2766,1166 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         }
         return dataTableCandidateClone;
     }
+
+    private void ReBindGrid()
+    {
+        AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
+        rptrCandidateList.DataSource = assignQuestionnaire_BAO.GetdtAssignColleagueList(ddlTargetPerson.SelectedValue, ddlProgramme.SelectedValue);
+        rptrCandidateList.DataBind();
+    }
+
+    private List<AssignmentDetails_BE> GetCandidateListToAssign(string relationShipID,
+        string relationShip, string name, string emailID)
+    {
+        List<AssignmentDetails_BE> assignmentDetails_BEList = new List<AssignmentDetails_BE>();
+
+        AssignmentDetails_BE assignmentDetails_BE = new AssignmentDetails_BE();
+
+        //DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
+        //TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
+        //TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
+        if (relationShip.Trim() != "" && name.Trim() != "" && emailID.Trim() != "")
+        {
+            if (relationShip.ToUpper() == "MANAGER")
+            {
+                //if (this.isManager)
+                //    this.duplicateManager = true;
+
+                //this.isManager = true;
+            }
+
+            assignmentDetails_BE.RelationShip = relationShipID;
+            assignmentDetails_BE.CandidateName = name.Trim();
+            assignmentDetails_BE.CandidateEmail = emailID.Trim();
+            assignmentDetails_BE.SubmitFlag = false;
+
+            if (identity.User.GroupID == 1)
+                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            else
+                UserAccountID = Convert.ToInt32(identity.User.AccountID);
+
+            if (UserAccountID == Convert.ToInt32(ConfigurationManager.AppSettings["AccountID"].ToString()))
+                assignmentDetails_BE.EmailSendFlag = 0;
+            else
+                assignmentDetails_BE.EmailSendFlag = 1;
+
+            if (assignmentDetails_BE.RelationShip != "" && assignmentDetails_BE.CandidateName != "" && assignmentDetails_BE.CandidateEmail != "")
+            {
+                assignmentDetails_BEList.Add(assignmentDetails_BE);
+                email += emailID.Trim() + ";";
+            }
+        }
+
+        DataTable dt = Session["ColleagueTable"] as DataTable;
+        bool AddSelf = true;
+        if (dt != null && dt.Rows.Count > 1)
+        {
+            DataRow[] dr = dt.Select("RelationShip = 'Self'");
+
+            if (dr.Count() > 0)
+                AddSelf = false;
+        }
+
+        if (AddSelf)
+        {
+
+            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
+
+            if (identity.User.GroupID.ToString() != participantRoleId)
+                targetpersonid = Convert.ToInt32(ddlTargetPerson.SelectedValue);
+            else
+                targetpersonid = Convert.ToInt32(identity.User.UserID);
+
+            if (identity.User.GroupID == 1)
+                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            else
+                UserAccountID = Convert.ToInt32(identity.User.AccountID);
+
+            AccountUser_BAO user = new AccountUser_BAO();
+            List<AccountUser_BE> Userlist = user.GetAccountUserByID(UserAccountID, targetpersonid);
+            AssignmentDetails_BE assignmentDetails = new AssignmentDetails_BE();
+
+            assignmentDetails.CandidateEmail = Userlist[0].EmailID;
+            assignmentDetails.CandidateName = Userlist[0].FirstName + " " + Userlist[0].LastName;
+            assignmentDetails.RelationShip = "Self";
+            assignmentDetails.SubmitFlag = false;
+            assignmentDetails.EmailSendFlag = 1;
+            assignmentDetails_BEList.Add(assignmentDetails);
+            email += Userlist[0].EmailID + ";";
+        }
+        finalemail = email.TrimEnd(';');
+
+        return assignmentDetails_BEList;
+    }
+
+    private void ReSendColleagueEmail(int assignmentID, int accountID, int targetPersonID,
+        int assignmentDetailsID, int projectID, string candidateName, string colleagueEmail, string relationship, bool sendEmail)
+    {
+        //Send Email to Candidate
+
+        AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
+        DataTable dtResult = new DataTable();
+        dtResult = assignquestionnaire_BAO.GetdtAssignQuestionnaireList(assignmentID);
+
+        DataTable dtClone = new DataTable();
+        dtClone = dtResult.Clone();
+
+        DataRow[] result = dtResult.Select("AsgnDetailID=" + assignmentDetailsID);
+
+        foreach (DataRow dr in result)
+            dtClone.ImportRow(dr);
+
+        dtResult = dtClone;
+
+        if (result.Count() > 0)
+        {
+            if (dtResult.Rows[0]["CandidateEmail"].ToString().ToLower() != colleagueEmail.ToLower() || dtResult.Rows[0]["CandidateName"].ToString().ToLower() != candidateName.ToLower() || dtResult.Rows[0]["Relationship"].ToString().ToLower() != relationship.ToLower())
+            {
+                assignquestionnaire_BAO.UpdateCandidateEmail(assignmentDetailsID, colleagueEmail, candidateName, relationship);
+                dtResult.Rows[0]["CandidateEmail"] = colleagueEmail;
+                dtResult.AcceptChanges();
+            }
+        }
+
+        string imagepath = Server.MapPath("~/EmailImages/");
+
+        //Send mail to candidates     
+        if (sendEmail)
+        {
+            for (int i = 0; i < dtResult.Rows.Count; i++)
+            {
+                AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
+                DataTable dtAccountAdmin = new DataTable();
+                dtAccountAdmin = accountUser_BAO.GetdtAccountUserByID(accountID, targetPersonID);
+
+                string Template = assignquestionnaire_BAO.FindTemplate(Convert.ToInt32(projectID));
+                string Subject = assignquestionnaire_BAO.FindCandidateSubjectTemplate(Convert.ToInt32(projectID));
+
+                // Get Candidate Email Image Name & Will Combined with EmailImagePath
+                DataTable dtCandidateEmailImage = new DataTable();
+                string emailimagepath = "";
+                dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(projectID));
+                if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
+                    emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
+
+                string candidateEmail = "";
+                string questionnaireID = "";
+                string candidateID = "";
+                string OrganisationName = "";
+                string Startdate = "";
+                string Enddate = "";
+                string CandidateName = "";
+                string FirstName = "";
+
+                candidateEmail = dtResult.Rows[i]["CandidateEmail"].ToString();
+                questionnaireID = dtResult.Rows[i]["QuestionnaireID"].ToString();
+                candidateID = dtResult.Rows[i]["AsgnDetailID"].ToString();
+                OrganisationName = dtResult.Rows[i]["OrganisationName"].ToString();
+                Startdate = Convert.ToDateTime(dtResult.Rows[i]["StartDate"]).ToString("dd-MMM-yyyy");
+                Enddate = Convert.ToDateTime(dtResult.Rows[i]["Enddate"]).ToString("dd-MMM-yyyy");
+                CandidateName = dtResult.Rows[i]["CandidateName"].ToString();
+                string[] strFName = CandidateName.Split(' ');
+                FirstName = strFName[0].ToString();
+
+                questionnaireID = PasswordGenerator.EnryptString(questionnaireID);
+                candidateID = PasswordGenerator.EnryptString(candidateID);
+
+                string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
+
+                string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
+
+                Template = Template.Replace("[LINK]", link);
+                Template = Template.Replace("[NAME]", CandidateName);
+                Template = Template.Replace("[FIRSTNAME]", FirstName);
+                Template = Template.Replace("[COMPANY]", OrganisationName);
+                Template = Template.Replace("[STARTDATE]", Startdate);
+                Template = Template.Replace("[CLOSEDATE]", Enddate);
+                Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
+
+                Subject = Subject.Replace("[NAME]", CandidateName);
+                Subject = Subject.Replace("[FIRSTNAME]", FirstName);
+                Subject = Subject.Replace("[COMPANY]", OrganisationName);
+                Subject = Subject.Replace("[STARTDATE]", Startdate);
+                Subject = Subject.Replace("[CLOSEDATE]", Enddate);
+
+
+                if (dtAccountAdmin.Rows.Count > 0)
+                {
+                    Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                    Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+
+                    Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+
+                    //MailAddress maddr = new MailAddress(dtAccountAdmin.Rows[0]["EmailID"].ToString(), dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                    MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
+
+                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, maddr, emailimagepath, "");
+                }
+                else
+                {
+                    Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
+                    Template = Template.Replace("[PARTICIPANTEMAIL]", "");
+
+                    Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
+                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
+
+                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, null, string.Empty, "");
+                }
+            }
+
+            // Create a new ListItem object for the contact in the row.     
+            ListItem item = new ListItem();
+            //lblMessage.Text = "Email sent successfully to " + candidateName;
+            lblMessage2.Text = "Email sent successfully to " + candidateName;
+        }
+    }
+
+    private void SaveCandidate(string relationShipID, string relationShip, string name, string emailID)
+    {
+        try
+        {
+            //imbAssign.Enabled = false;
+            lblMessage.Text = "";
+            lblMessage2.Text = "";
+            lblvalidation.Text = "";
+            //HandleWriteLog("Start", new StackTrace(true));
+            identity = this.Page.User.Identity as WADIdentity;
+
+            AssignQuestionnaire_BE assignquestionnaire_BE = new AssignQuestionnaire_BE();
+            AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
+
+            assignquestionnaire_BE.ProjecctID = Convert.ToInt32(ddlProject.SelectedValue);
+            assignquestionnaire_BE.ProgrammeID = Convert.ToInt32(ddlProgramme.SelectedValue);
+
+            //Changes here 
+            //assignquestionnaire_BE.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
+            Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+            assignquestionnaire_BE.QuestionnaireID = questionnaire_BAO.GetQuestionnaireID(assignquestionnaire_BE.ProjecctID.ToString());
+
+            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
+
+            if (ddlTargetPerson.Visible == false)
+            {
+                assignquestionnaire_BE.TargetPersonID = Convert.ToInt32(identity.User.UserID);
+            }
+            else
+            {
+                assignquestionnaire_BE.TargetPersonID = Convert.ToInt32(ddlTargetPerson.SelectedValue);
+            }
+
+            assignquestionnaire_BE.Description = "";
+            identity = this.Page.User.Identity as WADIdentity;
+
+            if (identity.User.GroupID == 1)
+            {
+                assignquestionnaire_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+                dtCandidateList = assignquestionnaire_BAO.GetdtAssignList(ddlTargetPerson.SelectedValue, ddlProgramme.SelectedValue);
+            }
+            else
+            {
+                assignquestionnaire_BE.AccountID = identity.User.AccountID;
+                dtCandidateList = assignquestionnaire_BAO.GetdtAssignList(identity.User.UserID.ToString(), ddlProgramme.SelectedValue);
+            }
+            //if (txtCandidateNo.Text.Trim() != "" || txtCandidateNo.Text.Trim() == "0")
+            //{
+            //    assignquestionnaire_BE.CandidateNo = Convert.ToInt32(txtCandidateNo.Text.Trim());
+            //}
+
+            //set just to run the code need to check this when work complete
+            //assignquestionnaire_BE.CandidateNo = 1;
+
+            string qId = PasswordGenerator.EnryptString(assignquestionnaire_BE.QuestionnaireID.ToString());
+            string cId = PasswordGenerator.EnryptString(assignquestionnaire_BE.TargetPersonID.ToString());
+            string path = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
+            string feedbackurl = path + "Feedback.aspx?QID=" + qId + "&CID=" + cId;
+
+            assignquestionnaire_BE.ModifiedBy = 1;
+            assignquestionnaire_BE.ModifiedDate = DateTime.Now;
+            assignquestionnaire_BE.IsActive = 1;
+            assignquestionnaire_BE.FeedbackURL = feedbackurl;
+
+            assignquestionnaire_BE.AssignmentDetails = GetCandidateListToAssign(relationShipID, relationShip, name, emailID);//GetCandidateList();
+
+            if (assignquestionnaire_BE.AssignmentDetails.Count > 1)
+            {
+                string accountID = ConfigurationManager.AppSettings["AccountID"].ToString();
+
+                if (assignquestionnaire_BE.AccountID == Convert.ToInt32(accountID))
+                {
+                    int managerCount = CheckManagerCount();
+
+                    int count = (from Ad in assignquestionnaire_BE.AssignmentDetails
+                                 where Ad.RelationShip.ToLower() == "manager"
+                                 select Ad).Count();
+
+                    managerCount = managerCount + count;
+
+                    if (managerCount > 1)
+                    {
+                        lblvalidation.Text = "Please select only one relationship as Manager.";
+                        return;
+                    }
+                    if (managerCount < 1)
+                    {
+                        lblvalidation.Text = "Please select one relationship as Manager.";
+                        return;
+                    }
+                }
+
+                //Save Assign questionnaire
+                int?[] assigDetailsID = assignquestionnaire_BAO.AddAssignQuestionnaireForColleagues(assignquestionnaire_BE);
+
+                string strassigDetailsIDs = string.Empty;
+                for (int i = 0; i < assigDetailsID.Count(); i++)
+                {
+                    if (assigDetailsID[i].HasValue)
+                        strassigDetailsIDs += assigDetailsID[i].Value.ToString() + ",";
+                }
+
+                strassigDetailsIDs = strassigDetailsIDs.TrimEnd(',');
+
+
+                DataTable dtResult = new DataTable();
+                dtResult = assignquestionnaire_BAO.GetdtAssignQuestionnaireListDetails(strassigDetailsIDs);
+
+                //int loopCount = 0;
+                //char loopFlag = 'N';
+
+                //for (int k = 0; k < Convert.ToInt32(txtCandidateNo.Text.Trim()); k++)
+                //{
+                //    if (dtResult.Rows[k]["RelationShip"].ToString() == "Self")
+                //        loopFlag = 'Y';
+                //}
+
+                //if (loopFlag == 'Y')
+                //    loopCount = Convert.ToInt32(assignquestionnaire_BE.CandidateNo) + 1;
+                //else
+                //    loopCount = Convert.ToInt32(assignquestionnaire_BE.CandidateNo);
+
+                if (assignquestionnaire_BE.AccountID != Convert.ToInt32(accountID))
+                {
+                    //Send mail to candidates
+                    string imagepath = Server.MapPath("~/EmailImages/");
+
+                    for (int i = 0; i < dtResult.Rows.Count; i++)
+                    {
+                        AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
+                        DataTable dtAccountAdmin = new DataTable();
+
+                        dtAccountAdmin = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.TargetPersonID));
+
+                        Template = assignquestionnaire_BAO.FindTemplate(Convert.ToInt32(ddlProject.SelectedValue));
+                        Subject = assignquestionnaire_BAO.FindCandidateSubjectTemplate(Convert.ToInt32(ddlProject.SelectedValue));
+
+                        // Get Candidate Email Image Name & Will Combined with EmailImagePath
+                        DataTable dtCandidateEmailImage = new DataTable();
+                        string emailimagepath = "";
+                        dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(ddlProject.SelectedValue));
+                        if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
+                            emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
+
+                        string questionnaireID = "";
+                        string candidateID = "";
+                        string OrganisationName = "";
+                        string Startdate = "";
+                        string Enddate = "";
+                        string CandidateName = "";
+                        string FirstName = "";
+                        string candidateEmail = "";
+
+                        candidateEmail = dtResult.Rows[i]["CandidateEmail"].ToString();
+                        questionnaireID = dtResult.Rows[i]["QuestionnaireID"].ToString();
+                        candidateID = dtResult.Rows[i]["AsgnDetailID"].ToString();
+                        OrganisationName = dtResult.Rows[i]["OrganisationName"].ToString();
+                        Startdate = Convert.ToDateTime(dtResult.Rows[0]["StartDate"]).ToString("dd-MMM-yyyy");
+                        Enddate = Convert.ToDateTime(dtResult.Rows[0]["Enddate"]).ToString("dd-MMM-yyyy");
+                        CandidateName = dtResult.Rows[i]["CandidateName"].ToString();
+                        string[] strFName = CandidateName.Split(' ');
+                        FirstName = strFName[0].ToString();
+
+                        questionnaireID = PasswordGenerator.EnryptString(questionnaireID);
+                        candidateID = PasswordGenerator.EnryptString(candidateID);
+
+                        string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
+
+                        string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
+
+                        if (dtResult.Rows[i]["RelationShip"].ToString() == "Self")
+                        {
+                            string feedbackURL = urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + PasswordGenerator.EnryptString(dtResult.Rows[i]["AsgnDetailID"].ToString());
+                            assignquestionnaire_BAO.SetFeedbackURL(Convert.ToInt32(dtResult.Rows[i]["AsgnDetailID"].ToString()), Convert.ToInt32(dtResult.Rows[i]["AssignmentID"].ToString()), feedbackURL);
+                        }
+
+                        Template = Template.Replace("[LINK]", link);
+                        Template = Template.Replace("[NAME]", CandidateName);
+                        Template = Template.Replace("[FIRSTNAME]", FirstName);
+                        Template = Template.Replace("[COMPANY]", OrganisationName);
+                        Template = Template.Replace("[STARTDATE]", Startdate);
+                        Template = Template.Replace("[CLOSEDATE]", Enddate);
+                        Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
+
+                        Subject = Subject.Replace("[NAME]", CandidateName);
+                        Subject = Subject.Replace("[FIRSTNAME]", FirstName);
+                        Subject = Subject.Replace("[COMPANY]", OrganisationName);
+                        Subject = Subject.Replace("[STARTDATE]", Startdate);
+                        Subject = Subject.Replace("[CLOSEDATE]", Enddate);
+
+                        if (dtResult.Rows[i]["RelationShip"].ToString() != "Self")
+                        {
+                            if (dtAccountAdmin.Rows.Count > 0)
+                            {
+                                Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                                Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+
+                                Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+
+                                MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
+
+                                SendEmail.SendMailAsync(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath, "");
+                            }
+                            else
+                            {
+                                Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
+                                Template = Template.Replace("[PARTICIPANTEMAIL]", "");
+
+                                Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
+                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
+
+                                SendEmail.SendMailAsync(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), null, string.Empty, "");
+                            }
+                        }
+                    }
+
+                    //lblMessage.Text = "Email successfully sent";
+                    lblMessage2.Text = "Email successfully sent to " + name;
+                }
+                else
+                {
+                    int assignmentID = assignquestionnaire_BAO.GetAssignmentID(assignquestionnaire_BE);
+
+
+                    Project_BAO project_BAO = new Project_BAO();
+                    List<Project_BE> project_BEList = new List<Project_BE>();
+                    project_BEList = project_BAO.GetProjectByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.ProjecctID));
+
+                    int managerEmailId = Convert.ToInt32(project_BEList[0].EmailTMPManager);
+
+                    EmailTemplate_BAO emailTemplate_BAO = new EmailTemplate_BAO();
+                    List<EmailTemplate_BE> emailTemplate_BEList = new List<EmailTemplate_BE>();
+                    emailTemplate_BEList = emailTemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), managerEmailId);
+
+                    string emailText = emailTemplate_BEList[0].EmailText;
+                    string emailSubject = emailTemplate_BEList[0].Subject;
+
+                    StringBuilder candidatelist = new StringBuilder();
+                    candidatelist.Append("<table width='500' border='1' cellspacing='0'>");
+
+                    candidatelist.Append("<tr><td width='50%'><b>Name</b></td><td width='50%'><b>Relationship</b></td></tr>");
+
+                    DataTable dtColleagueList = new DataTable();
+                    dtColleagueList = assignquestionnaire_BAO.GetColleaguesList(assignmentID);
+
+                    string lineManagerName = "";
+                    string lineManagerEmail = "";
+                    string participantName = "";
+
+                    for (int i = 0; i < dtColleagueList.Rows.Count; i++)
+                    {
+                        candidatelist.Append("<tr>");
+                        candidatelist.Append("<td>");
+                        candidatelist.Append(dtColleagueList.Rows[i]["CandidateName"].ToString());
+                        candidatelist.Append("</td>");
+                        candidatelist.Append("<td>");
+                        candidatelist.Append(dtColleagueList.Rows[i]["RelationShip"].ToString());
+                        candidatelist.Append("</td>");
+                        candidatelist.Append("</tr>");
+
+                        if (dtColleagueList.Rows[i]["RelationShip"].ToString() == "Manager")
+                        {
+                            lineManagerName = dtColleagueList.Rows[i]["CandidateName"].ToString();
+                            lineManagerEmail = dtColleagueList.Rows[i]["CandidateEmail"].ToString();
+                        }
+
+                        if (dtColleagueList.Rows[i]["RelationShip"].ToString() == "Self")
+                            participantName = dtColleagueList.Rows[i]["CandidateName"].ToString();
+                    }
+
+                    candidatelist.Append("</table>");
+
+                    string listOfNames = Convert.ToString(candidatelist);
+                    string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
+                    string asgnmentID = PasswordGenerator.EnryptString(Convert.ToString(assignmentID));
+                    int candidateNumber = Convert.ToInt32(assignquestionnaire_BE.CandidateNo);
+
+                    emailText = emailText.Replace("[MANAGERFIRSTNAME]", lineManagerName);
+                    emailText = emailText.Replace("[PARTICIPANTNAME]", participantName);
+                    emailText = emailText.Replace("[LISTOFNAMES]", listOfNames);
+                    emailText = emailText.Replace("[ACCEPT]", "<a Target='_BLANK' href= '" + urlPath + "ProcessConfirmation.aspx?AsgnID=" + asgnmentID + "&CNo=" + PasswordGenerator.EnryptString(candidateNumber.ToString()) + "&Act=" + PasswordGenerator.EnryptString("1") + "' >Accept</a>");
+                    emailText = emailText.Replace("[DECLINE]", "<a Target='_BLANK' href= '" + urlPath + "ProcessConfirmation.aspx?AsgnID=" + asgnmentID + "&CNo=" + PasswordGenerator.EnryptString(candidateNumber.ToString()) + "&Act=" + PasswordGenerator.EnryptString("0") + "' >Decline</a>");
+
+                    emailSubject = emailSubject.Replace("[PARTICIPANTNAME]", participantName);
+
+                    SendEmail.SendMailAsync(Subject, Template, lineManagerEmail, null, string.Empty, "");
+
+                    //lblMessage.Text = "Email has been sent successfully to Manager for further approval";
+                    lblMessage2.Text = "Email has been sent successfully to Manager for further approval";
+                    //imbAssign.Enabled = true;
+                }
+
+                //txtCandidateNo.Text = "";
+            }
+            else
+            {
+                lblvalidation.Text = "Please  fill colleagues' information";
+            }
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+
+    private void BindCandidateList(int candidateCount)
+    {
+        try
+        {
+            //DataTable dtCandidate = new DataTable();
+            //dtCandidate.Columns.Add("Relationship");
+            //dtCandidate.Columns.Add("Name");
+            //dtCandidate.Columns.Add("EmailID");
+
+            if (Session["ColleagueTable"] != null)
+            {
+
+                DataTable dtCandidate = Session["ColleagueTable"] as DataTable;
+
+                for (int count = 0; count < candidateCount; count++)
+                {
+                    DataRow dr = dtCandidate.NewRow();
+                    dtCandidate.Rows.Add(dr);
+                }
+
+
+                BindColleagueRepeter(dtCandidate);
+            }
+
+
+
+        }
+        catch (Exception ex)
+        {
+            HandleException(ex);
+        }
+    }
+
+    private void BindColleagueRepeter(DataTable dtCandidate)
+    {
+        DataTable dt = dtCandidate.Copy();
+
+
+        DataTable dtUSC = Session["UnsavedColleagueTable"] as DataTable;
+        //DataRow[] dr = dt.Select("Relationship='' AND Name='' AND EmailID=''"); 
+
+        if (Session["UnsavedColleagueTable"] != null)
+        {
+            bool isRowDeleted = false;
+            int removedRows = 0;
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if ((dt.Rows[i]["Relationship"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Relationship"].ToString())) && (dt.Rows[i]["Name"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Name"].ToString())) && (dt.Rows[i]["EmailID"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["EmailID"].ToString())))
+                {
+                    dt.Rows[i].Delete();
+                    removedRows++;
+                    i--;
+                    isRowDeleted = true;
+                }
+            }
+
+            if (Session["ColleaguesIndex"] != null)
+            {
+                string[] strColleaguesIndex = null;
+                if (!string.IsNullOrEmpty(Session["ColleaguesIndex"].ToString()))
+                    strColleaguesIndex = Session["ColleaguesIndex"].ToString().TrimEnd(',').Split(',');
+
+                if (strColleaguesIndex == null || dt.Rows.Count == strColleaguesIndex.Count())
+                {
+                    DataTable dtOrderedColleagues = dt.Copy();
+                    dtOrderedColleagues.Clear();
+                    dtOrderedColleagues.Columns.Add(new DataColumn("ID", typeof(int)));
+
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DataRow dr = dtOrderedColleagues.NewRow();
+                        dr["ID"] = Convert.ToInt32(strColleaguesIndex[i]);
+                        dr["TargetPersonID"] = dt.Rows[i]["TargetPersonID"].ToString();
+                        dr["ProjectID"] = dt.Rows[i]["ProjectID"];
+                        dr["AssignID"] = dt.Rows[i]["AssignID"];
+                        dr["Relationship"] = dt.Rows[i]["Relationship"];
+                        dr["Name"] = dt.Rows[i]["Name"];
+                        dr["EmailID"] = dt.Rows[i]["EmailID"];
+                        dr["AssignmentID"] = dt.Rows[i]["AssignmentID"];
+                        dr["SubmitFlag"] = dt.Rows[i]["SubmitFlag"];
+                        dr["EmailSendFlag"] = dt.Rows[i]["EmailSendFlag"];
+
+                        dtOrderedColleagues.Rows.Add(dr);
+                    }
+                    dtOrderedColleagues.AcceptChanges();
+
+                    int totalRecords = dt.Rows.Count + dtUSC.Rows.Count;
+
+                    if (!dtUSC.Columns.Contains("ID"))
+                        dtUSC.Columns.Add("ID", typeof(int));
+                    int k = 0;
+
+                    for (int i = 0; i < dtUSC.Rows.Count; i++)
+                    {
+                        if (k <= totalRecords)
+                        {
+                            if (strColleaguesIndex != null)
+                            {
+                                for (int j = 0; j < strColleaguesIndex.Count(); j++)
+                                {
+                                    if (k.ToString() == strColleaguesIndex[j].ToString())
+                                    {
+                                        k++;
+                                    }
+                                }
+                            }
+                            dtUSC.Rows[i]["ID"] = k;
+                            k++;
+                        }
+                    }
+                    dtUSC.AcceptChanges();
+
+                    dtOrderedColleagues.Merge(dtUSC);
+                    dtOrderedColleagues.DefaultView.Sort = "ID";
+                    DataView dvSorted = dtOrderedColleagues.DefaultView;
+
+                    if (dvSorted.Table.Rows.Count > 0)
+                    {
+                        dt.Clear();
+
+                        foreach (DataRowView item in dvSorted)
+                        {
+                            dt.ImportRow(item.Row);
+                        }
+
+                        //for (int i = 0; i < dvSorted.Count; i++)
+                        //{
+                        //    DataRow dr = dt.NewRow();
+                        //    dr["TargetPersonID"] = dvSorted[i]["TargetPersonID"];
+                        //    dr["ProjectID"] = dvSorted[i]["ProjectID"];
+                        //    dr["AssignID"] = dvSorted[i]["AssignID"];
+                        //    dr["Relationship"] = dvSorted[i]["Relationship"];
+                        //    dr["Name"] = dvSorted[i]["Name"];
+                        //    dr["EmailID"] = dvSorted[i]["EmailID"];
+                        //    dr["AssignmentID"] = dvSorted[i]["AssignmentID"];
+                        //    dr["SubmitFlag"] = dvSorted[i]["SubmitFlag"];
+                        //    dr["EmailSendFlag"] = dvSorted[i]["EmailSendFlag"];
+
+                        //    dt.Rows.Add(dr);
+                        //}
+                        dt.AcceptChanges();
+                    }
+                }
+
+                int addDeletedRowCount = removedRows - dtUSC.Rows.Count;
+
+                if (addDeletedRowCount > 0)
+                {
+                    for (int i = 0; i < addDeletedRowCount; i++)
+                    {
+                        dt.Rows.Add(dt.NewRow());
+                    }
+                }
+                else
+                {
+                    addDeletedRowCount = Convert.ToInt32(strColleagueNo) - dt.Rows.Count;
+                    if (addDeletedRowCount > 0)
+                    {
+                        for (int i = 0; i < addDeletedRowCount; i++)
+                        {
+                            dt.Rows.Add(dt.NewRow());
+                        }
+                    }
+                }
+
+                if (iColleagueRecordCount > dt.Rows.Count)
+                {
+                    addDeletedRowCount = iColleagueRecordCount - dt.Rows.Count;
+                    for (int i = 0; i < addDeletedRowCount; i++)
+                    {
+                        dt.Rows.Add(dt.NewRow());
+                    }
+                }
+            }
+            else
+            {
+                dt.Merge(dtUSC);
+
+                if (dtUSC.Rows.Count != removedRows)
+                {
+                    removedRows = (removedRows - dtUSC.Rows.Count);
+                    if (isRowDeleted)
+                    {
+                        for (int i = 0; i < removedRows; i++)
+                        {
+                            dt.Rows.Add(dt.NewRow());
+                        }
+                        dt.AcceptChanges();
+                    }
+                }
+            }
+        }
+
+        rptrCandidateList.DataSource = dt;
+        rptrCandidateList.DataBind();
+
+        Session["ColleagueTable"] = dtCandidate;
+    }
+
+    /// <summary>
+    /// Change to match managers
+    /// </summary>
+    /// <returns></returns>
+    private int CheckManagerCount()
+    {
+        return (Session["ColleagueTable"] as DataTable).Select("RelationShip='Manager'").Count();
+
+        //int managerCount = 0;
+
+        //if (dtCandidateList != null)
+        //{
+        //    for (int i = 0; i < dtCandidateList.Rows.Count; i++)
+        //    {
+        //        if (dtCandidateList.Rows[i]["RelationShip"].ToString() == "Manager")
+        //        {
+        //            managerCount = managerCount + 1;
+        //        }
+        //    }
+
+        //    List<AssignmentDetails_BE> lstCandidateList = new List<AssignmentDetails_BE>();
+        //    lstCandidateList = GetCandidateList();
+
+        //    foreach (AssignmentDetails_BE item in lstCandidateList)
+        //    {
+        //        if (item.RelationShip == "Manager")
+        //        {
+        //            managerCount = managerCount + 1;
+        //        }
+        //    }
+        //}
+
+        //return managerCount;
+    }
+
+    /// <summary>
+    /// Remove after changes and full testing   
+    /// </summary>
+    /// <returns></returns>
+    private List<AssignmentDetails_BE> GetCandidateList()
+    {
+        List<AssignmentDetails_BE> assignmentDetails_BEList = new List<AssignmentDetails_BE>();
+        bool flag = true;
+
+        foreach (RepeaterItem item in rptrCandidateList.Items)
+        {
+            DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
+            TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
+            TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
+
+            //if (ddlRelationship.SelectedValue == "0" || txtCandidateName.Text == "" || txtCandidateEmail.Text == "")
+            //    flag = false;
+        }
+
+        if (flag != false)
+        {
+            foreach (RepeaterItem item in rptrCandidateList.Items)
+            {
+                AssignmentDetails_BE assignmentDetails_BE = new AssignmentDetails_BE();
+
+                DropDownList ddlRelationship = (DropDownList)item.FindControl("ddlRelationship");
+                TextBox txtCandidateName = (TextBox)item.FindControl("txtName");
+                TextBox txtCandidateEmail = (TextBox)item.FindControl("txtEmailID");
+                if (ddlRelationship.SelectedValue != "0" && txtCandidateName.Text.Trim() != "" && txtCandidateEmail.Text.Trim() != "")
+                {
+                    if (ddlRelationship.SelectedItem.Text.ToUpper() == "MANAGER")
+                    {
+                        if (this.isManager)
+                            this.duplicateManager = true;
+
+                        this.isManager = true;
+                    }
+
+                    assignmentDetails_BE.RelationShip = ddlRelationship.SelectedValue; //txtRelationship.Text.Trim();
+                    assignmentDetails_BE.CandidateName = txtCandidateName.Text.Trim();
+                    assignmentDetails_BE.CandidateEmail = txtCandidateEmail.Text.Trim();
+                    assignmentDetails_BE.SubmitFlag = false;
+
+                    if (identity.User.GroupID == 1)
+                        UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+                    else
+                        UserAccountID = Convert.ToInt32(identity.User.AccountID);
+
+                    if (UserAccountID == Convert.ToInt32(ConfigurationManager.AppSettings["AccountID"].ToString()))
+                        assignmentDetails_BE.EmailSendFlag = 0;
+                    else
+                        assignmentDetails_BE.EmailSendFlag = 1;
+
+                    if (assignmentDetails_BE.RelationShip != "" && assignmentDetails_BE.CandidateName != "" && assignmentDetails_BE.CandidateEmail != "")
+                    {
+                        assignmentDetails_BEList.Add(assignmentDetails_BE);
+                        email += txtCandidateEmail.Text.Trim() + ";";
+                    }
+                }
+            }
+
+            string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
+
+            if (identity.User.GroupID.ToString() != participantRoleId)
+                targetpersonid = Convert.ToInt32(ddlTargetPerson.SelectedValue);
+            else
+                targetpersonid = Convert.ToInt32(identity.User.UserID);
+
+            if (identity.User.GroupID == 1)
+                UserAccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            else
+                UserAccountID = Convert.ToInt32(identity.User.AccountID);
+
+            AccountUser_BAO user = new AccountUser_BAO();
+            List<AccountUser_BE> Userlist = user.GetAccountUserByID(UserAccountID, targetpersonid);
+            AssignmentDetails_BE assignmentDetails = new AssignmentDetails_BE();
+
+            assignmentDetails.CandidateEmail = Userlist[0].EmailID;
+            assignmentDetails.CandidateName = Userlist[0].FirstName + " " + Userlist[0].LastName;
+            assignmentDetails.RelationShip = "Self";
+            assignmentDetails.SubmitFlag = false;
+            assignmentDetails.EmailSendFlag = 0;
+            assignmentDetails_BEList.Add(assignmentDetails);
+
+            email += Userlist[0].EmailID + ";";
+            finalemail = email.TrimEnd(';');
+
+        }
+
+        return assignmentDetails_BEList;
+    }
+
+    private void errorMessage(string filename)
+    {
+        lblMessage.Text = "Upload Failed.Please fill the Correct Field Value";
+        lblMessage2.Text = "Upload Failed.Please fill the Correct Field Value";
+    }
+    #endregion
+
+    #region Public Methods
+    public void RegisterPostbackTrigger(Control triggerOn)
+    {
+        ScriptManager1.RegisterPostBackControl(triggerOn);
+    }
+
+    public void SetValues()
+    {
+        identity = this.Page.User.Identity as WADIdentity;
+
+        AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
+        DataTable dtAssignDetails = new DataTable();
+        dtAssignDetails = assignquestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+
+        Project_BAO project_BAO = new Project_BAO();
+        ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+        ddlProject.DataValueField = "ProjectID";
+        ddlProject.DataTextField = "Title";
+        ddlProject.DataBind();
+        if (dtAssignDetails.Rows.Count > 0)
+        {
+            ddlProject.SelectedValue = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
+            hdnProjectId.Value = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
+        }
+
+        //ddlProject.SelectedIndex = 1;
+
+        Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+
+        //ddlQuestionnaire.Items.Clear();
+        //DataTable dtQuestionnaire = new DataTable();
+        //dtQuestionnaire = questionnaire_BAO.GetProjectQuestionnaire(Convert.ToInt32(ddlProject.SelectedValue));
+
+        //if (dtQuestionnaire.Rows.Count > 0)
+        //{
+        //    ddlQuestionnaire.DataSource = dtQuestionnaire;
+        //    ddlQuestionnaire.DataTextField = "QSTNName";
+        //    ddlQuestionnaire.DataValueField = "QuestionnaireID";
+        //    ddlQuestionnaire.DataBind();
+        //    if (dtAssignDetails.Rows[0]["QuestionnaireID"]!=null)
+        //    ddlQuestionnaire.SelectedValue = dtAssignDetails.Rows[0]["QuestionnaireID"].ToString();
+        //}
+
+        //ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
+
+        //Set Programme
+        Programme_BAO programme_BAO = new Programme_BAO();
+
+        ddlProgramme.Items.Clear();
+        DataTable dtProgramme = new DataTable();
+        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+
+        if (dtProgramme.Rows.Count > 0)
+        {
+            ddlProgramme.DataSource = dtProgramme;
+            ddlProgramme.DataTextField = "ProgrammeName";
+            ddlProgramme.DataValueField = "ProgrammeID";
+            ddlProgramme.DataBind();
+
+            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+
+            if (dtAssignDetails.Rows[0]["ProgrammeID"] != null)
+                ddlProgramme.SelectedValue = dtAssignDetails.Rows[0]["ProgrammeID"].ToString();
+            //ddlProgramme.SelectedIndex = ddlProgramme.Items.IndexOf(ddlProgramme.Items.FindByValue(dtAssignDetails.Rows[0]["ProgrammeID"].ToString()));
+
+            ddlProgramme_SelectedIndexChanged(this, EventArgs.Empty);
+        }
+        else
+            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+
+        ddlProject.Enabled = false;
+        ddlProgramme.Enabled = false;
+        //ddlQuestionnaire.Enabled = false;
+
+        //Set Relationship
+        DataTable dtRelationship = new DataTable();
+
+        dtRelationship = project_BAO.GetProjectRelationship(Convert.ToInt32(ddlProject.SelectedValue));
+        Session["Relationship"] = dtRelationship;
+    }
+
+    public System.Data.DataTable ReturnExcelDataTableMot(string FullFileNamePath)
+    {
+        //DataTable dtExcel;
+        DateTime dt3 = new DateTime();
+
+        string SheetName = string.Empty;
+        try
+        {
+
+            Microsoft.Office.Interop.Excel.ApplicationClass app = new Microsoft.Office.Interop.Excel.ApplicationClass();
+            Microsoft.Office.Interop.Excel.Workbook workBook = app.Workbooks.Open(FullFileNamePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
+            Microsoft.Office.Interop.Excel.Worksheet workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
+
+            int index = 0;
+            object rowIndex = 2;
+
+            DataTable dtExcel = new DataTable();
+
+            dtExcel.Columns.Add("Relationship", typeof(string));
+            dtExcel.Columns.Add("Name", typeof(string));
+            dtExcel.Columns.Add("EmailID", typeof(string));
+
+
+
+            DataRow row;
+
+            try
+            {
+                while (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2 != null)
+                {
+                    //rowIndex = 2 + index;
+                    row = dtExcel.NewRow();
+                    DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
+
+                    string projid = ddlProject.SelectedValue.ToString();
+
+                    DataTable dtAllProject = new DataTable();
+                    object[] param1 = new object[3] { projid, "2", 'P' };
+
+
+
+                    dtAllProject = cDataSrc.ExecuteDataSet("UspProjectSelect", param1, null).Tables[0];
+
+                    expression2 = "Relationship1='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
+
+                    Finalexpression2 = expression2;
+
+                    DataRow[] results1 = dtAllProject.Select(Finalexpression2);
+
+
+
+                    DataTable dtProject = dtAllProject.Clone();
+
+
+                    foreach (DataRow dr1 in results1)
+                    {
+                        dtProject.ImportRow(dr1);
+                    }
+
+                    if (dtProject.Rows.Count > 0 || dtProject == null)
+                    {
+
+                        string ProjectId = Convert.ToString(dtProject.Rows[0]["Relationship1"]);
+
+
+
+                        row[0] = ProjectId;
+
+
+                    }
+                    else
+                    {
+
+
+                        expression2 = "Relationship2='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
+
+                        Finalexpression2 = expression2;
+
+                        DataRow[] results2 = dtAllProject.Select(Finalexpression2);
+
+
+                        DataTable dtProject1 = dtAllProject.Clone();
+
+
+
+                        foreach (DataRow dr2 in results2)
+                        {
+                            dtProject1.ImportRow(dr2);
+                        }
+
+                        if (dtProject1.Rows.Count > 0 || dtProject1 == null)
+                        {
+                            ProjectId1 = Convert.ToString(dtProject1.Rows[0]["Relationship2"]);
+
+
+
+
+                            row[0] = ProjectId1;
+
+                        }
+                        else
+                        {
+                            expression2 = "Relationship3='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
+
+                            Finalexpression2 = expression2;
+
+                            DataRow[] results3 = dtAllProject.Select(Finalexpression2);
+
+
+
+                            DataTable dtProject2 = dtAllProject.Clone();
+
+
+                            foreach (DataRow dr3 in results3)
+                            {
+                                dtProject2.ImportRow(dr3);
+                            }
+                            if (dtProject2.Rows.Count > 0 || dtProject2 == null)
+                            {
+                                ProjectId2 = Convert.ToString(dtProject2.Rows[0]["Relationship3"]);
+
+
+
+
+
+                                row[0] = ProjectId2;
+
+                            }
+                            else
+                            {
+                                expression2 = "Relationship4='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
+
+                                Finalexpression2 = expression2;
+
+                                DataRow[] results4 = dtAllProject.Select(Finalexpression2);
+
+
+
+                                DataTable dtProject4 = dtAllProject.Clone();
+
+
+
+                                foreach (DataRow dr4 in results4)
+                                {
+                                    dtProject4.ImportRow(dr4);
+                                }
+                                if (dtProject4.Rows.Count > 0 || dtProject4 == null)
+                                {
+                                    ProjectId3 = Convert.ToString(dtProject4.Rows[0]["Relationship4"]);
+
+
+
+                                    row[0] = ProjectId3;
+                                }
+                                else
+                                {
+                                    expression2 = "Relationship5='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2) + "'";
+
+                                    Finalexpression2 = expression2;
+
+                                    DataRow[] results5 = dtAllProject.Select(Finalexpression2);
+
+
+
+                                    DataTable dtProject5 = dtAllProject.Clone();
+
+
+                                    foreach (DataRow dr5 in results5)
+                                    {
+                                        dtProject5.ImportRow(dr5);
+                                    }
+                                    if (dtProject5.Rows.Count > 0 || dtProject5 == null)
+                                    {
+                                        ProjectId5 = Convert.ToString(dtProject5.Rows[0]["Relationship5"]);
+
+
+
+                                        row[0] = ProjectId5;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+
+                    //row[0] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2);
+                    row[1] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2);
+                    row[2] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 3]).Value2);
+
+
+
+
+
+
+                    index++;
+                    rowIndex = 2 + index;
+                    dtExcel.Rows.Add(row);
+                }
+
+
+            }
+            catch
+            {
+                lblMessage.Text = "Please check your file data.";
+                lblMessage2.Text = "Please check your file data.";
+
+                dtExcel = null;
+            }
+            app.Workbooks.Close();
+
+            return dtExcel;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+
+    public string GetUniqueFilename(string filename)
+    {
+        string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
+        string uniquefilename = string.Format("{0}{1}{2}", basename, DateTime.Now.Ticks, Path.GetExtension(filename));
+        // Thread.Sleep(1); // To really prevent collisions, but usually not needed 
+        return uniquefilename;
+    }
+    #endregion
 }
