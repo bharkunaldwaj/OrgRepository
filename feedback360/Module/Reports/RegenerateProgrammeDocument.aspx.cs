@@ -11,11 +11,22 @@ using System.Diagnostics;
 
 public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.Page
 {
+    #region Private Constant
+    const string ProjectTextField = "Title";
+    const string ProjectValueField = "ProjectID";
+    const string ProgramTextField = "ProgrammeName";
+    const string ProgramValueField = "ProgrammeID";
+    const string DefaulText = "Select";
+    const string DefaulValue = "0";
+    #endregion
+
+    #region Global Variable
     Account_BAO account_BAO = new Account_BAO();
     Project_BAO project_BAO = new Project_BAO();
     Programme_BAO programme_BAO = new Programme_BAO();
     ReportManagement_BAO reportManagement_BAO = new ReportManagement_BAO();
     WADIdentity identity;
+    #endregion
 
     #region Protected Methods
     protected void Page_Load(object sender, EventArgs e)
@@ -26,6 +37,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
             GetCompanyName();
         }
     }
+
     protected void ButtonGenerateReport_Click(object sender, ImageClickEventArgs e)
     {
         reportManagement_BAO.DeleteDynamicReport(int.Parse(DropDownListAccountCode.SelectedValue),
@@ -41,20 +53,16 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
             GetCompanyName();
 
             BindDropDownList(DropDownListProject, project_BAO.GetdtProjectList(DropDownListAccountCode.SelectedValue),
-                "ProjectID", "Title");
+                ProjectValueField, ProjectTextField);
 
-            DropDownListProgramme.Items.Clear();
-            DropDownListProgramme.Items.Insert(0, new ListItem("Select", "0"));
+            ClearControl(DropDownListProgramme);
         }
         else
         {
             Labelcompanyname.Text = string.Empty;
 
-            DropDownListProject.Items.Clear();
-            DropDownListProject.Items.Insert(0, new ListItem("Select", "0"));
-
-            DropDownListProgramme.Items.Clear();
-            DropDownListProgramme.Items.Insert(0, new ListItem("Select", "0"));
+            ClearControl(DropDownListProject);
+            ClearControl(DropDownListProgramme);
         }
     }
 
@@ -65,7 +73,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         if (int.Parse(DropDownListProject.SelectedValue) > 0)
         {
             BindDropDownList(DropDownListProgramme, programme_BAO.GetProjectProgramme(int.Parse(DropDownListProject.SelectedValue)),
-           "ProgrammeID", "ProgrammeName");
+           ProgramValueField, ProgramTextField);
         }
     }
     #endregion
@@ -108,11 +116,18 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         string DataValueField, string DataTextField)
     {
         dropDownControl.Items.Clear();
-        dropDownControl.Items.Insert(0, new ListItem("Select", "0"));
+        dropDownControl.Items.Insert(0, new ListItem(DefaulText, DefaulValue));
+
         dropDownControl.DataSource = controlDataTable;
         dropDownControl.DataValueField = DataValueField;
         dropDownControl.DataTextField = DataTextField;
         dropDownControl.DataBind();
+    }
+
+    private void ClearControl(DropDownList dropDownListControl)
+    {
+        dropDownListControl.Items.Clear();
+        dropDownListControl.Items.Insert(0, new ListItem(DefaulText, DefaulValue));
     }
     #endregion
 }
