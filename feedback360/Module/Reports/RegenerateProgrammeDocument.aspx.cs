@@ -23,6 +23,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         if (!IsPostBack)
         {
             BindControls();
+            GetCompanyName();
         }
     }
     protected void ButtonGenerateReport_Click(object sender, ImageClickEventArgs e)
@@ -30,25 +31,14 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         reportManagement_BAO.DeleteDynamicReport(int.Parse(DropDownListAccountCode.SelectedValue),
              int.Parse(DropDownListProgramme.SelectedValue));
 
-        string filePath = @"E:\Damco Projects\OrgRef\trunk\Feedback360ReportScheduler\FeedbackReportScheduler\bin\Debug\FeedbackReportScheduler.exe";
-        Process process = new Process();
-        process.StartInfo.FileName = filePath;
-        process.StartInfo.Arguments = DropDownListProgramme.SelectedValue;
-        process.Start();
+        RestartSchedular();
     }
 
     protected void DropDownListAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (int.Parse(DropDownListAccountCode.SelectedValue) > 0)
         {
-            int companycode = int.Parse(DropDownListAccountCode.SelectedValue);
-
-            DataTable DataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
-
-            var companyName = (DataTableCompanyName.AsEnumerable()).
-                Where(x => x.Field<int>("AccountID") == companycode).FirstOrDefault();
-
-            Labelcompanyname.Text = companyName.Field<string>("Organisationname");
+            GetCompanyName();
 
             BindDropDownList(DropDownListProject, project_BAO.GetdtProjectList(DropDownListAccountCode.SelectedValue),
                 "ProjectID", "Title");
@@ -81,6 +71,27 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
     #endregion
 
     #region Private Methods
+    private void RestartSchedular()
+    {
+        string filePath = @"E:\Damco Projects\OrgRef\trunk\Feedback360ReportScheduler\FeedbackReportScheduler\bin\Debug\FeedbackReportScheduler.exe";
+        Process process = new Process();
+        process.StartInfo.FileName = filePath;
+        process.StartInfo.Arguments = DropDownListProgramme.SelectedValue;
+        process.Start();
+    }
+
+    private void GetCompanyName()
+    {
+        int companycode = int.Parse(DropDownListAccountCode.SelectedValue);
+
+        DataTable DataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+
+        var companyName = (DataTableCompanyName.AsEnumerable()).
+            Where(x => x.Field<int>("AccountID") == companycode).FirstOrDefault();
+
+        Labelcompanyname.Text = companyName.Field<string>("Organisationname");
+    }
+
     private void BindControls()
     {
         identity = this.Page.User.Identity as WADIdentity;
