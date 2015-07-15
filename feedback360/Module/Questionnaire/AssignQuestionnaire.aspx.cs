@@ -136,13 +136,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             DataTable dtuserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(userid);
             Project_BAO project_BAO = new Project_BAO();
 
-            //DataTable dtCandidate = new DataTable();
-            //dtCandidate.Columns.Add("Relationship");
-            //dtCandidate.Columns.Add("Name");
-            //dtCandidate.Columns.Add("EmailID");
-
-            //ViewState["ColleagueTable"] = dtCandidate;
-
             Account_BAO account_BAO = new Account_BAO();
             ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
