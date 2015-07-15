@@ -200,8 +200,6 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
             Session["Questions"] = dtQuestion;
 
-         
-
            dtCategory = questionnaire_BAO.GetQuestionnaireCategoriesByRelationShip(AccountID, ProjectId, qID, Relationship);
             Session["Category"] = dtCategory;
 
@@ -981,7 +979,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             DataTable dtClone = dt.Clone();
 
             Repeater rptrQuestionList = (Repeater)e.Item.FindControl("rptrQuestionList");
-            //Label lblCategoryName = (Label)e.Item.FindControl("lblCategoryName");
+            Label LabelQuestionnaireDescription = (Label)e.Item.FindControl("LabelQuestionnaireDescription");
             Label lblCategoryTitle = (Label)e.Item.FindControl("lblCategoryTitle");
             Label lblCategoryID = (Label)e.Item.FindControl("lblCategoryID");
 
@@ -998,6 +996,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     rptrQuestionList.DataBind();
                     //lblCategoryName.Text = dtClone.Rows[0]["CategoryName"].ToString();
                     lblCategoryTitle.Text = dtClone.Rows[0]["CategoryTitle"].ToString();
+                    LabelQuestionnaireDescription.Text = dtClone.Rows[0].Field<string>("QuestionnaireCategoryDescription");
                 }
             }
         }

@@ -110,6 +110,12 @@
                             </td>
                         </tr>
                         <tr>
+                        <td>
+                        &nbsp;
+                        </td>
+                        </tr>
+                       
+                        <tr>
                             <td>
                                 <div class="progress">
                                     <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -156,11 +162,27 @@
                                 <asp:Repeater ID="rptrQuestionListMain" runat="server" OnItemDataBound="rptrQuestionListMain_ItemDataBound">
                                     <ItemTemplate>
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            
                                             <tr>
                                                 <td class="title-head">
                                                     <asp:Label ID="lblCategoryID" runat="server" Text='<%# Eval("CategoryID") %>' Visible="false"></asp:Label>
                                                     <%--<asp:Label ID="lblCategoryName" runat="server" Text=""></asp:Label>--%>
                                                     <asp:Label ID="lblCategoryTitle" runat="server" Text=""></asp:Label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div>
+                                                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                                            <tr>
+                                                                
+                                                                <td colspan="2" width="51%">
+                                                                    <asp:Label ID="LabelQuestionnaireDescription" runat="server" style="color: black;" runat="server">
+                                                                    </asp:Label>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
                                                 </td>
                                             </tr>
                                             <tr>
