@@ -531,8 +531,8 @@
             document.getElementById('imagelogo').src = "../../UploadDocs/noImage.jpg ";
         }
 
-        alert(document.getElementById('ctl00_cphMaster_hdnRemoveLogoImage').value);
-        alert(document.getElementById('ReportLogoImage').src);
+       // alert(document.getElementById('ctl00_cphMaster_hdnRemoveLogoImage').value);
+       // alert(document.getElementById('ReportLogoImage').src);
         if (document.getElementById('ctl00_cphMaster_hdnRemoveLogoImage').value != "") {
             document.getElementById('ReportLogoImage').src = "../../UploadDocs/" + document.getElementById('ctl00_cphMaster_hdnRemoveLogoImage').value;
             alert(document.getElementById('ReportLogoImage').src);
@@ -540,7 +540,7 @@
         else {
             document.getElementById('ReportLogoImage').src = "../../UploadDocs/noImage.jpg ";
         }
-        alert(document.getElementById('ReportLogoImage').src);
+       // alert(document.getElementById('ReportLogoImage').src);
 
     </script>
 
