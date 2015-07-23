@@ -40,3 +40,62 @@ function ValidateRepeaterCandidateList() {
         return true;
     }
 }
+
+
+function checkEmail(email) {
+
+    //var email = document.getElementById('txtEmail');
+    var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+    return filter.test(email);
+    
+    
+ }
+
+
+function ValidateRepeaterSurveyCandidateList() {
+
+    var reperaterCandidate = document.getElementById("grdvAssignQuestionnaire");
+    var inputType = reperaterCandidate.getElementsByTagName("input");
+    //var selectType = reperaterCandidate.getElementsByTagName("select");
+
+    var counter;
+    var invalidCounter = 0;
+    for (var i = 0; i < inputType.length; i++) {
+        var textBoxControlID = document.getElementById(inputType[i].id);
+
+        if (textBoxControlID.type == "text") {
+            if (inputType[i].id.indexOf("txtCandidateEmail") != -1) {
+
+                var resultValue = textBoxControlID.value;
+
+               if(!checkEmail(resultValue))
+               {
+                   textBoxControlID.style.borderColor = "red";
+                   invalidCounter = invalidCounter + 1;
+               }
+               else
+               {
+                   textBoxControlID.style.borderColor = "";
+               }
+               
+            }
+
+
+            var resultValue = textBoxControlID.value;
+
+            if (resultValue == "") {
+                textBoxControlID.style.borderColor = "red";
+                invalidCounter = invalidCounter + 1;
+            }
+        }
+    }
+
+    if (invalidCounter > 0) {
+        alert("Please enter valid details.");
+        return false;
+    }
+    else {
+        return true;
+    }
+}
