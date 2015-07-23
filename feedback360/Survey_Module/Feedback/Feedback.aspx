@@ -426,10 +426,7 @@ function TextAreaMaxLengthCheck(id, length)
               }
           });
 
-//          $("#<%=ImageButton1.ClientID%>").click(function () {
-//              $("#dialog").dialog("open");
 
-//          });
       });
   </script>
 <div id="dialog" title="Please wait..." >
