@@ -15,7 +15,7 @@
     <script src='<%= ResolveClientUrl("../../Layouts/Resources/js/common.js")%>' type="text/javascript"></script>
     
     <script type="text/javascript" src='<%= ResolveClientUrl("../../Layouts/Resources/js/GeneralFunctions.js") %>'></script>
-
+    <script src="../../Layouts/Resources/js/AssignQuestionnaire.js" type="text/javascript"></script>
 </head>
 <body>
     <form id="frmFeedback" runat="server">
@@ -180,7 +180,7 @@
                             <tr>
                                 <td align="center">
                                     <asp:ImageButton ID="imbSave" ImageUrl="~/Layouts/Resources/images/Save.png" runat="server" Visible="false"
-                                ToolTip="Save" onclick="imbSave_Click" />&nbsp;
+                                ToolTip="Save" onclick="imbSave_Click" OnClientClick="return ValidateRepeaterSurveyCandidateList();" />&nbsp;
                                 </td>
                             </tr>
                         </table>

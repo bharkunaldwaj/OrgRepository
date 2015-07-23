@@ -753,9 +753,9 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                     if (!string.IsNullOrEmpty(strCandidateName))
                     {
                         if (strUpdateSql == "")
-                            strUpdateSql = strUpdateSql + "CandidateName='" + strCandidateName + "'";
+                            strUpdateSql = strUpdateSql + "CandidateName='" + strCandidateName.Replace("'","") + "'";
                         else
-                            strUpdateSql = strUpdateSql + ",CandidateName='" + strCandidateName + "'";
+                            strUpdateSql = strUpdateSql + ",CandidateName='" + strCandidateName.Replace("'", "") + "'";
                     }
 
                     TextBox txtCandidateEmail = (TextBox)grdvRow.FindControl("txtCandidateEmail");
@@ -764,9 +764,9 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                     if (!string.IsNullOrEmpty(strCandidateEmail))
                     {
                         if (strUpdateSql == "")
-                            strUpdateSql = strUpdateSql + "CandidateEmail='" + strCandidateEmail + "'";
+                            strUpdateSql = strUpdateSql + "CandidateEmail='" + strCandidateEmail.Replace("'", "") + "'";
                         else
-                            strUpdateSql = strUpdateSql + ",CandidateEmail='" + strCandidateEmail + "'";
+                            strUpdateSql = strUpdateSql + ",CandidateEmail='" + strCandidateEmail.Replace("'", "") + "'";
                     }
 
 
