@@ -98,11 +98,17 @@ namespace FeedbackReportScheduler
         {
             InitializeComponent();
             this.ProgramID = programID;
+
+            HandleException("Program ID Constructor:" + (programID.HasValue?programID.Value:0));
+            HandleException("Program ID Form load:" + "Report Regenrate" + (ProgramID.HasValue ? ProgramID.Value : 0));
+            MakeReport(ProgramID);
+            HandleException("Program ID Form load Done :" + "Report Regenrate" + (ProgramID.HasValue ? ProgramID.Value : 0));
+            this.Close();
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            MakeReport(ProgramID);
+          
         }
 
         #region ReportMethods
