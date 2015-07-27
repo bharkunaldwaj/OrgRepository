@@ -87,10 +87,15 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
     private void RestartSchedular()
     {
         string filePath = string.Format(@"{0}", SchedularPath);
-        Process process = new Process();
+        /*Process process = new Process();
         process.StartInfo.FileName = filePath;
         process.StartInfo.Arguments = DropDownListProgramme.SelectedValue;
         process.Start();
+         */
+
+        ProcessStartInfo startInfo = new ProcessStartInfo(filePath);
+        startInfo.Arguments = DropDownListProgramme.SelectedValue;
+        Process.Start(startInfo);
     }
 
     private void GetCompanyName()

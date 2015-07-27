@@ -93,7 +93,7 @@
                                         <td>
                                         </td>
                                         <td>
-                                         <asp:ImageButton ID="ButtonGenerateReport" ImageUrl="~/Layouts/Resources/images/save.png"
+                                         <asp:ImageButton ID="ButtonGenerateReport" ImageUrl="~/Layouts/Resources/images/submit.png"
                                                    OnClick="ButtonGenerateReport_Click" runat="server" ToolTip="ReGenerate Report" />
                                         </td>
                                     </tr>
