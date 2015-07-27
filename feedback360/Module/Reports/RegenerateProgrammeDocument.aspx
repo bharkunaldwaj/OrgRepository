@@ -83,7 +83,7 @@
                                         <td>
                                             <asp:Label ID="LabelProgrammeText" runat="server" Text=""></asp:Label>
                                             <asp:DropDownList ID="DropDownListProgramme" runat="server" Style="width: 155px"
-                                                AppendDataBoundItems="True" AutoPostBack="true" >
+                                                AppendDataBoundItems="True" >
                                                 <asp:ListItem Value="0">Select</asp:ListItem>
                                             </asp:DropDownList>
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidatorProgramme" runat="server" Text="*" Display="Dynamic"
@@ -96,6 +96,11 @@
                                          <asp:ImageButton ID="ButtonGenerateReport" ImageUrl="~/Layouts/Resources/images/submit.png"
                                                    OnClick="ButtonGenerateReport_Click" runat="server" ToolTip="ReGenerate Report" />
                                         </td>
+                                    </tr>
+                                    <tr>
+                                    <td>
+                                    <asp:Label ID="LabelMessge" runat="server" style="color:Red;"></asp:Label>
+                                    </td>
                                     </tr>
                                 </table>
                             </fieldset>

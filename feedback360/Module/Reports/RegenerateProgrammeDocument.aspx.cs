@@ -49,6 +49,8 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
              int.Parse(DropDownListProgramme.SelectedValue));
 
         RestartSchedular();
+
+        LabelMessge.Text = "Please wait, this process may take several minutes, depending on the number of files to be regenerated.";
     }
 
     protected void DropDownListAccountCode_SelectedIndexChanged(object sender, EventArgs e)
@@ -87,11 +89,6 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
     private void RestartSchedular()
     {
         string filePath = string.Format(@"{0}", SchedularPath);
-        /*Process process = new Process();
-        process.StartInfo.FileName = filePath;
-        process.StartInfo.Arguments = DropDownListProgramme.SelectedValue;
-        process.Start();
-         */
 
         ProcessStartInfo startInfo = new ProcessStartInfo(filePath);
         startInfo.Arguments = DropDownListProgramme.SelectedValue;
