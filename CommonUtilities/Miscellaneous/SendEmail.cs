@@ -209,9 +209,16 @@ namespace Miscellaneous
                 {
                     ////Add Image to Email
                     AlternateView htmlView = AlternateView.CreateAlternateViewFromString(p_body, null, "text/html");
-                    LinkedResource logo = new LinkedResource(emailimagepath);
-                    logo.ContentId = "companylogo";
-                    htmlView.LinkedResources.Add(logo);
+
+                    try
+                    {
+                        LinkedResource logo = new LinkedResource(emailimagepath);
+                        logo.ContentId = "companylogo";
+                        htmlView.LinkedResources.Add(logo);
+                    }
+                    catch(Exception ex)
+                    {
+                    }
 
                     //add the views
                     message.AlternateViews.Add(htmlView);
@@ -283,9 +290,16 @@ namespace Miscellaneous
                 {
                     ////Add Image to Email
                     AlternateView htmlView = AlternateView.CreateAlternateViewFromString(p_body, null, "text/html");
-                    LinkedResource logo = new LinkedResource(emailImagepath);
-                    logo.ContentId = "companylogo";
-                    htmlView.LinkedResources.Add(logo);
+
+                    try
+                    {
+                        LinkedResource logo = new LinkedResource(emailImagepath);
+                        logo.ContentId = "companylogo";
+                        htmlView.LinkedResources.Add(logo);
+                    }
+                    catch(Exception ex)
+                    {
+                    }
 
                     message.AlternateViews.Add(htmlView);
                 }
