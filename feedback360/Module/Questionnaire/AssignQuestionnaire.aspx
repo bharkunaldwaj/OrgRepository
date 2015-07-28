@@ -7,7 +7,7 @@
     Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
 <%@ Register Assembly="System.Web.DataVisualization, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI.DataVisualization.Charting" TagPrefix="asp" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:content id="Content1" contentplaceholderid="head" runat="Server">
     <script src="../../Layouts/Resources/js/AssignQuestionnaire.js" type="text/javascript"></script>
     <script type="text/javascript">
 
@@ -27,8 +27,8 @@
         }
 
     </script>
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
+</asp:content>
+<asp:content id="Content2" contentplaceholderid="cphMaster" runat="Server">
     <%--<asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>--%>
     <cc1:ToolkitScriptManager ID="ScriptManager1" runat="server">
@@ -70,22 +70,23 @@
         } 
         </script>
     --%>
-    <asp:HiddenField ID="hdnProjectId" runat="server"></asp:HiddenField>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+    <asp:hiddenfield id="hdnProjectId" runat="server">
+    </asp:hiddenfield>
+   <%-- <asp:updatepanel id="updPanel" runat="server">
+        <contenttemplate>
             <input type="hidden" id="div_position" name="div_position" />
             <rsweb:ReportViewer ID="rview" runat="server" Height="0" Width="">
-            </rsweb:ReportViewer>
+            </rsweb:ReportViewer>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
                     <div class="topheadingdetails">
                         <h3>
                             <img src="../../Layouts/Resources/images/assign_questionnaire.png" runat="server"
-                                title="<% $Resources:lblTopHeading %>" align="absmiddle" />
-                            <asp:Label ID="lblTopHeading" runat="server" Text="<% $Resources:lblTopHeading %>"></asp:Label>
-                            <asp:ImageButton ID="ibtnHelp" runat="server" title="Help" CssClass="HeadingInfoHelp"
-                                OnClientClick="ShowPopup();" ImageUrl="~/Layouts/Resources/images/help.png" />
+                                title="<% $Resources:lblTopHeading %>" align="absmiddle" alt="" />
+                            <asp:label id="lblTopHeading" runat="server" text="<% $Resources:lblTopHeading %>"></asp:label>
+                            <asp:imagebutton id="ibtnHelp" runat="server" title="Help" cssclass="HeadingInfoHelp"
+                                onclientclick="ShowPopup();" imageurl="~/Layouts/Resources/images/help.png" />
                         </h3>
                         <div class="clear">
                         </div>
@@ -96,11 +97,11 @@
                         <tr>
                             <td>
                                 <div id="summary" runat="server" class="validation-align">
-                                    <asp:ValidationSummary ID="ValidationSummary1" runat="server" DisplayMode="BulletList"
-                                        ShowSummary="true" ValidationGroup="VGroupX" />
-                                    <asp:ValidationSummary ID="ValidationSummary2" runat="server" DisplayMode="BulletList"
-                                        ShowSummary="true" ValidationGroup="group2" />
-                                    <asp:Label ID="lblvalidation" runat="server" ForeColor="Red" Text=""></asp:Label>
+                                    <asp:validationsummary id="ValidationSummary1" runat="server" displaymode="BulletList"
+                                        showsummary="true" validationgroup="VGroupX" />
+                                    <asp:validationsummary id="ValidationSummary2" runat="server" displaymode="BulletList"
+                                        showsummary="true" validationgroup="group2" />
+                                    <asp:label id="lblvalidation" runat="server" forecolor="Red" text=""></asp:label>
                                 </div>
                             </td>
                         </tr>
@@ -108,19 +109,11 @@
                             <td>
                                 <%--<br />--%>
                                 <div align="center">
-                                    <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Font-Size="Large" Text=""></asp:Label>
+                                    <asp:label id="lblMessage" runat="server" forecolor="Red" font-size="Large" text="">
+                                    </asp:label>
                                 </div>
                                 <%--<br />--%>
-                                <asp:Label ID="lblInstruction" runat="server" Text=""></asp:Label>
-                                <%-- <b>
-                                <asp:Label ID="lblInstruction" runat="server" Text="<% $Resources:lblInstruction %>"></asp:Label>
-                                
-                                <br /><asp:Label ID="lblInstruction1" runat="server" Text="<% $Resources:lblInstruction1 %>"></asp:Label>  
-                                <br /><asp:Label ID="lblInstruction2" runat="server" Text="<% $Resources:lblInstruction2 %>"></asp:Label>
-                                <br /><asp:Label ID="lblInstruction3" runat="server" Text="<% $Resources:lblInstruction3 %>"></asp:Label>
-                                <br /><asp:Label ID="lblInstruction4" runat="server" Text="<% $Resources:lblInstruction4 %>"></asp:Label> 
-                                <br /><asp:Label ID="lblInstruction5" runat="server" Text="<% $Resources:lblInstruction5 %>"></asp:Label>  
-                                </b>--%>
+                                <asp:label id="lblInstruction" runat="server" text=""></asp:label>
                             </td>
                         </tr>
                     </table>
@@ -128,26 +121,27 @@
                         <div id="divAccount" runat="server" visible="false">
                             <fieldset class="fieldsetform">
                                 <legend>
-                                    <asp:Label ID="lblAccountDetails" runat="server" Text="<% $Resources:lblAccountDetails %>"></asp:Label></legend>
+                                    <asp:label id="lblAccountDetails" runat="server" text="<% $Resources:lblAccountDetails %>">
+                                    </asp:label></legend>
                                 <table width="100%" border="0" cellspacing="5" cellpadding="0">
                                     <tr>
                                         <td width="15%">
-                                            <asp:Label ID="lblAccountcode" runat="server" Text="<% $Resources:lblAccountcode %>"></asp:Label><span
-                                                class="style3">*</span>
+                                            <asp:label id="lblAccountcode" runat="server" text="<% $Resources:lblAccountcode %>">
+                                            </asp:label><span class="style3">*</span>
                                         </td>
                                         <td width="35%">
-                                            <asp:DropDownList ID="ddlAccountCode" runat="server" Style="width: 155px" AppendDataBoundItems="True"
-                                                OnSelectedIndexChanged="ddlAccountCode_SelectedIndexChanged" AutoPostBack="true">
-                                                <asp:ListItem Value="0">Select</asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:RequiredFieldValidator ID="Rq21" runat="server" ValidationGroup="VGroup" ErrorMessage="<% $Resources:Rq21 %>  "
-                                                SetFocusOnError="True" ControlToValidate="ddlAccountCode" InitialValue="0">&nbsp;</asp:RequiredFieldValidator>
+                                            <asp:dropdownlist id="ddlAccountCode" runat="server" style="width: 155px" onselectedindexchanged="ddlAccountCode_SelectedIndexChanged"
+                                                autopostback="true">
+                                                <asp:listitem value="0">Select</asp:listitem>
+                                            </asp:dropdownlist>
+                                            <asp:requiredfieldvalidator id="Rq21" runat="server" validationgroup="VGroup" errormessage="<% $Resources:Rq21 %>  "
+                                                setfocusonerror="True" controltovalidate="ddlAccountCode" initialvalue="0">&nbsp;</asp:requiredfieldvalidator>
                                         </td>
                                         <td width="15%">
-                                            <asp:Label ID="lblCompany" runat="server" Text="<% $Resources:lblCompany %>"></asp:Label>
+                                            <asp:label id="lblCompany" runat="server" text="<% $Resources:lblCompany %>"></asp:label>
                                         </td>
                                         <td width="35%">
-                                            <asp:Label ID="lblcompanyname" runat="server" Text=""></asp:Label>
+                                            <asp:label id="lblcompanyname" runat="server" text=""></asp:label>
                                         </td>
                                     </tr>
                                 </table>
@@ -158,22 +152,23 @@
                                 <td>
                                     <fieldset class="fieldsetform assign-question">
                                         <legend>
-                                            <asp:Label ID="lblGeneralDetails" runat="server" Text="<% $Resources:lblGeneralDetails %>"></asp:Label></legend>
+                                            <asp:label id="lblGeneralDetails" runat="server" text="<% $Resources:lblGeneralDetails %>">
+                                            </asp:label></legend>
                                         <table width="100%" border="0" cellspacing="5" cellpadding="0">
                                             <tr>
                                                 <td width="15%" valign="top">
-                                                    <asp:Label ID="lblProject" runat="server" Text="<% $Resources:lblProject %>"></asp:Label><span
+                                                    <asp:label id="lblProject" runat="server" text="<% $Resources:lblProject %>"></asp:label><span
                                                         class="style3">*</span>
                                                 </td>
                                                 <td width="35%" valign="top">
-                                                    <asp:Label ID="lblProjectText" runat="server" Text=""></asp:Label>
-                                                    <asp:DropDownList ID="ddlProject" runat="server" Style="width: 155px" AppendDataBoundItems="True"
-                                                        AutoPostBack="true" OnSelectedIndexChanged="ddlProject_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="Rq1" runat="server" ErrorMessage="<% $Resources:Rq1 %>"
-                                                        SetFocusOnError="True" ControlToValidate="ddlProject" ValidationGroup="VGroupX"
-                                                        InitialValue="0">&nbsp;</asp:RequiredFieldValidator>
+                                                    <asp:label id="lblProjectText" runat="server" text=""></asp:label>
+                                                    <asp:dropdownlist id="ddlProject" runat="server" style="width: 155px" autopostback="true"
+                                                        onselectedindexchanged="ddlProject_SelectedIndexChanged">
+                                                        <asp:listitem value="0">Select</asp:listitem>
+                                                    </asp:dropdownlist>
+                                                    <asp:requiredfieldvalidator id="Rq1" runat="server" errormessage="<% $Resources:Rq1 %>"
+                                                        setfocusonerror="True" controltovalidate="ddlProject" validationgroup="VGroupX"
+                                                        initialvalue="0">&nbsp;</asp:requiredfieldvalidator>
                                                 </td>
                                                 <td width="15%" valign="top">
                                                 </td>
@@ -182,46 +177,56 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <asp:Label ID="lblProgramme" runat="server" Text="<% $Resources:lblProgramme %>"></asp:Label><span
-                                                        class="style3">*</span>
+                                                    <asp:label id="lblProgramme" runat="server" text="<% $Resources:lblProgramme %>"></asp:label>
+                                                    <span class="style3">*</span>
                                                 </td>
                                                 <td>
-                                                    <asp:Label ID="lblProgrammeText" runat="server" Text=""></asp:Label>
-                                                    <asp:DropDownList ID="ddlProgramme" runat="server" Style="width: 155px" AppendDataBoundItems="True"
-                                                        AutoPostBack="true" OnSelectedIndexChanged="ddlProgramme_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="<% $Resources:RequiredFieldValidator1 %>"
-                                                        SetFocusOnError="True" ControlToValidate="ddlProgramme" ValidationGroup="VGroupX"
-                                                        InitialValue="0">&nbsp;</asp:RequiredFieldValidator>
+                                                    <asp:label id="lblProgrammeText" runat="server" text=""></asp:label>
+                                                    <asp:updatepanel id="UpdatePanelProgram" runat="server">
+                                                        <contenttemplate>
+                                                    <asp:dropdownlist id="ddlProgramme" runat="server" style="width: 155px" Autopostback="true"
+                                                        onselectedindexchanged="ddlProgramme_SelectedIndexChanged">
+                                                        <asp:listitem value="0">Select</asp:listitem>
+                                                    </asp:dropdownlist>
+                                                    <asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" errormessage="<% $Resources:RequiredFieldValidator1 %>"
+                                                        setfocusonerror="True" controltovalidate="ddlProgramme" validationgroup="VGroupX"
+                                                        initialvalue="0">&nbsp;</asp:requiredfieldvalidator>
+                                                           </contenttemplate>
+                                                        <triggers>
+                                                    <asp:asyncpostBacktrigger ControlID="ddlProject"  />
+                                                    </triggers>
+                                                    </asp:updatepanel>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table width="100%" border="0" cellspacing="5" cellpadding="0">
+                                            <tr>
+                                                <td>
                                                 </td>
                                                 <td>
-                                                    <%--<asp:Label ID="lblQuestionnaire" runat="server" Text="<% $Resources:lblQuestionnaire %>"></asp:Label><span
-                                                        class="style3">*</span>--%>
-                                                </td>
-                                                <td>
-                                                    <%--<asp:Label ID="lblQuestionnaireText" runat="server" Text=""></asp:Label>
-                                                    <asp:DropDownList ID="ddlQuestionnaire" runat="server" Style="width: 155px" AppendDataBoundItems="True">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="Rq2" runat="server" ErrorMessage="<% $Resources:Rq2 %>"
-                                                        SetFocusOnError="True" ControlToValidate="ddlQuestionnaire" ValidationGroup="group1"
-                                                        InitialValue="0">&nbsp;</asp:RequiredFieldValidator>--%>
                                                 </td>
                                             </tr>
                                             <tr id="trTargetPerson" runat="server">
-                                                <td valign="top">
-                                                    <asp:Label ID="lblTargetPerson" runat="server" Text="<% $Resources:lblTargetPerson %>"></asp:Label><span
-                                                        class="style3">*</span>
+                                                <td valign="top" style="width: 15%;">
+                                                    <asp:label id="lblTargetPerson" runat="server" text="<% $Resources:lblTargetPerson %>">
+                                                    </asp:label><span class="style3">*</span>
                                                 </td>
                                                 <td valign="top" colspan="3">
-                                                    <asp:DropDownList ID="ddlTargetPerson" runat="server" lSetFocusOnError="True" Display="None"
-                                                        AutoPostBack="true" Style="width: 155px" AppendDataBoundItems="True" OnSelectedIndexChanged="ddlTargetPerson_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
-                                                    </asp:DropDownList>
-                                                    <asp:RequiredFieldValidator ID="Rq3" runat="server" ErrorMessage="<% $Resources:Rq3 %>"
-                                                        ControlToValidate="ddlTargetPerson" SetFocusOnError="True" ValidationGroup="VGroupX"
-                                                        Display="Dynamic" InitialValue="0">&nbsp;</asp:RequiredFieldValidator>
+                                                    <asp:updatepanel id="UpdatePanelTargetPeron" runat="server">
+                                                        <contenttemplate>
+                                                    <asp:dropdownlist id="ddlTargetPerson" runat="server" 
+                                                        Autopostback="true" style="width: 155px" onselectedindexchanged="ddlTargetPerson_SelectedIndexChanged">
+                                                        <asp:listitem value="0">Select</asp:listitem>
+                                                    </asp:dropdownlist>
+                                                   
+                                                    <asp:Requiredfieldvalidator id="Rq3" runat="server" errormessage="<% $Resources:Rq3 %>"
+                                                        controltovalidate="ddlTargetPerson" setfocusonerror="True" validationgroup="VGroupX"
+                                                        display="Dynamic" initialvalue="0">&nbsp;</asp:Requiredfieldvalidator>
+                                                         </contenttemplate>
+                                                        <triggers>
+                                                    <asp:asyncpostBacktrigger ControlID="ddlProgramme"  />
+                                                    </triggers>
+                                                    </asp:updatepanel>
                                                 </td>
                                             </tr>
                                             <%--<tr>
@@ -241,11 +246,18 @@
                                     </fieldset>
                                 </td>
                             </tr>
+                        </table>
+                        <asp:updatepanel id="updPanel" runat="server">
+                            <contenttemplate>
+                                             <input type="hidden" id="div_position" name="div_position" />
+                                            <rsweb:ReportViewer ID="rview" runat="server" Height="0" Width="">
+                                               </rsweb:ReportViewer>
+                            <table width="100%">
                             <tr>
                                 <td valign="top">
                                     <fieldset class="fieldsetform assign-question">
                                         <legend>
-                                            <asp:Label ID="lblCandidateList" runat="server" Text="<% $Resources:lblCandidateList %>"></asp:Label></legend>
+                                            <asp:label id="lblCandidateList" runat="server" text="<% $Resources:lblCandidateList %>"> </asp:label></legend>
                                         <table width="100%" border="0" cellspacing="5" cellpadding="0">
                                             <tr>
                                                 <%--<td width="15%">
@@ -265,11 +277,11 @@
                                                         ValidationGroup="group2" SetFocusOnError="True" Text="*" ForeColor="White" runat="server" />
                                                 </td>--%>
                                                 <td colspan="3">
-                                                    <asp:ImageButton ID="imbSubmit" ImageUrl="~/Layouts/Resources/images/add-more-btn.png"
-                                                        runat="server" OnClick="imbSubmit_Click" />&nbsp;
-                                                    <asp:ImageButton ID="ImageButtonSaveAll" ImageUrl="~/Layouts/Resources/images/save.png"
-                                                        runat="server" OnClick="ImageButtonSaveAll_Click" OnClientClick="return ValidateRepeaterCandidateList();"
-                                                        ToolTip="Save All" />
+                                                    <asp:imagebutton id="imbSubmit" imageurl="~/Layouts/Resources/images/add-more-btn.png"
+                                                        runat="server" onclick="imbSubmit_Click" />&nbsp;
+                                                    <asp:ImageButton id="ImageButtonSaveAll" imageurl="~/Layouts/Resources/images/save.png"
+                                                        runat="server" onclick="ImageButtonSaveAll_Click" onclientclick="return ValidateRepeaterCandidateList();"
+                                                        tooltip="Save All" />
                                                 </td>
                                                 <%--<td width="35%">
                                                     <label>
@@ -287,13 +299,13 @@
                                                         <tr>
                                                             <td width="30%">
                                                                 <label>
-                                                                    <asp:FileUpload ID="FileUpload1" runat="server" />&nbsp;&nbsp;<span class="style3">
-                                                                        <asp:Label ID="lblExcelType" runat="server" Text="<% $Resources:lblExcelType %>"></asp:Label></span>
+                                                                    <asp:fileupload id="FileUpload1" runat="server" />&nbsp;&nbsp;<span class="style3">
+                                                                        <asp:label id="lblExcelType" runat="server" text="<% $Resources:lblExcelType %>"></asp:label></span>
                                                                 </label>
                                                             </td>
                                                             <td width="15%">
-                                                                <asp:ImageButton ID="ImgUpload" runat="server" ImageUrl="~/Layouts/Resources/images/import-s.png"
-                                                                    OnClick="ImgUpload_click" OnClientClick="javascript:document.forms[0].encoding = 'multipart/form-data';" />
+                                                                <asp:imagebutton id="ImgUpload" runat="server" imageurl="~/Layouts/Resources/images/import-s.png"
+                                                                    onclick="ImgUpload_click" onclientclick="javascript:document.forms[0].encoding = 'multipart/form-data';" />
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -301,10 +313,12 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="5" valign="top">
+                                               
                                                     <div id="divCandidateList" class="candidatelist" style="height: 242px">
-                                                        <asp:Repeater ID="rptrCandidateList" OnItemDataBound="rptrCandidateList_ItemDataBound"
-                                                            OnItemCommand="rptrCandidateList_ItemCommand" runat="server">
-                                                            <HeaderTemplate>
+                                                        <asp:repeater id="rptrCandidateList" onitemdatabound="rptrCandidateList_ItemDataBound"
+                                                            onitemcommand="rptrCandidateList_ItemCommand" runat="server">
+                                                            
+                                                            <headertemplate>
                                                                 <table width="100%" id="RepeatorCandidateList" border="0" cellspacing="0" cellpadding="0"
                                                                     class="grid">
                                                                     <tr>
@@ -336,8 +350,11 @@
                                                                             <%--<asp:Label ID="lbl" runat="server" Text="<% $Resources:lblEmailID %>"></asp:Label>--%>
                                                                         </th>
                                                                     </tr>
-                                                            </HeaderTemplate>
-                                                            <ItemTemplate>
+                                                                   <%-- </table>--%>
+                                                            </headertemplate>
+                                                            <itemtemplate>
+                                                              <%--<table width="100%"  border="0" cellspacing="0" cellpadding="0"
+                                                                    class="grid">--%>
                                                                 <tr>
                                                                     <td>
                                                                         <%# Container.ItemIndex + 1  %>.
@@ -349,8 +366,7 @@
                                                                         <asp:HiddenField ID="hddRelationShip" Value='<%# Eval("Relationship") %>' runat="server" />
                                                                         <asp:RequiredFieldValidator ID="rqfRelationShip" ControlToValidate="ddlRelationship"
                                                                             ErrorMessage="*" Display="Dynamic" InitialValue="0" ValidationGroup="VGroup"
-                                                                            runat="server">
-                                                                        </asp:RequiredFieldValidator>
+                                                                            runat="server"> </asp:RequiredFieldValidator>
                                                                         <%--<asp:TextBox ID="txtRelationship" Text='<%# Eval("Relationship") %>' runat="server"></asp:TextBox>--%>
                                                                         <%--<asp:RequiredFieldValidator ID="rqval1" runat="server" ValidationGroup="group1" ErrorMessage="Please enter relationship"
                                                                             SetFocusOnError="True" ControlToValidate="txtRelationship">&nbsp;</asp:RequiredFieldValidator>--%>
@@ -359,19 +375,14 @@
                                                                         <asp:TextBox ID="txtName" Style="width: 150px" runat="server" ValidationGroup="VGroup"
                                                                             Text='<%# Eval("Name") %>'></asp:TextBox>
                                                                         <asp:RequiredFieldValidator ID="rfqTxtName" ControlToValidate="txtName" ErrorMessage="*"
-                                                                            Display="Dynamic" ValidationGroup="VGroup" runat="server">
-                                                                        </asp:RequiredFieldValidator>
+                                                                            Display="Dynamic" ValidationGroup="VGroup" runat="server"> </asp:RequiredFieldValidator>
                                                                     </td>
                                                                     <td>
                                                                         <asp:TextBox ID="txtEmailID" Style="width: 255px" SkinID="email" ValidationGroup="VGroup"
                                                                             runat="server" Text='<%# Eval("EmailID") %>'></asp:TextBox>
                                                                         <asp:RequiredFieldValidator ID="rfqTxtEmailID" ControlToValidate="txtEmailID" ErrorMessage="*"
-                                                                            Display="Dynamic" ValidationGroup="VGroup" runat="server">
-                                                                        </asp:RequiredFieldValidator>
+                                                                            Display="Dynamic" ValidationGroup="VGroup" runat="server"> </asp:RequiredFieldValidator>
                                                                     </td>
-                                                                    <%--<td width="5%">
-                                                                        <asp:Label ID="lblSubmitStatus" Text='<%# Eval("SubmitFlag") %>' runat="server"></asp:Label>
-                                                                    </td>--%>
                                                                     <td>
                                                                         <asp:ImageButton ID="imbSaveColleague" ImageUrl="../../Layouts/Resources/images/saveIcon.png"
                                                                             Visible="false" CausesValidation="true" ValidationGroup="VGroup" CommandName="Assign"
@@ -404,90 +415,87 @@
                                                                             runat="server" AlternateText="Delete" />
                                                                     </td>
                                                                 </tr>
-                                                            </ItemTemplate>
-                                                            <FooterTemplate>
-                                                                </table>
-                                                            </FooterTemplate>
-                                                        </asp:Repeater>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </fieldset>
+                                                               
+                                                            </itemtemplate>
+                                                            <footertemplate>
+                                                              </table>
+                        </footertemplate> </asp:repeater>
+                    </div>
+                    </td> </tr> </table> </fieldset> </td> </tr>
+                    <tr>
+                        <td>
+                            <label id="lblReportMSG" text="" style="font-weight: bold" runat="server" visible="false">
+                            </label>
+                            <asp:imagebutton id="imbReportDownload" imageurl="~/Layouts/Resources/images/pdf.jpg"
+                                onclick="imbReportDownload_Click" runat="server" visible="false" />
+                        </td>
+                    </tr>
+                    </table>
+                    <div>
+                        <table width="100%" style="margin-top: 5px;">
+                            <tr style="margin-bottom: 5px;">
+                                <td width="50%">
+                                    <span class="style3">
+                                        <asp:label id="lblMandatory" runat="server" text="<% $Resources:lblMandatory %>"></asp:label></span>
+                                </td>
+                                <td rowspan="4">
+                                    <asp:imagebutton id="imbSelfAssessment" enabled="false" imageurl="~/Layouts/Resources/images/self-assessment-btn.png"
+                                        tooltip="Self Assessment" runat="server" causesvalidation="false" onclick="imbSelfAssessment_Click" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <label id="lblReportMSG" text="" style="font-weight: bold" runat="server" visible="false">
-                                    </label>
-                                    <asp:ImageButton ID="imbReportDownload" ImageUrl="~/Layouts/Resources/images/pdf.jpg"
-                                        OnClick="imbReportDownload_Click" runat="server" Visible="false" />
+                                    <span class="style3">
+                                        <asp:label id="lblAddMore" runat="server" text="<% $Resources:lblAddMore %>"></asp:label></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="style3 imagealign">
+                                        <asp:label id="lblResendEmail1" runat="server" text="<% $Resources:lblResendEmail1 %>">
+                                        </asp:label>
+                                        <img src="../../Layouts/Resources/images/sendemail.png" />
+                                        <asp:label id="lblResendEmail2" runat="server" text="<% $Resources:lblResendEmail2 %>">
+                                        </asp:label>
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="style3 imagealign">
+                                        <asp:label id="lblDelete1" runat="server" text="<% $Resources:lblDelete1 %>"></asp:label>
+                                        <img src="../../Layouts/Resources/images/delete.png" style="margin-top: 2px;" />
+                                        <asp:label id="lblDelete2" runat="server" text="<% $Resources:lblDelete2 %>"></asp:label>
+                                    </span>
                                 </td>
                             </tr>
                         </table>
-                        <div>
-                            <table width="100%" style="margin-top: 5px;">
-                                <tr style="margin-bottom: 5px;">
-                                    <td width="50%">
-                                        <span class="style3">
-                                            <asp:Label ID="lblMandatory" runat="server" Text="<% $Resources:lblMandatory %>"></asp:Label></span>
-                                    </td>
-                                    <td rowspan="4">
-                                        <asp:ImageButton ID="imbSelfAssessment" Enabled="false" ImageUrl="~/Layouts/Resources/images/self-assessment-btn.png"
-                                            ToolTip="Self Assessment" runat="server" CausesValidation="false" OnClick="imbSelfAssessment_Click" />
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="style3">
-                                            <asp:Label ID="lblAddMore" runat="server" Text="<% $Resources:lblAddMore %>"></asp:Label></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="style3 imagealign">
-                                            <asp:Label ID="lblResendEmail1" runat="server" Text="<% $Resources:lblResendEmail1 %>"></asp:Label>
-                                            <img src="../../Layouts/Resources/images/sendemail.png" />
-                                            <asp:Label ID="lblResendEmail2" runat="server" Text="<% $Resources:lblResendEmail2 %>"></asp:Label>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <span class="style3 imagealign">
-                                            <asp:Label ID="lblDelete1" runat="server" Text="<% $Resources:lblDelete1 %>"></asp:Label>
-                                            <img src="../../Layouts/Resources/images/delete.png" style="margin-top: 2px;" />
-                                            <asp:Label ID="lblDelete2" runat="server" Text="<% $Resources:lblDelete2 %>"></asp:Label>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                        <br />
-                        <div align="center">
-                            <%--<asp:ImageButton ID="imbSelfAssessment" Enabled="false" ImageUrl="~/Layouts/Resources/images/self-assessment-btn.png" ToolTip="Self Assessment"
+                    </div>
+                    <br />
+                    <div align="center">
+                        <%--<asp:ImageButton ID="imbSelfAssessment" Enabled="false" ImageUrl="~/Layouts/Resources/images/self-assessment-btn.png" ToolTip="Self Assessment"
                                 runat="server"  CausesValidation="false" OnClick="imbSelfAssessment_Click" />--%>
-                            <%--&nbsp;
+                        <%--&nbsp;
                             <asp:ImageButton ID="imbAssign" ImageUrl="~/Layouts/Resources/images/Save.png" ToolTip="Assign"
                                 runat="server" OnClick="imbAssign_Click" ValidationGroup="group1" />&nbsp;
                             <asp:ImageButton ID="imbReset" ImageUrl="~/Layouts/Resources/images/reset.png" ToolTip="Reset"
                                 runat="server" OnClick="imbReset_Click" />&nbsp;
                             <asp:ImageButton ID="imbView" ImageUrl="~/Layouts/Resources/images/View-Candidate.png"
                                 ToolTip="View Colleagues' List" runat="server" OnClick="imbView_Click" />--%>
-                        </div>
-                        <br />
-                        <div align="center">
-                            <asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel">
-                                <ProgressTemplate>
-                                    <img src="../../Layouts/Resources/images/loading.gif" alt="Please wait..." />
-                                </ProgressTemplate>
-                            </asp:UpdateProgress>
-                            <asp:Label ID="lblMessage2" runat="server" ForeColor="Red" Text=""></asp:Label>
-                        </div>
-                        <br />
                     </div>
-                    <!-- start user form -->
+                    <br />
+                    <div align="center">
+                        <asp:updateprogress id="Up1" runat="Server">
+                            <progresstemplate>
+                                    <img src="../../Layouts/Resources/images/loading.gif" alt="Please wait..." />
+                                </progresstemplate>
+                        </asp:updateprogress>
+                        <asp:label id="lblMessage2" runat="server" forecolor="Red" text=""></asp:label>
+                    </div>
+                    <br />
                 </div>
+                <!-- start user form -->
+            </div>
             </div>
             <%--
             <cc1:ModalPopupExtender ID="mp1" runat="server" TargetControlID="imbSelfAssessment" PopupControlID="pnlSelfAssessment" Enabled="true"
@@ -499,34 +507,37 @@
    <br/>
     <asp:Button ID="Button2" runat="server" Text="Close" />
 </asp:Panel>--%>
-        </ContentTemplate>
-        <Triggers>
-            <asp:PostBackTrigger ControlID="ImgUpload" />
-            <asp:PostBackTrigger ControlID="imbReportDownload" />
-            <asp:PostBackTrigger ControlID="ImageButtonSaveAll" />
-        </Triggers>
-    </asp:UpdatePanel>
+        </contenttemplate>
+        <triggers>
+            <asp:asyncPostBackTrigger ControlID="ImgUpload" />
+            <asp:asyncPostBackTrigger ControlID="imbReportDownload" />
+            <asp:asyncPostBackTrigger ControlID="ImageButtonSaveAll" />
+             <asp:asyncPostBackTrigger ControlID="ddlProgramme" />
+             <asp:asyncPostBackTrigger ControlID="ddlTargetPerson" />
+            
+        </triggers>
+    </asp:updatepanel>
     <div>
-        <asp:Chart ID="Chart1" runat="server" Width="810px" Height="370px" Visible="false"
-            ImageLocation="~/TempImages/ChartPic_#SEQ(300,3)" ImageType="Png" Palette="None"
-            BorderDashStyle="none" BorderWidth="2">
-            <Titles>
+        <asp:chart id="Chart1" runat="server" width="810px" height="370px" visible="false"
+            imagelocation="~/TempImages/ChartPic_#SEQ(300,3)" imagetype="Png" palette="None"
+            borderdashstyle="none" borderwidth="2">
+            <titles>
                 <asp:Title Font="Trebuchet MS, 14.25pt, style=Bold" Text="" ForeColor="26, 59, 105">
                 </asp:Title>
-            </Titles>
-            <Legends>
+            </titles>
+            <legends>
                 <asp:Legend IsTextAutoFit="False" Name="Default" BackColor="#FAFA9D" Font="Trebuchet MS, 8.25pt, style=Bold"
                     Alignment="Far" BorderColor="LightGray" BorderWidth="4" ShadowColor="LightGray"
                     ShadowOffset="5" ItemColumnSpacing="20">
                     <Position Y="18.08253" Height="12.23021" Width="26.34047" X="72.73474"></Position>
                 </asp:Legend>
-            </Legends>
-            <BorderSkin SkinStyle="None" BackColor="White"></BorderSkin>
+            </legends>
+            <borderskin skinstyle="None" backcolor="White"></borderskin>
             <%--<series >
 								<asp:Series MarkerBorderColor="64, 64, 64" MarkerSize="9" Name="Series1" ChartType="Radar" BorderColor="180, 26, 59, 105" Color="220, 65, 140, 240" ShadowOffset="1"></asp:Series>
 								<asp:Series MarkerBorderColor="64, 64, 64" MarkerSize="9" Name="Series2" ChartType="Radar" BorderColor="180, 26, 59, 105" Color="220, 252, 180, 65" ShadowOffset="1"></asp:Series>
 							</series>--%>
-            <ChartAreas>
+            <chartareas>
                 <asp:ChartArea Name="ChartArea1" BorderColor="64, 64, 64, 64" BackSecondaryColor="White"
                     BackColor="White" ShadowColor="Transparent">
                     <Area3DStyle Rotation="10" Perspective="10" Inclination="15" IsRightAngleAxes="False"
@@ -545,7 +556,9 @@
                         <MajorGrid LineColor="64, 64, 64, 64" />
                     </AxisX>
                 </asp:ChartArea>
-            </ChartAreas>
-        </asp:Chart>
+            </chartareas>
+        </asp:chart>
     </div>
-</asp:Content>
+                                        </table>
+                                        </table>
+</asp:content>

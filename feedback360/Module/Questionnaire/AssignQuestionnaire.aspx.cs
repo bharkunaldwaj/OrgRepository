@@ -30,6 +30,17 @@ using System.Drawing;
 
 public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 {
+    #region Private Constant
+    const string ProjectTextField = "Title";
+    const string ProjectValueField = "ProjectID";
+    const string ProgramTextField = "ProgrammeName";
+    const string ProgramValueField = "ProgrammeID";
+    const string AccountTextField = "Code";
+    const string AccountValueField = "AccountID";
+    const string DefaulText = "Select";
+    const string DefaulValue = "0";
+    #endregion
+
     int i;
     string SqlType = string.Empty;
     string filePath = string.Empty;
@@ -136,30 +147,31 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             DataTable dtuserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(userid);
             Project_BAO project_BAO = new Project_BAO();
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
-            ddlAccountCode.DataValueField = "AccountID";
-            ddlAccountCode.DataTextField = "Code";
-            ddlAccountCode.DataBind();
+            //Account_BAO account_BAO = new Account_BAO();
+            //ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            //ddlAccountCode.DataValueField = "AccountID";
+            //ddlAccountCode.DataTextField = "Code";
+            //ddlAccountCode.DataBind();
+            BindControls(identity.User.GroupID);
 
-            if (identity.User.GroupID == 1)
-            {
-                divAccount.Visible = true;
-                ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-                ddlAccountCode_SelectedIndexChanged(sender, e);
-            }
-            else
-            {
-                divAccount.Visible = false;
-                ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-            }
+            //if (identity.User.GroupID == 1)
+            //{
+            //    divAccount.Visible = true;
+            //    ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+            //    ddlAccountCode_SelectedIndexChanged(sender, e);
+            //}
+            //else
+            //{
+            //    divAccount.Visible = false;
+            //    ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+            //}
 
             if (identity.User.GroupID.ToString() != participantRoleId)
             {
-                ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
-                ddlProject.DataValueField = "ProjectID";
-                ddlProject.DataTextField = "Title";
-                ddlProject.DataBind();
+                //ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                //ddlProject.DataValueField = "ProjectID";
+                //ddlProject.DataTextField = "Title";
+                //ddlProject.DataBind();
 
                 tblParticipantUpload.Visible = true;
 
@@ -167,7 +179,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                 ddlProgramme.Enabled = true;
                 lblMandatory.Visible = true;
                 ibtnHelp.Visible = false;
-                //ddlQuestionnaire.Enabled = true;
             }
             else
             {
@@ -868,75 +879,65 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
 
-            int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            //int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
-            Account_BAO account_BAO = new Account_BAO();
+            //Account_BAO account_BAO = new Account_BAO();
 
-            CompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            //CompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-            expression1 = "AccountID='" + companycode + "'";
+            //expression1 = "AccountID='" + companycode + "'";
 
-            Finalexpression = expression1;
+            //Finalexpression = expression1;
 
-            DataRow[] resultsAccount = CompanyName.Select(Finalexpression);
+            //DataRow[] resultsAccount = CompanyName.Select(Finalexpression);
 
-            DataTable dtAccount = CompanyName.Clone();
+            //DataTable dtAccount = CompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-            {
-                dtAccount.ImportRow(drAccount);
-            }
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
-            //ddlTargetPerson.Items.Clear();
-            //ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
-
-            //AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-            //DataTable dtParticipant = new DataTable();
-
-            //dtParticipant = accountUser_BAO.GetParticipantList(Convert.ToString(companycode));
-            //if (dtParticipant.Rows.Count > 0)
+            //foreach (DataRow drAccount in resultsAccount)
             //{
-            //    ddlTargetPerson.DataSource = dtParticipant;
-            //    ddlTargetPerson.DataValueField = "UserID";
-            //    ddlTargetPerson.DataTextField = "UserName";
-            //    ddlTargetPerson.DataBind();
+            //    dtAccount.ImportRow(drAccount);
             //}
 
-            ddlProject.Items.Clear();
-            ddlProject.Items.Insert(0, new ListItem("Select", "0"));
+            //lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            GetCompanyName();
+
+            //ddlProject.Items.Clear();
+            // ddlProject.Items.Insert(0, new ListItem("Select", "0"));
+
 
             Project_BAO project_BAO = new Project_BAO();
-            ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(ddlAccountCode.SelectedValue));
-            ddlProject.DataValueField = "ProjectID";
-            ddlProject.DataTextField = "Title";
-            ddlProject.DataBind();
+            //ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(ddlAccountCode.SelectedValue));
+            //ddlProject.DataValueField = "ProjectID";
+            //ddlProject.DataTextField = "Title";
+            //ddlProject.DataBind();
+            BindDropDownList(ddlProject, project_BAO.GetdtProjectList(Convert.ToString(ddlAccountCode.SelectedValue)),
+                ProjectTextField, ProjectValueField);
 
-            //ddlQuestionnaire.Items.Clear();
-            //ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
 
-            ddlProgramme.Items.Clear();
-            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+            // ddlProgramme.Items.Clear();
+            //  ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+            ClearControl(ddlProgramme);
 
-            ddlTargetPerson.Items.Clear();
-            ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
+
+            //  ddlTargetPerson.Items.Clear();
+            //  ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
+            ClearControl(ddlTargetPerson);
         }
         else
         {
-            lblcompanyname.Text = "";
+            lblcompanyname.Text = string.Empty;
 
-            ddlProject.Items.Clear();
-            ddlProject.Items.Insert(0, new ListItem("Select", "0"));
+            //ddlProject.Items.Clear();
+            //ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
-            //ddlQuestionnaire.Items.Clear();
-            //ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
+            //ddlProgramme.Items.Clear();
+            //ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
 
-            ddlProgramme.Items.Clear();
-            ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
-
-            ddlTargetPerson.Items.Clear();
-            ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
+            //ddlTargetPerson.Items.Clear();
+            //ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
+            ClearControl(ddlProject);
+            ClearControl(ddlProgramme);
+            ClearControl(ddlTargetPerson);
         }
     }
 
@@ -1501,12 +1502,12 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             if (dtParticipant.Rows.Count > 0)
             {
                 ddlTargetPerson.Items.Clear();
-                ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
 
                 ddlTargetPerson.DataSource = dtParticipant;
                 ddlTargetPerson.DataTextField = "UserName";
                 ddlTargetPerson.DataValueField = "UserID";
                 ddlTargetPerson.DataBind();
+                ddlTargetPerson.Items.Insert(0, new ListItem("Select", "0"));
             }
             else
             {
@@ -3611,6 +3612,63 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         lblMessage.Text = "Upload Failed.Please fill the Correct Field Value";
         lblMessage2.Text = "Upload Failed.Please fill the Correct Field Value";
     }
+
+    private void BindDropDownList(DropDownList dropDownControl, DataTable controlDataTable,
+      string DataTextField, string DataValueField)
+    {
+        dropDownControl.Items.Clear();
+
+        dropDownControl.DataSource = controlDataTable;
+        dropDownControl.DataValueField = DataValueField;
+        dropDownControl.DataTextField = DataTextField;
+        dropDownControl.DataBind();
+
+        dropDownControl.Items.Insert(0, new ListItem(DefaulText, DefaulValue));
+    }
+
+    private void ClearControl(DropDownList dropDownListControl)
+    {
+        dropDownListControl.Items.Clear();
+        dropDownListControl.Items.Insert(0, new ListItem(DefaulText, DefaulValue));
+    }
+
+    private void GetCompanyName()
+    {
+        Account_BAO account_BAO = new Account_BAO();
+        int companycode = int.Parse(ddlAccountCode.SelectedValue);
+
+        DataTable DataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+
+        var companyName = (DataTableCompanyName.AsEnumerable()).
+            Where(x => x.Field<int>("AccountID") == companycode).FirstOrDefault();
+
+        lblcompanyname.Text = companyName.Field<string>("Organisationname");
+    }
+
+    private void BindControls(int? groupID)
+    {
+        Account_BAO account_BAO = new Account_BAO();
+        Project_BAO project_BAO = new Project_BAO();
+        identity = this.Page.User.Identity as WADIdentity;
+
+        BindDropDownList(ddlAccountCode, account_BAO.GetdtAccountList((identity.User.AccountID.ToString())),
+            AccountTextField, AccountValueField);
+        ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+        GetCompanyName();
+
+        if (identity.User.GroupID == 1)
+        {
+            divAccount.Visible = true;
+        }
+        else
+        {
+            divAccount.Visible = false;
+            lblcompanyname.Text = string.Empty;
+        }
+
+        BindDropDownList(ddlProject, project_BAO.GetdtProjectList((identity.User.AccountID.ToString())),
+               ProjectTextField, ProjectValueField);
+    }
     #endregion
 
     #region Public Methods
@@ -3628,20 +3686,20 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         dtAssignDetails = assignquestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
 
         Project_BAO project_BAO = new Project_BAO();
-        ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
-        ddlProject.DataValueField = "ProjectID";
-        ddlProject.DataTextField = "Title";
-        ddlProject.DataBind();
+        //ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+        //ddlProject.DataValueField = "ProjectID";
+        //ddlProject.DataTextField = "Title";
+        //ddlProject.DataBind();
         if (dtAssignDetails.Rows.Count > 0)
         {
             ddlProject.SelectedValue = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
             hdnProjectId.Value = dtAssignDetails.Rows[0]["ProjecctID"].ToString();
         }
 
-        //ddlProject.SelectedIndex = 1;
 
         Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
 
+#if CommentOut
         //ddlQuestionnaire.Items.Clear();
         //DataTable dtQuestionnaire = new DataTable();
         //dtQuestionnaire = questionnaire_BAO.GetProjectQuestionnaire(Convert.ToInt32(ddlProject.SelectedValue));
@@ -3657,6 +3715,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         //}
 
         //ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
+#endif
 
         //Set Programme
         Programme_BAO programme_BAO = new Programme_BAO();
