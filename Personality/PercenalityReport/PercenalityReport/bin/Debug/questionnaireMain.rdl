@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Rectangle Name="Rectangle1">
+        <PageBreak>
+          <BreakLocation>End</BreakLocation>
+        </PageBreak>
+        <Top>0.67847in</Top>
+        <Left>2.0715in</Left>
+        <Height>0.0625in</Height>
+        <Width>2.05208in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Rectangle>
+      <Subreport Name="Subreport3">
+        <ReportName>questionnaireContent</ReportName>
+        <Parameters>
+          <Parameter Name="QuestionnaireID">
+            <Value>=Parameters!QuestionnaireID.Value</Value>
+          </Parameter>
+          <Parameter Name="AccountID">
+            <Value>=Parameters!AccountID.Value</Value>
+          </Parameter>
+          <Parameter Name="ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </Parameter>
+          <Parameter Name="ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </Parameter>
+          <Parameter Name="IsParticipate">
+            <Value>=Parameters!IsParticipate.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>0.8175in</Top>
+        <Left>0.01233in</Left>
+        <Height>0.16667in</Height>
+        <Width>6.48958in</Width>
+        <ZIndex>1</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
+      <Subreport Name="Subreport1">
+        <ReportName>questionnaireHeading</ReportName>
+        <Parameters>
+          <Parameter Name="QuestionnaireID">
+            <Value>=Parameters!QuestionnaireID.Value</Value>
+          </Parameter>
+          <Parameter Name="AccountID">
+            <Value>=Parameters!AccountID.Value</Value>
+          </Parameter>
+          <Parameter Name="ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </Parameter>
+          <Parameter Name="ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </Parameter>
+          <Parameter Name="IsParticipate">
+            <Value>=Parameters!IsParticipate.Value</Value>
+          </Parameter>
+        </Parameters>
+        <Top>0.50708in</Top>
+        <Left>0.01233in</Left>
+        <Height>0.14917in</Height>
+        <Width>6.48958in</Width>
+        <ZIndex>2</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Subreport>
+    </ReportItems>
+    <Height>0.98417in</Height>
+    <Style />
+  </Body>
+  <Width>6.53059in</Width>
+  <Page>
+    <PageHeader>
+      <Height>0.63625in</Height>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="Image2">
+          <Source>Database</Source>
+          <Value>=First(Fields!GraphicsImage1.Value, "Report_Questionnaire")</Value>
+          <MIMEType>image/jpeg</MIMEType>
+          <Sizing>Clip</Sizing>
+          <Top>0.43542in</Top>
+          <Left>0.01233in</Left>
+          <Height>0.11458in</Height>
+          <Width>6.48958in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Textbox Name="Textbox5">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!ReportName.Value, "Report_Questionnaire")</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                    <TextDecoration>None</TextDecoration>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Left</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox5</rd:DefaultName>
+          <Top>0.08896in</Top>
+          <Left>0.06608in</Left>
+          <Height>0.25in</Height>
+          <Width>2.17194in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox6">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!Heading1.Value, "Report_Questionnaire")</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox5</rd:DefaultName>
+          <Top>0.08896in</Top>
+          <Left>2.29914in</Left>
+          <Height>0.25in</Height>
+          <Width>2.26228in</Width>
+          <ZIndex>2</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox7">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>
+										=IIf(Day(Globals!ExecutionTime) = "11" or Day(Globals!ExecutionTime) = "12" or Day(Globals!ExecutionTime) = "13" ,Day(Globals!ExecutionTime) &amp; "th " &amp; Format(Globals!ExecutionTime,"MMMM yyyy"),
+										IIf(Right(Day(Globals!ExecutionTime),1) = "1" ,Day(Globals!ExecutionTime) &amp; "st " &amp; Format(Globals!ExecutionTime,"MMMM yyyy"),"") &amp;
+										IIf(Right(Day(Globals!ExecutionTime),1) = "2" ,Day(Globals!ExecutionTime) &amp; "nd " &amp; Format(Globals!ExecutionTime,"MMMM yyyy"),"") &amp;
+										IIf(Right(Day(Globals!ExecutionTime),1) = "3" ,Day(Globals!ExecutionTime) &amp; "rd " &amp; Format(Globals!ExecutionTime,"MMMM yyyy"),"") &amp;
+										IIf(Right(Day(Globals!ExecutionTime),1) &gt; "3" or Right(Day(Globals!ExecutionTime),1)="0" ,Day(Globals!ExecutionTime) &amp; "th " &amp; Format(Globals!ExecutionTime,"MMMM yyyy"),""))
+										&amp; " "
+									</Value>
+                  <Style>
+                    <FontSize>11pt</FontSize>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Right</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox5</rd:DefaultName>
+          <Top>0.09313in</Top>
+          <Left>4.61698in</Left>
+          <Height>0.25in</Height>
+          <Width>1.86027in</Width>
+          <ZIndex>3</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageHeader>
+    <PageFooter>
+      <Height>0.7in</Height>
+      <PrintOnLastPage>true</PrintOnLastPage>
+      <ReportItems>
+        <Image Name="Image3">
+          <Source>Database</Source>
+          <Value>=First(Fields!GraphicsImage2.Value, "Report_Questionnaire")</Value>
+          <MIMEType>image/jpeg</MIMEType>
+          <Sizing>FitProportional</Sizing>
+          <Top>0in</Top>
+          <Left>0.01233in</Left>
+          <Height>0.35208in</Height>
+          <Width>6.48958in</Width>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </Image>
+        <Textbox Name="Textbox3">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=First(Fields!Copyright.Value, "Report_Questionnaire")</Value>
+                  <Style>
+                    <FontWeight>Bold</FontWeight>
+                  </Style>
+                </TextRun>
+              </TextRuns>
+              <Style>
+                <TextAlign>Center</TextAlign>
+              </Style>
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox1</rd:DefaultName>
+          <Top>0.45in</Top>
+          <Left>0.01233in</Left>
+          <Height>0.25in</Height>
+          <Width>6.48958in</Width>
+          <ZIndex>1</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+      </ReportItems>
+      <Style>
+        <Border>
+          <Style>None</Style>
+        </Border>
+      </Style>
+    </PageFooter>
+    <LeftMargin>0.98425in</LeftMargin>
+    <RightMargin>0.7874in</RightMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Personality">
+      <DataSourceReference>Personality</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>4eca6f70-9a3c-4a94-a9a4-f7a3150734ba</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Report_Questionnaire">
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Action">
+            <Value>=Parameters!Action.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@QuestionnaireID">
+            <Value>=Parameters!QuestionnaireID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@AccountID">
+            <Value>=Parameters!AccountID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IsParticipate">
+            <Value>=Parameters!IsParticipate.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Questionnaire</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="UniqueID">
+          <DataField>UniqueID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CreatedBy">
+          <DataField>CreatedBy</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CreatedDate">
+          <DataField>CreatedDate</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="UpdatedBy">
+          <DataField>UpdatedBy</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="UpdatedDate">
+          <DataField>UpdatedDate</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="QuestionnareID">
+          <DataField>QuestionnareID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportType">
+          <DataField>ReportType</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportName">
+          <DataField>ReportName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Heading1">
+          <DataField>Heading1</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Heading2">
+          <DataField>Heading2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Heading3">
+          <DataField>Heading3</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Copyright">
+          <DataField>Copyright</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage1">
+          <DataField>ReportImage1</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage2">
+          <DataField>ReportImage2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage3">
+          <DataField>ReportImage3</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage4">
+          <DataField>ReportImage4</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="GraphicsImage1">
+          <DataField>GraphicsImage1</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="GraphicsImage2">
+          <DataField>GraphicsImage2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Introduction">
+          <DataField>Introduction</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Conclusion">
+          <DataField>Conclusion</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="HeadingColor">
+          <DataField>HeadingColor</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage1Value">
+          <DataField>ReportImage1Value</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage2Value">
+          <DataField>ReportImage2Value</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage3Value">
+          <DataField>ReportImage3Value</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ReportImage4Value">
+          <DataField>ReportImage4Value</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="BarGraph">
+          <DataField>BarGraph</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="WheelGraph">
+          <DataField>WheelGraph</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="StatementCode">
+          <DataField>StatementCode</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="LeftGraphText">
+          <DataField>LeftGraphText</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="RightGraphText">
+          <DataField>RightGraphText</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="WheelGraphText">
+          <DataField>WheelGraphText</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="ConclusionHeading">
+          <DataField>ConclusionHeading</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="PersonalityParticipantAverageScoreChart">
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>PersonalityParticipantAverageScoreChart</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="ScoreValue">
+          <DataField>ScoreValue</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ColorCode">
+          <DataField>ColorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Sequence">
+          <DataField>Sequence</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="PersonalityRightGraphNew">
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>PersonalityRightGraph</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="MinCount">
+          <DataField>MinCount</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="ColorCode">
+          <DataField>ColorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SumMinCount">
+          <DataField>SumMinCount</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="Percentage">
+          <DataField>Percentage</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="NewColorCode">
+          <DataField>NewColorCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="dtReportMangement">
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Action">
+            <Value>="E"</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>PersonalityReportNewChanges</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ShowFreeTextResponse">
+          <DataField>ShowFreeTextResponse</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="Color1">
+          <DataField>Color1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Color2">
+          <DataField>Color2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Color3">
+          <DataField>Color3</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Color4">
+          <DataField>Color4</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShowWheelGraphExplanation">
+          <DataField>ShowWheelGraphExplanation</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="Action">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>H</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Action</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="QuestionnaireID">
+      <DataType>String</DataType>
+      <Prompt>Questionnaire ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AccountID">
+      <DataType>String</DataType>
+      <Prompt>Account ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportManagement">
+      <DataType>String</DataType>
+      <Prompt>Report Management</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ParticipantID">
+      <DataType>String</DataType>
+      <Prompt>Participant ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsParticipate">
+      <DataType>String</DataType>
+      <Prompt>Is Participate</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>d9367c68-efd2-402d-8e22-4e6c035bbfbd</rd:ReportID>
+</Report>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
+  <DataSources>
+    <DataSource Name="Personality">
+      <DataSourceReference>Personality</DataSourceReference>
+      <rd:DataSourceID>4eca6f70-9a3c-4a94-a9a4-f7a3150734ba</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Report_Questionnaire_Content">
+      <Fields>
+        <Field Name="DisplayType">
+          <DataField>DisplayType</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="DisplayTypeValue">
+          <DataField>DisplayTypeValue</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="MaleStatement">
+          <DataField>MaleStatement</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="FemaleStatement">
+          <DataField>FemaleStatement</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategoryID">
+          <DataField>CategoryID</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Name">
+          <DataField>Name</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Honorific">
+          <DataField>Honorific</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="SubDescription">
+          <DataField>SubDescription</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="SubTitle">
+          <DataField>SubTitle</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Sequence">
+          <DataField>Sequence</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="FirstName">
+          <DataField>FirstName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="LastName">
+          <DataField>LastName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Type">
+          <DataField>Type</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="RowNum">
+          <DataField>RowNum</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Questionnaire_OnePage</CommandText>
+        <QueryParameters>
+          <QueryParameter Name="@Action">
+            <Value>=Parameters!Action.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@QuestionnaireID">
+            <Value>=Parameters!QuestionnaireID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@AccountID">
+            <Value>=Parameters!AccountID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@IsParticipate">
+            <Value>=Parameters!IsParticipate.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+    </DataSet>
+  </DataSets>
+  <Body>
+    <ReportItems>
+      <Tablix Name="Tablix1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>7.37431in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.18833in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MaleStatement">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MaleStatement.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MaleStatement</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <Group Name="Details" />
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>Report_Questionnaire_Content</DataSetName>
+        <Filters>
+          <Filter>
+            <FilterExpression>=Fields!RowNum.Value</FilterExpression>
+            <Operator>GreaterThan</Operator>
+            <FilterValues>
+              <FilterValue DataType="Integer">1</FilterValue>
+            </FilterValues>
+          </Filter>
+          <Filter>
+            <FilterExpression>=Fields!CategoryID.Value</FilterExpression>
+            <Operator>Equal</Operator>
+            <FilterValues>
+              <FilterValue>=Parameters!CategoryID.Value</FilterValue>
+            </FilterValues>
+          </Filter>
+        </Filters>
+        <Height>0.18833in</Height>
+        <Width>7.37431in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>0.18833in</Height>
+    <Style />
+  </Body>
+  <ReportParameters>
+    <ReportParameter Name="Action">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>C</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Action</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="QuestionnaireID">
+      <DataType>String</DataType>
+      <Prompt>Questionnaire ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AccountID">
+      <DataType>String</DataType>
+      <Prompt>Account ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportManagement">
+      <DataType>String</DataType>
+      <Prompt>Report Management</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ParticipantID">
+      <DataType>String</DataType>
+      <Prompt>Participant ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="IsParticipate">
+      <DataType>String</DataType>
+      <Prompt>Is Participate</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="CategoryID">
+      <DataType>String</DataType>
+      <Prompt>CategoryID</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <Width>7.37431in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <rd:ReportID>6f45ddd8-b6cf-4b92-8bc4-015cfb494d91</rd:ReportID>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+</Report>

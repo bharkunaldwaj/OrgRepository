@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "PercenalityReport", "PercenalityReport\PercenalityReport.rptproj", "{7D32B0C5-34C7-42B2-AC94-556124CE30CD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Debug|Default.ActiveCfg = Debug
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Debug|Default.Build.0 = DebugLocal
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Debug|Default.Deploy.0 = DebugLocal
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.DebugLocal|Default.Build.0 = DebugLocal
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Release|Default.ActiveCfg = Release
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Release|Default.Build.0 = Release
+		{7D32B0C5-34C7-42B2-AC94-556124CE30CD}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

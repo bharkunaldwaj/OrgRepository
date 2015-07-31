@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
+  <Body>
+    <ReportItems>
+      <Tablix Name="Tablix1">
+        <TablixBody>
+          <TablixColumns>
+            <TablixColumn>
+              <Width>6.39583in</Width>
+            </TablixColumn>
+          </TablixColumns>
+          <TablixRows>
+            <TablixRow>
+              <Height>0.32292in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox3">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>Free Text Response</Value>
+                              <Style>
+                                <FontSize>11pt</FontSize>
+                                <FontWeight>Bold</FontWeight>
+                                <Color>Blue</Color>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox3</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="MainText">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!MainText.Value</Value>
+                              <Style>
+                                <FontWeight>Bold</FontWeight>
+                              </Style>
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>MainText</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="FreeTextAnswer">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value>=Fields!FreeTextAnswer.Value</Value>
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>FreeTextAnswer</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+            <TablixRow>
+              <Height>0.25in</Height>
+              <TablixCells>
+                <TablixCell>
+                  <CellContents>
+                    <Textbox Name="Textbox4">
+                      <CanGrow>true</CanGrow>
+                      <KeepTogether>true</KeepTogether>
+                      <Paragraphs>
+                        <Paragraph>
+                          <TextRuns>
+                            <TextRun>
+                              <Value />
+                              <Style />
+                            </TextRun>
+                          </TextRuns>
+                          <Style />
+                        </Paragraph>
+                      </Paragraphs>
+                      <rd:DefaultName>Textbox4</rd:DefaultName>
+                      <Style>
+                        <Border>
+                          <Color>LightGrey</Color>
+                          <Style>None</Style>
+                        </Border>
+                        <PaddingLeft>2pt</PaddingLeft>
+                        <PaddingRight>2pt</PaddingRight>
+                        <PaddingTop>2pt</PaddingTop>
+                        <PaddingBottom>2pt</PaddingBottom>
+                      </Style>
+                    </Textbox>
+                  </CellContents>
+                </TablixCell>
+              </TablixCells>
+            </TablixRow>
+          </TablixRows>
+        </TablixBody>
+        <TablixColumnHierarchy>
+          <TablixMembers>
+            <TablixMember />
+          </TablixMembers>
+        </TablixColumnHierarchy>
+        <TablixRowHierarchy>
+          <TablixMembers>
+            <TablixMember>
+              <KeepWithGroup>After</KeepWithGroup>
+            </TablixMember>
+            <TablixMember>
+              <Group Name="Details" />
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixMember>
+          </TablixMembers>
+        </TablixRowHierarchy>
+        <DataSetName>dtFreeTextAnswers</DataSetName>
+        <Height>1.07292in</Height>
+        <Width>6.39583in</Width>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Tablix>
+    </ReportItems>
+    <Height>1.07292in</Height>
+    <Style />
+  </Body>
+  <Width>6.39583in</Width>
+  <Page>
+    <PageWidth>8.3in</PageWidth>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Personality">
+      <DataSourceReference>Personality</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>481216f4-1dac-4047-a67c-186dd16d7bf5</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="dtFreeTextAnswers">
+      <Query>
+        <DataSourceName>Personality</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@Action">
+            <Value>="D"</Value>
+          </QueryParameter>
+          <QueryParameter Name="@AccountID">
+            <Value>=Parameters!AccountID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ParticipantID">
+            <Value>=Parameters!ParticipantID.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ReportManagement">
+            <Value>=Parameters!ReportManagement.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>PersonalityReportNewChanges</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="MainText">
+          <DataField>MainText</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="FreeTextAnswer">
+          <DataField>FreeTextAnswer</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportParameters>
+    <ReportParameter Name="Action">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>C</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Action</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="AccountID">
+      <DataType>String</DataType>
+      <Prompt>Account ID</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ReportManagement">
+      <DataType>String</DataType>
+      <Prompt>Report Management</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ParticipantID">
+      <DataType>String</DataType>
+      <Prompt>Participant ID</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <EmbeddedImages>
+    <EmbeddedImage Name="download">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAcFBgYGBQcGBgYICAcJCxIMCwoKCxcQEQ0SGxccHBoXGhkdISokHR8oIBkaJTIlKCwtLzAvHSM0ODQuNyouLy7/2wBDAQgICAsKCxYMDBYuHhoeLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi4uLi7/wAARCAAKAAoDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDz/wAWeJdf1jxLc6jqN1cwXcM7CKISFfsmD9xf7uPzzXb2PxX8fJZW6C2FwFiUCZocmTj7xPcnrR8abO0T4lwBLWFROI2lAjA8wnGS3qfrX0dY2dpFZW8UVrCkaRKqqsYAUADAAr0as4qEW4nBThJyklI//9k=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="icon">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>Qk0WBwAAAAAAADYAAAAoAAAAHQAAABQAAAABABgAAAAAAOAGAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////8AAAAAAAAAAAD///////////////////////////////////////////////////8A////////////////////////////////////////////AAAAAAAAoAAAoAAAoAAAAAAAAAAA////////////////////////////////////////////AP///////////////////////////////////////wAAAKAAAKAAAKAAAKAAAKAAAKAAAKAAAAAAAP//////////////////////////////
+/////////wD///////////////////////////////////////8AAACgAACgAACgAACgAACgAACgAACgAAAAAAD///////////////////////////////////////8A////////////////////////////////////AAAAoAAAoAAAoAAAoAAAoAAAoAAAoAAAoAAAoAAAAAAA////////////////////////////////////AP///////////////////////////////////wAAAKAAAKAAAKAAAKAAAKAAAKAAAKAAAKAAAKAAAAAAAP///////////////////////////////////wD///////////////////////////////////8AAACgAACgAACgAACgAACgAACgAACgAACgAACgAAAAAAD///////////////////////////////////8A////////////////////////////////////////AAAAoAAAoAAAoAAAoAAAoAAAoAAAoAAAAAAA////////////////////////////////////////AP///////////////////////////////////////wAAAKAAAKAAAKAAAKAAAKAAAKAAAKAAAAAAAP///////////////////////////////////////wD///////////////////////////////////////////8AAAAAAACgAACgAACgAAAAAAAAAAD///////////////////////////////////////////8A////////////////////////////////////////////////////AAAAAAAAAAAA////////////////////////////////////////////////////AP//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wA=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="icon1">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>Qk0WBwAAAAAAADYAAAAoAAAAHQAAABQAAAABABgAAAAAAOAGAAAAAAAAAAAAAAAAAAAAAAAA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////wAAAAAAAP//////////////////////////////////////////////
+/////////wD///////////////////////////////////////////8AAAAAAACgAACgAAAAAAAAAAD///////////////////////////////////////////////8A////////////////////////////////////////////AAAAoAAAoAAAoAAAoAAAAAAA////////////////////////////////////////////////AP///////////////////////////////////////wAAAKAAAKAAAKAAAKAAAKAAAKAAAAAAAP///////////////////////////////////////////wD///////////////////////////////////////8AAACgAACgAACgAACgAACgAACgAAAAAAD///////////////////////////////////////////8A////////////////////////////////////////////AAAAoAAAoAAAoAAAoAAAAAAA////////////////////////////////////////////////AP///////////////////////////////////////////wAAAAAAAKAAAKAAAAAAAAAAAP///////////////////////////////////////////////wD///////////////////////////////////////////////////8AAAAAAAD///////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP//////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////wD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////8A////////////////////////////////////////////////////////////////////////////////////////////////////////////////////AP///////////////////////////////////////////////////////////////////////////////////////////////////////////////////wA=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="bluebullet">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABaAAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo4RkI1OTZBNTdENTkxMUUxQkVGOEI1MTBGNkIxOTE3MSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo4RkI1OTZBNjdENTkxMUUxQkVGOEI1MTBGNkIxOTE3MSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjhGQjU5NkEzN0Q1OTExRTFCRUY4QjUxMEY2QjE5MTcxIiBzdFJlZjpkb2N1bWVudElE
+PSJ4bXAuZGlkOjhGQjU5NkE0N0Q1OTExRTFCRUY4QjUxMEY2QjE5MTcxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQAAQEBAQEBAQEBAQIBAQECAgIBAQICAgICAgICAgMCAwMDAwIDAwQEBAQEAwUFBQUFBQcHBwcHCAgICAgICAgICAEBAQECAgIFAwMFBwUEBQcICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI/8AAEQgADQANAwERAAIRAQMRAf/EAHUAAQEBAAAAAAAAAAAAAAAAAAUHCAEAAgMAAAAAAAAAAAAAAAAAAggDBAUQAAAGAQMDBAMAAAAAAAAAAAECAwQFBgcRFgkSEwgAMhQVJBcZEQACAQMCBgMBAQAAAAAAAAABAhExEgMABSFBIhMGB1EyBBUW/9oADAMBAAIRAxEAPwDMvMZykeWuZ/NfPGN63l+zYmw9gi1TdQpOOoCZkIVuoatSK0OvIPfrlEDOHDlZA6pRV6u0QwJl0ABEXO9c+C7f+bbMeRkV8mRQxYgH7CYE0AHDhWuk69h+b/v/AE7lkxq7JjxsVABI+piTFSa8aU0bE8zvni845L/hJznqzBcq5fqgyhs5kkVt2GqU1X7K4eQ60sP5eoOopsqi4BUF+gVExUFPQoHk9bbUN5XMMa2lGJSOm4FYaKUJBERQxOgx+xt0Ozth7jXB1Aaeq0hpWa1AINaiY1WeduH44JHz+ystQch3moZYI8SJ5FR0BTYGx1RWyikQXazNw+tEGum8KGgPEuyZMy/UIKFP3A9Z/qvJvI2lO4qNjjolirW8pARhHwZmOURq/wC0MezndX7bOuSeuFBW7nBLKZ+RETzrpaJi+GD+SF/i4u8Zf3v+06gS83oKrUt5
+bp2vZRglTQRrD8Db/wAT7QASJKd/vaidT2B6DI/kn+gUlcVnbaBc1tty3dVs3zbxtiOVdSY08c/gMA2W7uLJtW661rem6LIu4XTPPX//2Q==</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="bluebullet1">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAgAAZABkAAD/7AARRHVja3kAAQAEAAAAZAAA/+4ADkFkb2JlAGTAAAAAAf/bAIQAAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQICAgICAgICAgICAwMDAwMDAwMDAwEBAQEBAQECAQECAgIBAgIDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMD/8AAEQgACgAKAwERAAIRAQMRAf/EAIAAAQEBAAAAAAAAAAAAAAAAAAkGCgEBAQEAAAAAAAAAAAAAAAAACAQHEAAABAMDCwUAAAAAAAAAAAADBAYHAgUIAAE5MTJiEzMUNDZWGDhkZjdXCREAAQICBQsFAAAAAAAAAAAAAQIEEQYAMgM0NjFhEkJSchNDU2NEgRRUBRX/2gAMAwEAAhEDEQA/ADTrkrGriHryelbL93nfb93G5eRYyVNSSTq5TpsBriCeU5wunk0jJUSPFisskBOXFgLwrwYL4JnBFvI0RiMxGKI4ZYl2WBKzZs0bt7VhbNkFSihKuKVJGkpZIiVEkxjVqiEAAKZlmCZTM7hy6cOLJ/YuFhIClJ4YSo6KUAGASBCEK2UxiSdmPdD+on1GbwWO4XkWDz06c2HMXs/OsdPw5I+QMSe3r+Dtbvdohf2p16Bw7x6nm7O92qXNUuI8yuDBkRfk3iAcYB8W+v6Y09daT6PBznEevdrhk5ubq5oUp+7xc2w7qXi/ZeVn6frRurZpTSKf/9k=</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="bluebulletNew">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEAYABgAAD/4QAWRXhpZgAASUkqAAgAAAAAAAAAAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAZACUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iiobwTtZTrbMFuDGwiJ6BscfrQAgvrRrs2guoDcgZMIkG8D/d61PXyZa2GvnxUltDDdrrYnzgg+Ysmc7if1J6V9ZLu2jdgtjnHrW9eiqVrO9zCjWdS91awtFFFYG4UUUUAGBnOO
+aKKKACiiigD/2Q==</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="bluebulletNew1">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEAYABgAAD/4QAWRXhpZgAASUkqAAgAAAAAAAAAAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAZACUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iioLq4W0s57lwSkSM5C9cAZoAmyM4zS14BF8atfGtC4lhtzpxfm1VOQmez9dwHfpmvfFcMgYdxmtKlGVO3N1MqdWNS/L0H0UUVmahSMocEMMgjBB7ilooA4KH4Q+FodbGpLFcFV
+fetoZB5IPbjGce2cV3gGKWiqlKUt2TGEY7IKKKKko//Z</ImageData>
+    </EmbeddedImage>
+    <EmbeddedImage Name="bluebulletNew2">
+      <MIMEType>image/jpeg</MIMEType>
+      <ImageData>/9j/4AAQSkZJRgABAQEAYABgAAD/4QAWRXhpZgAASUkqAAgAAAAAAAAAAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAZACUDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3+iikbO0460AG4HvS18teJfEGvN4wvJri+u4LyG5ZY1VyvlYOF2gdBgD1z1r6U0G4u7rQNPnv1K3kltG8ykYw5UFuO3Na1KXIk77mNOrzyatsaNFFFZGwUUUUAUZ9G0u6vEvLjTbO
+W6T7k0kCs6/RiMiruMGlooFZBRRRQM//2Q==</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>552a06ab-27ea-423c-8eff-0ab03dd409ff</rd:ReportID>
+</Report>
