@@ -18,8 +18,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                 
                 
                  <div id="divAccount" runat="server" visible="false">
@@ -178,10 +178,10 @@
                         DataObjectTypeName="Admin_BE.AccountUser_BE" DeleteMethod="DeleteAccountUser" 
                         SelectMethod="GetdtAccountUserListNew" TypeName="Admin_BAO.AccountUser_BAO" >
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

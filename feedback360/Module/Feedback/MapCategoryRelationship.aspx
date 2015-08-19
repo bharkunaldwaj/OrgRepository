@@ -17,9 +17,9 @@
             </div>
             <!-- end heading logout -->
             <!-- start search -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
                 <ContentTemplate>
-                
+                --%>
                 
                  <div align="center">
                                         <asp:Label ID="lblSuccessMessage" runat="server" ForeColor="Red" Font-Size="Large" Text=""></asp:Label>
@@ -219,10 +219,10 @@
                             <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Text=""></asp:Label>
                         </div>
                         <br />
-                 </ContentTemplate>
+                 <%--</ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

@@ -53,6 +53,8 @@ public partial class Module_Questionnaire_AddParticipantScores : CodeBehindBase
             ddlAccountCode.DataBind();
             
             //SetValues();
+            BindScoreDropDown(ddlScoreYear1);
+            BindScoreDropDown(ddlScoreYear2);
             
             if (identity.User.GroupID == 1)
             {
@@ -524,6 +526,17 @@ public partial class Module_Questionnaire_AddParticipantScores : CodeBehindBase
         {
             rptrPreviousScore2.DataSource = null;
             rptrPreviousScore2.DataBind();
+        }
+    }
+
+    private void BindScoreDropDown(DropDownList dropDownListControl)
+    {
+        dropDownListControl.Items.Add(new ListItem("Select", "0"));
+
+        for (int i = 2008; i <= DateTime.Now.Year; i++)
+        {
+            string dataField = i.ToString().Trim();
+            dropDownListControl.Items.Add(new ListItem(dataField, dataField));
         }
     }
 }

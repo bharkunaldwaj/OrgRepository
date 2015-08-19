@@ -41,8 +41,8 @@
             </div>
             <!-- end heading logout -->
             <!-- start user form -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <table border="0" width="100%">
                         <tr>
                             <td>
@@ -105,10 +105,12 @@
                                             runat="server" MaxLength="2"></asp:TextBox>
                                         &nbsp;<asp:RequiredFieldValidator ID="rq2" runat="server" ControlToValidate="txtSequence"
                                             ErrorMessage="<% $Resources:rq2 %>  " SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
-                                        <asp:RegularExpressionValidator ID="ressequence" ControlToValidate="txtSequence"
-                                            ErrorMessage="<% $Resources:ressequence %>" ValidationExpression="^[0-9][\d]*"
-                                            runat="server" ValidationGroup="group1" SetFocusOnError="True" Text="*" ForeColor="White" />
-                                             <asp:RangeValidator id="valTxtRange" ControlToValidate="txtSequence" Type="Integer" MinimumValue="1" MaximumValue="99" ErrorMessage="<% $Resources:valTxtRange %>"   ValidationGroup="group1" SetFocusOnError="True" Text="*" ForeColor="White" runat="server" />
+                                       <%-- <asp:RegularExpressionValidator ID="ressequence" ControlToValidate="txtSequence"
+                                            ErrorMessage="<% $Resources:ressequence %>" ValidationExpression="^[0-9][\d]*" Display="Dynamic"
+                                            runat="server" ValidationGroup="group1" SetFocusOnError="True" Text="Enter Number only." ForeColor="Red" />--%>
+                                             <asp:RangeValidator id="valTxtRange" ControlToValidate="txtSequence" Type="Integer"
+                                              MinimumValue="1" MaximumValue="99" ErrorMessage="<% $Resources:valTxtRange %>"   Display="Dynamic"
+                                               ValidationGroup="group1" SetFocusOnError="True" Text="Enter Number only." ForeColor="Red" runat="server" />
                                     </td>
                                 </tr>
                                 <tr>
@@ -203,8 +205,8 @@
                             </div>
                         
                     </div>
-                </ContentTemplate>
-            </asp:UpdatePanel>
+               <%-- </ContentTemplate>
+            </asp:UpdatePanel>--%>
             <!-- start user form -->
         </div>
     </div>

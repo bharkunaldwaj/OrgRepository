@@ -91,6 +91,7 @@ public partial class Module_Admin_Accounts : CodeBehindBase
             txtMenuBGColor.Text = account_BEList[0].MenuBGColor;
             hdnimage.Value = account_BEList[0].CompanyLogo;
             txtCopyRight.Text = account_BEList[0].CopyRightLine;
+            TextBoxPseudonymForEmail.Text = account_BEList[0].EmailPseudonym;
             //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
@@ -154,6 +155,7 @@ public partial class Module_Admin_Accounts : CodeBehindBase
                      account_BE.EmailID = txtEmail.Text;
                      account_BE.Website = txtWebsite.Text;
                      account_BE.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
+                     account_BE.EmailPseudonym = TextBoxPseudonymForEmail.Text.Trim();
 
                      if (fuplCompanyLogo.HasFile)
                      {

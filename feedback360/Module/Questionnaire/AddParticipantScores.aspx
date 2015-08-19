@@ -6,8 +6,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -161,13 +161,13 @@
                                                         <asp:ListItem Value="12">December</asp:ListItem>
                                                     </asp:DropDownList>
                                                     <asp:DropDownList ID="ddlScoreYear1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlScoreYear1_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
+                                                        <%--<asp:ListItem Value="0">Select</asp:ListItem>
                                                         <asp:ListItem Value="2008">2008</asp:ListItem>
                                                         <asp:ListItem Value="2009">2009</asp:ListItem>
                                                         <asp:ListItem Value="2010">2010</asp:ListItem>
                                                         <asp:ListItem Value="2011">2011</asp:ListItem>
                                                         <asp:ListItem Value="2012">2012</asp:ListItem>
-                                                        <asp:ListItem Value="2013">2013</asp:ListItem>
+                                                        <asp:ListItem Value="2013">2013</asp:ListItem>--%>
                                                     </asp:DropDownList>
                                                     <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="<% $Resources:lblRequiredFieldValidator2 %>"
                                                         ControlToValidate="ddlScoreMonth1" SetFocusOnError="True" ValidationGroup="group1"
@@ -197,13 +197,13 @@
                                                         <asp:ListItem Value="12">December</asp:ListItem>
                                                     </asp:DropDownList>
                                                     <asp:DropDownList ID="ddlScoreYear2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlScoreYear2_SelectedIndexChanged">
-                                                        <asp:ListItem Value="0">Select</asp:ListItem>
+                                                        <%--<asp:ListItem Value="0">Select</asp:ListItem>
                                                         <asp:ListItem Value="2008">2008</asp:ListItem>
                                                         <asp:ListItem Value="2009">2009</asp:ListItem>
                                                         <asp:ListItem Value="2010">2010</asp:ListItem>
                                                         <asp:ListItem Value="2011">2011</asp:ListItem>
                                                         <asp:ListItem Value="2012">2012</asp:ListItem>
-                                                        <asp:ListItem Value="2013">2013</asp:ListItem>
+                                                        <asp:ListItem Value="2013">2013</asp:ListItem>--%>
                                                     </asp:DropDownList>
                                                     <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="<% $Resources:lblRequiredFieldValidator4 %>"
                                                         ControlToValidate="ddlScoreMonth2" SetFocusOnError="True" ValidationGroup="group1"
@@ -317,8 +317,8 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 </asp:Content>

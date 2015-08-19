@@ -75,8 +75,8 @@
             z-index: 50;
         }
     </style>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -538,13 +538,13 @@
                     </div>
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="imbSubmit" />
             <asp:PostBackTrigger ControlID="LinkPreview" />
 
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 
     <script type="text/javascript">
         

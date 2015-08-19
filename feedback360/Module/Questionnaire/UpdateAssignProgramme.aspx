@@ -6,8 +6,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <div class="topheadingdetails">
@@ -158,9 +158,9 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
             
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 </asp:Content>

@@ -182,8 +182,8 @@
                                                 </td>
                                                 <td>
                                                     <asp:label id="lblProgrammeText" runat="server" text=""></asp:label>
-                                                    <asp:updatepanel id="UpdatePanelProgram" runat="server">
-                                                        <contenttemplate>
+                                                   <%-- <asp:updatepanel id="UpdatePanelProgram" runat="server">
+                                                        <contenttemplate>--%>
                                                     <asp:dropdownlist id="ddlProgramme" runat="server" style="width: 155px" Autopostback="true"
                                                         onselectedindexchanged="ddlProgramme_SelectedIndexChanged">
                                                         <asp:listitem value="0">Select</asp:listitem>
@@ -191,11 +191,11 @@
                                                     <asp:requiredfieldvalidator id="RequiredFieldValidator1" runat="server" errormessage="<% $Resources:RequiredFieldValidator1 %>"
                                                         setfocusonerror="True" controltovalidate="ddlProgramme" validationgroup="VGroupX"
                                                         initialvalue="0">&nbsp;</asp:requiredfieldvalidator>
-                                                           </contenttemplate>
+                                                          <%-- </contenttemplate>
                                                         <triggers>
                                                     <asp:asyncpostBacktrigger ControlID="ddlProject"  />
                                                     </triggers>
-                                                    </asp:updatepanel>
+                                                    </asp:updatepanel>--%>
                                                 </td>
                                             </tr>
                                         </table>
@@ -212,8 +212,8 @@
                                                     </asp:label><span class="style3">*</span>
                                                 </td>
                                                 <td valign="top" colspan="3">
-                                                    <asp:updatepanel id="UpdatePanelTargetPeron" runat="server">
-                                                        <contenttemplate>
+                                                   <%-- <asp:updatepanel id="UpdatePanelTargetPeron" runat="server">
+                                                        <contenttemplate>--%>
                                                     <asp:dropdownlist id="ddlTargetPerson" runat="server" 
                                                         Autopostback="true" style="width: 155px" onselectedindexchanged="ddlTargetPerson_SelectedIndexChanged">
                                                         <asp:listitem value="0">Select</asp:listitem>
@@ -222,11 +222,11 @@
                                                     <asp:Requiredfieldvalidator id="Rq3" runat="server" errormessage="<% $Resources:Rq3 %>"
                                                         controltovalidate="ddlTargetPerson" setfocusonerror="True" validationgroup="VGroupX"
                                                         display="Dynamic" initialvalue="0">&nbsp;</asp:Requiredfieldvalidator>
-                                                         </contenttemplate>
+                                                        <%-- </contenttemplate>
                                                         <triggers>
                                                     <asp:asyncpostBacktrigger ControlID="ddlProgramme"  />
                                                     </triggers>
-                                                    </asp:updatepanel>
+                                                    </asp:updatepanel>--%>
                                                 </td>
                                             </tr>
                                             <%--<tr>
@@ -247,8 +247,8 @@
                                 </td>
                             </tr>
                         </table>
-                        <asp:updatepanel id="updPanel" runat="server">
-                            <contenttemplate>
+                       <%-- <asp:updatepanel id="updPanel" runat="server">
+                            <contenttemplate>--%>
                                              <input type="hidden" id="div_position" name="div_position" />
                                             <rsweb:ReportViewer ID="rview" runat="server" Height="0" Width="">
                                                </rsweb:ReportViewer>
@@ -279,7 +279,7 @@
                                                 <td colspan="3">
                                                     <asp:imagebutton id="imbSubmit" imageurl="~/Layouts/Resources/images/add-more-btn.png"
                                                         runat="server" onclick="imbSubmit_Click" />&nbsp;
-                                                    <asp:ImageButton id="ImageButtonSaveAll" imageurl="~/Layouts/Resources/images/save.png"
+                                                    <asp:ImageButton id="ImageButtonSaveAll" imageurl="~/Layouts/Resources/images/save.png" causeValidation="False"
                                                         runat="server" onclick="ImageButtonSaveAll_Click" onclientclick="return ValidateRepeaterCandidateList();"
                                                         tooltip="Save All" />
                                                 </td>
@@ -485,11 +485,11 @@
                     </div>
                     <br />
                     <div align="center">
-                        <asp:updateprogress id="Up1" runat="Server">
+                       <%-- <asp:updateprogress id="Up1" runat="Server">
                             <progresstemplate>
                                     <img src="../../Layouts/Resources/images/loading.gif" alt="Please wait..." />
                                 </progresstemplate>
-                        </asp:updateprogress>
+                        </asp:updateprogress>--%>
                         <asp:label id="lblMessage2" runat="server" forecolor="Red" text=""></asp:label>
                     </div>
                     <br />
@@ -507,7 +507,7 @@
    <br/>
     <asp:Button ID="Button2" runat="server" Text="Close" />
 </asp:Panel>--%>
-        </contenttemplate>
+       <%-- </contenttemplate>
         <triggers>
             <asp:asyncPostBackTrigger ControlID="ImgUpload" />
             <asp:asyncPostBackTrigger ControlID="imbReportDownload" />
@@ -516,7 +516,7 @@
              <asp:asyncPostBackTrigger ControlID="ddlTargetPerson" />
             
         </triggers>
-    </asp:updatepanel>
+    </asp:updatepanel>--%>
     <div>
         <asp:chart id="Chart1" runat="server" width="810px" height="370px" visible="false"
             imagelocation="~/TempImages/ChartPic_#SEQ(300,3)" imagetype="Png" palette="None"

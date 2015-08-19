@@ -18,8 +18,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+            <%--<asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <table border="0" width="100%">
                         <tr>
                             <td>
@@ -195,10 +195,10 @@
                     <asp:ObjectDataSource ID="odsCandidateStatus" runat="server" DataObjectTypeName="Questionnaire_BE.AssignQuestionnaire_BE"
                         SelectMethod="GetdtAssignListNew" TypeName="Questionnaire_BAO.AssignQuestionnaire_BAO">
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+              <%--  </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

@@ -271,8 +271,8 @@
                     <asp:ObjectDataSource ID="odsCandidateStatus" runat="server" DataObjectTypeName="Questionnaire_BE.AssignQuestionnaire_BE"
                         SelectMethod="GetdtAssignPartiList" TypeName="Questionnaire_BAO.AssignQstnParticipant_BAO">
                     </asp:ObjectDataSource>
-                </ContentTemplate>
-                <%--<Triggers>
+               <%-- </ContentTemplate>
+                <Triggers>
                 </Triggers>
             </asp:UpdatePanel>--%>
         </div>

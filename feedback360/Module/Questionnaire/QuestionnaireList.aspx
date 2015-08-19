@@ -19,8 +19,8 @@
 
                 
                 <!-- grid list -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+            <%--<asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                 
                  <div id="divAccount" runat="server" visible="false">
                     <fieldset class="fieldsetform">
@@ -156,10 +156,10 @@
                         TypeName="Questionnaire_BAO.Questionnaire_BAO" >
                     </asp:ObjectDataSource>
                    
-                </ContentTemplate>
+                <%--</ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>  
+            </asp:UpdatePanel>  --%>
   <!-- grid list -->
             	
             </div>

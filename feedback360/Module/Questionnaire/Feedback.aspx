@@ -17,8 +17,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <asp:HiddenField ID="hdnCandidateId" runat="server"></asp:HiddenField>
                     <asp:HiddenField ID="hdnQuestionCount" runat="server"></asp:HiddenField>
                     <table width="100%" border="0" cellpadding="1" cellspacing="0">
@@ -157,10 +157,10 @@
                             </td>
                         </tr>
                     </table>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

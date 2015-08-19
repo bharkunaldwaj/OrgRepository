@@ -1000,7 +1000,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                                 {
                                     if (rblAnswer.Items[i].Text.Contains("</label>"))
                                     {
-                                        if ((rblAnswer.Items[i].Text.Substring(0, 2)).Trim() == answer)
+                                        if (((rblAnswer.Items[i].Text.Split('<'))[0]).Trim() == answer)
                                         {
                                             rblAnswer.Items[i].Selected = true;
                                             break;

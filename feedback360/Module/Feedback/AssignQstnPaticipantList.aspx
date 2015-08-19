@@ -63,8 +63,8 @@
                             </table>
                         </div>
                         
-                <asp:UpdatePanel ID="updPanel" runat="server">
-                    <ContentTemplate>
+               <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                    <ContentTemplate>--%>
                         
                         <%--<!-- Search Grid -->
                     <div class="searchgrid">
@@ -212,10 +212,10 @@
                         <rsweb:ReportViewer ID="rview" runat="server">
                         </rsweb:ReportViewer>
                             
-                    </ContentTemplate>
+                   <%-- </ContentTemplate>
                     <Triggers>
                     </Triggers>
-                </asp:UpdatePanel>
+                </asp:UpdatePanel>--%>
             </div>
         </div>
     </div>

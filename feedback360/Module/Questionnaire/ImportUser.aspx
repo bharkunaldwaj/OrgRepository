@@ -6,8 +6,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -93,19 +93,19 @@
                 </div>
             </div>
             <!-- start bodytext container -->
-        </ContentTemplate>
+      <%--  </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="ImgUpload" />
         </Triggers>
     </asp:UpdatePanel>
-    
-    <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="updPanel"
+    --%>
+   <%-- <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="updPanel"
         DynamicLayout="true" DisplayAfter="0">
         <ProgressTemplate>
             <div style="background-color: #ffffc9;">
                 Importing...<div>
         </ProgressTemplate>
-    </asp:UpdateProgress>
+    </asp:UpdateProgress>--%>
      <script type="text/javascript">
 
          document.getElementById('ctl00_cphMaster_lblMessage').Text = "";

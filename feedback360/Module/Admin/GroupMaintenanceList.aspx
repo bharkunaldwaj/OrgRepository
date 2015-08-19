@@ -20,8 +20,8 @@
             <!-- end heading logout -->
 
             <!-- grid list -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+         <%--   <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <!-- grid list -->
                     <asp:GridView ID="grdvGroup" runat="server" DataSourceID="odsGroup" AutoGenerateColumns="False"
                         Width="100%" CssClass="grid" AllowPaging="True" AllowSorting="True" OnRowDataBound="grdvGroup_RowDataBound"
@@ -87,10 +87,10 @@
                         DataObjectTypeName="Administration_BE.Group_BE" DeleteMethod="DeleteGroup" 
                         SelectMethod="GetdtGroupList" TypeName="Administration_BAO.Group_BAO" >
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

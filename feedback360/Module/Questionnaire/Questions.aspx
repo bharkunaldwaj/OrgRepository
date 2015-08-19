@@ -36,8 +36,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <!-- start user form -->
                     
                     <table border="0" width="100%">
@@ -390,10 +390,10 @@
                         </br>
                     </div>
                     <!-- start user form -->
-                </ContentTemplate>
+              <%--  </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

@@ -120,8 +120,8 @@
                     </td>
                 </tr>
             </table>
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <asp:HiddenField ID="hdnimage" runat="server" />
                     <div class="userform">
                         <div id="divAccount" runat="server" visible="false">
@@ -229,7 +229,7 @@
                                         <td width="5%"><asp:FileUpload ID="FileUpload" runat="Server" /></td>
                                         <td>
                                         <div class="gallerycontainer">&nbsp;
-                                            <a class="thumbnail" href="#thumb">Preview<span><img id="imagelogo" src="" /><br />Image</span></a>
+                                            <a class="thumbnail" href="#thumb">Preview<span><img alt="" id="imagelogo" src="" /><br />Image</span></a>
                                         </div>
                                         </td>
                                     </tr
@@ -272,13 +272,12 @@
                         </br>
                     </div>
                     <br />
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
-                
                     <asp:PostBackTrigger ControlID="ibtnSave" />
                     <asp:PostBackTrigger ControlID="btnSend" />
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             
             <!-- start user form -->
         </div>

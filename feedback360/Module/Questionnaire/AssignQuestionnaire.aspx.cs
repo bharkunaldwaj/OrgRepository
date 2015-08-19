@@ -1147,11 +1147,15 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             {
 
                 int answeredQuestion = questionnaire_BAO.CalculateGraph(QuestionnaireID, Convert.ToInt32(lblAssignmentID.Text));
-
+                double percentage = 0.0;
                 //dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaire(Convert.ToInt32(lblQuestionnaireId.Text));
                 dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaireByRelationShip(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlProject.SelectedValue), QuestionnaireID, ddlRelationship.SelectedValue);
 
-                double percentage = (answeredQuestion * 100) / Convert.ToInt32(dtQuestion.Rows.Count);
+                if (dtQuestion.Rows.Count > 0)
+                {
+                    percentage = (answeredQuestion * 100) / Convert.ToInt32(dtQuestion.Rows.Count);
+                }
+
                 string[] percent = percentage.ToString().Split('.');
 
 
@@ -1241,6 +1245,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                 if (Page.IsValid)
                 {
                     Page.Validate("VGroupX");
+
                     if (!Page.IsValid)
                     {
                         return;
@@ -1386,7 +1391,8 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         AssignQstnParticipant_BAO participant_BAO = new AssignQstnParticipant_BAO();
-        identity = this.Page.User.Identity as WADIdentity;
+        // identity = this.Page.User.Identity as WADIdentity;
+        // string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
         DataTable dtParticipant = null;
 
         if (ddlProgramme.SelectedIndex > 0)
@@ -1438,7 +1444,6 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                 Session["ColleaguesIndex"] = strColleagueIndex;
             }
 
-
             if (!string.IsNullOrEmpty(strColleagueNo))
             {
                 int colleagueNo = Convert.ToInt32(strColleagueNo);
@@ -1452,6 +1457,37 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                             DataRow row = dt.NewRow();
                             dt.Rows.Add(row);
                         }
+
+                        if (ddlProgramme.Enabled)
+                        {
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                int? accountID = (dt.Rows[i].Field<int?>("AccountID"));
+                                int? projectID = (dt.Rows[i].Field<int?>("ProjectID"));
+                                int? targetPersonID = (dt.Rows[i].Field<int?>("TargetPersonID"));
+                                int? assignID = (dt.Rows[i].Field<int?>("AssignID"));
+                                string Relationship = (dt.Rows[i].Field<string>("Relationship"));
+                                string name = (dt.Rows[i].Field<string>("Name"));
+                                string EmailID = (dt.Rows[i].Field<string>("EmailID"));
+                                int? assignmentID = (dt.Rows[i].Field<int?>("AssignmentID"));
+                                bool? submitFlag = dt.Rows[i].Field<bool?>("SubmitFlag");
+                                bool? emailSendFlag = dt.Rows[i].Field<bool?>("EmailSendFlag");
+
+                                if ((accountID == null) && projectID == null && (targetPersonID == null)
+                                    && (projectID == null) && (assignID == null)
+                                    && string.IsNullOrEmpty(Relationship) && string.IsNullOrEmpty(name)
+                                    && string.IsNullOrEmpty(EmailID) && (assignmentID == null)
+                                   && (submitFlag == null) && (emailSendFlag == null))
+                                {
+                                    // if (identity.User.GroupID.ToString() != participantRoleId)
+                                    // {
+                                    dt.Rows.Remove(dt.Rows[i]);
+                                    // }
+                                }
+                                i = i - 1;
+                            }
+                        }
+                        dt.AcceptChanges();
                     }
                 }
                 else
@@ -2952,9 +2988,11 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                     Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
 
                     //MailAddress maddr = new MailAddress(dtAccountAdmin.Rows[0]["EmailID"].ToString(), dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                    MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
 
-                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, maddr, emailimagepath, "");
+
+                    MailAddress maddr = new MailAddress("admin@i-comment360.com", dtAccountAdmin.Rows[0].Field<string>("Pseudonym") ?? "360 feedback");
+
+                    SendEmail.Send(Subject, Template, candidateEmail, maddr, emailimagepath);
                 }
                 else
                 {
@@ -2964,7 +3002,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                     Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
                     Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
 
-                    SendEmail.SendMailAsync(Subject, Template, candidateEmail, null, string.Empty, "");
+                    SendEmail.Send(Subject, Template, candidateEmail, null, string.Empty);
                 }
             }
 
@@ -3174,8 +3212,9 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
                                 Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
                                 Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+                                string emailPseudonym = dtAccountAdmin.Rows[0].Field<string>("Pseudonym");
 
-                                MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
+                                MailAddress maddr = new MailAddress("admin@i-comment360.com", string.IsNullOrEmpty(emailPseudonym) ? "360 feedback" : emailPseudonym);
 
                                 SendEmail.SendMailAsync(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath, "");
                             }
@@ -3272,7 +3311,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             }
             else
             {
-                lblvalidation.Text = "Please  fill colleagues' information";
+                // lblvalidation.Text = "Please  fill colleagues' information";
             }
         }
         catch (Exception ex)
@@ -3328,7 +3367,12 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             int removedRows = 0;
             for (int i = 0; i < dt.Rows.Count; i++)
             {
-                if ((dt.Rows[i]["Relationship"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Relationship"].ToString())) && (dt.Rows[i]["Name"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["Name"].ToString())) && (dt.Rows[i]["EmailID"] == DBNull.Value || string.IsNullOrEmpty(dt.Rows[i]["EmailID"].ToString())))
+                if ((dt.Rows[i]["Relationship"] == DBNull.Value ||
+                    string.IsNullOrEmpty(dt.Rows[i]["Relationship"].ToString())) &&
+                    (dt.Rows[i]["Name"] == DBNull.Value ||
+                    string.IsNullOrEmpty(dt.Rows[i]["Name"].ToString())) &&
+                    (dt.Rows[i]["EmailID"] == DBNull.Value ||
+                    string.IsNullOrEmpty(dt.Rows[i]["EmailID"].ToString())))
                 {
                     dt.Rows[i].Delete();
                     removedRows++;
@@ -3448,11 +3492,16 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
                 if (iColleagueRecordCount > dt.Rows.Count)
                 {
-                    addDeletedRowCount = iColleagueRecordCount - dt.Rows.Count;
-                    for (int i = 0; i < addDeletedRowCount; i++)
-                    {
-                        dt.Rows.Add(dt.NewRow());
-                    }
+                    // AK
+                    //addDeletedRowCount = iColleagueRecordCount - dt.Rows.Count;
+                    //for (int i = 0; i < addDeletedRowCount; i++)
+                    //{
+                    //    dt.Rows.Add(dt.NewRow());
+
+                    //}
+
+                    dt.Merge(dtUSC);
+                    dt.AcceptChanges();
                 }
             }
             else
@@ -3468,9 +3517,11 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                         {
                             dt.Rows.Add(dt.NewRow());
                         }
-                        dt.AcceptChanges();
+                        //AK dt.AcceptChanges();
                     }
                 }
+
+                dt.AcceptChanges();
             }
         }
 
@@ -3724,6 +3775,9 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         DataTable dtProgramme = new DataTable();
         dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
+        ddlProject.Enabled = false;
+        ddlProgramme.Enabled = false;
+
         if (dtProgramme.Rows.Count > 0)
         {
             ddlProgramme.DataSource = dtProgramme;
@@ -3742,8 +3796,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
         else
             ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
 
-        ddlProject.Enabled = false;
-        ddlProgramme.Enabled = false;
+
         //ddlQuestionnaire.Enabled = false;
 
         //Set Relationship

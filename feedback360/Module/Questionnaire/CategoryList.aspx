@@ -17,8 +17,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     
                     <table border="0" width="100%">
                         <tr>
@@ -193,10 +193,10 @@
                     <asp:ObjectDataSource ID="odsCategory" runat="server" DataObjectTypeName="Questionnaire_BE.Category_BE"
                         DeleteMethod="DeleteCategory" SelectMethod="GetdtnewCategoryList" TypeName="Questionnaire_BAO.Category_BAO">
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

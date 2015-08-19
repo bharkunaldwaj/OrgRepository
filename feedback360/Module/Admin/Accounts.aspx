@@ -74,8 +74,8 @@
             z-index: 50;
         }
     </style>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -236,6 +236,18 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                <td>
+                                    Pseudonym for Email 
+                                </td>
+                                <td>
+                                <asp:TextBox ID="TextBoxPseudonymForEmail" MaxLength="200" runat="server" SkinID="email"></asp:TextBox>
+                                 </td>
+                                 <td>
+                                 </td>
+                                 <td>
+                                 </td>
+                                </tr>
+                                <tr>
                                     <td>
                                         <asp:Label ID="lblCopyRight" runat="server" Text="<% $Resources:lblCopyRight %>"></asp:Label><span
                                             class="style3">*</span>
@@ -342,11 +354,11 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="imbSave" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 
     <script type="text/javascript">
 

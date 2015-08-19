@@ -7,8 +7,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -231,11 +231,11 @@
                         </div>
                         <br />
                         <div align="center">
-                         <asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel">
+                         <%--<asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel">
                             <ProgressTemplate>
                                 <img src="../../UploadDocs/Send1.gif" alt="Please wait..." />
                             </ProgressTemplate>
-                            </asp:UpdateProgress>
+                            </asp:UpdateProgress>--%>
                             <asp:Label ID="lblMessage" runat="server" ForeColor="Red" Text=""></asp:Label>
                         </div>
                         <br />
@@ -243,9 +243,9 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="ImgUpload" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 </asp:Content>

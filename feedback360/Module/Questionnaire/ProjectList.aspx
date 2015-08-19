@@ -39,8 +39,8 @@
             </div>
             <!-- end heading logout -->
             <!-- start search -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                 
                 
                  <div id="divAccount" runat="server" visible="false">
@@ -237,10 +237,10 @@
                         DataObjectTypeName="Questionnaire_BE.Project_BE" DeleteMethod="DeleteProject" 
                         SelectMethod="GetdtProjectListNew" TypeName="Questionnaire_BAO.Project_BAO" >
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+                <%--</ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

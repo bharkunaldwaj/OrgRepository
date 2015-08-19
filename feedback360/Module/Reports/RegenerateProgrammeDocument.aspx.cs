@@ -51,6 +51,7 @@ public partial class Module_Reports_RegenerateProgrammeDocument : System.Web.UI.
         RestartSchedular();
 
         LabelMessge.Text = "Please wait, this process may take several minutes, depending on the number of files to be regenerated.";
+        ButtonGenerateReport.Enabled = false;
     }
 
     protected void DropDownListAccountCode_SelectedIndexChanged(object sender, EventArgs e)
