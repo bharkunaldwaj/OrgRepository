@@ -177,9 +177,9 @@ public class CodeBehindBase : System.Web.UI.Page
         SW.Close();
         FS.Close();
 
-        string errorPage = "";
-        errorPage = HttpContext.Current.Request.ApplicationPath + "\\Error.aspx";
-        HttpContext.Current.Response.Redirect(errorPage, false);
+      //  string errorPage = "";
+      //  errorPage = HttpContext.Current.Request.ApplicationPath + "\\Error.aspx";
+      //  HttpContext.Current.Response.Redirect(errorPage, false);
    }
 
     public void HandleExceptionError(Exception ex)
@@ -208,9 +208,9 @@ public class CodeBehindBase : System.Web.UI.Page
        SW.Close();
        FS.Close();
 
-       string errorPage = "";
-       errorPage = "Error.aspx";
-       HttpContext.Current.Response.Redirect(errorPage, false);
+    //   string errorPage = "";
+     //  errorPage = "Error.aspx";
+     //  HttpContext.Current.Response.Redirect(errorPage, false);
     }
 
     public void LogOut()
@@ -260,9 +260,9 @@ public class CodeBehindBase : System.Web.UI.Page
 
             if (canView == "")
             {
-                string unAuthorizedPage = "";
-                unAuthorizedPage = HttpContext.Current.Request.ApplicationPath + "\\UnAuthorized.aspx";
-                HttpContext.Current.Response.Redirect(unAuthorizedPage, false);
+               // string unAuthorizedPage = "";
+              //unAuthorizedPage = HttpContext.Current.Request.ApplicationPath + "\\UnAuthorized.aspx";
+              //  HttpContext.Current.Response.Redirect(unAuthorizedPage, false);
              
             }
             else
