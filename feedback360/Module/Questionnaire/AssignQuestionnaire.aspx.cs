@@ -715,7 +715,41 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
                     DataTable dtProspective = new DataTable();
 
-                    dtProspective = ReturnExcelDataTableMot(filename);
+                    
+                        
+
+                   // ClearGridData();
+
+                        dtProspective = ReturnExcelDataTableMot(filename);
+
+                        if (dtProspective.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < dt.Rows.Count; i++)
+                            {
+                                int? accountID = (dt.Rows[i].Field<int?>("AccountID"));
+                                int? projectID = (dt.Rows[i].Field<int?>("ProjectID"));
+                                int? targetPersonID = (dt.Rows[i].Field<int?>("TargetPersonID"));
+                                int? assignID = (dt.Rows[i].Field<int?>("AssignID"));
+                                string Relationship = (dt.Rows[i].Field<string>("Relationship"));
+                                string name = (dt.Rows[i].Field<string>("Name"));
+                                string EmailID = (dt.Rows[i].Field<string>("EmailID"));
+                                int? assignmentID = (dt.Rows[i].Field<int?>("AssignmentID"));
+                                bool? submitFlag = dt.Rows[i].Field<bool?>("SubmitFlag");
+                                bool? emailSendFlag = dt.Rows[i].Field<bool?>("EmailSendFlag");
+
+                                if ((accountID == null) && projectID == null && (targetPersonID == null)
+                                    && (projectID == null) && (assignID == null)
+                                    && string.IsNullOrEmpty(Relationship) && string.IsNullOrEmpty(name)
+                                    && string.IsNullOrEmpty(EmailID) && (assignmentID == null)
+                                   && (submitFlag == null) && (emailSendFlag == null))
+                                {
+                                    dt.Rows.Remove(dt.Rows[i]);
+                                }
+
+                                i = i - 1;
+                            }
+                            dt.AcceptChanges();
+                        }
 
                     for (int i = 0; i < dtProspective.Rows.Count; i++)
                     {
@@ -1391,7 +1425,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         AssignQstnParticipant_BAO participant_BAO = new AssignQstnParticipant_BAO();
-        // identity = this.Page.User.Identity as WADIdentity;
+         identity = this.Page.User.Identity as WADIdentity;
         // string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
         DataTable dtParticipant = null;
 
@@ -1458,35 +1492,32 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                             dt.Rows.Add(row);
                         }
 
-                        if (ddlProgramme.Enabled)
-                        {
-                            for (int i = 0; i < dt.Rows.Count; i++)
-                            {
-                                int? accountID = (dt.Rows[i].Field<int?>("AccountID"));
-                                int? projectID = (dt.Rows[i].Field<int?>("ProjectID"));
-                                int? targetPersonID = (dt.Rows[i].Field<int?>("TargetPersonID"));
-                                int? assignID = (dt.Rows[i].Field<int?>("AssignID"));
-                                string Relationship = (dt.Rows[i].Field<string>("Relationship"));
-                                string name = (dt.Rows[i].Field<string>("Name"));
-                                string EmailID = (dt.Rows[i].Field<string>("EmailID"));
-                                int? assignmentID = (dt.Rows[i].Field<int?>("AssignmentID"));
-                                bool? submitFlag = dt.Rows[i].Field<bool?>("SubmitFlag");
-                                bool? emailSendFlag = dt.Rows[i].Field<bool?>("EmailSendFlag");
+                        //if (ddlProgramme.Enabled)
+                        //{
+                        //    for (int i = 0; i < dt.Rows.Count; i++)
+                        //    {
+                        //        int? accountID = (dt.Rows[i].Field<int?>("AccountID"));
+                        //        int? projectID = (dt.Rows[i].Field<int?>("ProjectID"));
+                        //        int? targetPersonID = (dt.Rows[i].Field<int?>("TargetPersonID"));
+                        //        int? assignID = (dt.Rows[i].Field<int?>("AssignID"));
+                        //        string Relationship = (dt.Rows[i].Field<string>("Relationship"));
+                        //        string name = (dt.Rows[i].Field<string>("Name"));
+                        //        string EmailID = (dt.Rows[i].Field<string>("EmailID"));
+                        //        int? assignmentID = (dt.Rows[i].Field<int?>("AssignmentID"));
+                        //        bool? submitFlag = dt.Rows[i].Field<bool?>("SubmitFlag");
+                        //        bool? emailSendFlag = dt.Rows[i].Field<bool?>("EmailSendFlag");
 
-                                if ((accountID == null) && projectID == null && (targetPersonID == null)
-                                    && (projectID == null) && (assignID == null)
-                                    && string.IsNullOrEmpty(Relationship) && string.IsNullOrEmpty(name)
-                                    && string.IsNullOrEmpty(EmailID) && (assignmentID == null)
-                                   && (submitFlag == null) && (emailSendFlag == null))
-                                {
-                                    // if (identity.User.GroupID.ToString() != participantRoleId)
-                                    // {
-                                    dt.Rows.Remove(dt.Rows[i]);
-                                    // }
-                                }
-                                i = i - 1;
-                            }
-                        }
+                        //        if ((accountID == null) && projectID == null && (targetPersonID == null)
+                        //            && (projectID == null) && (assignID == null)
+                        //            && string.IsNullOrEmpty(Relationship) && string.IsNullOrEmpty(name)
+                        //            && string.IsNullOrEmpty(EmailID) && (assignmentID == null)
+                        //           && (submitFlag == null) && (emailSendFlag == null))
+                        //        {
+                        //            dt.Rows.Remove(dt.Rows[i]);
+                        //        }
+                        //        i = i - 1;
+                        //    }
+                        //}
                         dt.AcceptChanges();
                     }
                 }
@@ -3719,6 +3750,17 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
 
         BindDropDownList(ddlProject, project_BAO.GetdtProjectList((identity.User.AccountID.ToString())),
                ProjectTextField, ProjectValueField);
+    }
+
+    private void ClearGridData()
+    {
+        DataTable emptyDataTable = new DataTable();
+        emptyDataTable.Columns.Add("Relationship");
+        emptyDataTable.Columns.Add("Name");
+        emptyDataTable.Columns.Add("EmailID");
+
+        rptrCandidateList.DataSource = emptyDataTable;
+        rptrCandidateList.DataBind();
     }
     #endregion
 
