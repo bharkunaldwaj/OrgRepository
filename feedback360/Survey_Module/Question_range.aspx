@@ -40,8 +40,8 @@
     <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
     </asp:ToolkitScriptManager>  
     
-      <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+      <%--<asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
     <div class="innercontainer">
             <!-- start heading logout -->
             <div class="Survey_topheadingdetails">
@@ -186,8 +186,8 @@
     <br />
     <br />
     <br />
-       </ContentTemplate>
+      <%-- </ContentTemplate>
     </asp:UpdatePanel>
-       
+       --%>
                
 </asp:Content>

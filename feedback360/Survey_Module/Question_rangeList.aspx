@@ -24,9 +24,9 @@
                     <asp:Label ID="lblHeading" runat="server" Text= "<%$Resources:lblHeading %>" ></asp:Label></h3>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
                 <ContentTemplate>
-                    
+                    --%>
                     
                     <table border="0" width="100%">
                         <tr>
@@ -139,10 +139,10 @@
                             </td>
                         </tr>
                     </table>
-                </ContentTemplate>
+              <%--  </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>
