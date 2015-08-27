@@ -35,28 +35,31 @@ public partial class Login : CodeBehindBase
         {
             if (!string.IsNullOrEmpty(Page.ClientQueryString))
             {
-                string[] strQS = EnCryptDecrypt.CryptorEngine.Decrypt(HttpUtility.UrlDecode(Page.ClientQueryString), true).Split(',');
-
-                if (strQS.Length == 3)
+                if (!Page.ClientQueryString.Contains("ReturnUrl="))
                 {
-                    string strUName = string.Empty;
-                    string strUPass = string.Empty;
-                    string strUAcc = string.Empty;
+                    string[] strQS = EnCryptDecrypt.CryptorEngine.Decrypt(HttpUtility.UrlDecode(Page.ClientQueryString), true).Split(',');
 
-                    foreach (var item in strQS)
+                    if (strQS.Length == 3)
                     {
-                        string[] strKeyValue = item.Split('=');
+                        string strUName = string.Empty;
+                        string strUPass = string.Empty;
+                        string strUAcc = string.Empty;
 
-                        if (strKeyValue[0].ToLower() == "username")
-                            strUName = strKeyValue[1].Trim();
-                        else if (strKeyValue[0].ToLower() == "password")
-                            strUPass = strKeyValue[1].Trim();
-                        else if (strKeyValue[0].ToLower() == "accountcode")
-                            strUAcc = strKeyValue[1].Trim();
+                        foreach (var item in strQS)
+                        {
+                            string[] strKeyValue = item.Split('=');
+
+                            if (strKeyValue[0].ToLower() == "username")
+                                strUName = strKeyValue[1].Trim();
+                            else if (strKeyValue[0].ToLower() == "password")
+                                strUPass = strKeyValue[1].Trim();
+                            else if (strKeyValue[0].ToLower() == "accountcode")
+                                strUAcc = strKeyValue[1].Trim();
+                        }
+
+                        UserLogin(strUName, strUPass, strUAcc);
+
                     }
-
-                    UserLogin(strUName, strUPass, strUAcc);
-
                 }
             }
         }
@@ -135,7 +138,15 @@ public partial class Login : CodeBehindBase
                     Response.Redirect("Module/Questionnaire/AssignQuestionnaire.aspx", false);                    
                 }
                 else
-                    Response.Redirect(FormsAuthentication.GetRedirectUrl(loginName, false), false);
+                {
+                    string pageUrl = FormsAuthentication.GetRedirectUrl(loginName, false);
+
+                    if (pageUrl.Contains("Error.aspx"))
+                    {
+                        pageUrl =  "Default.aspx";
+                    }
+                    Response.Redirect(pageUrl, false);
+                }
             }
         }
         catch (Exception ex) {
