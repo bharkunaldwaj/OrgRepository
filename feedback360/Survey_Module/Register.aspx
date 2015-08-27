@@ -52,8 +52,8 @@
     <form id="frmFeedback" runat="server">
    <%-- <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>--%>
-    <table id="maincontainer-feedback_table" width="100%" border="0" cellpadding="0"
-        cellspacing="0">
+    <table id="maincontainer-feedback_table" width="74%" border="0" cellpadding="0"
+        cellspacing="0" style="margin-left:13%;">
         <tr>
             <td width="10%" align="left">
                 <asp:Image ID="imgHeader" Height="70" runat="server" />

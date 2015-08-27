@@ -29,8 +29,8 @@
     
     
     
-    <asp:UpdatePanel ID="updPanel" runat="server" UpdateMode="Conditional">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>--%>
         
             <div id="bodytextcontainer">
                 <div class="innercontainer">
@@ -348,11 +348,11 @@
                         <br />
                         <div align="center">
                         
-                        <asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel" DynamicLayout="false">
+                     <%--   <asp:UpdateProgress ID="Up1" runat="Server" AssociatedUpdatePanelID="updPanel" DynamicLayout="false">
     <ProgressTemplate>
         <img src="../../UploadDocs/Send1.gif" alt="Please wait..." />
     </ProgressTemplate>
-    </asp:UpdateProgress>
+    </asp:UpdateProgress>--%>
                        
                             <asp:Label ID="lblMessage2" runat="server" ForeColor="Red" Text=""></asp:Label>
                         </div>
@@ -361,9 +361,9 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+      <%--  </ContentTemplate>
         <Triggers>
         <asp:PostBackTrigger ControlID="ImgUpload" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
 </asp:Content>

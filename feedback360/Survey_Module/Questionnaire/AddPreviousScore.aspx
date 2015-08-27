@@ -254,13 +254,13 @@
                                     </td>
                                     <td valign="top">
                                         <asp:Label ID="lblScore2Title" runat="server" Text="<% $Resources:lblScore2Title %>"></asp:Label><span
-                                            class="style3">*</span>
+                                           <%-- class="style3">*</span>--%>
                                     </td>
                                     <td valign="top">
                                         <asp:TextBox ID="txtScore2Title" runat="server" MaxLength="50" 
                                             AutoPostBack="True" ontextchanged="txtScore2Title_TextChanged"></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="rfvScore2Title" runat="server" ValidationGroup="group1"
-                                            ErrorMessage="<% $Resources:rfvScore2Title %> " SetFocusOnError="True" ControlToValidate="txtScore2Title">&nbsp;</asp:RequiredFieldValidator>
+                                     <%--   <asp:RequiredFieldValidator ID="rfvScore2Title" runat="server" ValidationGroup="group1"
+                                            ErrorMessage="<% $Resources:rfvScore2Title %> " SetFocusOnError="True" ControlToValidate="txtScore2Title">&nbsp;</asp:RequiredFieldValidator>--%>
                                     </td>
                                 </tr>
                                 <tr>

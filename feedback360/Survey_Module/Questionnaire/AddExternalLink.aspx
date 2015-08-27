@@ -84,8 +84,8 @@
                         </table>
                     </fieldset>
                 </div>
-                <asp:UpdatePanel ID="updPanel" runat="server" UpdateMode="Conditional">
-                    <ContentTemplate>
+               <%-- <asp:UpdatePanel ID="updPanel" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>--%>
                         <fieldset class="fieldsetform">
                             <legend>
                                 <asp:Label ID="Label5" runat="server" Text="<% $Resources:lblGeneralDetails %>"></asp:Label>
@@ -231,8 +231,8 @@
                         </div>
                         <!-- start user form -->
                         </div> </div>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                   <%-- </ContentTemplate>
+                </asp:UpdatePanel>--%>
             </div>
         </div>
     </div>

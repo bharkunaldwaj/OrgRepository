@@ -17,8 +17,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <table border="0" width="100%">
                         <tr>
                             <td>
@@ -202,11 +202,11 @@
                             <asp:Parameter Name="condition" Type="String" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 <asp:PostBackTrigger ControlID="Export_ParticepantList" />
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

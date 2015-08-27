@@ -166,12 +166,12 @@
                                             runat="server" MaxLength="2"></asp:TextBox>
                                         &nbsp;<asp:RequiredFieldValidator ID="rq2" runat="server" ControlToValidate="txtSequence"
                                             ErrorMessage="<% $Resources:rq2 %>  " SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
-                                        <asp:RegularExpressionValidator ID="ressequence" ControlToValidate="txtSequence"
-                                            ErrorMessage="<% $Resources:ressequence %>" ValidationExpression="^[0-9][\d]*"
-                                            runat="server" ValidationGroup="group1" SetFocusOnError="True" Text="*" ForeColor="White" />
-                                        <asp:RangeValidator ID="valTxtRange" ControlToValidate="txtSequence" Type="Integer"
+                                       <%-- <asp:RegularExpressionValidator ID="ressequence" ControlToValidate="txtSequence" Display="Dynamic" ForeColor="Red" 
+                                            ErrorMessage="" ValidationExpression="^[0-9][\d]*"
+                                            runat="server" ValidationGroup="group1" SetFocusOnError="True" Text=" Enter Number only." />--%>
+                                        <asp:RangeValidator ID="valTxtRange" ControlToValidate="txtSequence" Type="Integer" Display="Dynamic"
                                             MinimumValue="1" MaximumValue="99" ErrorMessage="<% $Resources:valTxtRange %>"
-                                            ValidationGroup="group1" SetFocusOnError="True" Text="*" ForeColor="White" runat="server" />
+                                            ValidationGroup="group1" SetFocusOnError="True" Text="Enter Number only." ForeColor="Red" runat="server" />
                                     </td>
                                 </tr>
                                 <tr>

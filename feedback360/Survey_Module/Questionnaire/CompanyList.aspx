@@ -20,8 +20,8 @@
             </div>
             <!-- end heading logout -->
             <!-- start search -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <div id="divAccount" runat="server" visible="false">
                         <fieldset class="fieldsetform">
                             <legend>
@@ -182,10 +182,10 @@
                     <asp:ObjectDataSource ID="odsProject" runat="server" DataObjectTypeName="Questionnaire_BE.Survey_Company_BE"
                         DeleteMethod="DeleteCompany" SelectMethod="GetdtCompanyList" TypeName="Questionnaire_BAO.Survey_Company_BAO">
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+              <%--  </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

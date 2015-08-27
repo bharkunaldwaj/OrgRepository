@@ -70,16 +70,16 @@ public partial class Survey_Module_Register : Page
                         dtProgramme = programme_BAO.GetProgrammeByID(Convert.ToInt32(dtExLink.Rows[0]["ProgrammeId"]));
                         if (dtProgramme != null && dtProgramme.Rows.Count > 0)
                         {
-                            if (dtProgramme.Rows[0]["Logo"].ToString() != "")
-                            {
-                                imgProjectLogo.Visible = true;
-                                imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
-                            }
-                            else
-                            {
-                                if (imgProjectLogo.ImageUrl == "")
-                                    imgProjectLogo.Visible = false;
-                            }
+                            //if (dtProgramme.Rows[0]["Logo"].ToString() != "")
+                            //{
+                            //    imgProjectLogo.Visible = true;
+                            //    imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
+                            //}
+                            //else
+                            //{
+                            //    if (imgProjectLogo.ImageUrl == "")
+                            //        imgProjectLogo.Visible = false;
+                            //}
                         }
 
                     lblCompanyName.Text = Convert.ToString(dtExLink.Rows[0]["CompanyName"]);

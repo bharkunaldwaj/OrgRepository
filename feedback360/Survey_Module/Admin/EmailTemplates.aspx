@@ -120,8 +120,8 @@
                     </td>
                 </tr>
             </table>
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     <asp:HiddenField ID="hdnimage" runat="server" />
                     <div class="userform">
                         <div id="divAccount" runat="server" visible="false">
@@ -271,10 +271,10 @@
                     </div>
                     <br />
                 </ContentTemplate>
-                <Triggers>
+               <%-- <Triggers>
                     <asp:PostBackTrigger ControlID="ibtnSave" />
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             
             <!-- start user form -->
         </div>

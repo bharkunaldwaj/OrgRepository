@@ -19,9 +19,9 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
+           <%-- <asp:UpdatePanel ID="updPanel" runat="server">
                 <ContentTemplate>
-                
+                --%>
                  <div id="divAccount" runat="server" visible="false">
                     <fieldset class="fieldsetform">
                     <legend><asp:Label ID="lblAccount" runat="server" Text="<% $Resources:lblAccount %>"></asp:Label> </legend>
@@ -136,8 +136,8 @@
                         </SelectParameters>
                     </asp:ObjectDataSource>
                     <!-- grid list -->
-                </ContentTemplate>
-            </asp:UpdatePanel>
+               <%-- </ContentTemplate>
+            </asp:UpdatePanel>--%>
         </div>
     </div>
 </asp:Content>

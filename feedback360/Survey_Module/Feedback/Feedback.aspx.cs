@@ -75,9 +75,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
     string strReportType;
     string strStaticBarLabelVisibility;
     string strConclusionHeading;
-
-
-
+    
     protected void Page_Load(object sender, EventArgs e)
     {
         //Label ll = (Label)this.Master.FindControl("Current_location");
@@ -151,7 +149,14 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                         tdHeader.Attributes.Add("style", "background:" + dtResult.Rows[0]["HeaderBGColor"].ToString() + ";");
 
                         //Set Header Image
-                        imgHeader.ImageUrl = "~/UploadDocs/" + dtResult.Rows[0]["CompanyLogo"].ToString();
+                        imgHeader.ImageUrl = "~/UploadDocs/" + dtResult.Rows[0]["CompanyLogo"].ToString().Trim();
+                       
+                        imgProjectLogo.ImageUrl = string.Format("~/UploadDocs/{0}", dtResult.Rows[0].Field<string>("QuestLogo").Trim());
+
+                        if (string.IsNullOrEmpty(dtResult.Rows[0].Field<string>("QuestLogo")))
+                        {
+                            imgProjectLogo.Visible = false;
+                        }
 
                         //Set Footer Copyright Line
                         lblFooter.Text = dtResult.Rows[0]["CopyRightLine"].ToString();
@@ -193,16 +198,18 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                         
 
                         //Set Programme Logo
-                        if (dtProgramme.Rows[0]["Logo"].ToString() != "")
-                        {
-                            imgProjectLogo.Visible = true;
-                            imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
-                        }
-                        else
-                        {
-                            if (imgProjectLogo.ImageUrl == "")
-                                imgProjectLogo.Visible = false;
-                        }
+                        //Ak
+
+                        //if (dtProgramme.Rows[0]["Logo"].ToString() != "")
+                        //{
+                        //    imgProjectLogo.Visible = true;
+                        //    imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
+                        //}
+                        //else
+                        //{
+                        //    if (imgProjectLogo.ImageUrl == "")
+                        //        imgProjectLogo.Visible = false;
+                        //}
 
                         //Set Menu Background Color
                         tdMenuBar.Attributes.Add("style", "background:" + dtResult.Rows[0]["MenuBGColor"].ToString() + ";text-align:right;padding-right:15px; padding-top:3px; color:#ffffff;");
@@ -330,27 +337,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     private void SetQuestionAnswer2()
     {
         try
@@ -441,27 +428,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
             cBase.HandleExceptionError(ex);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     private void SetQuestionAnswer()
     {
         try
@@ -902,11 +869,12 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
             Survey_EmailTemplate_BAO emailtemplate_BAO = new Survey_EmailTemplate_BAO();
             emailtemplate_BEList = emailtemplate_BAO.GetEmailTemplateByID(0, Convert.ToInt32(strFinishEmailTemplateID));
             string TemplateSubject = string.Empty;
+
             if (emailtemplate_BEList.Any())
-                    {
-                        Template = emailtemplate_BEList.FirstOrDefault().EmailText;
-                        TemplateSubject = emailtemplate_BEList.FirstOrDefault().Subject;
-                    }
+            {
+                Template = emailtemplate_BEList.FirstOrDefault().EmailText;
+                TemplateSubject = emailtemplate_BEList.FirstOrDefault().Subject;
+            }
 
             
             string candidatename = "";
@@ -951,7 +919,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
             TemplateSubject = TemplateSubject.Replace("[PROGRAMMENAME]", ProgrammeName);
              
 
-            //  MailAddress maddr = new MailAddress(candidateemail, candidatename);
+              MailAddress maddr = new MailAddress(candidateemail, candidatename);
             // string feedbackurl = urlPath + "Feedback.aspx";
 
             Survey_AssignQuestionnaire_BAO get_email_finish_info = new Survey_AssignQuestionnaire_BAO();
@@ -974,8 +942,9 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
 
             else
             {
-               // MailAddress maddr = new MailAddress(participantemail, participantname);
-               // SendEmail.Send("Survey Questionnaire Feedback Submitted", Template, participantemail, "");  //, maddr, urlPath);
+                MailAddress mailaddress = new MailAddress(candidateemail, candidatename);
+                //SendEmail.Send("Survey Questionnaire Feedback Submitted", Template, candidateemail, "");
+                SendEmail.Send(TemplateSubject, Template, finishEMailID, mailaddress, "");  
 
                 lblMessage.Text = "Survey Questionnaire has been submitted and Thank you for completing the questionnaire.";
             }
@@ -1065,6 +1034,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                     emailSubject = emailSubject.Replace("[COMPANY]", OrganisationName);
                     emailSubject = emailSubject.Replace("[STARTDATE]", Startdate);
                     emailSubject = emailSubject.Replace("[CLOSEDATE]", Enddate);
+                    emailSubject = emailSubject.Replace("[PROGRAMMENAME]", programmeName);
                     //-----------------------------------------------------------------------
                     MailAddress maddr = new MailAddress(participantemail, participantname);
 
@@ -1087,8 +1057,6 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                 }
             }
         }
-
-        
     }
 
     protected void imbStart_Click(object sender, ImageClickEventArgs e)
@@ -1583,10 +1551,9 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         }
         return root + fName;
     }
-
-
-
-    public string processIntroductionAndConclusion(string fName, string rootTemp, string strProjectID, string strProgrammeID, string strAccountID)
+    
+    public string processIntroductionAndConclusion(string fName, string rootTemp, 
+        string strProjectID, string strProgrammeID, string strAccountID)
     {
         DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(strProjectID));
 
@@ -1697,6 +1664,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         }
         return fName;
     }
+   
     public string CreateReportImage(String HTML)
     {
         string ReportHtmlPath = Server.MapPath("~") + "\\ReportGenerate";
@@ -1731,7 +1699,8 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         return FilePath + ".pdf";
     }
 
-    private string ProcessPdfFile(string fileName, string root, string finalFileName, int accountId, int projectId, int programmeId)
+    private string ProcessPdfFile(string fileName, string root, string finalFileName,
+        int accountId, int projectId, int programmeId)
     {
         try
         {
@@ -1842,7 +1811,8 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         return pages;
     }
 
-    protected string IncludePage(string sourceFile, string rootPath, string insertPageFilePath, string OutputFileName, int pageNumber, string flag)
+    protected string IncludePage(string sourceFile, string rootPath, string insertPageFilePath,
+        string OutputFileName, int pageNumber, string flag)
     {
         try
         {
@@ -1934,8 +1904,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
             return memoryStream.ToArray();
         }
     }
-
-
+    
     /// <summary>
     /// Insert new pages to an existing pdf file
     /// </summary>
@@ -1945,7 +1914,8 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
     /// <returns>True if the operation succeeded. False otherwise.</returns>
     /// <remarks>To create the pagesToInsert dictionary, you can use the iTextSharp.text.pdf.PdfCopy class to open
     /// an existing pdf file and call the GetImportedPage method</remarks>
-    public static bool InsertorReplacePages(string sourcePdf, Dictionary<int, iTextSharp.text.pdf.PdfImportedPage> pagesToInsert, string outPdf, int PageNUmber, string flag)
+    public static bool InsertorReplacePages(string sourcePdf, Dictionary<int, iTextSharp.text.pdf.PdfImportedPage> pagesToInsert,
+        string outPdf, int PageNUmber, string flag)
     {
 
 
@@ -2004,7 +1974,8 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         return result;
     }
 
-    protected static void WriteContentToPdf(FileInfo sourceFile, string heading1, string heading2, string heading3, string htmlcolor, float width, out string outputFile)
+    protected static void WriteContentToPdf(FileInfo sourceFile, string heading1,
+        string heading2, string heading3, string htmlcolor, float width, out string outputFile)
     {
 
 
@@ -2063,7 +2034,8 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
 
     }
 
-    private static void watermark(PdfStamper stamper, PdfLayer layer, iTextSharp.text.Rectangle rect, string text, int location, int fontsize, float xAxis, float yAxis)
+    private static void watermark(PdfStamper stamper, PdfLayer layer, iTextSharp.text.Rectangle rect,
+        string text, int location, int fontsize, float xAxis, float yAxis)
     {
         PdfContentByte cb = stamper.GetOverContent(1);
 

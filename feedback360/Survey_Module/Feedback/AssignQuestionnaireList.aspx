@@ -36,8 +36,8 @@
                     </div>
                 </div>
                 <!-- end heading logout -->
-                <asp:UpdatePanel ID="updPanel" runat="server">
-                    <ContentTemplate>
+                <%--<asp:UpdatePanel ID="updPanel" runat="server">
+                    <ContentTemplate>--%>
                    
                         <div class="searchgrid">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -87,42 +87,42 @@
                               </asp:TemplateField>
                                 
                                 
-                                <asp:TemplateField HeaderText="Participant Name">
+                                <asp:TemplateField HeaderText="Participant Name" SortExpression="CandidateName">
                                     <ItemStyle HorizontalAlign="Left" Width="15%" />
                                     <ItemTemplate>
                                         <asp:TextBox ID="txtCandidateName" Text='<%# Eval("CandidateName") %>' runat="server"></asp:TextBox>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                                                 
-                                <asp:TemplateField HeaderText="Analysis I">
+                                <asp:TemplateField HeaderText="Analysis I" SortExpression="Analysis_I">
                                 <ItemStyle HorizontalAlign="Left" Width="13%" />
                                     <ItemTemplate>
-                                        <asp:HiddenField id="hdnAnalysisI" runat="server" Value=<%# Eval("Analysis_I") %> />
+                                        <asp:HiddenField id="hdnAnalysisI" runat="server" Value='<%# Eval("Analysis_I") %>'/>
                                         <asp:DropDownList ID="ddlAnalysisI" runat="server">
                                         </asp:DropDownList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Analysis II">
+                                <asp:TemplateField HeaderText="Analysis II" SortExpression="Analysis_II">
                                 <ItemStyle HorizontalAlign="Left" Width="13%" />
                                     <ItemTemplate>
-                                        <asp:HiddenField id="hdnAnalysisII" runat="server" Value=<%# Eval("Analysis_II") %> />
+                                        <asp:HiddenField id="hdnAnalysisII" runat="server" Value='<%# Eval("Analysis_II") %>' />
                                         <asp:DropDownList ID="ddlAnalysisII" runat="server">
                                         </asp:DropDownList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Analysis III">
+                                <asp:TemplateField HeaderText="Analysis III" SortExpression="Analysis_III">
                                 <ItemStyle HorizontalAlign="Left" Width="13%" />
                                     <ItemTemplate>
-                                        <asp:HiddenField id="hdnAnalysisIII" runat="server" Value=<%# Eval("Analysis_III") %> />
+                                        <asp:HiddenField id="hdnAnalysisIII" runat="server" Value='<%# Eval("Analysis_III") %>' />
                                         <asp:DropDownList ID="ddlAnalysisIII" runat="server">
                                         </asp:DropDownList>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 
-                                <asp:TemplateField HeaderText="Candidate Email">
+                                <asp:TemplateField HeaderText="Candidate Email" SortExpression="CandidateEmail">
                                 <ItemStyle HorizontalAlign="Left" Width="20%" />
                                     <ItemTemplate>
-                                        <asp:TextBox id="txtCandidateEmail" runat="server" Value=<%# Eval("CandidateEmail") %> />
+                                        <asp:TextBox id="txtCandidateEmail" runat="server" Value='<%# Eval("CandidateEmail") %>' />
                                        
                                     </ItemTemplate>
                                 </asp:TemplateField>
@@ -196,10 +196,10 @@
                                 <asp:Parameter Name="projectID" Type="Int32" />
                             </SelectParameters>
                         </asp:ObjectDataSource>
-                    </ContentTemplate>
+                   <%-- </ContentTemplate>
                     <Triggers>
                     </Triggers>
-                </asp:UpdatePanel>
+                </asp:UpdatePanel>--%>
             </div>
         </div>
     </div>

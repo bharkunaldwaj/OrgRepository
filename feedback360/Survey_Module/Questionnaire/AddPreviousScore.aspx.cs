@@ -316,7 +316,6 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         objCnameList.Add("@AnalysisType", analysisType);
         objCnameList.Add("@PreviousScoreID", DBNull.Value);
 
-
         dtTemplate = objCommon_BAO.GetDataTable("Survey_UspPreviousScore", objCnameList);
 
         if (dtOldData != null && dtOldData.Rows.Count > 0)
@@ -329,9 +328,16 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                
                 DataRow[] result = dtOldData.Select("QuestionID = " + questionid);
 
-                item["Score1"] = Convert.ToString(result[0]["Score1"]);
-                item["Score2"] = Convert.ToString(result[0]["Score2"]);
-                
+                if (result.Length > 0)
+                {
+                    item["Score1"] = Convert.ToString(result[0]["Score1"]);
+                    item["Score2"] = Convert.ToString(result[0]["Score2"]);
+                }
+                //else
+                //{
+                //    item["Score1"] = "0.00";
+                //    item["Score2"] = "0.00";
+                //}
             }
         }
 

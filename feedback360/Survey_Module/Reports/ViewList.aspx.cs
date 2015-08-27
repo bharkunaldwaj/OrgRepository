@@ -492,14 +492,21 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
         str_Command = "wkhtmltopdf\"    --disable-smart-shrinking  \"" + FilePath + ".html" + "\" \"" + Image_File_Path + "\"";
 
-        ProcessStartInfo procStartInfo = new ProcessStartInfo("\"" + HtmlToPdfPathExe + "\\" + str_Command);
-        procStartInfo.RedirectStandardOutput = true;
-        procStartInfo.UseShellExecute = false;
-        procStartInfo.CreateNoWindow = true;
-        Process proc = new Process();
-        proc.StartInfo = procStartInfo;
-        proc.Start();
-        proc.WaitForExit();
+        try
+        {
+            ProcessStartInfo procStartInfo = new ProcessStartInfo("\"" + HtmlToPdfPathExe + "\\" + str_Command);
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.UseShellExecute = false;
+            procStartInfo.CreateNoWindow = true;
+            Process proc = new Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
+            proc.WaitForExit();
+        }
+        catch(Exception ex)
+        {
+         
+        }
 
         return FilePath + ".pdf";
     }
@@ -536,7 +543,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
             if (dtProgramme != null && dtProgramme.Rows.Count > 0)
             {
-                PageHeading3 = PageHeading3.Replace("[CLOSEDATE]", Convert.ToString(dtProgramme.Rows[0]["EndDate"]));
+                PageHeading3 = PageHeading3.Replace("[CLOSEDATE]", string.Format("{0:dd MMM yyyy}",dtProgramme.Rows[0]["EndDate"]));
             }
             if(Survey_Company_BE !=null)
                 PageHeading2 = PageHeading2.Replace("[COMPANYNAME]", Survey_Company_BE[0].Title);
@@ -552,8 +559,15 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             //Insert Front Page
             if (!string.IsNullOrEmpty(frontPageFilePath))
             {
-                WriteContentToPdf(new FileInfo(uploadedFilePath +frontPageFilePath), PageHeading1, PageHeading2, PageHeading3, PageHeadingColor, 450f, out path);
-                IncludePage(fileName, root, path, fileNameWithFront, 1, "R");
+                try
+                {
+                    WriteContentToPdf(new FileInfo(uploadedFilePath + frontPageFilePath), PageHeading1, PageHeading2, PageHeading3, PageHeadingColor, 450f, out path);
+                    IncludePage(fileName, root, path, fileNameWithFront, 1, "R");
+                }
+                catch(Exception ex)
+                {
+                 
+                }
             }
 
             Survey_Category_BAO objSurvey_Category_BAO = new Survey_Category_BAO();
@@ -563,8 +577,8 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             foreach (DataRow item in dtCategory.Rows)
             {
                 string categoryPageFileName = string.Empty;
-                if (!string.IsNullOrEmpty(Convert.ToString(item["CategoryName"])))
-                    categoryPageFileName = Convert.ToString(item["CategoryName"]);
+                if (!string.IsNullOrEmpty(Convert.ToString(item["CategoryTitle"])))
+                    categoryPageFileName = Convert.ToString(item["CategoryTitle"]);
 
                 string catPageFilePath = uploadedFilePath + Convert.ToString(item["IntroPdfFileName"]);//category pdf to be insert
                 //string pdf_donotdelete = root + "..\\pdf-donotdelete.pdf";
@@ -893,6 +907,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
         catch (Exception ex)
         {
+            if (((ReportServerException)(ex)).ErrorCode == "rsExecutionNotFound")
+            {
+                Response.Redirect("~/Login.aspx");
+            }
+
             HandleException(ex);
             return "";
         }

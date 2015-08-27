@@ -385,7 +385,10 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                                     Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
 
 
-                                    MailAddress maddr = new MailAddress("admin@i-comment360.com", "admin");
+                                    MailAddress maddr = new MailAddress("admin@i-comment360.com",
+                                        string.IsNullOrEmpty(dtResult.Rows[0].Field<string>("Pseudonym")) ? "admin" :
+                                        dtResult.Rows[0].Field<string>("Pseudonym"));
+
                                     SendEmail.Send(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath);
                                 }
                                 else

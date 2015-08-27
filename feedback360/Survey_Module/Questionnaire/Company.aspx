@@ -146,8 +146,8 @@
             z-index: 50;
         }
     </style>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -459,11 +459,11 @@
                     <!-- start user form -->
                 </div>
             </div>
-        </ContentTemplate>
+       <%-- </ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="imbSave" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
     <script type="text/javascript">
 
         //document.getElementById('ctl00_cphMaster_txtPassowrd').value = document.getElementById('ctl00_cphMaster_hdnPassword').value;

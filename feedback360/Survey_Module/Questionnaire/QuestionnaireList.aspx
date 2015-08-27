@@ -19,9 +19,9 @@
 
                 
                 <!-- grid list -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
                 <ContentTemplate>
-                
+                --%>
                  <div id="divAccount" runat="server" visible="false">
                     <fieldset class="fieldsetform">
                     <legend><asp:Label ID="lblAccountDetail" runat="server" Text="<% $Resources:lblAccountDetail %>"></asp:Label></legend>
@@ -156,10 +156,10 @@
                         TypeName="Questionnaire_BAO.Survey_Questionnaire_BAO" >
                     </asp:ObjectDataSource>
                    
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>  
+            </asp:UpdatePanel>  --%>
   <!-- grid list -->
             	
             </div>

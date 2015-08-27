@@ -10,8 +10,8 @@
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
     
-     <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+     <%--<asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
     <div id="bodytextcontainer">
         <div class="innercontainer">
            
@@ -295,8 +295,8 @@
         </div>
     </div>
     
-    
+  <%--  
     </ContentTemplate>
                 
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
 </asp:Content>

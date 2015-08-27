@@ -134,9 +134,9 @@ z-index: 50;
 }
 
 </style>
-    
+  <%--  
    <asp:UpdatePanel ID="updPanel" runat="server"  >
-    <ContentTemplate>
+    <ContentTemplate>--%>
 
     <div id="bodytextcontainer">
         <div class="innercontainer">
@@ -545,14 +545,14 @@ z-index: 50;
     
     
     
-     </ContentTemplate>
+    <%-- </ContentTemplate>
     
       <Triggers>
             <asp:PostBackTrigger ControlID="imbSave" />
         </Triggers>
     
     
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
     
     <script type="text/javascript">
 

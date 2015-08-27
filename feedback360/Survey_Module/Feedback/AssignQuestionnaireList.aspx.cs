@@ -547,6 +547,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
         {
             // Convert the row index stored in the CommandArgument
             // property to an Integer.
+            string participantName = string.Empty;
             int index = Convert.ToInt32(e.CommandArgument);
 
             // Retrieve the row that contains the button clicked 
@@ -555,9 +556,15 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
             
             Label lblAssignmentID = (Label)row.FindControl("AsgnDetailID");
             int AssignmentDetailsID = Convert.ToInt32(lblAssignmentID.Text);
-            
-            
-            
+            DropDownList dropDownListAnalysisI = (DropDownList)row.FindControl("ddlAnalysisI");
+            DropDownList dropDownListAnalysisII = (DropDownList)row.FindControl("ddlAnalysisII");
+            DropDownList dropDownListAnalysisIII = (DropDownList)row.FindControl("ddlAnalysisIII");
+            TextBox textBoxCandidateEmail = (TextBox)row.FindControl("txtCandidateEmail");
+            TextBox textBoxCandidateName = (TextBox)row.FindControl("txtCandidateName");
+
+
+            UpdateParticipantsDetails(AssignmentDetailsID, dropDownListAnalysisI.SelectedValue, dropDownListAnalysisII.SelectedValue,
+                dropDownListAnalysisIII.SelectedValue, textBoxCandidateEmail.Text.Trim(), textBoxCandidateName.Text.Trim());
            // Label lblAssignmentID = (Label)row.FindControl("lblAssignID");
            // Label lblAccountID = (Label)row.FindControl("lblAccountID");
            // Label lblTargetPersonID = (Label)row.FindControl("lblTargetPersonID");
@@ -577,6 +584,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
             DataTable dtasgnmentId = new DataTable();
             int assignmentID=0;
             dtasgnmentId = assignQuestionnaire_BAO.GetdtAssignmentId(AssignmentDetailsID);
+
             if (dtasgnmentId.Rows.Count > 0)
                assignmentID = Convert.ToInt32(dtasgnmentId.Rows[0]["AssignmentID"]);
             //AssignQuestionnaire_BAO assignquestionnaire_BAO = new AssignQuestionnaire_BAO();
@@ -595,7 +603,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
             string imagepath = Server.MapPath("~/EmailImages/"); //ConfigurationSettings.AppSettings["EmailImagePath"].ToString();
 
             //Send mail to candidates
-            
+
             for (int i = 0; i < dtResult.Rows.Count; i++)
             {
                 AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
@@ -611,8 +619,8 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                 string emailimagepath = "";
 
                 //dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(projectID));
-               // if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
-               //     emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
+                // if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
+                //     emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
 
                 string candidateEmail = "";
                 string questionnaireID = "";
@@ -622,6 +630,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                 string Enddate = "";
                 string CandidateName = "";
                 string FirstName = "";
+                string emailPseudonym = string.Empty;
 
                 candidateEmail = dtResult.Rows[i]["CandidateEmail"].ToString();
                 questionnaireID = dtResult.Rows[i]["QuestionnaireID"].ToString();
@@ -630,6 +639,9 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                 Startdate = Convert.ToDateTime(dtResult.Rows[i]["StartDate"]).ToString("dd-MMM-yyyy");
                 Enddate = Convert.ToDateTime(dtResult.Rows[i]["Enddate"]).ToString("dd-MMM-yyyy");
                 CandidateName = dtResult.Rows[i]["CandidateName"].ToString();
+                emailPseudonym = dtResult.Rows[i].Field<string>("Pseudonym");
+                participantName = CandidateName;
+
                 string[] strFName = CandidateName.Split(' ');
                 FirstName = strFName[0].ToString();
 
@@ -662,34 +674,39 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
 
                 //if (dtResult.Rows[i]["RelationShip"].ToString() != "Self")
                 //{
-                    if (dtAccountAdmin.Rows.Count > 0)
-                    {
-                        Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                        Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+                MailAddress mailaddress = new MailAddress("admin@i-comment360.com",
+                    (string.IsNullOrEmpty(emailPseudonym) ? "admin" : emailPseudonym));
 
-                        Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                        Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+                if (dtAccountAdmin.Rows.Count > 0)
+                {
+                    Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                    Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
 
-                        //MailAddress maddr = new MailAddress(dtAccountAdmin.Rows[0]["EmailID"].ToString(), dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                        MailAddress maddr = new MailAddress("admin@i-comment360.com", "admin");
-                        SendEmail.Send(Subject, Template, candidateEmail, maddr, emailimagepath);
-                    }
-                    else
-                    {
-                        Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
-                        Template = Template.Replace("[PARTICIPANTEMAIL]", "");
+                    Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
+                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
 
-                        Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
-                        Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
+                    //MailAddress maddr = new MailAddress(dtAccountAdmin.Rows[0]["EmailID"].ToString(), dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
 
-                        SendEmail.Send(Subject, Template, candidateEmail, "");
-                    }
+                    SendEmail.Send(Subject, Template, candidateEmail, mailaddress, emailimagepath);
+                }
+                else
+                {
+                    Template = Template.Replace("[PARTICIPANTNAME]", "Participant");
+                    Template = Template.Replace("[PARTICIPANTEMAIL]", "");
+
+                    Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
+                    Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
+
+                    SendEmail.Send(Subject, Template, candidateEmail, mailaddress, "");
+                }
                 //}
             }
 
             // Create a new ListItem object for the contact in the row.     
             ListItem item = new ListItem();
-            lblMessage.Text = "Email sent successfully to " + Server.HtmlDecode(row.Cells[1].Text);
+            string message = "Email sent successfully";
+            lblMessage.Text = string.IsNullOrEmpty(participantName)? string.Format("{0}.",message):
+                string.Format("{0}\t to {1}.", message, participantName);//+ Server.HtmlDecode(row.Cells[1].Text);
         }
         else if (e.CommandName == "Delete")
         {
@@ -750,6 +767,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
 
 
                     string strCandidateName = ((TextBox)grdvRow.FindControl("txtCandidateName")).Text.Trim();
+
                     if (!string.IsNullOrEmpty(strCandidateName))
                     {
                         if (strUpdateSql == "")
@@ -785,5 +803,49 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
         }
     }
 
-    
+    private void UpdateParticipantsDetails(int assignmentDetailsID, string analysisI, 
+        string analysisII, string analysisIII, string candidateEmail, string candidateName)
+    {
+        string sqlQuery = string.Empty;
+
+        if (analysisI != "0")
+        {
+            sqlQuery = sqlQuery + "Analysis_I='" + analysisI + "'";
+        }
+
+        if (analysisII != "0")
+        {
+            if (sqlQuery == "")
+                sqlQuery = sqlQuery + "Analysis_II='" + analysisIII + "'";
+            else
+                sqlQuery = sqlQuery + ",Analysis_II='" + analysisIII + "'";
+        }
+        if (analysisIII != "0")
+        {
+            if (sqlQuery == "")
+                sqlQuery = sqlQuery + "Analysis_III='" + analysisIII + "'";
+            else
+                sqlQuery = sqlQuery + ",Analysis_III='" + analysisIII + "'";
+        }
+
+        if (!string.IsNullOrEmpty(candidateName))
+        {
+            if (sqlQuery == "")
+                sqlQuery = string.Format("{0}\tCandidateName='{1}'", sqlQuery, candidateName.Replace("'", ""));
+            else
+                sqlQuery = string.Format("{0}\t,CandidateName='{1}'", sqlQuery, candidateName.Replace("'", ""));
+        }
+       
+      
+        if (!string.IsNullOrEmpty(candidateEmail))
+        {
+            if (sqlQuery == "")
+                sqlQuery = sqlQuery + "CandidateEmail='" + candidateEmail.Replace("'", "") + "'";
+            else
+                sqlQuery = sqlQuery + ",CandidateEmail='" + candidateEmail.Replace("'", "") + "'";
+        }
+
+        if (!string.IsNullOrEmpty(sqlQuery))
+            assignQuestionnaire_BAO.UpdateAnalysis(assignmentDetailsID, sqlQuery);
+    }
 }

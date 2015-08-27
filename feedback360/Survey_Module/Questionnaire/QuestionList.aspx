@@ -17,8 +17,8 @@
                 </div>
             </div>
             <!-- end heading logout -->
-            <asp:UpdatePanel ID="updPanel" runat="server">
-                <ContentTemplate>
+          <%--  <asp:UpdatePanel ID="updPanel" runat="server">
+                <ContentTemplate>--%>
                     
                     <table border="0" width="100%">
                         <tr>
@@ -194,10 +194,10 @@
                             <asp:Parameter Name="accountID" Type="String" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                </ContentTemplate>
+               <%-- </ContentTemplate>
                 <Triggers>
                 </Triggers>
-            </asp:UpdatePanel>
+            </asp:UpdatePanel>--%>
             <!-- grid list -->
         </div>
     </div>

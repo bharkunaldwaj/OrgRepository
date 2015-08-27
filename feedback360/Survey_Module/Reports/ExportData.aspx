@@ -8,8 +8,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <asp:UpdatePanel ID="updPanel" runat="server">
-        <ContentTemplate>
+   <%-- <asp:UpdatePanel ID="updPanel" runat="server">
+        <ContentTemplate>--%>
             <div id="bodytextcontainer">
                 <div class="innercontainer">
                     <!-- start heading logout -->
@@ -164,11 +164,11 @@
                     <!-- grid list -->
                 </div>
             </div>
-        </ContentTemplate>
+        <%--</ContentTemplate>
         <Triggers>
             <asp:PostBackTrigger ControlID="imbExport" />
         </Triggers>
-    </asp:UpdatePanel>
+    </asp:UpdatePanel>--%>
     <asp:GridView ID="GridView1" runat="server" BorderColor="Black" BorderStyle="Solid"
         Width="600px">
         <RowStyle HorizontalAlign="Center" VerticalAlign="Middle" />

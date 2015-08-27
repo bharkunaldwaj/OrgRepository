@@ -14,15 +14,17 @@
     </asp:ToolkitScriptManager>--%>
     <script type="text/javascript">
 
-        function RemoveImage(i) {
-
-            if (i == 1) {
+        function RemoveImage(i) {debugger;
+            var imageID = i;
+            if (imageID == "1") {
                 document.getElementById('ctl00_cphMaster_hdnTopImage').value = "";
             }
-            else if (i == 2) {
+
+           if (imageID == "2") {
                 document.getElementById('ctl00_cphMaster_hdnMiddleImage').value = "";
             }
-            else if (i == 3) {
+
+           if (imageID == "3") {
                 document.getElementById('ctl00_cphMaster_hdnBottomImage').value = "";
             }
         }
@@ -428,7 +430,7 @@
                                                     </div>
                                                 </td>
                                                 <td width="5%" valign="top">
-                                                    <asp:HiddenField ID="hdnimgScoreTable" runat="server" Value="0" />
+                                                    <asp:HiddenField ID="hdnimgScoreTable" runat="server" Value="" />
                                                     <a href="javascript:void(0)" onclick="RemoveQuestImage();">
                                                         <img src="../../Layouts/Resources/images/remove.png" title="Remove Score Table Image" /></a>
                                                 </td>
@@ -458,7 +460,7 @@
                                                     </div>
                                                 </td>
                                                 <td width="5%" valign="top">
-                                                    <asp:HiddenField ID="hdnimgFooter" runat="server" Value="0" />
+                                                    <asp:HiddenField ID="hdnimgFooter" runat="server" Value="" />
                                                     <a href="javascript:void(0)" onclick="RemoveFooterImage();">
                                                         <img src="../../Layouts/Resources/images/remove.png" title="Remove Footer Image" /></a>
                                                 </td>
@@ -686,7 +688,7 @@
 
 
         if (document.getElementById('ctl00_cphMaster_hdnimgScoreTable').value != "") {
-            document.getElementById('imgScoreTable').src = "../../UploadDocs/" + document.getElementById('ctl00_cphMaster_hdnimgScoreTable').value;
+            document.getElementById('ctl00_cphMaster_imgScoreTable').src = "../../UploadDocs/" + document.getElementById('ctl00_cphMaster_hdnimgScoreTable').value;
         }
     </script>
 </asp:Content>

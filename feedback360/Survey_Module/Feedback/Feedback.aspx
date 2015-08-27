@@ -77,16 +77,26 @@ function TextAreaMaxLengthCheck(id, length)
         span .cke_top{display:none;}*/
         span.cke_top.cke_reset_all{display:none;}
         span.cke_bottom.cke_reset_all{display:none;}
+      
+     
+       
+          .mtable{margin-left:0px !important;}
+       
+  
+     
     </style>
+
+    
+      
 </head>
 <body>
     <form id="frmFeedback" runat="server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <table id="maincontainer-feedback_table" width="100%" border="0" cellpadding="0" cellspacing="0">
+    <table id="maincontainer-feedback_table"  width="75%" border="0" cellpadding="0" cellspacing="0" style="margin-left:0px " >
         <tr>
             <td width="10%" align="left">
-                <asp:Image ID="imgHeader" Height="70" runat="server" />
+                <asp:Image ID="imgHeader" Height="70"  runat="server" />
             </td>
             <td id="tdHeader" runat="server" width="90%" align="right">
                 <asp:Image ID="imgProjectLogo" Height="70" runat="server" ImageUrl=""   />
@@ -414,7 +424,7 @@ function TextAreaMaxLengthCheck(id, length)
               height: 170,
               modal: true,
               show: {
-                  duration: 1000
+                  duration: 5000
               },
               hide: {
                   duration: 1000

@@ -616,8 +616,9 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
                             Subject = Subject.Replace("[ACCOUNTADMIN]", dtAccountAdmin.Rows[0]["FullName"].ToString());
                             Subject = Subject.Replace("[ADMINEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+                            string EmailPseudonym = dtAccountAdmin.Rows[0].Field<string>("Pseudonym");
 
-                            MailAddress maddr = new MailAddress("admin@i-comment.com", "Survey Feedback");
+                            MailAddress maddr = new MailAddress("admin@i-comment.com", string.IsNullOrEmpty(EmailPseudonym) ? "Survey Feedback" : EmailPseudonym);
                             //SendEmail.Send(Subject, Template, "ashishg1@damcogroup.com", maddr, emailimagepath);
                             SendEmail.Send(Subject, Template, EmailID, maddr, emailimagepath);
                         }
