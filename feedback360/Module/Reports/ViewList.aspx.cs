@@ -1351,6 +1351,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
         catch (Exception ex)
         {
+          //  if(ex.Message=="")
             HandleException(ex);
         }
     }

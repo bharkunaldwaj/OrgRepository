@@ -140,7 +140,8 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
             txttitle.Text = emailtemplate_BEList[0].Title;
             txtDescription.Text = emailtemplate_BEList[0].Description;
             txtSubject.Text = emailtemplate_BEList[0].Subject;
-            txtEmailText.Value = emailtemplate_BEList[0].EmailText;
+            txtEmailText.InnerHtml =Server.HtmlDecode(emailtemplate_BEList[0].EmailText);
+
 
             /*To Show the Image*/          
             hdnimage.Value = emailtemplate_BEList[0].EmailImage.ToString();
@@ -164,16 +165,19 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
         {
             ibtnSave_Click(null, null);
 
-            String Template = txtEmailText.Value;
+            String Template =  txtEmailText.Value;
             Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
             string imagepath = Server.MapPath("~/EmailImages/");
             string emailimagepath = imagepath + hdnimage.Value;
+
             if (!File.Exists(emailimagepath))
             {
                 emailimagepath = "";
             }
                 MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
-                SendEmail.Send(txtSubject.Text, Template, txtEmail.Text, maddr, emailimagepath);
+                SendEmail.Send(txtSubject.Text, Server.HtmlDecode(Template), txtEmail.Text, maddr, emailimagepath);
+
+                txtEmailText.InnerHtml = txtEmailText.Value;
         }
     }
     protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
@@ -208,7 +212,7 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
                     emailtemplate_BE.Title = GetString(txttitle.Text);
                     emailtemplate_BE.Description = GetString(txtDescription.Text);
                     emailtemplate_BE.Subject = GetString(txtSubject.Text);
-                    emailtemplate_BE.EmailText = GetString(txtEmailText.Value.Trim());
+                    emailtemplate_BE.EmailText = GetString(Server.HtmlDecode(txtEmailText.Value.Trim()));
                     if (FileUpload.HasFile)
                     {
                         filename = System.IO.Path.GetFileName(FileUpload.PostedFile.FileName);
