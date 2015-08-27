@@ -153,7 +153,7 @@
                                         <asp:CheckBox ID="chkExcludeFromAnalysis" runat="server" />
                                     </td>
                                 </tr>
-                                <tr>
+                                <tr  id="ReportDescription" runat="server" visible="false">
                                 <td valign="top">
                                         <asp:Label ID="LabeReportDescription" runat="server" Text="<% $Resources:Report_Category_Description %>"></asp:Label>
                                         <span class="style3">*</span>
@@ -163,12 +163,12 @@
                                             SkinID="txtarea300X3" onkeypress="javascript:TextAreaMaxLengthCheck(this.id,500);"
                                             Text="" Rows="3" /><div class="maxlength-msg">
                                                 <asp:Label ID="LabelReportDataCount" runat="server" Text="<% $Resources:Label_Max_500_Char%>"></asp:Label></div>
-                                        &nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidatorReportDescription" runat="server" ControlToValidate="TextBoxReportDescription"
-                                            ErrorMessage="<% $Resources:Enter_Report_Description %>" SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>
+                                       <%-- &nbsp;<asp:RequiredFieldValidator ID="RequiredFieldValidatorReportDescription" runat="server" ControlToValidate="TextBoxReportDescription"
+                                            ErrorMessage="<% $Resources:Enter_Report_Description %>" SetFocusOnError="True" ValidationGroup="group1">&nbsp;</asp:RequiredFieldValidator>--%>
                                     </td>
                                     <td colspan="2"></td>
                                 </tr>
-                                <tr>
+                                <tr >
                                 <td valign="top">
                                         <asp:Label ID="LabelQuestionnaireDescription" runat="server" Text="<% $Resources:Questionnaire_Category_Description %>"></asp:Label>
                                         <span class="style3">*</span>
