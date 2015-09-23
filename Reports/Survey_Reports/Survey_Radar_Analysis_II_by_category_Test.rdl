@@ -30,7 +30,7 @@
               </Group>
               <SortExpressions>
                 <SortExpression>
-                  <Value>=Fields!Analysis_type.Value</Value>
+                  <Value>=Fields!SR_No.Value</Value>
                 </SortExpression>
               </SortExpressions>
               <Label>=Fields!Analysis_type.Value</Label>
@@ -359,16 +359,15 @@
       <DataType>String</DataType>
       <Prompt>programmeid</Prompt>
     </ReportParameter>
-	  <ReportParameter Name="Ana_I_II_III">
-		  <DataType>String</DataType>
-		  <DefaultValue>
-			  <Values>
-				  <Value>ANALYSIS- II</Value>
-			  </Values>
-		  </DefaultValue>
-		  <Prompt>Ana_I_II_III</Prompt>
-	  </ReportParameter>
-
+    <ReportParameter Name="Ana_I_II_III">
+      <DataType>String</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>ANALYSIS- II</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Ana_I_II_III</Prompt>
+    </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>14428756-ce18-4e8c-97f7-3150951be20b</rd:ReportID>

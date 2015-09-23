@@ -279,7 +279,7 @@
           </Image>
         </ReportItems>
         <PageBreak>
-          <BreakLocation>Start</BreakLocation>
+          <BreakLocation>StartAndEnd</BreakLocation>
         </PageBreak>
         <KeepTogether>true</KeepTogether>
         <Height>5.35084in</Height>

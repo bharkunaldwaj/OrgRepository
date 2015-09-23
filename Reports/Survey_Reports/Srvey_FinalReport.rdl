@@ -165,6 +165,9 @@ true)</Hidden>
           <Parameter Name="projectid">
             <Value>=Parameters!projectid.Value</Value>
           </Parameter>
+          <Parameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+          </Parameter>
         </Parameters>
         <Top>0.05209in</Top>
         <Left>0.04704in</Left>

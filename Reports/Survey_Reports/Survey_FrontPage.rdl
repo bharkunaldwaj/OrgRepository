@@ -125,6 +125,7 @@
           <Image Name="Frontpagelogo2">
             <Source>External</Source>
             <Value>=First(Fields!FrontPageLogo2.Value, "Report_Survey_Image")</Value>
+            <Sizing>FitProportional</Sizing>
             <Top>3.2882in</Top>
             <Left>0.58in</Left>
             <Height>1.98958in</Height>
@@ -142,6 +143,7 @@
           <Image Name="Frontpagelogo3">
             <Source>External</Source>
             <Value>=First(Fields!FrontPageLogo3.Value, "Report_Survey_Image")</Value>
+            <Sizing>FitProportional</Sizing>
             <Top>5.81931in</Top>
             <Left>0.58in</Left>
             <Height>1.375in</Height>
@@ -159,6 +161,7 @@
           <Image Name="Image6">
             <Source>External</Source>
             <Value>=First(Fields!pagelogo.Value, "Report_Survey_Image")</Value>
+            <Sizing>FitProportional</Sizing>
             <Top>1.51736in</Top>
             <Left>0.58in</Left>
             <Height>1.37501in</Height>
@@ -225,6 +228,10 @@
           </QueryParameter>
           <QueryParameter Name="@projectid">
             <Value>=Parameters!projectid.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
           </QueryParameter>
         </QueryParameters>
         <CommandType>StoredProcedure</CommandType>
@@ -340,7 +347,7 @@
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value>106</Value>
+          <Value>47</Value>
         </Values>
       </DefaultValue>
       <Prompt>accountid</Prompt>
@@ -349,10 +356,14 @@
       <DataType>Integer</DataType>
       <DefaultValue>
         <Values>
-          <Value>282</Value>
+          <Value>11</Value>
         </Values>
       </DefaultValue>
       <Prompt>projectid</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="programmeid">
+      <DataType>Integer</DataType>
+      <Prompt>programmeid</Prompt>
     </ReportParameter>
   </ReportParameters>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>

@@ -46,6 +46,7 @@
                       <ChartDataLabel>
                         <Style>
                           <FontSize>5pt</FontSize>
+                          <Format>0.0;(0.0)</Format>
                         </Style>
                         <UseValueAsLabel>true</UseValueAsLabel>
                         <Visible>true</Visible>

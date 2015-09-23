@@ -181,6 +181,7 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>=Chr(34) &amp; Fields!Answer.Value &amp; "." &amp; Chr(34)</Value>
+                                  <MarkupType>HTML</MarkupType>
                                   <Style>
                                     <FontSize>11pt</FontSize>
                                   </Style>

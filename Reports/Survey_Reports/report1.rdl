@@ -489,11 +489,6 @@
                                         <GroupExpression>=Fields!Ana_I_II_III.Value</GroupExpression>
                                       </GroupExpressions>
                                     </Group>
-                                    <SortExpressions>
-                                      <SortExpression>
-                                        <Value>=Fields!Analysis_Category_Id.Value</Value>
-                                      </SortExpression>
-                                    </SortExpressions>
                                     <Label>=Fields!Analysis_type.Value</Label>
                                   </ChartMember>
                                 </ChartMembers>
@@ -509,6 +504,7 @@
                                         <ChartDataLabel>
                                           <Style>
                                             <FontSize>5pt</FontSize>
+                                            <Format>0.0;(0.0)</Format>
                                           </Style>
                                           <UseValueAsLabel>true</UseValueAsLabel>
                                           <Visible>true</Visible>
@@ -854,7 +850,7 @@ IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!An
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Variables!GroupCountValue.Value &amp; ". "</Value>
+                                      <Value>=Fields!QuestionSequence.Value &amp; ". "</Value>
                                       <Style>
                                         <FontSize>12pt</FontSize>
                                       </Style>
@@ -1087,6 +1083,7 @@ IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!An
                           </Style>
                         </Image>
                         <ColSpan>5</ColSpan>
+                        <rd:Selected>true</rd:Selected>
                       </CellContents>
                     </TablixCell>
                     <TablixCell />
@@ -1346,6 +1343,10 @@ IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!An
         </Field>
         <Field Name="IntroImgFileName">
           <DataField>IntroImgFileName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Legend_Order">
+          <DataField>Legend_Order</DataField>
           <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>

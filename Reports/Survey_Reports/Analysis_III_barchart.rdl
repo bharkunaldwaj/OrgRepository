@@ -1,69 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
-  <DataSources>
-    <DataSource Name="Survey_DataSource">
-      <DataSourceReference>Survey_DataSource</DataSourceReference>
-      <rd:DataSourceID>1292d7a4-0f18-431b-b41c-c3b37e7d6175</rd:DataSourceID>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="Report_Analysis_III_ByQuestion">
-      <Fields>
-        <Field Name="Analysis_type">
-          <DataField>Analysis_type</DataField>
-          <rd:UserDefined>true</rd:UserDefined>
-        </Field>
-        <Field Name="Question_No">
-          <DataField>Question_No</DataField>
-          <rd:UserDefined>true</rd:UserDefined>
-        </Field>
-        <Field Name="Answer">
-          <DataField>Answer</DataField>
-          <rd:UserDefined>true</rd:UserDefined>
-        </Field>
-        <Field Name="CategoryName">
-          <DataField>CategoryName</DataField>
-          <rd:UserDefined>true</rd:UserDefined>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>Survey_DataSource</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>Report_Analysis_III_ByQuestion</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="accountid">
-            <Value>=Parameters!accountid.Value</Value>
-            <rd:UserDefined>true</rd:UserDefined>
-          </QueryParameter>
-          <QueryParameter Name="projectid">
-            <Value>=Parameters!projectid.Value</Value>
-            <rd:UserDefined>true</rd:UserDefined>
-          </QueryParameter>
-          <QueryParameter Name="programmeid">
-            <Value>=Parameters!programmeid.Value</Value>
-            <rd:UserDefined>true</rd:UserDefined>
-          </QueryParameter>
-        </QueryParameters>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
-      </Query>
-      <Filters>
-        <Filter>
-          <FilterExpression>=Fields!Question_No.Value</FilterExpression>
-          <Operator>Equal</Operator>
-          <FilterValues>
-            <FilterValue>=Parameters!question_no.Value</FilterValue>
-          </FilterValues>
-        </Filter>
-      </Filters>
-    </DataSet>
-  </DataSets>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
       <Chart Name="Chart2">
         <ChartCategoryHierarchy>
           <ChartMembers>
             <ChartMember>
-              <Label>Answer</Label>
+              <Label />
             </ChartMember>
           </ChartMembers>
         </ChartCategoryHierarchy>
@@ -88,7 +31,9 @@
                     <Y>=Fields!Answer.Value</Y>
                   </ChartDataPointValues>
                   <ChartDataLabel>
-                    <Style />
+                    <Style>
+                      <Format>0.0;(0.0)</Format>
+                    </Style>
                     <UseValueAsLabel>true</UseValueAsLabel>
                     <Visible>true</Visible>
                   </ChartDataLabel>
@@ -154,6 +99,9 @@
                 <CrossAt>NaN</CrossAt>
                 <Minimum>NaN</Minimum>
                 <Maximum>NaN</Maximum>
+                <ChartAxisScaleBreak>
+                  <Style />
+                </ChartAxisScaleBreak>
               </ChartAxis>
               <ChartAxis Name="Secondary">
                 <Style>
@@ -188,6 +136,9 @@
                 <Location>Opposite</Location>
                 <Minimum>NaN</Minimum>
                 <Maximum>NaN</Maximum>
+                <ChartAxisScaleBreak>
+                  <Style />
+                </ChartAxisScaleBreak>
               </ChartAxis>
             </ChartCategoryAxes>
             <ChartValueAxes>
@@ -222,6 +173,9 @@
                 <CrossAt>NaN</CrossAt>
                 <Minimum>NaN</Minimum>
                 <Maximum>NaN</Maximum>
+                <ChartAxisScaleBreak>
+                  <Style />
+                </ChartAxisScaleBreak>
               </ChartAxis>
               <ChartAxis Name="Secondary">
                 <Style>
@@ -255,6 +209,9 @@
                 <Location>Opposite</Location>
                 <Minimum>NaN</Minimum>
                 <Maximum>NaN</Maximum>
+                <ChartAxisScaleBreak>
+                  <Style />
+                </ChartAxisScaleBreak>
               </ChartAxis>
             </ChartValueAxes>
             <Style>
@@ -297,89 +254,89 @@
             </Style>
           </ChartTitle>
         </ChartTitles>
-		  <Palette>Pastel</Palette>
-		  <ChartCustomPaletteColors>
-			  <ChartCustomPaletteColor>
+        <Palette>Pastel</Palette>
+        <ChartCustomPaletteColors>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#097054","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#005B9A","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#9C16CB","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#ffde00","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#03B585","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#E47297","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#0599ff","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#8C8984","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#FAC993","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#ff9900","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#0191C8","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#B675F7","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#009900","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#025E45","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#FFCDCB","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#fcb3d0","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#B7C7D7","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#AA0114","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#990033","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#024575","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#FC3232","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#e86850","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#03F7B8","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#6600CC","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#887058","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#5D5D5C","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#F57E80","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#92cd00","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#74E2C1","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#F6CEE3","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#c13100","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#D2D1CF","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#CA278C","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#999999","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#06D2D2","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#F90421","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#8080C0","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#8080C0","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#8080C0","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#000000","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#000000","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#000000","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#C0D9AF","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#C0D9AF","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#C0D9AF","")
 			  </ChartCustomPaletteColor>
-			  <ChartCustomPaletteColor>
+          <ChartCustomPaletteColor>
 				  =IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- I" ,"#A6D785","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- II" ,"#A6D785","") &amp;
 				  IIf(Trim(Fields!Analysis_type.Value) &lt;&gt; "Full Project Group" and Fields!Analysis_type.Value &lt;&gt; "Programme Average" and Trim("ANALYSIS- III") = "ANALYSIS- III" ,"#A6D785","")
 			  </ChartCustomPaletteColor>
-		  </ChartCustomPaletteColors>
+        </ChartCustomPaletteColors>
         <ChartBorderSkin>
           <Style>
             <BackgroundColor>Gray</BackgroundColor>
@@ -411,6 +368,73 @@
     <Height>2.19792in</Height>
     <Style />
   </Body>
+  <Width>6.95499in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="Survey_DataSource">
+      <DataSourceReference>Survey_DataSource</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>1292d7a4-0f18-431b-b41c-c3b37e7d6175</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="Report_Analysis_III_ByQuestion">
+      <Query>
+        <DataSourceName>Survey_DataSource</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="accountid">
+            <Value>=Parameters!accountid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="projectid">
+            <Value>=Parameters!projectid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+          <QueryParameter Name="programmeid">
+            <Value>=Parameters!programmeid.Value</Value>
+            <rd:UserDefined>true</rd:UserDefined>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>Report_Analysis_III_ByQuestion</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="Analysis_type">
+          <DataField>Analysis_type</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Question_No">
+          <DataField>Question_No</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Answer">
+          <DataField>Answer</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+      </Fields>
+      <Filters>
+        <Filter>
+          <FilterExpression>=Fields!Question_No.Value</FilterExpression>
+          <Operator>Equal</Operator>
+          <FilterValues>
+            <FilterValue>=Parameters!question_no.Value</FilterValue>
+          </FilterValues>
+        </Filter>
+      </Filters>
+    </DataSet>
+  </DataSets>
   <ReportParameters>
     <ReportParameter Name="accountid">
       <DataType>Integer</DataType>
@@ -430,16 +454,7 @@
       <Prompt>question_no</Prompt>
       <Hidden>true</Hidden>
     </ReportParameter>
-	  
   </ReportParameters>
-  <Width>6.95499in</Width>
-  <Page>
-    <LeftMargin>1in</LeftMargin>
-    <RightMargin>1in</RightMargin>
-    <TopMargin>1in</TopMargin>
-    <BottomMargin>1in</BottomMargin>
-    <Style />
-  </Page>
-  <rd:ReportID>3be24777-6ddc-466c-897d-46ba6e29e31f</rd:ReportID>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>3be24777-6ddc-466c-897d-46ba6e29e31f</rd:ReportID>
 </Report>
