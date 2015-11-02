@@ -140,8 +140,7 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
             txttitle.Text = emailtemplate_BEList[0].Title;
             txtDescription.Text = emailtemplate_BEList[0].Description;
             txtSubject.Text = emailtemplate_BEList[0].Subject;
-            txtEmailText.InnerHtml =Server.HtmlDecode(emailtemplate_BEList[0].EmailText);
-
+            txtEmailText.InnerHtml = Server.HtmlDecode(emailtemplate_BEList[0].EmailText);
 
             /*To Show the Image*/          
             hdnimage.Value = emailtemplate_BEList[0].EmailImage.ToString();
@@ -361,7 +360,7 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-
+            identity = this.Page.User.Identity as WADIdentity;
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
             Account_BAO account_BAO = new Account_BAO();
@@ -382,6 +381,8 @@ public partial class Module_Admin_EmailTemplates : CodeBehindBase
             }
 
             lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+
+            txtEmailText.InnerHtml = Server.HtmlDecode(txtEmailText.InnerHtml);
         }
         else
         {
