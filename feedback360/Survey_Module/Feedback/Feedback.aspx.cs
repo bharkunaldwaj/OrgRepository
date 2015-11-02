@@ -162,11 +162,11 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                         lblFooter.Text = dtResult.Rows[0]["CopyRightLine"].ToString();
 
                         ////Set Project Logo
-                        //if (dtResult.Rows[0]["Logo"].ToString() != "")
-                        //{
-                        //    imgProjectLogo.Visible = true;
-                        //    imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtResult.Rows[0]["Logo"].ToString();
-                        //}
+                        if (dtResult.Rows[0]["Logo"].ToString() != "")
+                        {
+                            imgProjectLogo.Visible = true;
+                            imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtResult.Rows[0]["Logo"].ToString();
+                        }
                         //else
                         //{
                         //    imgProjectLogo.Visible = false;
@@ -200,11 +200,11 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                         //Set Programme Logo
                         //Ak
 
-                        //if (dtProgramme.Rows[0]["Logo"].ToString() != "")
-                        //{
-                        //    imgProjectLogo.Visible = true;
-                        //    imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
-                        //}
+                        if (dtProgramme.Rows[0]["Logo"].ToString() != "")
+                        {
+                            imgProjectLogo.Visible = true;
+                            imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
+                        }
                         //else
                         //{
                         //    if (imgProjectLogo.ImageUrl == "")
@@ -254,7 +254,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
         //Set Prolog of questionnaire
         List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaire_BEList = new List<Questionnaire_BE.Survey_Questionnaire_BE>();
         questionnaire_BEList = questionnaire_BAO.GetQuestionnaireByID(Convert.ToInt32(hdnQuestionnaireId.Value));
-        lblQuestionnaireText.Text = questionnaire_BEList[0].QSTNPrologue.ToString();
+        lblQuestionnaireText.Text = Server.HtmlDecode(questionnaire_BEList[0].QSTNPrologue.ToString());
     }
 
     private void BindQuestionInformation()
