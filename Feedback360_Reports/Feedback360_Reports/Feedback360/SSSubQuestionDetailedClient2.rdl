@@ -62,6 +62,7 @@
                           <TextRuns>
                             <TextRun>
                               <Value>=Fields!Answer.Value</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontSize>11pt</FontSize>
                               </Style>

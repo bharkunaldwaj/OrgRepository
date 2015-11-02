@@ -1,65 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Report xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition">
-  <DataSources>
-    <DataSource Name="DataSource1">
-      <DataSourceReference>FeedbackDS</DataSourceReference>
-      <rd:DataSourceID>44cf985d-99a6-402a-8bce-b161c7963a10</rd:DataSourceID>
-    </DataSource>
-  </DataSources>
-  <DataSets>
-    <DataSet Name="DSSubQuestionlist">
-      <Fields>
-        <Field Name="AccountID">
-          <DataField>AccountID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="QuestionID">
-          <DataField>QuestionID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CateogryID">
-          <DataField>CateogryID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="QuestionnaireID">
-          <DataField>QuestionnaireID</DataField>
-          <rd:TypeName>System.Int32</rd:TypeName>
-        </Field>
-        <Field Name="CategoryName">
-          <DataField>CategoryName</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Title">
-          <DataField>Title</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="Description">
-          <DataField>Description</DataField>
-          <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-      </Fields>
-      <Query>
-        <DataSourceName>DataSource1</DataSourceName>
-        <CommandType>StoredProcedure</CommandType>
-        <CommandText>RspCurSubDetailedQuestionList</CommandText>
-        <QueryParameters>
-          <QueryParameter Name="@questionnaireid">
-            <Value>=Parameters!ParamSubQstnnaireId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@targetpersonid">
-            <Value>=Parameters!ParamTargetPersonID.Value(0)</Value>
-          </QueryParameter>
-          <QueryParameter Name="@categoryid">
-            <Value>=Parameters!ParamCategoryId.Value</Value>
-          </QueryParameter>
-          <QueryParameter Name="@DetailedQstVisibility">
-            <Value>=Parameters!DetailedQstVisibility.Value</Value>
-          </QueryParameter>
-        </QueryParameters>
-        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
-      </Query>
-    </DataSet>
-  </DataSets>
+<Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2008/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <Body>
     <ReportItems>
       <Tablix Name="Tablix1">
@@ -86,6 +26,7 @@
                           <TextRuns>
                             <TextRun>
                               <Value>="Question: " &amp; "  " &amp; Fields!Description.Value</Value>
+                              <MarkupType>HTML</MarkupType>
                               <Style>
                                 <FontSize>9pt</FontSize>
                                 <FontWeight>Bold</FontWeight>
@@ -217,6 +158,76 @@
     <Height>0.50417in</Height>
     <Style />
   </Body>
+  <Width>7.78125in</Width>
+  <Page>
+    <LeftMargin>1in</LeftMargin>
+    <RightMargin>1in</RightMargin>
+    <TopMargin>1in</TopMargin>
+    <BottomMargin>1in</BottomMargin>
+    <Style />
+  </Page>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <DataSourceReference>FeedbackDS</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>44cf985d-99a6-402a-8bce-b161c7963a10</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DSSubQuestionlist">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@questionnaireid">
+            <Value>=Parameters!ParamSubQstnnaireId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@targetpersonid">
+            <Value>=Parameters!ParamTargetPersonID.Value(0)</Value>
+          </QueryParameter>
+          <QueryParameter Name="@categoryid">
+            <Value>=Parameters!ParamCategoryId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@DetailedQstVisibility">
+            <Value>=Parameters!DetailedQstVisibility.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandType>StoredProcedure</CommandType>
+        <CommandText>RspCurSubDetailedQuestionList</CommandText>
+        <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
+      </Query>
+      <Fields>
+        <Field Name="AccountID">
+          <DataField>AccountID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="QuestionID">
+          <DataField>QuestionID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CateogryID">
+          <DataField>CateogryID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="QuestionnaireID">
+          <DataField>QuestionnaireID</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="CategoryName">
+          <DataField>CategoryName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Title">
+          <DataField>Title</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
   <ReportParameters>
     <ReportParameter Name="ParamCategoryId">
       <DataType>Integer</DataType>
@@ -261,14 +272,6 @@
       <Hidden>true</Hidden>
     </ReportParameter>
   </ReportParameters>
-  <Width>7.78125in</Width>
-  <Page>
-    <LeftMargin>1in</LeftMargin>
-    <RightMargin>1in</RightMargin>
-    <TopMargin>1in</TopMargin>
-    <BottomMargin>1in</BottomMargin>
-    <Style />
-  </Page>
-  <rd:ReportID>edd79cfd-e590-4841-bb51-3591bb7d1ed8</rd:ReportID>
   <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>edd79cfd-e590-4841-bb51-3591bb7d1ed8</rd:ReportID>
 </Report>
