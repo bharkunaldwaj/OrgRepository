@@ -8,7 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-
+      <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <script type="text/javascript">
 
         function pageLoad() {
@@ -487,10 +487,13 @@
                             <legend>
                                 <asp:Label ID="Label7" runat="server" Text="<% $Resources:lblInstruction %>"></asp:Label></legend>                            
 
-                                <div>
-                                <FCKeditorV2:FCKeditor ID="txtInstructionText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                <div width="85%">
+                                <%--<FCKeditorV2:FCKeditor ID="txtInstructionText" runat="server" BasePath="~/fckeditor/" Width="800px"
                                         ToolbarSet="Instructions">
-                                    </FCKeditorV2:FCKeditor>
+                                    </FCKeditorV2:FCKeditor>--%>
+                                    <textarea id="txtInstructionText" runat="server" rows="10" cols="80" style="width: 90%;"
+                                        clientidmode="Static">
+                                        </textarea>
                                     <asp:CustomValidator ID="rfvInstruction" runat="server" ErrorMessage="<% $Resources:rfvInstruction %>" ControlToValidate="txtInstructionText"
                                     ClientValidationFunction="ValidateFCK" ValidateEmptyText="True"></asp:CustomValidator>
                                     <%--<asp:RequiredFieldValidator ID="rfvInstruction" runat="server" ValidationGroup="group1" ErrorMessage="<% $Resources:rfvInstruction %> "
@@ -543,5 +546,23 @@
        // alert(document.getElementById('ReportLogoImage').src);
 
     </script>
+
+     <script type="text/javascript">
+         // CKEDITOR.replace('editor1');
+         CKEDITOR.config.htmlEncodeOutput = true;
+         CKEDITOR.replace('txtInstructionText', {
+             uiColor: '#9AB8F3',
+             toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+         });
+     </script>
 
 </asp:Content>

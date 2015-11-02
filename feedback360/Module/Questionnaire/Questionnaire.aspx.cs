@@ -131,8 +131,8 @@ public partial class Module_Questionnaire_Questionnaire : CodeBehindBase
             txtDescription.Text = questionnaire_BEList[0].QSTNDescription.ToString();
             txtDisplayCategory.Text = questionnaire_BEList[0].DisplayCategory.ToString();
             //ddlProject.SelectedValue = questionnaire_BEList[0].ProjectID.ToString();            
-            txtPrologueEditor.Value = questionnaire_BEList[0].QSTNPrologue.ToString();
-            txtEpilogueEditor.Value = questionnaire_BEList[0].QSTNEpilogue.ToString();           
+            txtPrologueEditor.InnerHtml = Server.HtmlDecode(questionnaire_BEList[0].QSTNPrologue.ToString());
+            txtEpilogueEditor.InnerHtml = Server.HtmlDecode(questionnaire_BEList[0].QSTNEpilogue.ToString());           
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -171,8 +171,8 @@ public partial class Module_Questionnaire_Questionnaire : CodeBehindBase
 
             //questionnaire_BE.ProjectID = Convert.ToInt32(GetString(ddlProject.SelectedValue));
             questionnaire_BE.ManagerID = 3;
-            questionnaire_BE.QSTNPrologue = GetString(txtPrologueEditor.Value);
-            questionnaire_BE.QSTNEpilogue = GetString(txtEpilogueEditor.Value);
+            questionnaire_BE.QSTNPrologue = GetString(Server.HtmlDecode(txtPrologueEditor.Value));
+            questionnaire_BE.QSTNEpilogue = GetString(Server.HtmlDecode(txtEpilogueEditor.Value));
             questionnaire_BE.ModifyBy = 1;
             questionnaire_BE.ModifyDate = DateTime.Now;
             questionnaire_BE.IsActive = 1;
@@ -235,6 +235,9 @@ public partial class Module_Questionnaire_Questionnaire : CodeBehindBase
             //ddlProject.DataTextField = "Title";
             //ddlProject.DataValueField = "ProjectID";
             //ddlProject.DataBind();
+
+            txtPrologueEditor.InnerHtml = Server.HtmlDecode(txtPrologueEditor.InnerHtml);
+            txtEpilogueEditor.InnerHtml = Server.HtmlDecode(txtEpilogueEditor.InnerHtml);
         }
         else
         {

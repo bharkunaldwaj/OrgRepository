@@ -12,7 +12,7 @@
 <script type="text/javascript" src="../../Layouts/tinymce/jscripts/tiny_mce/tiny_mce.js" ></script>
 
     <script type="text/javascript" src="../../Layouts/Resources/js/tinymice.js" ></script>
-
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <script type="text/javascript">
 //        Editor();
     </script>
@@ -583,9 +583,14 @@ z-index: 50;
                                     class="style3"></span>
                             </td>
                             <td width="85%">
-                                <FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px" ToolbarSet="Feedback" >
-                                </FCKeditorV2:FCKeditor>
+                                <%--<FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px" ToolbarSet="Feedback" >
+                                </FCKeditorV2:FCKeditor>--%>
                                 <%--<asp:TextBox ID="txtFaqText" TextMode="MultiLine" SkinID="txtarea500" Rows="5" runat="server"></asp:TextBox>--%>
+                                <div style="width: 100%;">
+                                    <textarea id="txtFaqText" runat="server" rows="10" cols="80" style="width: 98%;"
+                                        clientidmode="Static">
+                                        </textarea>
+                                </div>
                             </td>
                         </tr>
                     </table>
@@ -660,5 +665,22 @@ z-index: 50;
         }
     
     </script>
+    <script type="text/javascript">
+        // CKEDITOR.replace('editor1');
+        CKEDITOR.config.htmlEncodeOutput = true;
+        CKEDITOR.replace('txtFaqText', {
+            uiColor: '#9AB8F3',
+            toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+        });
+     </script>
     
 </asp:Content>

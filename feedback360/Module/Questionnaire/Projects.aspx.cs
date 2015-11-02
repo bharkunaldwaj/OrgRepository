@@ -31,7 +31,6 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
     string expression2;
     string Finalexpression2;
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
 
@@ -284,7 +283,7 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
             txtRelationship4.Text = project_BEList[0].Relationship4.ToString();
             txtRelationship5.Text = project_BEList[0].Relationship5.ToString();
 
-            txtFaqText.Value = project_BEList[0].FaqText.ToString();
+            txtFaqText.InnerText = Server.HtmlDecode(project_BEList[0].FaqText.ToString());
 
             Session["FileName"] = project_BEList[0].Logo;
 
@@ -352,7 +351,7 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                 project_BE.Relationship3= txtRelationship3.Text.Trim();
                 project_BE.Relationship4 = txtRelationship4.Text.Trim();
                 project_BE.Relationship5 = txtRelationship5.Text.Trim();
-                project_BE.FaqText = txtFaqText.Value.Trim();
+                project_BE.FaqText = Server.HtmlDecode(txtFaqText.Value.Trim());
                 project_BE.Logo = "";
 
                 //if (FileUpload.HasFile)
@@ -611,8 +610,8 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                 ddlSelfAssessmentRem.DataBind();
                 
             }
-            //if (dtEmailTemplate.Rows.Count > 0) 
-            //    ddlEmailStart.SelectedIndex = 1;
+
+            txtFaqText.InnerHtml = Server.HtmlDecode(txtFaqText.InnerHtml);
         }
         else
         {
@@ -683,8 +682,8 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                 ddlSelfAssessmentRem.DataTextField = "Title";
                 ddlSelfAssessmentRem.DataBind();
             }
-            //if (dtEmailTemplate.Rows.Count > 0) 
-            //    ddlEmailStart.SelectedIndex = 1;
+
+            txtFaqText.InnerHtml = string.Empty;
         }
     }
 

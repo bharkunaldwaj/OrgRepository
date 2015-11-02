@@ -226,7 +226,7 @@ public partial class Module_Questionnaire_Programme : CodeBehindBase
             if (txtPartReminder2.Text == "01/01/2000")
                 txtPartReminder2.Text = "";
 
-            txtInstructionText.Value = programme_BEList[0].Instructions;
+            txtInstructionText.InnerHtml = Server.HtmlDecode(programme_BEList[0].Instructions);
             txtColleaguesNo.Text = programme_BEList[0].ColleagueNo.ToString();
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -372,7 +372,7 @@ public partial class Module_Questionnaire_Programme : CodeBehindBase
                         programme_BE.PartReminder2Date = Convert.ToDateTime("01/01/2000");
 
                     if (!string.IsNullOrEmpty(txtInstructionText.Value.Trim()))
-                        programme_BE.Instructions = txtInstructionText.Value;
+                        programme_BE.Instructions = Server.HtmlDecode(txtInstructionText.Value);
 
                     if (!string.IsNullOrEmpty(txtColleaguesNo.Text))
                         programme_BE.ColleagueNo = Convert.ToInt32(txtColleaguesNo.Text);
@@ -443,6 +443,7 @@ public partial class Module_Questionnaire_Programme : CodeBehindBase
             ddlProject.DataTextField = "Title";
             ddlProject.DataBind();
 
+            txtInstructionText.InnerHtml = Server.HtmlDecode(txtInstructionText.InnerHtml);
         }
         else
         {

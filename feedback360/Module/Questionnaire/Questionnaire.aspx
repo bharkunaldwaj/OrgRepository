@@ -7,6 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <div id="bodytextcontainer">
         <div class="innercontainer">
             <!-- start heading logout -->
@@ -138,11 +139,16 @@
                                         <asp:Label ID="lblPrologueDesc" runat="server" Text="<% $Resources:lblPrologueDesc %>"></asp:Label>
                                     </td>
                                     <td width="87%" valign="top">
-                                        <FCKeditorV2:FCKeditor ID="txtPrologueEditor" runat="server" BasePath="~/fckeditor/"
+                                        <%--<FCKeditorV2:FCKeditor ID="txtPrologueEditor" runat="server" BasePath="~/fckeditor/"
                                             Width="800px" ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
+                                        </FCKeditorV2:FCKeditor>--%>
                                         <%--<asp:TextBox ID="txtPrologueEditor" runat="server" SkinID="txtarea500" Rows="5" TextMode="MultiLine" 
-                  Text="" />--%>
+                                     Text="" />--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtPrologueEditor" runat="server" rows="10" cols="80" style="width: 98%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                         <div class="maxlength-msg"><asp:Label id="lblCharactersLimit1"  runat="server" Text="<% $Resources:lblCharactersLimit1 %>"></asp:Label>
                                             </div>
                                     </td>
@@ -157,11 +163,15 @@
                                         <asp:Label ID="lblEpilogueDesc" runat="server" Text="<% $Resources:lblEpilogueDesc %>"></asp:Label>
                                     </td>
                                     <td width="87%" valign="top">
-                                        <FCKeditorV2:FCKeditor ID="txtEpilogueEditor" runat="server" BasePath="~/fckeditor/"
+                                       <%-- <FCKeditorV2:FCKeditor ID="txtEpilogueEditor" runat="server" BasePath="~/fckeditor/"
                                             Width="800px" ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
+                                        </FCKeditorV2:FCKeditor>--%>
                                         <%--<asp:TextBox ID="txtEpilogueEditor" runat="server" SkinID="txtarea500" Rows="5" TextMode="MultiLine" 
-                  Text=""  />--%>
+                                      Text=""  />--%>
+                                       <div style="width: 100%;">
+                                            <textarea id="txtEpilogueEditor" runat="server" rows="10" cols="80" style="width: 98%;"
+                                                clientidmode="Static">
+                                        </textarea>
                                         <div class="maxlength-msg"><asp:Label id="lblCharactersLimit2"  runat="server" Text="<% $Resources:lblCharactersLimit2 %>"></asp:Label>
                                             </div>
                                     </td>
@@ -187,4 +197,36 @@
             </asp:UpdatePanel>--%>
         </div>
     </div>
+    <script type="text/javascript">
+        // CKEDITOR.replace('editor1');
+        CKEDITOR.config.htmlEncodeOutput = true;
+
+        CKEDITOR.replace('txtPrologueEditor', {
+            uiColor: '#9AB8F3',
+            toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+        });
+
+        CKEDITOR.replace('txtEpilogueEditor', {
+            uiColor: '#9AB8F3',
+            toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+        });
+     </script>
 </asp:Content>
