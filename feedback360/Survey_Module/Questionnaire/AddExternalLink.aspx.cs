@@ -302,7 +302,7 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
     {
         string str = "";
 
-        if (ddlAccountCode.SelectedIndex > 0)
+        if (int.Parse(ddlAccountCode.SelectedValue) > 0)
             str = str + "" + ddlAccountCode.SelectedValue + " and ";
         else
             str = str + "" + identity.User.AccountID.ToString() + " and ";
@@ -327,7 +327,7 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
         //else
         //    str = str + "" + identity.User.AccountID.ToString() + " and ";
 
-        if (ddlAccountCode.SelectedIndex > 0)
+        if (int.Parse(ddlAccountCode.SelectedValue) > 0)
             str = str + "" + ddlAccountCode.SelectedValue + " and ";
 
         if (ddlProject.SelectedIndex > 0)
