@@ -10,6 +10,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <script type="text/javascript">
 
         function RemoveImage(i) {
@@ -371,9 +372,14 @@
                                         </td>
                                         <td colspan="3">
                                             <%--<asp:TextBox ID="txtPageIntroduction" MaxLength="2000"  SkinID="txtarea300X3" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-                                            <FCKeditorV2:FCKeditor ID="txtPageIntroduction" runat="server" BasePath="~/fckeditor/"
+                                            <%--<FCKeditorV2:FCKeditor ID="txtPageIntroduction" runat="server" BasePath="~/fckeditor/"
                                                 Width="700px" Value=" " ToolbarSet="Feedback">
-                                            </FCKeditorV2:FCKeditor>
+                                            </FCKeditorV2:FCKeditor>--%>
+                                            <div style="width: 100%;">
+                                                <textarea id="txtPageIntroduction" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                    clientidmode="Static">
+                                                </textarea>
+                                            </div>
                                         </td>
                                     </tr>
                                     <tr>
@@ -382,9 +388,14 @@
                                         </td>
                                         <td colspan="3">
                                             <%--<asp:TextBox ID="txtPageConclusion" MaxLength="5000"  SkinID="txtarea300X3" runat="server" TextMode="MultiLine"></asp:TextBox>--%>
-                                            <FCKeditorV2:FCKeditor ID="txtPageConclusion" runat="server" BasePath="~/fckeditor/"
+                                           <%-- <FCKeditorV2:FCKeditor ID="txtPageConclusion" runat="server" BasePath="~/fckeditor/"
                                                 Width="700px" Value=" " ToolbarSet="Feedback">
-                                            </FCKeditorV2:FCKeditor>
+                                            </FCKeditorV2:FCKeditor>--%>
+                                            <div style="width: 100%;">
+                                                <textarea id="txtPageConclusion" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                    clientidmode="Static">
+                                                </textarea>
+                                            </div>
                                         </td>
                                     </tr>
                                 </table>
@@ -604,5 +615,35 @@
         }
     
     </script>--%>
+    <script type="text/javascript">
+        CKEDITOR.config.htmlEncodeOutput = true;
+        CKEDITOR.replace('txtPageIntroduction', {
+            uiColor: '#9AB8F3',
+            toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+        });
+
+        CKEDITOR.replace('txtPageConclusion', {
+            uiColor: '#9AB8F3',
+            toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+        });
+    </script>
 
 </asp:Content>

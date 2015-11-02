@@ -75,7 +75,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         identity = this.Page.User.Identity as WADIdentity;
         if (!IsPostBack)
         {
-           
+
 
             if (identity.User.GroupID == 1)
             {
@@ -92,16 +92,16 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
-            ddlAccountCode.DataBind();            
+            ddlAccountCode.DataBind();
             ddlAccountCode.SelectedValue = "0";
 
             //if (identity.User.GroupID == 1)
             //{
-                Project_BAO project_BAO = new Project_BAO();
-                ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
-                ddlProject.DataValueField = "ProjectID";
-                ddlProject.DataTextField = "Title";
-                ddlProject.DataBind();
+            Project_BAO project_BAO = new Project_BAO();
+            ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+            ddlProject.DataValueField = "ProjectID";
+            ddlProject.DataTextField = "Title";
+            ddlProject.DataBind();
             //}            
             //GroupCheckBoxListBind();
         }
@@ -116,7 +116,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             //reportselection.Visible = false;
             //divReportSettings.Visible = false;
         }
-        
+
     }
 
     #region Image Button Function
@@ -128,14 +128,14 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             /*
              * Here We are Deleting First the existing Record in Table & then New Insertion will be process 
              */
-            string lastLogo="";
-            string frontPageLogo2="";
+            string lastLogo = "";
+            string frontPageLogo2 = "";
             string frontPageLogo3 = "";
             string FrontPageLogo4 = "";
 
             DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
 
-            if (dtreportsetting.Rows.Count >0)
+            if (dtreportsetting.Rows.Count > 0)
                 lastLogo = dtreportsetting.Rows[0]["PageLogo"].ToString();
 
             if (dtreportsetting.Rows.Count > 0)
@@ -147,7 +147,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             if (dtreportsetting.Rows.Count > 0)
                 FrontPageLogo4 = dtreportsetting.Rows[0]["FrontPageLogo4"].ToString();
 
-            
+
 
             int c = reportManagement_BAO.DeleteProjectSettingReport(Convert.ToInt32(ddlProject.SelectedValue));
 
@@ -164,8 +164,8 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             reportManagement_BE.PageHeadingColor = txtPageHeadingColor.Text.Trim();
             reportManagement_BE.PageHeadingCopyright = txtPageCopyright.Text.Trim();
             reportManagement_BE.PageHeadingIntro = txtPageIntroduction.Value.Trim();
-            reportManagement_BE.PageHeadingConclusion = txtPageConclusion.Value.Trim();
-            reportManagement_BE.ConclusionHeading = txtConclusionHeading.Text.Trim();
+            reportManagement_BE.PageHeadingConclusion = Server.HtmlDecode(txtPageConclusion.Value.Trim());
+            reportManagement_BE.ConclusionHeading = Server.HtmlDecode(txtConclusionHeading.Text.Trim());
 
             //If Admin does't specify the value for Scroes Range then "2" will be insert Default
             if (txtConHighLowRange.Text.Trim() != string.Empty)
@@ -177,7 +177,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 reportManagement_BE.CoverPage = "1";
             else
                 reportManagement_BE.CoverPage = "0";
-             
+
             if (chkReportIntro.Checked == true)
                 reportManagement_BE.ReportIntroduction = "1";
             else
@@ -255,7 +255,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             if (fuplTopImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplTopImage.PostedFile.FileName);
-                
+
                 file = GetUniqueFilename(filename);
 
                 string path = MapPath("~\\UploadDocs\\") + file;
@@ -281,7 +281,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             if (fuplMiddleImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplMiddleImage.PostedFile.FileName);
-                
+
                 file = GetUniqueFilename(filename);
 
                 string path = MapPath("~\\UploadDocs\\") + file;
@@ -307,7 +307,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             if (fuplBottomImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplBottomImage.PostedFile.FileName);
-                
+
                 file = GetUniqueFilename(filename);
 
                 string path = MapPath("~\\UploadDocs\\") + file;
@@ -333,7 +333,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             if (FileUploadRightImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(FileUploadRightImage.PostedFile.FileName);
-                
+
                 file = GetUniqueFilename(filename);
 
                 string path = MapPath("~\\UploadDocs\\") + file;
@@ -357,7 +357,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             }
 
 
-            
+
 
 
             int i = reportManagement_BAO.AddProjectSettingReport(reportManagement_BE);
@@ -366,7 +366,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             {
                 DataTable dtreportsetting2 = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
                 String ProjectReportSettingID = dtreportsetting2.Rows[0]["ProjectReportSettingID"].ToString();
-               SavePreview(ProjectReportSettingID.ToString());
+                SavePreview(ProjectReportSettingID.ToString());
             }
             else
             {
@@ -386,7 +386,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     {
         ddlProject.SelectedValue = "0";
 
-        hdnImgTopImage.Value="";
+        hdnImgTopImage.Value = "";
         hdnImgMiddleImage.Value = "";
         hdnImgBottomImage.Value = "";
         hdnImgRightImage.Value = "";
@@ -562,7 +562,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
      * TODO: This Function will Hide/Show the ReportsSettings- Controls for Report3.
      */
     protected void ControlHideShow(string projectid)
-    { 
+    {
         DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
         if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
         {
@@ -570,7 +570,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             // Only will Change the controls Visiblity show/hide.
             if (dtreportsetting.Rows[0]["ReportType"].ToString() == "3")
             {
-                
+
                 radarchart.Visible = false;
                 catintro.Visible = false;
                 catQstText.Visible = false;
@@ -585,7 +585,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 benchscoregraph.Visible = false;
                 benchconclusion.Visible = false;
             }
-            else 
+            else
             {
                 radarchart.Visible = true;
                 catintro.Visible = true;
@@ -595,7 +595,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 chkBenchMarkGrp.Visible = true;
                 prevscr.Visible = true;
                 selfname.Visible = true;
-                grouplist.Visible = true;                
+                grouplist.Visible = true;
                 lblavailable.Visible = true;
                 benchrelation.Visible = true;
                 benchscoregraph.Visible = true;
@@ -639,14 +639,16 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             benchscoregraph.Visible = false;
             benchconclusion.Visible = false;
         }
+
+        ReBindTemplateContent();
     }
 
-    #endregion    
-    
+    #endregion
+
     #region Check Box Methods
-        
+
     protected void GroupCheckBoxListBind()
-    {        
+    {
         dtGroupList = project_BAO.GetProjectRelationship(Convert.ToInt32(strProjectID));
 
         if (dtGroupList.Rows.Count > 0)
@@ -660,25 +662,25 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
         else
         {
-            lblavailable.Text = "2" + " available selections."; 
-        }                
+            lblavailable.Text = "2" + " available selections.";
+        }
     }
 
     protected void RetrieveCheckBoxValue()
     {
-        strGroupList = "";        
+        strGroupList = "";
         for (int i = 0; i < chkGroupList.Items.Count; i++)
         {
             if (chkGroupList.Items[i].Selected)
             {
-                strGroupList += chkGroupList.Items[i].Text + ",";             
-            }            
+                strGroupList += chkGroupList.Items[i].Text + ",";
+            }
         }
         //strGroupList = "'" + strGroupList + "'";
 
         reportManagement_BE.ProjectRelationGrp = strGroupList;
     }
-    
+
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -782,7 +784,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             else
                 txtConclusionHeading.Text = "";
 
-            
+
 
             /*To Show the Image*/
             if (dtreportsetting.Rows[0]["PageLogo"].ToString() != String.Empty)
@@ -812,7 +814,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 ImgMiddleImage.Src = "../../UploadDocs/" + hdnImgMiddleImage.Value;
             else
                 ImgMiddleImage.Src = "../../UploadDocs/noImage.jpg";
-            
+
 
             /*To Show the Front Page Logo 3*/
             if (dtreportsetting.Rows[0]["FrontPageLogo3"].ToString() != String.Empty)
@@ -824,7 +826,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 hdnImgBottomImage.Value = "";
 
 
-            
+
 
             if (hdnImgBottomImage.Value != "")
                 ImgBottomImage.Src = "../../UploadDocs/" + hdnImgBottomImage.Value;
@@ -854,12 +856,12 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 txtPageCopyright.Text = "";
 
             if (dtreportsetting.Rows[0]["PageHeadingIntro"].ToString() != String.Empty)
-                txtPageIntroduction.Value = dtreportsetting.Rows[0]["PageHeadingIntro"].ToString();
+                txtPageIntroduction.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingIntro"].ToString());
             else
                 txtPageIntroduction.Value = "";
 
             if (dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString() != String.Empty)
-                txtPageConclusion.Value = dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString();
+                txtPageConclusion.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString());
             else
                 txtPageConclusion.Value = "";
 
@@ -879,10 +881,10 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 chkReportIntro.Checked = false;
 
             if (dtreportsetting.Rows[0]["Conclusionpage"].ToString() == "1")
-                chkConclusion.Checked = true;                
+                chkConclusion.Checked = true;
             else
                 chkConclusion.Checked = false;
-                
+
             if (dtreportsetting.Rows[0]["BenchConclusionPage"].ToString() == "1")
                 chkBenchConclusionPage.Checked = true;
             else
@@ -967,7 +969,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
     #endregion
-        
+
     #region ChekboxEvent
 
     //protected void chkReportIntro_CheckedChanged(object sender, EventArgs e)
@@ -1022,7 +1024,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
-    #endregion    
+    #endregion
     protected void LinkPreview_Click(object sender, EventArgs e)
     {
         imbSubmit_Click(null, null);
@@ -1040,13 +1042,13 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             root = Server.MapPath("~") + "\\ReportGenerate\\";
 
             /* Function : For Filling Paramters From Controls */
- 
+
 
             //If strReportType = 1 Then FeedbackReport will Call
             //If strReportType = 2 Then FeedbackReportClient1 will Call (In this Report We are Showing only Range & Text Type Question).
             if (strReportType == "1")
             {
-                 
+
 
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReport";
                 // rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
@@ -1060,7 +1062,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 {
                     rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/PrvFrontPage";
                 }
-                
+
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectReportSettingID", strTargetPersonID));
@@ -1129,7 +1131,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 Response.ClearContent();
                 Response.ClearHeaders();
 
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + PDF_path );
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + PDF_path);
                 Response.ContentType = "application/pdf";
                 Response.TransmitFile(openpdf);
 
@@ -1138,8 +1140,8 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 Response.Close();
 
                 //This Code Will Delete RadarImage & Pdf After save
-               
-                  //  File.Delete((root + strReportName + ".pdf"));
+
+                //  File.Delete((root + strReportName + ".pdf"));
             }
             catch (Exception ex)
             { }
@@ -1154,6 +1156,12 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         {
             HandleException(ex);
         }
+    }
+
+    private void ReBindTemplateContent()
+    {
+        txtPageIntroduction.InnerHtml = Server.HtmlDecode(txtPageIntroduction.InnerHtml);
+        txtPageConclusion.InnerHtml = Server.HtmlDecode(txtPageConclusion.InnerHtml);
     }
 }
 
