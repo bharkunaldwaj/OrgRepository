@@ -780,7 +780,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
     {
         int answeredQuestion = questionnaire_BAO.CalculateGraph(Convert.ToInt32(hdnQuestionnaireId.Value), Convert.ToInt32(hdnCandidateId.Value));
 
-        double percentage = (answeredQuestion * 100) / Convert.ToInt32(hdnQuestionCount.Value);
+        double percentage = answeredQuestion==0? 0 :(answeredQuestion * 100) / Convert.ToInt32(hdnQuestionCount.Value);
         percentage = Convert.ToInt32(Math.Abs(percentage));
         tbGraph.Width = percentage.ToString() + "%";
 
