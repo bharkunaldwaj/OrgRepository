@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Create New Questionnaire" Language="C#" MasterPageFile="~/Layouts/MasterPages/Survey.master"
+﻿<%@ Page Title="Create New Questionnaire" Language="C#" MasterPageFile="~/Layouts/MasterPages/Survey.master" ValidateRequest="false"
     AutoEventWireup="true" CodeFile="Questionnaire.aspx.cs" Inherits="Survey_Module_Questionnaire_Questionnaire" %>
 
 <%@ Register Assembly="FredCK.FCKeditorV2" Namespace="FredCK.FCKeditorV2" TagPrefix="FCKeditorV2" %>
@@ -7,7 +7,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-   
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
+     <script src="../../Layouts/Resources/js/Common.js" type="text/javascript"></script>
     <div id="bodytextcontainer">
         <div class="innercontainer">
             <!-- start heading logout -->
@@ -140,11 +141,16 @@
                                         <asp:Label ID="lblPrologueDesc" runat="server" Text="<% $Resources:lblPrologueDesc %>"></asp:Label>
                                     </td>
                                     <td width="87%" valign="top">
-                                        <FCKeditorV2:FCKeditor ID="txtPrologueEditor" runat="server" BasePath="~/fckeditor/"
+                                       <%-- <FCKeditorV2:FCKeditor ID="txtPrologueEditor" runat="server" BasePath="~/fckeditor/"
                                             Width="800px" ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
+                                        </FCKeditorV2:FCKeditor>--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtPrologueEditor" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                         <%--<asp:TextBox ID="txtPrologueEditor" runat="server" SkinID="txtarea500" Rows="5" TextMode="MultiLine" 
-                  Text="" />--%>
+                                        Text="" />--%>
                                         <div class="maxlength-msg"><asp:Label id="lblCharactersLimit1"  runat="server" Text="<% $Resources:lblCharactersLimit1 %>"></asp:Label>
                                             </div>
                                     </td>
@@ -159,11 +165,16 @@
                                         <asp:Label ID="lblEpilogueDesc" runat="server" Text="<% $Resources:lblEpilogueDesc %>"></asp:Label>
                                     </td>
                                     <td width="87%" valign="top">
-                                        <FCKeditorV2:FCKeditor ID="txtEpilogueEditor" runat="server" BasePath="~/fckeditor/"
+                                       <%-- <FCKeditorV2:FCKeditor ID="txtEpilogueEditor" runat="server" BasePath="~/fckeditor/"
                                             Width="800px" ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
+                                        </FCKeditorV2:FCKeditor>--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtEpilogueEditor" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                         <%--<asp:TextBox ID="txtEpilogueEditor" runat="server" SkinID="txtarea500" Rows="5" TextMode="MultiLine" 
-                  Text=""  />--%>
+                                       Text=""  />--%>
                                         <div class="maxlength-msg"><asp:Label id="lblCharactersLimit2"  runat="server" Text="<% $Resources:lblCharactersLimit2 %>"></asp:Label>
                                             </div>
                                     </td>
@@ -189,4 +200,11 @@
             </asp:UpdatePanel>--%>
         </div>
     </div>
+
+     <script type="text/javascript">
+
+         BindEditor(txtPrologueEditor);
+         BindEditor(txtEpilogueEditor);
+
+     </script>
 </asp:Content>

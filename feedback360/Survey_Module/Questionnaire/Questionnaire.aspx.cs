@@ -130,8 +130,8 @@ public partial class Survey_Module_Questionnaire_Questionnaire : CodeBehindBase
             txtDescription.Text = questionnaire_BEList[0].QSTNDescription.ToString();
             txtDisplayCategory.Text = questionnaire_BEList[0].DisplayCategory.ToString();
             //ddlProject.SelectedValue = questionnaire_BEList[0].ProjectID.ToString();            
-            txtPrologueEditor.Value = questionnaire_BEList[0].QSTNPrologue.ToString();
-            txtEpilogueEditor.Value = questionnaire_BEList[0].QSTNEpilogue.ToString();           
+            txtPrologueEditor.Value = Server.HtmlDecode(questionnaire_BEList[0].QSTNPrologue.ToString());
+            txtEpilogueEditor.Value = Server.HtmlDecode(questionnaire_BEList[0].QSTNEpilogue.ToString());           
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -170,8 +170,8 @@ public partial class Survey_Module_Questionnaire_Questionnaire : CodeBehindBase
 
             //questionnaire_BE.ProjectID = Convert.ToInt32(GetString(ddlProject.SelectedValue));
             questionnaire_BE.ManagerID = 3;
-            questionnaire_BE.QSTNPrologue = GetString(txtPrologueEditor.Value);
-            questionnaire_BE.QSTNEpilogue = GetString(txtEpilogueEditor.Value);
+            questionnaire_BE.QSTNPrologue = (Server.HtmlDecode(txtPrologueEditor.InnerHtml));
+            questionnaire_BE.QSTNEpilogue = (Server.HtmlDecode(txtEpilogueEditor.InnerHtml));
             questionnaire_BE.ModifyBy = 1;
             questionnaire_BE.ModifyDate = DateTime.Now;
             questionnaire_BE.IsActive = 1;
@@ -195,6 +195,7 @@ public partial class Survey_Module_Questionnaire_Questionnaire : CodeBehindBase
             HandleException(ex);
         }
     }
+
     protected void ibtnCancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -234,6 +235,7 @@ public partial class Survey_Module_Questionnaire_Questionnaire : CodeBehindBase
             //ddlProject.DataTextField = "Title";
             //ddlProject.DataValueField = "ProjectID";
             //ddlProject.DataBind();
+            ReBindEditorContent();
         }
         else
         {
@@ -246,4 +248,9 @@ public partial class Survey_Module_Questionnaire_Questionnaire : CodeBehindBase
         }
     }
 
+    private void ReBindEditorContent()
+    {
+        txtPrologueEditor.InnerHtml = Server.HtmlDecode(txtPrologueEditor.InnerHtml);
+        txtEpilogueEditor.InnerHtml = Server.HtmlDecode(txtEpilogueEditor.InnerHtml);
+    }
 }

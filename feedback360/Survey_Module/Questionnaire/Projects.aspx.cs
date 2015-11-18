@@ -276,7 +276,7 @@ public partial class Survey_Module_Questionnaire_Projects : CodeBehindBase
 
                   project_BE.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
                   project_BE.Reference = txtReference.Text;
-                  project_BE.Title = GetString(txtTitle.Text);
+                  project_BE.Title = (txtTitle.Text);//GetString
                   project_BE.ManagerID = Convert.ToInt32(ddlProjectManager.SelectedValue);
                   project_BE.MaxCandidate = Convert.ToInt32(100);
                   project_BE.Description = txtDescription.Text;

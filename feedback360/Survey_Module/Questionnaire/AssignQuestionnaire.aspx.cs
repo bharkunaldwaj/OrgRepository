@@ -1120,7 +1120,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
             lblMessage.Text = "";
             lblMessage2.Text = "";
 
-            ScriptManager.RegisterStartupScript(this, typeof(string), "print", "javascript:window.open('../../Survey_Module/Feedback/AssignQuestionnaireList.aspx?ProgrammeName=" + strProgName + "&ProjectName=" + strProjct + "&Questionair=" + strQuest + "&ProgId=" + ddlProgramme.SelectedValue + "&projectID=" + ddlProject.SelectedValue + "&userid=" + userid + "', 'CustomPopUp', " + "'width=1000, height=550, menubar=no, resizable=yes');", true);
+            ScriptManager.RegisterStartupScript(this, typeof(string), "print", "javascript:window.open('../../Survey_Module/Feedback/AssignQuestionnaireList.aspx?ProgrammeName=" + strProgName + "&ProjectName=" + strProjct.Replace("'","~") + "&Questionair=" + strQuest + "&ProgId=" + ddlProgramme.SelectedValue + "&projectID=" + ddlProject.SelectedValue + "&userid=" + userid + "', 'CustomPopUp', " + "'width=1000, height=550, menubar=no, resizable=yes');", true);
 
         }
     }
