@@ -93,3 +93,20 @@ function TextAreaMaxLengthChecker(id, length)
 
     }
 }
+
+function BindEditor(editorID) {
+    CKEDITOR.config.htmlEncodeOutput = true;
+    CKEDITOR.replace(editorID, {
+        uiColor: '#9AB8F3',
+        toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+    });
+}
