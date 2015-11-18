@@ -103,8 +103,8 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        initEditor(txtPageIntroduction);
-        initEditor(txtPageConclusion);
+       // initEditor(txtPageIntroduction);
+       // initEditor(txtPageConclusion);
 
         Label llx = (Label)this.Master.FindControl("Current_location");
         llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
@@ -207,7 +207,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             reportManagement_BE.PageHeading3 = txtPageHeading3.Text.Trim();
             reportManagement_BE.PageHeadingColor = txtPageHeadingColor.Text.Trim();
             reportManagement_BE.PageHeadingCopyright = txtPageCopyright.Text.Trim();
-            reportManagement_BE.PageHeadingIntro = txtPageIntroduction.Text.Trim();
+            reportManagement_BE.PageHeadingIntro = Server.HtmlDecode(txtPageIntroduction.Value.Trim());
 
 
             int RadarGraphCategoryCount;
@@ -219,7 +219,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             else
                 reportManagement_BE.RadarGraphCategoryCount = 4;
 
-            string sss = txtPageConclusion.Text.Trim();
+            string sss = Server.HtmlDecode(txtPageConclusion.Value.Trim());
 
             reportManagement_BE.PageHeadingConclusion = sss;
             reportManagement_BE.ConclusionHeading = txtConclusionHeading.Text.Trim();
@@ -724,9 +724,9 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         txtPageHeading2.Text = string.Empty;
         txtPageHeading3.Text = string.Empty;
         txtPageCopyright.Text = string.Empty;
-        txtPageConclusion.Text = string.Empty;
+        txtPageConclusion.Value = string.Empty;
         txtPageHeadingColor.Text = string.Empty;
-        txtPageIntroduction.Text = string.Empty;
+        txtPageIntroduction.Value = string.Empty;
         txtConclusionHeading.Text = string.Empty;
         txtRadarGraphCategoryCount.Text = string.Empty;
         Session["PageLogo"]= null;
@@ -764,9 +764,9 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         txtPageHeading2.Text = string.Empty;
         txtPageHeading3.Text = string.Empty;
         txtPageCopyright.Text = string.Empty;
-        txtPageConclusion.Text = string.Empty;
+        txtPageConclusion.Value = string.Empty;
         txtPageHeadingColor.Text = string.Empty;
-        txtPageIntroduction.Text = string.Empty;
+        txtPageIntroduction.Value = string.Empty;
         //////txtConHighLowRange.Text = string.Empty;
         txtConclusionHeading.Text = string.Empty;
         ImgMiddleImage.Src = "../../UploadDocs/noImage.jpg";
@@ -776,7 +776,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         catintro.Visible = true;
         catQstText.Visible = true;
         //////prevscr.Visible = true;
-
+        ReBindEditorContent();
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
@@ -816,7 +816,6 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         }
     }
 
-
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         chkCoverPage.Checked = false;
@@ -848,9 +847,9 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         txtPageHeading2.Text = string.Empty;
         txtPageHeading3.Text = string.Empty;
         txtPageCopyright.Text = string.Empty;
-        txtPageConclusion.Text = string.Empty;
+        txtPageConclusion.Value = string.Empty;
         txtPageHeadingColor.Text = string.Empty;
-        txtPageIntroduction.Text = string.Empty;
+        txtPageIntroduction.Value = string.Empty;
 
         //////txtConHighLowRange.Text = string.Empty;
         txtConclusionHeading.Text = string.Empty;
@@ -865,6 +864,8 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
 
         SaveSettingShow(strProjectID);
+
+        ReBindEditorContent();
     }
 
     /*
@@ -1136,14 +1137,14 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 txtPageCopyright.Text = "";
 
             if (dtreportsetting.Rows[0]["PageHeadingIntro"].ToString() != String.Empty)
-                txtPageIntroduction.Text = dtreportsetting.Rows[0]["PageHeadingIntro"].ToString();
+                txtPageIntroduction.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingIntro"].ToString());
             else
-                txtPageIntroduction.Text = "";
+                txtPageIntroduction.Value = "";
 
             if (dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString() != String.Empty)
-                txtPageConclusion.Text = dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString();
+                txtPageConclusion.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString());
             else
-                txtPageConclusion.Text = "";
+                txtPageConclusion.Value = "";
 
             //////if (dtreportsetting.Rows[0]["ConclusionHighLowRange"].ToString() != String.Empty)
             //////    txtConHighLowRange.Text = dtreportsetting.Rows[0]["ConclusionHighLowRange"].ToString();
@@ -1515,6 +1516,12 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         cb.EndText();
 
         cb.EndLayer();
+    }
+
+    private void ReBindEditorContent()
+    {
+        txtPageIntroduction.Value = Server.HtmlDecode(txtPageIntroduction.InnerHtml);
+        txtPageConclusion.Value = Server.HtmlDecode(txtPageConclusion.InnerHtml);
     }
 }
 

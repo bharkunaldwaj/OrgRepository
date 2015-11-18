@@ -12,6 +12,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
    <%-- <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
     </asp:ToolkitScriptManager>--%>
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
+     <script src="../../Layouts/Resources/js/Common.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         function RemoveImage(i) {debugger;
@@ -361,7 +363,12 @@
                                         <%--<FCKeditorV2:FCKeditor ID="txtPageIntroduction" runat="server" BasePath="~/fckeditor/"
                                             Width="700px" Value=" " ToolbarSet="Feedback">
                                         </FCKeditorV2:FCKeditor>--%>
-                                         <CKEditor:CKEditorControl ID="txtPageIntroduction"  Width="700px"  BasePath="~/ckeditor"  runat="server"></CKEditor:CKEditorControl>
+                                         <%--<CKEditor:CKEditorControl ID="txtPageIntroduction"  Width="700px"  BasePath="~/ckeditor"  runat="server"></CKEditor:CKEditorControl>--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtPageIntroduction" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -369,9 +376,14 @@
                                         <asp:Label ID="lblConclus" runat="server" Text="<% $Resources:lblConclus %>"></asp:Label>
                                     </td>
                                     <td colspan="3">
-                                          <CKEditor:CKEditorControl ID="txtPageConclusion" runat="server" BasePath="~/ckeditor/"
+                                          <%--<CKEditor:CKEditorControl ID="txtPageConclusion" runat="server" BasePath="~/ckeditor/"
                                             Width="700px"  >
-                                        </CKEditor:CKEditorControl><%--Value=" " ToolbarSet="Feedback"--%>
+                                        </CKEditor:CKEditorControl>--%><%--Value=" " ToolbarSet="Feedback"--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtPageConclusion" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -691,4 +703,11 @@
             document.getElementById('ctl00_cphMaster_imgScoreTable').src = "../../UploadDocs/" + document.getElementById('ctl00_cphMaster_hdnimgScoreTable').value;
         }
     </script>
+
+     <script type="text/javascript">
+
+         BindEditor(txtPageIntroduction);
+         BindEditor(txtPageConclusion);
+
+     </script>
 </asp:Content>
