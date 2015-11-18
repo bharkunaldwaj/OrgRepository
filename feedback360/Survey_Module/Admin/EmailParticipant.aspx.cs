@@ -321,6 +321,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
         //    plcPaging.Controls.Add(new LiteralControl("</td></tr></table>"));
         //}
+        ReBindEditorContent();
     }
 
     protected override object SaveViewState()
@@ -389,9 +390,9 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
     protected void grdvCandidateStatus_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        Label lblCandidateCount=(Label)e.Row.FindControl("lblCandidateCount");
+        Label lblCandidateCount = (Label)e.Row.FindControl("lblCandidateCount");
         HiddenField hdnUserID = (HiddenField)e.Row.FindControl("hdnUserID");
-        
+
         if (lblCandidateCount != null)
         {
             lblCandidateCount.Text = assignQstnParticipant_BAO.GetCandidatesCount(Convert.ToInt32(hdnUserID.Value)).ToString();
@@ -435,7 +436,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
     }
 
     protected void grdvCandidateStatus_OnRowCommand(object sender, GridViewCommandEventArgs e)
-    {        
+    {
     }
 
     protected string GetCondition()
@@ -464,7 +465,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
         return param;
     }
-    
+
     #endregion
 
     #region Search Related Function
@@ -473,25 +474,25 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
     {
         try
         {
-          //  grdvCandidateStatus.Height = 200;
-        odsCandidateStatus.SelectParameters.Clear();
-        odsCandidateStatus.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue.ToString());
-        odsCandidateStatus.SelectParameters.Add("programmeID", ddlProgramme.SelectedValue.ToString());
-        odsCandidateStatus.Select();
+            //  grdvCandidateStatus.Height = 200;
+            odsCandidateStatus.SelectParameters.Clear();
+            odsCandidateStatus.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue.ToString());
+            odsCandidateStatus.SelectParameters.Add("programmeID", ddlProgramme.SelectedValue.ToString());
+            odsCandidateStatus.Select();
 
-        ViewState["AccountID"] = ddlAccountCode.SelectedValue;
-        ViewState["ProgrammeID"] = ddlProgramme.SelectedValue;
-        
-        grdvCandidateStatus.PageIndex = 0;
-        grdvCandidateStatus.DataBind();
+            ViewState["AccountID"] = ddlAccountCode.SelectedValue;
+            ViewState["ProgrammeID"] = ddlProgramme.SelectedValue;
 
-        ManagePaging();
+            grdvCandidateStatus.PageIndex = 0;
+            grdvCandidateStatus.DataBind();
+
+            ManagePaging();
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
-        
+
     }
 
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
@@ -501,7 +502,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
         ddlAccountCode_SelectedIndexChanged(sender, e);
 
         ddlProject.SelectedValue = "0";
-        ddlProgramme.SelectedValue = "0";        
+        ddlProgramme.SelectedValue = "0";
 
         odsCandidateStatus.FilterExpression = null;
         odsCandidateStatus.FilterParameters.Clear();
@@ -524,7 +525,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
             dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(ddlProject.SelectedValue));
             if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
                 emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
-                        
+
 
             foreach (GridViewRow row in grdvCandidateStatus.Rows)
             {
@@ -549,11 +550,11 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
                 Template = txtFaqText.Value; //ViewState["Template"].ToString();
                 Subject = lblEmailSubject.Text; // ViewState["Subject"].ToString();
-                
+
                 if (myCheckBox != null)
                 {
                     if (myCheckBox.Checked == true)
-                    {                        
+                    {
                         //string Title = "";
                         string EmailID = "";
                         string CandidateName = "";
@@ -567,7 +568,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
                         EmailID = lblParticipantEmail.Text.ToString();
                         CandidateName = hdnFirstName.Value.ToString();
                         questionnaireID = hdnQuestionnaireId.Value.ToString();
-                        candidateID = hdnCandidateId.Value.ToString();                        
+                        candidateID = hdnCandidateId.Value.ToString();
                         //Loginid = hdnLoginID.Value.ToString();
                         //password = hdnPassword.Value.ToString();
                         //Accountcode = hdnCode.Value.ToString();
@@ -576,24 +577,24 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
                         candidateID = PasswordGenerator.EnryptString(candidateID);
 
                         string urlPath = ConfigurationManager.AppSettings["SurveyFeedbackURL"].ToString();
-                        
+
                         string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
 
                         Template = Template.Replace("[LINK]", link);
                         //Template = Template.Replace("[TITLE]", Title);
-                        Template = Template.Replace("[EMAILID]", EmailID); 
+                        Template = Template.Replace("[EMAILID]", EmailID);
                         Template = Template.Replace("[FIRSTNAME]", CandidateName);
                         Template = Template.Replace("[NAME]", CandidateName);
                         //Template = Template.Replace("[LOGINID]", Loginid);
                         //Template = Template.Replace("[PASSWORD]", password);
                         //Template = Template.Replace("[CODE]", Accountcode);
                         Template = Template.Replace("[IMAGE]", "<img src=cid:companylogo>");
-                     //    Template = Template.Replace("[COMPANY]",  );
+                        //    Template = Template.Replace("[COMPANY]",  );
                         //Subject = Subject.Replace("[TITLE]", Title);
                         Subject = Subject.Replace("[EMAILID]", EmailID);
                         Subject = Subject.Replace("[FIRSTNAME]", CandidateName);
                         Subject = Subject.Replace("[NAME]", CandidateName);
-                      //  Subject = Subject.Replace("[COMPANY]",);
+                        //  Subject = Subject.Replace("[COMPANY]",);
                         //Subject = Subject.Replace("[PASSWORD]", password);
                         //Subject = Subject.Replace("[CODE]", Accountcode);
 
@@ -632,7 +633,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
                             Subject = Subject.Replace("[ADMINEMAIL]", "");
 
                             //SendEmail.Send(Subject, Template, "ashishg1@damcogroup.com");
-                            SendEmail.Send(Subject, Template, EmailID, "");
+                            SendEmail.Send(Subject, Server.HtmlDecode(Template), EmailID, "");
                         }
                     }
                 }
@@ -640,7 +641,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
             lblMessage.Text = "Email sent successfully";
             ClearControls();
-            
+
         }
         catch (Exception ex)
         {
@@ -653,7 +654,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
         try
         {
             lblMessage.Text = "";
-            
+
         }
         catch (Exception ex)
         {
@@ -671,7 +672,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
         ddlEmailStart.Items.Clear();
         ddlEmailStart.Items.Insert(0, new ListItem("Select", "0"));
-        
+
         //lblMessage.Text = "";
         lblEmailSubject.Text = "";
         txtFaqText.Value = "";
@@ -690,7 +691,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-           
+
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
             Account_BAO account_BAO = new Account_BAO();
             dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
@@ -734,18 +735,17 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
             Survey_EmailTemplate_BAO emailTemplate_BAO = new Survey_EmailTemplate_BAO();
             DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(Convert.ToString(ddlAccountCode.SelectedValue));
 
-            
+
 
             ddlEmailStart.Items.Clear();
-            
+
             ddlEmailStart.DataSource = dtEmailTemplate;
             ddlEmailStart.DataValueField = "EmailTemplateID";
             ddlEmailStart.DataTextField = "Title";
             ddlEmailStart.DataBind();
 
             ddlEmailStart.Items.Insert(0, new ListItem("Select", "0"));
-
-            
+            ReBindEditorContent();
         }
         else
         {
@@ -772,7 +772,7 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
 
         ddlProgramme.Items.Clear();
         DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue),0,0);
+        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), 0, 0);
 
         if (dtProgramme.Rows.Count > 0)
         {
@@ -783,10 +783,8 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
         }
 
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
-        
+        ReBindEditorContent();
     }
-
-    
 
     protected void ddlEmailStart_SelectedIndexChanged(object sender, EventArgs e)
     {
@@ -801,11 +799,14 @@ public partial class Survey_Module_Admin_EmailParticipant : CodeBehindBase
         ViewState["Subject"] = emailsubject;
 
         ManagePaging();
+        ReBindEditorContent();
     }
-    
+
     #endregion
 
-    
-    
+    private void ReBindEditorContent()
+    {
+        txtFaqText.InnerHtml = Server.HtmlDecode(txtFaqText.InnerHtml);
+    }
 }
 

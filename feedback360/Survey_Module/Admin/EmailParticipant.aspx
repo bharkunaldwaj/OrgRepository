@@ -9,7 +9,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
+     <script src="../../Layouts/Resources/js/Common.js" type="text/javascript"></script>
      <%--<asp:UpdatePanel ID="updPanel" runat="server">
                 <ContentTemplate>--%>
     <div id="bodytextcontainer">
@@ -259,10 +260,14 @@
                                         class="style3"></span>
                                 </td>
                                 <td width="85%">
-                                    <FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                    <%--<FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
                                         ToolbarSet="Feedback">
-                                    </FCKeditorV2:FCKeditor>
-                                    
+                                    </FCKeditorV2:FCKeditor>--%>
+                                    <div style="width: 100%;">
+                                        <textarea id="txtFaqText" runat="server" rows="10" cols="80" style="width: 90%;"
+                                            clientidmode="Static">
+                                        </textarea>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -294,7 +299,11 @@
                 
         </div>
     </div>
-    
+     <script type="text/javascript">
+
+         BindEditor(document.getElementById('txtFaqText'));
+        
+     </script>
   <%--  
     </ContentTemplate>
                 

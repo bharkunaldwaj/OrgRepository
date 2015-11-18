@@ -20,7 +20,6 @@ using Miscellaneous;
 
 public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
 {
-
     Survey_EmailTemplate_BAO emailtemplate_BAO = new Survey_EmailTemplate_BAO();
     Survey_EmailTemplate_BE emailtemplate_BE = new Survey_EmailTemplate_BE();
     List<Survey_EmailTemplate_BE> emailtemplate_BEList = new List<Survey_EmailTemplate_BE>();
@@ -42,7 +41,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
             if (!Page.IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
-                
+
                 int emailtemplateID = Convert.ToInt32(Request.QueryString["EmailTempID"]);
 
                 emailtemplate_BEList = emailtemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(identity.User.AccountID), emailtemplateID);
@@ -52,7 +51,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
-                
+
                 if (Request.QueryString["Mode"] == "E")
                 {
                     ibtnSave.Visible = true;
@@ -67,7 +66,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
                     imbBack.Visible = true;
                     lblheader.Text = "Edit Email Templates";
                 }
-                
+
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -135,13 +134,13 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
                 {
                     lblcompanyname.Text = "";
                 }
-            } 
+            }
             txttitle.Text = emailtemplate_BEList[0].Title;
             txtDescription.Text = emailtemplate_BEList[0].Description;
             txtSubject.Text = emailtemplate_BEList[0].Subject;
-            txtEmailText.Value = emailtemplate_BEList[0].EmailText;
+            txtEmailText.Value = Server.HtmlDecode(emailtemplate_BEList[0].EmailText);
 
-            /*To Show the Image*/          
+            /*To Show the Image*/
             hdnimage.Value = emailtemplate_BEList[0].EmailImage.ToString();
             Session["FileName"] = emailtemplate_BEList[0].EmailImage.ToString();
 
@@ -158,7 +157,6 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
         }
     }
 
-
     protected void previewEmail_Click(object sender, ImageClickEventArgs e)
     {
         if (this.IsFileValid(this.FileUpload))
@@ -174,8 +172,10 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
                 emailimagepath = "";
             }
             MailAddress maddr = new MailAddress("admin@i-comment360.com", "360 feedback");
-            SendEmail.Send(txtSubject.Text, Template, txtEmail.Text, maddr, emailimagepath);
+            SendEmail.Send(txtSubject.Text, Server.HtmlDecode(Template), txtEmail.Text, maddr, emailimagepath);
         }
+
+        ReBindEmailContent();
     }
 
     protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
@@ -207,10 +207,10 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
                         emailtemplate_BE.AccountID = identity.User.AccountID;
                     }
 
-                    emailtemplate_BE.Title = GetString(txttitle.Text);
+                    emailtemplate_BE.Title = (txttitle.Text);
                     emailtemplate_BE.Description = GetString(txtDescription.Text);
-                    emailtemplate_BE.Subject = GetString(txtSubject.Text);
-                    emailtemplate_BE.EmailText = GetString(txtEmailText.Value.Trim());
+                    emailtemplate_BE.Subject = (txtSubject.Text);
+                    emailtemplate_BE.EmailText = (Server.HtmlDecode(txtEmailText.Value.Trim()));
                     if (FileUpload.HasFile)
                     {
                         filename = System.IO.Path.GetFileName(FileUpload.PostedFile.FileName);
@@ -249,7 +249,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
 
 
                     if (e != null && sender != null)
-                    Response.Redirect("EmailTemplatesList.aspx", false);
+                        Response.Redirect("EmailTemplatesList.aspx", false);
                     //HandleWriteLog("Start", new StackTrace(true));
                 }
             }
@@ -259,6 +259,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
             HandleException(ex);
         }
     }
+
     protected void ibtnCancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -274,6 +275,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
             HandleException(ex);
         }
     }
+
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -346,6 +348,7 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
         }
         return isFileOk;
     }
+
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -379,6 +382,8 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
             }
 
             lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+
+            ReBindEmailContent();
         }
         else
         {
@@ -386,7 +391,8 @@ public partial class Survey_Module_Admin_EmailTemplates : CodeBehindBase
         }
     }
 
-
-
-
+    private void ReBindEmailContent()
+    {
+        txtEmailText.InnerHtml = Server.HtmlDecode(txtEmailText.InnerHtml);
+    }
 }

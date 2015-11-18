@@ -8,7 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <script type="text/javascript">
 
         var TextAreaMaxLengthCheck = function(id, length) {
@@ -206,13 +206,17 @@
                                         <asp:Label ID="lblEmailText" runat="server" Text="<% $Resources:lblEmailText %>">"></asp:Label>
                                     </td>
                                     <td width="87%" valign="top">
-                                        <FCKeditorV2:FCKeditor ID="txtEmailText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                       <%-- <FCKeditorV2:FCKeditor ID="txtEmailText" runat="server" BasePath="~/fckeditor/" Width="800px"
                                             Value=" " ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
-                                        
+                                        </FCKeditorV2:FCKeditor>--%>
+                                        <div style="width: 100%;">
+                                            <textarea id="txtEmailText" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                         <div id="div1" class="maxlength-msg">
-                                            <asp:Label id="lblCharactersLimit1"  runat="server" Text="<% $Resources:lblCharactersLimit1 %>"></asp:Label>
-                                            </div>
+                                            <asp:Label ID="lblCharactersLimit1" runat="server" Text="<% $Resources:lblCharactersLimit1 %>"></asp:Label>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>
@@ -290,6 +294,10 @@
         }
     </script>
     
-    
+     <script type="text/javascript">
+
+         BindEditor(document.getElementById('txtEmailText');
+
+        </script>
 
 </asp:Content>
