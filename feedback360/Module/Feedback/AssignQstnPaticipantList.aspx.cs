@@ -366,7 +366,8 @@ public partial class Module_Feedback_AssignQstnPaticipantList : System.Web.UI.Pa
                     url = feedbackURL;
                 }
 
-                ScriptManager.RegisterStartupScript(Page, Page.GetType(), "popup", "window.open('" + url + "','_blank')", true);
+                //ScriptManager.RegisterStartupScript(Page, Page.GetType(), "popup", "window.open('" + url + "','_blank')", true);
+                ScriptManager.RegisterClientScriptBlock(Page, Page.GetType(), "popup", "window.open('" + url + "','_blank')", true);
             }
         }
     }
