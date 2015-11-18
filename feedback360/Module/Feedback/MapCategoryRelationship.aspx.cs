@@ -148,7 +148,7 @@ public partial class Survey_Module_Admin_MapCategoryRelationship : System.Web.UI
                 lblNoData.Text = "No Data";
             }
         }
-        catch { tblAssignCategories.Visible = false;
+        catch(Exception ex) { tblAssignCategories.Visible = false;
 
         tblNoData.Visible = true;
         lblNoData.Text = "Some error has occured. Please contact your administrator.";
