@@ -816,7 +816,7 @@ public partial class Survey_Module_Feedback_Feedback : System.Web.UI.Page
                     //Set Prolog of questionnaire
                     List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaire_BEList = new List<Questionnaire_BE.Survey_Questionnaire_BE>();
                     questionnaire_BEList = questionnaire_BAO.GetQuestionnaireByID(Convert.ToInt32(questionnaireID));
-                    lblQuestionnaireText.Text = questionnaire_BEList[0].QSTNEpilogue.ToString();
+                    lblQuestionnaireText.Text = Server.HtmlDecode(questionnaire_BEList[0].QSTNEpilogue.ToString());
                 }
                 else
                 {

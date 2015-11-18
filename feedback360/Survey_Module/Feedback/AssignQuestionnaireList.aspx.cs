@@ -61,7 +61,7 @@ public partial class Survey_Module_Feedback_AssignQuestionnaireList : System.Web
                 userid = Request.QueryString["userid"];
                 ProgId = Request.QueryString["ProgId"];
                
-                ProjectDesc = Request.QueryString["ProjectName"];
+                ProjectDesc = Request.QueryString["ProjectName"].Replace("~","'");
                 ProgName = Request.QueryString["ProgrammeName"];
                 Questionair = Request.QueryString["Questionair"];
                 //projectid = "84";
