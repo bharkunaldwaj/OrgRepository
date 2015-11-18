@@ -2831,8 +2831,16 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
     private void ReBindGrid()
     {
         AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-        rptrCandidateList.DataSource = assignQuestionnaire_BAO.GetdtAssignColleagueList(ddlTargetPerson.SelectedValue, ddlProgramme.SelectedValue);
-        rptrCandidateList.DataBind();
+
+        if (ddlTargetPerson.Visible == true)
+        {
+            rptrCandidateList.DataSource = assignQuestionnaire_BAO.GetdtAssignColleagueList(ddlTargetPerson.SelectedValue, ddlProgramme.SelectedValue);
+            rptrCandidateList.DataBind();
+        }
+        else
+        {
+            ddlProgramme_SelectedIndexChanged(this, EventArgs.Empty);
+        }
     }
 
     private List<AssignmentDetails_BE> GetCandidateListToAssign(string relationShipID,
@@ -3409,6 +3417,7 @@ public partial class Module_Questionnaire_AssignQuestionnaire : CodeBehindBase
                     removedRows++;
                     i--;
                     isRowDeleted = true;
+                    dt.AcceptChanges();
                 }
             }
 
