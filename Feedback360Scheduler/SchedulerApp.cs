@@ -11,7 +11,7 @@ namespace Feedback360Scheduler
 {
     public partial class SchedulerApp : Form
     {
-
+        //Global variables
         int AccountId, ProjectId, ProgrammeId, ParticipantId, CandidateId;
         string AccountName, ProjectName, ProgrammeName, ParticipantName, CandidateName;
         DateTime EmailDate;
@@ -78,7 +78,9 @@ namespace Feedback360Scheduler
                 throw ex;
             }
         }
-
+        /// <summary>
+        /// Send Reminder Email 1
+        /// </summary>
         public void SendReminder1Email()
         {
             try
@@ -151,7 +153,9 @@ namespace Feedback360Scheduler
                 LookUp.HandleException(ex);
             }
         }
-
+        /// <summary>
+        /// Send Reminder Email 2
+        /// </summary>
         public void SendReminder2Email()
         {
             try
@@ -218,7 +222,9 @@ namespace Feedback360Scheduler
                 LookUp.HandleException(ex);
             }
         }
-
+        /// <summary>
+        /// Send Reminder Email 3
+        /// </summary>
         public void SendReminder3Email()
         {
             try
@@ -285,7 +291,9 @@ namespace Feedback360Scheduler
                 LookUp.HandleException(ex);
             }
         }
-
+        /// <summary>
+        /// Send Reminder Available Email
+        /// </summary>
         private void SendReportAvailableEmail()
         {
             try
@@ -362,7 +370,9 @@ namespace Feedback360Scheduler
                 LookUp.HandleException(ex);
             }
         }
-
+        /// <summary>
+        /// Send Participant Reminder 1
+        /// </summary>
         public void SendParticipantReminder1()
         {
             try
@@ -435,7 +445,9 @@ namespace Feedback360Scheduler
                 LookUp.HandleException(ex);
             }
         }
-
+        /// <summary>
+        /// Send Participant Reminder 2
+        /// </summary>
         private void SendParticipantReminder2()
         {
             try

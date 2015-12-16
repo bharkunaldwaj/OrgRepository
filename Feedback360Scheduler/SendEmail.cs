@@ -24,7 +24,18 @@ namespace Feedback360Scheduler
     public static class SendEmail
     {
         #region Public Methods
-
+        /// <summary>
+        /// Send Email 
+        /// </summary>
+        /// <param name="To">to</param>
+        /// <param name="From">from </param>
+        /// <param name="strCC">cc</param>
+        /// <param name="strBCC">bcc</param>
+        /// <param name="Subject">subject</param>
+        /// <param name="Body">body</param>
+        /// <param name="IsBodyHtml">Is Body Html</param>
+        /// <param name="emailImage">email Image</param>
+        /// <returns></returns>
         public static bool Send(string To, string From, string strCC, string strBCC, string Subject, string Body, bool IsBodyHtml, string emailImage)
         {
             string error = "";

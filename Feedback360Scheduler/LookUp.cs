@@ -14,7 +14,10 @@ namespace Feedback360Scheduler
 {
     public static class LookUp
     {
-
+        /// <summary>
+        /// Get Data For Reminder 1
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder1()
         {
             SqlConnection oConn = null;
@@ -35,7 +38,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Data For Reminder 2
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder2()
         {
             SqlConnection oConn = null;
@@ -56,7 +62,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Data For Reminder 3
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder3()
         {
             SqlConnection oConn = null;
@@ -77,7 +86,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Report Avaliable Data
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchReportAvaliableData()
         {
             SqlConnection oConn = null;
@@ -98,7 +110,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Participant Reminder1 details
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchParticipantReminder1Data()
         {
             SqlConnection oConn = null;
@@ -119,7 +134,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Participant Reminder2 details
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchParticipantReminder2Data()
         {
             SqlConnection oConn = null;
@@ -140,7 +158,10 @@ namespace Feedback360Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Insert Reminder details
+        /// </summary>
+        /// <returns></returns>
         public static int InsertReminderData(int Type, int AccountId, string AccountName, int ParticipantId, string ParticipantName, int CandidateId, string CandidateName, int ProjectId, string ProjectName, int ProgrammeId, string ProgrammeName, DateTime EmailDate, bool EmailStatus)
         {
             SqlConnection oConn = null;
@@ -177,6 +198,10 @@ namespace Feedback360Scheduler
             }
         }
 
+        /// <summary>
+        ///use Handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public static void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
@@ -208,7 +233,10 @@ namespace Feedback360Scheduler
 
         }
 
-
+        /// <summary>
+        /// Write error to the log file.
+        /// </summary>
+        /// <param name="str"></param>
         public static void WriteProcessingInformation(string str)
         {
             FileStream FS;
