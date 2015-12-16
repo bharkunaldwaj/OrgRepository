@@ -46,7 +46,11 @@ namespace Admin_DAO
         #endregion
 
         # region CRUD Operation
-
+        /// <summary>
+        /// Insert account details
+        /// </summary>
+        /// <param name="account_BE"></param>
+        /// <returns></returns>
         public int AddAccountUser(AccountUser_BE accountuser_BE)
         {
             try {
@@ -78,7 +82,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// update account details
+        /// </summary>
+        /// <param name="account_BE"></param>
+        /// <returns></returns>
         public int UpdateAccountUser(AccountUser_BE accountuser_BE)
         {
             try
@@ -111,7 +119,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Delete account details
+        /// </summary>
+        /// <param name="account_BE"></param>
+        /// <returns></returns>
         public int DeleteAccountUser(AccountUser_BE accountuser_BE)
         {
             try
@@ -144,7 +156,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-    
+        /// <summary>
+        /// Get Account details By ID
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetAccountUserByID(int accountID, int accountuserID)
         {
             try
@@ -164,7 +180,10 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get Account user List
+        /// </summary>
+        /// <returns></returns>
         public int GetAccountUserList()
         {
             try
@@ -184,7 +203,12 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        ///  Get Account user List by id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="accountuserID">accountuser ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountUserByID(int accountID, int accountuserID)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -202,7 +226,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllAccountUser;
         }
-
+        /// <summary>
+        ///  Get Account user List by account id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountUserList(string accountID)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -219,7 +247,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllAccountUser;
         }
-
+        /// <summary>
+        /// Get Account user List
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public DataTable GetdtAccountUserListNew(string condition)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -253,7 +285,11 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllAccountUser;
         }
-
+        /// <summary>
+        /// Get Participant List by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetParticipantList(string accountID)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -305,7 +341,11 @@ namespace Admin_DAO
 
             //HandleWriteLog("End", new StackTrace(true));
         }
-
+        /// <summary>
+        /// Get Account List Count by account id.
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetAccountUserListCount(string condition)
         {
             int accountuserCount = 0;
@@ -334,7 +374,10 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return accountuserCount;
         }
-
+        /// <summary>
+        /// Get Maximum number of users
+        /// </summary>
+        /// <returns></returns>
         public int MaxUser()
         {
             try
@@ -359,7 +402,11 @@ namespace Admin_DAO
             return returnValue;
         }
 
-
+        /// <summary>
+        /// Get Account Admin by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountAdmin(int accountID)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -377,6 +424,10 @@ namespace Admin_DAO
             return dtAllAccountUser;
         }
 
+        /// <summary>
+        /// Use to Handle exceptions
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

@@ -21,7 +21,11 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Insert Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int AddParticipantReport(ReportManagement_BE reportManagement_BE)
         {
             CSqlClient sqlClient = null;
@@ -53,7 +57,11 @@ namespace Questionnaire_BAO
             }
             return addReportManagement;
         }
-
+        /// <summary>
+        /// Update Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int UpdateParticipantReport(ReportManagement_BE reportManagement_BE)
         {
             CSqlClient sqlClient = null;
@@ -85,7 +93,11 @@ namespace Questionnaire_BAO
             }
             return addReportManagement;
         }
-
+        /// <summary>
+        /// Delete Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int DeleteParticipantReport(ReportManagement_BE reportManagement_BE)
         {
             CSqlClient sqlClient = null;
@@ -117,7 +129,14 @@ namespace Questionnaire_BAO
             }
             return addReportManagement;
         }
-
+        /// <summary>
+        /// Get Report Management List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <param name="admin">admin</param>
+        /// <returns></returns>
         public int GetReportManagementListCount(int accountID, int projectID, int programmeID, string admin)
         {
             int reportCount = 0;
@@ -142,6 +161,13 @@ namespace Questionnaire_BAO
         #endregion
 
         #region RadarChart Method
+        /// <summary>
+        /// Get Radar Chart Data
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="grp">group</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartData(int targetpersonid, string grp, string operationtype)
         {
             DataTable project = new DataTable();
@@ -159,7 +185,9 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get Radar Chart Score Data CPL
+        /// </summary>
         public DataTable GetRadarChartDataCPL(int targetpersonid, string grp, string operationtype)
         {
             DataTable project = new DataTable();
@@ -177,7 +205,13 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get Radar Chart Previous Score Data
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="grp">group</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartPreviousScoreData(int targetpersonid, string grp, string operationtype)
         {
             DataTable project = new DataTable();
@@ -195,7 +229,9 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get Radar Chart Previous Score Data CPL
+        /// </summary>
         public DataTable GetRadarChartPreviousScoreDataCPL(int targetpersonid, string grp, string operationtype)
         {
             DataTable project = new DataTable();
@@ -213,7 +249,12 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get Radar Chart BenchMark
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartBenchMark(int targetpersonid, string operationtype)
         {
             DataTable project = new DataTable();
@@ -235,7 +276,11 @@ namespace Questionnaire_BAO
 
 
         #endregion
-        
+        /// <summary>
+        /// Get data Project By ID
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetdataProjectByID(int projectID)
         {
             DataTable project = new DataTable();
@@ -257,7 +302,10 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get  Report Management details
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdataReportManagement()
         {
             DataTable project = new DataTable();
@@ -281,6 +329,14 @@ namespace Questionnaire_BAO
         }
 
         //public DataTable GetReportCandidateName()
+        /// <summary>
+        /// Get Report Candidate Name
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <param name="admin">admin</param>
+        /// <returns></returns>
         public DataTable GetReportCandidateName(string accountID, string projectID, string programmeID, string admin)        
         {
             DataTable project = new DataTable();
@@ -295,7 +351,11 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get  Report Management details By targetperson id
+        /// </summary>
+        /// <param name="targetpersonid"></param>
+        /// <returns></returns>
         public DataTable GetdataReportManagementByID(int targetpersonid)
         {
             DataTable project = new DataTable();
@@ -317,7 +377,11 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Insert Project Setting Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int AddProjectSettingReport(ReportManagement_BE reportManagement_BE)
         {
             CSqlClient sqlClient = null;
@@ -349,7 +413,11 @@ namespace Questionnaire_BAO
             }
             return addReportManagement;
         }
-
+        /// <summary>
+        /// Get  Project Setting Report details By projectID
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetdataProjectSettingReportByID(int projectID)
         {
             DataTable project = new DataTable();
@@ -365,7 +433,11 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Delete Project Setting Report
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public int DeleteProjectSettingReport(int projectID)
         {
             CSqlClient sqlClient = null;
@@ -397,7 +469,10 @@ namespace Questionnaire_BAO
             }
             return addReportManagement;
         }
-
+        /// <summary>
+        /// Use to Handlexceprion
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

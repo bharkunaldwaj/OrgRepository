@@ -101,7 +101,9 @@ namespace FeedbackReportScheduler
 
             HandleException("Program ID Constructor:" + (programID.HasValue?programID.Value:0));
             HandleException("Program ID Form load:" + "Report Regenrate" + (ProgramID.HasValue ? ProgramID.Value : 0));
+
             MakeReport(ProgramID);
+
             HandleException("Program ID Form load Done :" + "Report Regenrate" + (ProgramID.HasValue ? ProgramID.Value : 0));
             this.Close();
         }
@@ -302,6 +304,7 @@ namespace FeedbackReportScheduler
                 Microsoft.Reporting.WinForms.Warning[] warnings;
                 string root = string.Empty;
                 root = ConfigurationSettings.AppSettings["ReportPath"].ToString();
+                string ReportServerDirectory = ConfigurationSettings.AppSettings["ReportServerDirectory"].ToString();
 
                 /* Function : For Filling Paramters From Controls */
                 ControlToParameter(strProjectID);
@@ -344,11 +347,11 @@ namespace FeedbackReportScheduler
 
                     if (iAccountID == 68)
                     {
-                        rview.ServerReport.ReportPath = "/Feedback360/CapitaFeedbackReport"; 
+                        rview.ServerReport.ReportPath = ReportServerDirectory +"CapitaFeedbackReport"; 
                     }
                     else
                     {
-                        rview.ServerReport.ReportPath = "/Feedback360/FeedbackReport";
+                        rview.ServerReport.ReportPath = ReportServerDirectory + "FeedbackReport";
                     }
                     
 
@@ -379,7 +382,7 @@ namespace FeedbackReportScheduler
                 }
                 else if (strReportType == "2")
                 {
-                    rview.ServerReport.ReportPath = "/Feedback360/FeedbackReportClient1";
+                    rview.ServerReport.ReportPath = ReportServerDirectory + "FeedbackReportClient1";
 
                     //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
                     // In that case no need to send hardcord values as Parameter & Comments/Remove all harcord parameters.
@@ -417,7 +420,7 @@ namespace FeedbackReportScheduler
                             targetradarPreviousScore = "RadarChartNoImage";
                     }
 
-                    rview.ServerReport.ReportPath = "/Feedback360/FeedbackReportClient2";
+                    rview.ServerReport.ReportPath = ReportServerDirectory + "FeedbackReportClient2";
 
                     //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
                     // In that case no need to send hardcord values as Parameter & Comments/Remove all harcord parameters.
@@ -434,7 +437,7 @@ namespace FeedbackReportScheduler
                 }
                 else if (strReportType == "4")
                 {
-                    rview.ServerReport.ReportPath = "/Feedback360/CurFeedbackReport";
+                    rview.ServerReport.ReportPath = ReportServerDirectory + "CurFeedbackReport";
 
                     System.Collections.Generic.List<Microsoft.Reporting.WinForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WinForms.ReportParameter>();
                     paramList.Add(new Microsoft.Reporting.WinForms.ReportParameter("TargetPersonID", strTargetPersonID));

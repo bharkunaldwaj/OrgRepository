@@ -22,7 +22,11 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Insert category
+        /// </summary>
+        /// <param name="category_BE"></param>
+        /// <returns></returns>
         public int AddCategory(Category_BE category_BE)
         {
             CSqlClient sqlClient = null;
@@ -54,7 +58,11 @@ namespace Questionnaire_BAO
             }
             return addCategory;
         }
-
+        /// <summary>
+        /// update Category
+        /// </summary>
+        /// <param name="category_BE"></param>
+        /// <returns></returns>
         public int UpdateCategory(Category_BE category_BE)
         {
             CSqlClient sqlClient = null;
@@ -86,7 +94,11 @@ namespace Questionnaire_BAO
             }
             return addCategory;
         }
-
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="category_BE"></param>
+        /// <returns></returns>
         public int DeleteCategory(Category_BE category_BE)
         {
             CSqlClient sqlClient = null;
@@ -118,7 +130,12 @@ namespace Questionnaire_BAO
             }
             return addCategory;
         }
-
+        /// <summary>
+        /// Get Category by Category id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="categoryID">Category id</param>
+        /// <returns></returns>
         public List<Category_BE> GetCategoryByID(int accountID, int categoryID)
         {
             List<Category_BE> category_BEList = null;
@@ -140,7 +157,10 @@ namespace Questionnaire_BAO
             }
             return category_BEList;
         }
-
+        /// <summary>
+        /// Get Category List
+        /// </summary>
+        /// <returns></returns>
         public List<Category_BE> GetCategoryList()
         {
             List<Category_BE> category_BEList = null;
@@ -162,7 +182,11 @@ namespace Questionnaire_BAO
             }
             return category_BEList;
         }
-
+        /// <summary>
+        /// Get Category List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtCategoryList(string accountID)
         {
             DataTable dtCategory = null;
@@ -183,7 +207,11 @@ namespace Questionnaire_BAO
 
             return dtCategory;
         }
-
+        /// <summary>
+        /// Get Category List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtnewCategoryList(string accountID)
         {
             DataTable dtCategory = null;
@@ -204,7 +232,11 @@ namespace Questionnaire_BAO
 
             return dtCategory;
         }
-
+        /// <summary>
+        /// Get Category List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetCategoryListCount(string accountID)
         {
             int categoryCount = 0;
@@ -225,7 +257,12 @@ namespace Questionnaire_BAO
 
             return categoryCount;
         }
-
+        /// <summary>
+        /// Select Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -246,7 +283,12 @@ namespace Questionnaire_BAO
 
             return categoryid;
         }
-
+        /// <summary>
+        /// Select Questionnaire Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectQuestionnaireCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -269,7 +311,12 @@ namespace Questionnaire_BAO
         }
 
         #endregion
-
+        /// <summary>
+        /// Resequence Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="increment">sequence number</param>
         public void ResequenceCategory(int accountID, int questionnaireID, int increment)
         {
             try
@@ -287,6 +334,10 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Use to handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

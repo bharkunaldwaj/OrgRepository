@@ -46,7 +46,11 @@ namespace Questionnaire_DAO
         #endregion
 
         # region CRUD Operation
-
+        /// <summary>
+        /// Insert Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int AddParticipantReport(ReportManagement_BE ReportManagement_BE)
         {
             try {
@@ -73,7 +77,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Update Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int UpdateParticipantReport(ReportManagement_BE ReportManagement_BE)
         {
             try
@@ -98,7 +106,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Delete Participant Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int DeleteParticipantReport(ReportManagement_BE ReportManagement_BE)
         {
             try
@@ -124,7 +136,14 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get Report Management List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <param name="admin">admin</param>
+        /// <returns></returns>
         public int GetReportManagementListCount(int accountID, int projectID, int programmeID, string admin)
         {
             int categoryCount = 0;
@@ -142,7 +161,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return categoryCount;
         }
-        
+        /// <summary>
+        /// Get data Project By ID
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetdataProjectByID(int projectID)
         {
             DataTable dtAlluser1 = new DataTable();
@@ -160,7 +183,10 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get  Report Management details
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdataReportManagement()
         {
             DataTable dtAlluser1 = new DataTable();
@@ -180,7 +206,14 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Report Candidate Name
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <param name="admin">admin</param>
+        /// <returns></returns>
         public DataTable GetReportCandidateName(int accountID, int projectID, int programmeID, string admin)
         {
             DataTable dtAlluser1 = new DataTable();
@@ -200,7 +233,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get  Report Management details By targetperson id
+        /// </summary>
+        /// <param name="targetpersonid"></param>
+        /// <returns></returns>
         public DataTable GetdataReportManagementByID(int targetpersonid)
         {
             DataTable dtAlluser1 = new DataTable();
@@ -220,7 +257,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Insert Project Setting Report
+        /// </summary>
+        /// <param name="reportManagement_BE"></param>
+        /// <returns></returns>
         public int AddProjectSettingReport(ReportManagement_BE ReportManagement_BE)
         {
             try
@@ -267,7 +308,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get  Project Setting Report details By projectID
+        /// </summary>
+        /// <param name="projectID">project ID</param>
+        /// <returns></returns>
         public DataTable GetdataProjectSettingReportByID(int projectID)
         {
             DataTable dtAlluser1 = new DataTable();
@@ -287,7 +332,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Delete Project Setting Report
+        /// </summary>
+        /// <param name="projectID">project ID</param>
+        /// <returns></returns>
         public int DeleteProjectSettingReport(int projectID)
         {
             try
@@ -337,6 +386,13 @@ namespace Questionnaire_DAO
         #endregion 
 
         #region Radarchart Method
+        /// <summary>
+        /// Get Radar Chart Data
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="grp">group</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartData(int targetpersonid, string grp, string operationtype)
         {
             /*
@@ -356,7 +412,9 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Radar Chart Score Data CPL
+        /// </summary>
         public DataTable GetRadarChartDataCPL(int targetpersonid, string grp, string operationtype)
         {
             /*
@@ -376,7 +434,13 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Radar Chart Previous Score Data
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="grp">group</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartPreviousScoreData(int targetpersonid, string grp, string operationtype)
         {
             /*
@@ -396,7 +460,9 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Radar Chart Previous Score Data CPL
+        /// </summary>
         public DataTable GetRadarChartPreviousScoreDataCPL(int targetpersonid, string grp, string operationtype)
         {
             /*
@@ -416,7 +482,12 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Radar Chart BenchMark
+        /// </summary>
+        /// <param name="targetpersonid">targetperson id</param>
+        /// <param name="operationtype">operationtype</param>
+        /// <returns></returns>
         public DataTable GetRadarChartBenchMark(int targetpersonid, string operationtype)
         {
             /*
@@ -438,7 +509,10 @@ namespace Questionnaire_DAO
         }
 
         #endregion
-
+        /// <summary>
+        /// Use to handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
@@ -470,7 +544,11 @@ namespace Questionnaire_DAO
 
         }
 
-
+        /// <summary>
+        /// Get Participant details by program id.
+        /// </summary>
+        /// <param name="programID">program id</param>
+        /// <returns></returns>
         public DataTable GetParticipantData(int? programID)
         {
             DataTable dtParticipant = new DataTable();

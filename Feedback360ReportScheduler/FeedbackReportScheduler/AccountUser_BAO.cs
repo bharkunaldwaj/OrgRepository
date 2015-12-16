@@ -24,7 +24,10 @@ namespace Admin_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Add account user
+        /// </summary>
+        /// <returns></returns>
         public int AddAccountUser(AccountUser_BE accountuser_BE)
         {
             CSqlClient sqlClient = null;
@@ -56,7 +59,10 @@ namespace Admin_BAO
             }
             return addAccountUser;
         }
-
+        /// <summary>
+        /// update account user
+        /// </summary>
+        /// <returns></returns>
         public int UpdateAccountUser(AccountUser_BE accountuser_BE)
         {
             CSqlClient sqlClient = null;
@@ -88,7 +94,10 @@ namespace Admin_BAO
             }
             return addAccountUser;
         }
-
+        /// <summary>
+        /// Delete account user
+        /// </summary>
+        /// <returns></returns>
         public int DeleteAccountUser(AccountUser_BE accountuser_BE)
         {
             CSqlClient sqlClient = null;
@@ -120,7 +129,10 @@ namespace Admin_BAO
             }
             return addAccountUser;
         }
-
+        /// <summary>
+        /// Get account user by id.
+        /// </summary>
+        /// <returns></returns>
         public List<AccountUser_BE> GetAccountUserByID(int accountID, int accountuserID)
         {
             List<AccountUser_BE> accountuser_BEList = null;
@@ -143,7 +155,10 @@ namespace Admin_BAO
             return accountuser_BEList;
         }
 
-
+        /// <summary>
+        /// Get account user by account id.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtAccountUserByID(int accountID, int accountuserID)
         {
             DataTable dtAllAccountUser = new DataTable();
@@ -186,6 +201,10 @@ namespace Admin_BAO
         //    return accountuser_BEList;
         //}
 
+        /// <summary>
+        /// Get account user list by account id.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtAccountUserList(string accountID)
         {
             DataTable dtAccountUser = null;
@@ -206,7 +225,10 @@ namespace Admin_BAO
 
             return dtAccountUser;
         }
-
+        /// <summary>
+        /// Get account user list by account id.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtAccountUserListNew(string accountID)
         {
             DataTable dtAccountUser = null;
@@ -227,7 +249,10 @@ namespace Admin_BAO
 
             return dtAccountUser;
         }
-
+        /// <summary>
+        /// Get Participant list by account id.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetParticipantList(string accountID)
         {
             DataTable dtAccountUser = null;
@@ -248,7 +273,11 @@ namespace Admin_BAO
 
             return dtAccountUser;
         }
-
+        /// <summary>
+        /// Get Account User List Count by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetAccountUserListCount(string accountID)
         {
             int accountuserCount = 0;
@@ -269,7 +298,10 @@ namespace Admin_BAO
 
             return accountuserCount;
         }
-
+        /// <summary>
+        /// Count number of user 
+        /// </summary>
+        /// <returns></returns>
         public int MaxUser()
         {
             CSqlClient sqlClient = null;
@@ -306,7 +338,11 @@ namespace Admin_BAO
 
         #endregion
 
-
+        /// <summary>
+        /// Get Account Admin details
+        /// </summary>
+        /// <param name="accountID"> account id.</param>
+        /// <returns></returns>
         public DataTable GetdtAccountAdmin(int accountID)
         {
             DataTable dtAccountUser = null;
@@ -327,7 +363,10 @@ namespace Admin_BAO
 
             return dtAccountUser;
         }
-
+        /// <summary>
+        /// Use to Handle exceptions
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

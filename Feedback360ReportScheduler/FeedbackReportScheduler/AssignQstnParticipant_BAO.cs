@@ -24,7 +24,10 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Insert Assign Questionnaire
+        /// </summary>
+        /// <returns></returns>
         public int AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
         {
             CSqlClient sqlClient = null;
@@ -56,7 +59,9 @@ namespace Questionnaire_BAO
             }
             return addAssignQuestionnaire;
         }
-
+        /// <summary>
+        /// Update Assign Questionnaire
+        /// </summary>
         public int UpdateAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
         {
             CSqlClient sqlClient = null;
@@ -88,7 +93,11 @@ namespace Questionnaire_BAO
             }
             return addAssignQuestionnaire;
         }
-
+        /// <summary>
+        /// Delete Assign Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBE">questionnaire BE</param>
+        /// <returns></returns>
         public int DeleteAssignQuestionnaire(Questionnaire_BE.AssignQuestionnaire_BE questionnaireBE)
         {
             CSqlClient sqlClient = null;
@@ -120,7 +129,9 @@ namespace Questionnaire_BAO
             }
             return addAssignQuestionnaire;
         }
-
+        /// <summary>
+        /// Get Assign Questionnaire by assign Questionnaire ID
+        /// </summary>
         public List<AssignQuestionnaire_BE> GetAssignQuestionnaireByID(int assignQuestionnaireID)
         {
             List<AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
@@ -142,7 +153,9 @@ namespace Questionnaire_BAO
             }
             return assignQuestionnaire_BEList;
         }
-
+        /// <summary>
+        /// Get Assign Questionnaire lis
+        /// </summary>
         public List<AssignQuestionnaire_BE> GetAssignQuestionnaireList()
         {
             List<AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
@@ -164,7 +177,9 @@ namespace Questionnaire_BAO
             }
             return assignQuestionnaire_BEList;
         }
-
+        /// <summary>
+        /// Get Assign Questionnaire list by assign Questionnaire ID
+        /// </summary>
         public DataTable GetdtAssignQuestionnaireList(Int32 assignmentID)
         {
             DataTable dtAssignQuestionnaire = null;
@@ -185,7 +200,9 @@ namespace Questionnaire_BAO
 
             return dtAssignQuestionnaire;
         }
-
+        /// <summary>
+        /// Get Assign Questionnaire list count
+        /// </summary>
         public int GetAssignQuestionnaireListCount()
         {
             int assignQuestionnaireCount = 0;
@@ -207,7 +224,9 @@ namespace Questionnaire_BAO
             return assignQuestionnaireCount;
         }
 
-
+        /// <summary>
+        ///Find Template by project id
+        /// </summary>
         public String FindTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -240,7 +259,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Get Assign Questionnaire List by user id
+        /// </summary>
+        /// <param name="userid">user id</param>
+        /// <returns></returns>
         public DataTable GetuseridAssignQuestionnaireList(int userid)
         {
             DataTable dtuseridAssignQuestionnaire = null;
@@ -261,7 +284,12 @@ namespace Questionnaire_BAO
 
             return dtuseridAssignQuestionnaire;
         }
-
+        /// <summary>
+        /// Get Assign Participant List 
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <returns></returns>
         public DataTable GetdtAssignPartiList(string accountID, string programmeID)
         {
             DataTable dtCAssign = null;
@@ -282,7 +310,12 @@ namespace Questionnaire_BAO
 
             return dtCAssign;
         }
-
+        /// <summary>
+        /// Get Assign Participant Questionnaire List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Projectid">Project id</param>
+        /// <returns></returns>
         public int GetAssignPartiQuestionnaireListCount(string accountID, string Projectid)
         {
             int assignPartiQuestionnaireCount = 0;
@@ -303,7 +336,12 @@ namespace Questionnaire_BAO
 
             return assignPartiQuestionnaireCount;
         }
-
+        /// <summary>
+        /// Get Assign program Participant  List 
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Projectid">Project id</param>
+        /// <returns></returns>
         public DataTable GetdtAssignProgrammePartiList(string accountID, string Programmeid)
         {
             DataTable dtCAssign = null;
@@ -324,7 +362,12 @@ namespace Questionnaire_BAO
 
             return dtCAssign;
         }
-
+        /// <summary>
+        /// Get Assign  program Participant Questionnaire List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Projectid">Project id</param>
+        /// <returns></returns>
         public int GetAssignProgammePartiQuestionnaireListCount(string accountID, string Programmeid)
         {
             int assignPartiQuestionnaireCount = 0;
@@ -349,7 +392,9 @@ namespace Questionnaire_BAO
 
 
         #endregion
-
+        /// <summary>
+        /// Get candidates Count
+        /// </summary>
         public Int32 GetCandidatesCount(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -370,7 +415,11 @@ namespace Questionnaire_BAO
 
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Get Submission Count
+        /// </summary>
+        /// <param name="targetPersonID">target Person ID</param>
+        /// <returns></returns>
         public Int32 GetSubmissionCount(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -391,7 +440,11 @@ namespace Questionnaire_BAO
 
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Get Self Assessment
+        /// </summary>
+        /// <param name="targetPersonID">target Person ID</param>
+        /// <returns></returns>
         public Int32 GetSelfAssessment(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -412,7 +465,10 @@ namespace Questionnaire_BAO
 
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Use to Handle exceptions
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

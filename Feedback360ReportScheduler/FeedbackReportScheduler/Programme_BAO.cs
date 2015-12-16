@@ -23,7 +23,11 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Insert program
+        /// </summary>
+        /// <param name="programme_BE"></param>
+        /// <returns></returns>
         public int AddProgramme(Programme_BE programme_BE)
         {
             CSqlClient sqlClient = null;
@@ -56,6 +60,11 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
+        /// <summary>
+        /// update program
+        /// </summary>
+        /// <param name="programme_BE"></param>
+        /// <returns></returns>
         public int UpdateProgramme(Programme_BE programme_BE)
         {
             CSqlClient sqlClient = null;
@@ -88,6 +97,11 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
+        /// <summary>
+        /// Delete program
+        /// </summary>
+        /// <param name="programme_BE"></param>
+        /// <returns></returns>
         public int DeleteProgramme(Programme_BE programme_BE)
         {
             CSqlClient sqlClient = null;
@@ -120,6 +134,12 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
+        /// <summary>
+        /// Get Programme By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <returns></returns>
         public List<Programme_BE> GetProgrammeByID(int accountID, int programmeID)
         {
             List<Programme_BE> programme_BEList = null;
@@ -142,6 +162,10 @@ namespace Questionnaire_BAO
             return programme_BEList;
         }
 
+        /// <summary>
+        /// Get Programme List
+        /// </summary>
+        /// <returns></returns>
         public List<Programme_BE> GetProgrammeList()
         {
             List<Programme_BE> programme_BEList = null;
@@ -164,6 +188,11 @@ namespace Questionnaire_BAO
             return programme_BEList;
         }
 
+        /// <summary>
+        /// Get Programme List
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtProgrammeList(string accountID)
         {
             DataTable dtProgramme = null;
@@ -185,6 +214,11 @@ namespace Questionnaire_BAO
             return dtProgramme;
         }
 
+        /// <summary>
+        /// Get Programme List by account id.
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtProgrammeListNew(string accountID)
         {
             DataTable dtProgramme = null;
@@ -206,7 +240,11 @@ namespace Questionnaire_BAO
             return dtProgramme;
         }
 
-
+        /// <summary>
+        /// Get Programme List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetProgrammeListCount(string accountID)
         {
             int programmeCount = 0;
@@ -230,7 +268,11 @@ namespace Questionnaire_BAO
 
         #endregion
 
-
+        /// <summary>
+        /// Get Project Programme by projectID
+        /// </summary>
+        /// <param name="projectID">projectID</param>
+        /// <returns></returns>
         public DataTable GetProjectProgramme(int projectID)
         {
             DataTable dtProgramme = null;
@@ -252,6 +294,11 @@ namespace Questionnaire_BAO
             return dtProgramme;
         }
 
+        /// <summary>
+        /// Get Programme By programme ID
+        /// </summary>
+        /// <param name="programmeID">programme ID</param>
+        /// <returns></returns>
         public DataTable GetProgrammeByID(int programmeID)
         {
             DataTable dtProgramme = null;
@@ -273,6 +320,10 @@ namespace Questionnaire_BAO
             return dtProgramme;
         }
 
+        /// <summary>
+        /// Handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
@@ -303,6 +354,5 @@ namespace Questionnaire_BAO
             FS.Close();
 
         }
-
     }
 }

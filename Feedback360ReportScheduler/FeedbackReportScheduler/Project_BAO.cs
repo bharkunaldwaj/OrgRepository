@@ -14,7 +14,7 @@ using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
-  public  class Project_BAO ///: Base_BAO
+    public class Project_BAO ///: Base_BAO
     {
         #region "Private Member Variable"
 
@@ -25,7 +25,11 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Insert Project details
+        /// </summary>
+        /// <param name="project_BE"></param>
+        /// <returns></returns>
         public int AddProject(Project_BE project_BE)
         {
             CSqlClient sqlClient = null;
@@ -57,7 +61,11 @@ namespace Questionnaire_BAO
             }
             return addProject;
         }
-
+        /// <summary>
+        /// Update Project
+        /// </summary>
+        /// <param name="project_BE"></param>
+        /// <returns></returns>
         public int UpdateProject(Project_BE project_BE)
         {
             CSqlClient sqlClient = null;
@@ -89,7 +97,11 @@ namespace Questionnaire_BAO
             }
             return addProject;
         }
-
+        /// <summary>
+        /// Delete Project
+        /// </summary>
+        /// <param name="project_BE"></param>
+        /// <returns></returns>
         public int DeleteProject(Project_BE project_BE)
         {
             CSqlClient sqlClient = null;
@@ -121,7 +133,12 @@ namespace Questionnaire_BAO
             }
             return addProject;
         }
-
+        /// <summary>
+        /// Get Project By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <returns></returns>
         public List<Project_BE> GetProjectByID(int accountID, int projectID)
         {
             List<Project_BE> project_BEList = null;
@@ -143,7 +160,10 @@ namespace Questionnaire_BAO
             }
             return project_BEList;
         }
-
+        /// <summary>
+        /// Get Project List
+        /// </summary>
+        /// <returns></returns>
         public List<Project_BE> GetProjectList()
         {
             List<Project_BE> project_BEList = null;
@@ -165,7 +185,11 @@ namespace Questionnaire_BAO
             }
             return project_BEList;
         }
-
+        /// <summary>
+        /// Get Project List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtProjectList(string accountID)
         {
             DataTable dtProject = null;
@@ -186,7 +210,11 @@ namespace Questionnaire_BAO
 
             return dtProject;
         }
-
+        /// <summary>
+        /// Get Project List by accountID
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtProjectListNew(string accountID)
         {
             DataTable dtProject = null;
@@ -207,7 +235,11 @@ namespace Questionnaire_BAO
 
             return dtProject;
         }
-
+        /// <summary>
+        /// Get Admin Project List by account ID
+        /// </summary>
+        /// <param name="accountID"> accountID</param>
+        /// <returns></returns>
         public DataTable GetAdminProjectList(string accountID)
         {
             DataTable dtProject = null;
@@ -228,7 +260,11 @@ namespace Questionnaire_BAO
 
             return dtProject;
         }
-      
+        /// <summary>
+        /// Search Project
+        /// </summary>
+        /// <param name="project_Search"></param>
+        /// <returns></returns>
         public int GetProjectListCount(string accountID)
         {
             int projectCount = 0;
@@ -249,7 +285,6 @@ namespace Questionnaire_BAO
 
             return projectCount;
         }
-
 
         //public DataTable SearchProject(Project_Search project_Search)
         //{
@@ -272,10 +307,15 @@ namespace Questionnaire_BAO
         //    return dtProjectSearch;
         //}
 
+        /// <summary>
+        /// Get Account Project by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetAccountProject(int accountID)
         {
             DataTable dtAccountProject = new DataTable();
-         
+
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
@@ -292,8 +332,11 @@ namespace Questionnaire_BAO
 
             return dtAccountProject;
         }
-
-
+        /// <summary>
+        /// Insert Project by ID
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <param name="accountid"></param>
         public void InsertProjID(string Id, int accountid)
         {
 
@@ -314,7 +357,11 @@ namespace Questionnaire_BAO
 
 
         }
-
+        /// <summary>
+        /// Get project details By ID
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetdataProjectByID(int projectID)
         {
             DataTable project = new DataTable();
@@ -324,7 +371,7 @@ namespace Questionnaire_BAO
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 Project_DAO project_DAO = new Project_DAO();
-                 project = project_DAO.GetdataProjectByID( projectID);
+                project = project_DAO.GetdataProjectByID(projectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -334,14 +381,12 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
         #endregion
-
-
-
-
-
-
+        /// <summary>
+        /// Get Project Relation ship
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetProjectRelationship(int projectID)
         {
             DataTable project = new DataTable();
@@ -361,10 +406,14 @@ namespace Questionnaire_BAO
             }
             return project;
         }
-
+        /// <summary>
+        /// Get Project Faq Text
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public string GetProjectFaqText(int projectId)
         {
-            string project = "";               
+            string project = "";
 
             try
             {
@@ -382,7 +431,11 @@ namespace Questionnaire_BAO
             return project;
         }
 
-
+        /// <summary>
+        /// Get Project by account id.
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetAccProject(int accountID)
         {
             DataTable dtAccProject = new DataTable();
@@ -403,7 +456,10 @@ namespace Questionnaire_BAO
 
             return dtAccProject;
         }
-
+        /// <summary>
+        /// Use to Handlexceprion
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

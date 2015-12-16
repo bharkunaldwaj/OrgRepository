@@ -48,7 +48,7 @@ namespace Questionnaire_DAO
         # region CRUD Operation
 
         /// <summary>
-        /// 
+        /// Insert Project details
         /// </summary>
         /// <param name="project_BE"></param>
         /// <returns></returns>
@@ -107,7 +107,7 @@ namespace Questionnaire_DAO
 
 
         /// <summary>
-        /// 
+        /// Update Project
         /// </summary>
         /// <param name="project_BE"></param>
         /// <returns></returns>
@@ -164,7 +164,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Delete Project
+        /// </summary>
+        /// <param name="project_BE"></param>
+        /// <returns></returns>
         public int DeleteProject(Project_BE project_BE)
         {
             try
@@ -243,6 +247,12 @@ namespace Questionnaire_DAO
         //    return dtSearchProject;
         //}
 
+        /// <summary>
+        /// Get Project By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <returns></returns>
         public int GetProjectByID(int accountID,int projectID)
         {
             try
@@ -262,7 +272,10 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get Project List
+        /// </summary>
+        /// <returns></returns>
         public int GetProjectList()
         {
             try
@@ -282,7 +295,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get Project List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtProjectList(string accountID)
         {
             DataTable dtAllProject = new DataTable();
@@ -300,7 +317,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllProject;
         }
-
+        /// <summary>
+        /// Get Project List by accountID
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtProjectListNew(string accountID)
         {
             DataTable dtAllProject = new DataTable();
@@ -359,7 +380,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllProject;
         }
-
+        /// <summary>
+        /// Get Admin Project List by account ID
+        /// </summary>
+        /// <param name="accountID"> accountID</param>
+        /// <returns></returns>
         public DataTable GetAdminProjectList(string accountID)
         {
             DataTable dtAllProject = new DataTable();
@@ -377,7 +402,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllProject;
         }
-
+        /// <summary>
+        /// Insert priject by id
+        /// </summary>
+        /// <param name="accountID">accountID</param>
+        /// <returns></returns>
         public void InsertprojID(string id, int accountid)
         {
 
@@ -447,7 +476,11 @@ namespace Questionnaire_DAO
 
             //HandleWriteLog("End", new StackTrace(true));
         }
-
+        /// <summary>
+        /// Get Project List Count 
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetProjectListCount(string accountID)
         {
             int projectCount = 0;
@@ -471,7 +504,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return projectCount;
         }
-
+        /// <summary>
+        /// Get Account Project
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetAccountProject(int accountID)
         {
             DataTable dtAccountProject = new DataTable();
@@ -491,7 +528,11 @@ namespace Questionnaire_DAO
 
             return dtAccountProject;
         }
-
+        /// <summary>
+        /// Get datatable Project By ID
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetdataProjectByID( int projectID)
         {
             DataTable dtAlluser1 = new DataTable();
@@ -511,7 +552,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
              return dtAlluser1;
         }
-
+        /// <summary>
+        /// Get Project Relation ship
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetProjectRelationship(int projectID)
         {
             DataTable dtResult = new DataTable();
@@ -528,7 +573,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtResult;
         }
-
+        /// <summary>
+        /// Get Project Faq Text
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
         public string GetProjectFaqText(int projectId)
         {
             string dtResult="" ;
@@ -545,7 +594,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtResult;
         }
-
+        /// <summary>
+        /// Get Project by account id.
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetAccProject(int accountID)
         {
             DataTable dtAccProject = new DataTable();
@@ -565,6 +618,10 @@ namespace Questionnaire_DAO
 
             return dtAccProject;
         }
+        /// <summary>
+        /// Use to Handlexceprion
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());

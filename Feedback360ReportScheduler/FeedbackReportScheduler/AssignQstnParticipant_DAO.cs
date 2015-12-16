@@ -51,7 +51,12 @@ namespace Questionnaire_DAO
         #endregion
 
         # region CRUD Operation
-
+        /// <summary>
+        /// Insert Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaire_BE"></param>
+        /// <param name="dbTransaction"></param>
+        /// <returns></returns>
         public int AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE, IDbTransaction dbTransaction)
         {
             try {
@@ -124,7 +129,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Update  Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaire_BE"></param>
+        /// <returns></returns>
         public int UpdateAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
         {
             try
@@ -153,7 +162,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Delete  Assign Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBE"></param>
+        /// <returns></returns>
         public int DeleteAssignQuestionnaire(Questionnaire_BE.AssignQuestionnaire_BE questionnaireBE)
         {
             try
@@ -186,7 +199,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-    
+        /// <summary>
+        /// Get  Assign Questionnaire by  Assign Questionnaire id
+        /// </summary>
+        /// <param name="assignQuestionnaireID"></param>
+        /// <returns></returns>
         public int GetAssignQuestionnaireByID(int assignQuestionnaireID)
         {
             try
@@ -206,7 +223,10 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get  Assign Questionnaire list
+        /// </summary>
+        /// <returns></returns>
         public int GetAssignQuestionnaireList()
         {
             try
@@ -226,7 +246,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-
+        /// <summary>
+        /// Get  Assign Questionnaire list by assignment id.
+        /// </summary>
+        /// <param name="assignmentID"></param>
+        /// <returns></returns>
         public DataTable GetdtAssignQuestionnaireList(Int32 assignmentID)
         {
             DataTable dtResult = new DataTable();
@@ -270,7 +294,10 @@ namespace Questionnaire_DAO
 
             //HandleWriteLog("End", new StackTrace(true));
         }
-
+        /// <summary>
+        /// Get  Assign Questionnaire list count
+        /// </summary>
+        /// <returns></returns>
         public int GetAssignQuestionnaireListCount()
         {
             int assignQuestionnaireCount = 0;
@@ -289,7 +316,11 @@ namespace Questionnaire_DAO
             return assignQuestionnaireCount;
         }
 
-
+        /// <summary>
+        /// Get Email tempalte
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public String FindTemplate(int ProjectID)
         {
             try
@@ -309,7 +340,11 @@ namespace Questionnaire_DAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Get Participant Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantTemplate(int ProjectID)
         {
             try
@@ -329,7 +364,11 @@ namespace Questionnaire_DAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Find Participant Subject Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantSubjectTemplate(int ProjectID)
         {
             try
@@ -348,7 +387,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return Template;
         }
-
+        /// <summary>
+        /// Find Candidate Subject Template
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindCandidateSubjectTemplate(int ProjectID)
         {
             try
@@ -367,7 +410,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return Template;
         }
-
+        /// <summary>
+        /// Get user id Assign Questionnaire List
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
         public DataTable GetdtuseridAssignQuestionnaireList(int userid)
         {
             DataTable dtuseridAssignQuestionnaire = new DataTable();
@@ -390,8 +437,12 @@ namespace Questionnaire_DAO
             return dtuseridAssignQuestionnaire;
         }
 
-
-
+        /// <summary>
+        /// Get Assign Participant List
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Projectid">Project id</param>
+        /// <returns></returns>
         public DataTable GetdtAssignPartiList(string accountID,string Projectid)
         {
             DataTable dtAllAssign = new DataTable();
@@ -410,7 +461,12 @@ namespace Questionnaire_DAO
             return dtAllAssign;
         }
 
-
+        /// <summary>
+        /// Get Assign Participant Questionnaire List Count
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <param name="Projectid"></param>
+        /// <returns></returns>
         public int GetAssignPartiQuestionnaireListCount(string accountID, string Projectid)
         {
             int AssignQuestionnaireCount = 0;
@@ -428,7 +484,12 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return AssignQuestionnaireCount;
         }
-
+        /// <summary>
+        /// Get Assign Programme Participant List
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <param name="Programmeid"></param>
+        /// <returns></returns>
         public DataTable GetdtAssignProgrammePartiList(string accountID, string Programmeid)
         {
             DataTable dtAllAssign = new DataTable();
@@ -446,7 +507,12 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return dtAllAssign;
         }
-
+        /// <summary>
+        /// Get Assign Progamme Participant Questionnaire List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Projectid">Project id</param>
+        /// <returns></returns>
         public int GetAssignProgammePartiQuestionnaireListCount(string accountID, string Projectid)
         {
             int AssignQuestionnaireCount = 0;
@@ -465,7 +531,11 @@ namespace Questionnaire_DAO
             return AssignQuestionnaireCount;
         }
 
-
+        /// <summary>
+        /// Get Candidates Count
+        /// </summary>
+        /// <param name="targetPersonID"></param>
+        /// <returns></returns>
         public int GetCandidatesCount(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -482,7 +552,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Get answer Submission Count
+        /// </summary>
+        /// <param name="targetPersonID">targetPerson ID</param>
+        /// <returns></returns>
         public int GetSubmissionCount(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -499,7 +573,11 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Get Self Assessment by target Person ID
+        /// </summary>
+        /// <param name="targetPersonID">Target Person ID</param>
+        /// <returns></returns>
         public int GetSelfAssessment(int targetPersonID)
         {
             int CandidatesCount = 0;
@@ -516,7 +594,10 @@ namespace Questionnaire_DAO
             catch (Exception ex) { HandleException(ex); }
             return CandidatesCount;
         }
-
+        /// <summary>
+        /// Use to handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
