@@ -27,6 +27,7 @@ namespace Admin_BE
         public int? ModifyBy { get; set; }
         public DateTime? ModifyDate { get; set; }
         public int? IsActive { get; set; }
+        public string EmailPseudonym { get; set; }
 
         public Account_BE()
         {
@@ -47,6 +48,7 @@ namespace Admin_BE
             this.ModifyBy = null;
             this.ModifyDate = null;
             this.IsActive = null;
+            this.EmailPseudonym = string.Empty;
         } 
     }
 }
