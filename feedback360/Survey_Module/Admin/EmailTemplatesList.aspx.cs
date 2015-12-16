@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Configuration;
@@ -11,32 +8,31 @@ using System.Text;
 using System.Net.Mail;
 
 using Admin_BAO;
-using Admin_BE;
 
 public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
 {
-
-    Survey_EmailTemplate_BAO emailtemplate_BAO = new Survey_EmailTemplate_BAO();
-    Survey_EmailTemplate_BE emailtemplate_BEE = new Survey_EmailTemplate_BE();
+    //Global variables
+    Survey_EmailTemplate_BAO emailTemplateBusinessAccessObject = new Survey_EmailTemplate_BAO();
+   // Survey_EmailTemplate_BE emailtemplate_BEE = new Survey_EmailTemplate_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
 
-    int emailtemplateCount = 0;
+    int emailTemplateCount = 0;
     string pageNo = "";
 
     WADIdentity identity;
-    DataTable dtCompanyName;
+    DataTable dataTableCompanyName;
 
-   
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            Label ll = (Label)this.Master.FindControl("Current_location");
-            ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
-            identity = this.Page.User.Identity as WADIdentity;
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
+            identity = this.Page.User.Identity as WADIdentity;
+            //Reset Email template object datasource parameter.
             odsEmailTemplate.SelectParameters.Clear();
             odsEmailTemplate.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsEmailTemplate.Select();
@@ -44,17 +40,18 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             ManagePaging();
             grdvEmailTemplates.PageSize = pageSize;
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
-            
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
+
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get Account details by user account id and bind account dropdown.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
-
+            //If user is a Super Admin the nshowaccount detail section else hide.
             if (identity.User.GroupID == 1)
             {
                 divAccount.Visible = true;
@@ -66,7 +63,6 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
                 divAccount.Visible = false;
             }
 
-           
         }
         catch (Exception ex)
         {
@@ -74,15 +70,16 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Handle paging in gridview
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvEmailTemplates_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             ManagePaging();
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -90,35 +87,37 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind client side event to gridview controls
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvEmailTemplates_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[6].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this email template?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[6].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this email template?')) return false";
             }
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
     }
-    
+
+    /// <summary>
+    /// Redirect to Tempalte page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             Response.Redirect("EmailTemplates.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -126,26 +125,27 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Manage paging when page index changed.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
-        
+
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
-            emailtemplateCount = emailtemplate_BAO.GetEmailTemplateListCount(ddlAccountCode.SelectedValue);
+            emailTemplateCount = emailTemplateBusinessAccessObject.GetEmailTemplateListCount(ddlAccountCode.SelectedValue);
         else
-            emailtemplateCount = emailtemplate_BAO.GetEmailTemplateListCount(identity.User.AccountID.ToString());
+            emailTemplateCount = emailTemplateBusinessAccessObject.GetEmailTemplateListCount(identity.User.AccountID.ToString());
 
-        if (emailtemplateCount > 0)
+        if (emailTemplateCount > 0)
         {
-
             plcPaging.Controls.Clear();
 
             // Variable declaration
             int numberOfPages;
-            int numberOfRecords = emailtemplateCount;
+            int numberOfRecords = emailTemplateCount;
             int currentPage = (grdvEmailTemplates.PageIndex);
             StringBuilder strSummary = new StringBuilder();
-
 
             // If number of records is more then the page size (specified in global variable)
             // Just to check either gridview have enough records to implement paging
@@ -158,7 +158,6 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             {
                 numberOfPages = 1;
             }
-
 
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
@@ -186,9 +185,7 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -221,7 +218,6 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -246,7 +242,6 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -266,7 +261,6 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;")); // Just to give some space 
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
-
 
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
@@ -361,15 +355,24 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
-        return new object[] { baseState, emailtemplateCount };
+        return new object[] { baseState, emailTemplateCount };
     }
 
+    /// <summary>
+    ///  Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
+
         if (myState[0] != null)
             base.LoadViewState(myState[0]);
 
@@ -381,78 +384,98 @@ public partial class Survey_Module_Admin_EmailTemplatesList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
 
-        grdvEmailTemplates.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        LinkButton linkButtonNext = (LinkButton)sender;
+        //Reset Gridview page index to new index.
+        grdvEmailTemplates.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvEmailTemplates.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
-
-            grdvEmailTemplates.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Set Gridview page index and bind grid.
+            grdvEmailTemplates.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvEmailTemplates.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
+    /// <summary>
+    /// Rebind template controls by account id .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get company details by account id
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
             foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+                dataTableAccount.ImportRow(drAccount);
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
+            //Set company name
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
+            //Reinitilize the object date source 
             odsEmailTemplate.SelectParameters.Clear();
             odsEmailTemplate.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
             odsEmailTemplate.Select();
-
+            //Manage paging.
             ManagePaging();
         }
         else
         {
+            //If account value is not selected  other control reset values.
             lblcompanyname.Text = "";
 
             odsEmailTemplate.SelectParameters.Clear();
             odsEmailTemplate.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsEmailTemplate.Select();
-
+            //Manage paging.
             ManagePaging();
         }
-
     }
 
-
+    /// <summary>
+    /// It is of No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Button1_Click(object sender, EventArgs e)
     {
         MailAddress maddr = new MailAddress("sumneshl@damcogroup.com", "Sumnesh Lakhiwal");
         string body = "Hi <br>This is a test mail <br> <img src=cid:companylogo><br>Sumnesh";
 
-        SendEmail.Send("subject", body, "sklakhiwal@gmail.com", maddr,"");
+        SendEmail.Send("subject", body, "sklakhiwal@gmail.com", maddr, "");
     }
 }

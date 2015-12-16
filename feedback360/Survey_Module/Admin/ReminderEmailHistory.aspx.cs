@@ -1,21 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using System.Text;
 using System.Configuration;
 
 using Admin_BAO;
-using Admin_BE;
-using Administration_BAO;
 
 public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
 {
-    Survey_ReminderEmailHistory_BAO reminderEmailHistory_BAO = new Survey_ReminderEmailHistory_BAO();
-    Survey_ReminderEmailHistory_BE reminderEmailHistory_BE = new Survey_ReminderEmailHistory_BE();
+    //Global variables
+    Survey_ReminderEmailHistory_BAO reminderEmailHistoryBusinessAccessObject = new Survey_ReminderEmailHistory_BAO();
+    //Survey_ReminderEmailHistory_BE reminderEmailHistory_BE = new Survey_ReminderEmailHistory_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -28,8 +23,8 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
     {
         try
         {
-            Label ll = (Label)this.Master.FindControl("Current_location");
-            ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             //if (txtFromDate.Text != "")
             //    SetDTPicker(updPanel, "dtFromDate", "txtFromDate");
 
@@ -41,17 +36,20 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
                 ViewState["FromDate"] = "";
                 ViewState["ToDate"] = "";
 
+                //Set object datasource for reminder grid
                 odsReminderMailHistory.SelectParameters.Clear();
                 odsReminderMailHistory.SelectParameters.Add("sql", GetSqlCondition(1));
                 odsReminderMailHistory.Select();
 
                 ManagePaging();
             }
+
             grdvReminderMailHistory.PageSize = pageSize;
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
         }
         catch (Exception ex)
         {
@@ -60,12 +58,14 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
     }
 
     #region "Gridview Related Methods"
-
+    /// <summary>
+    /// Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
 
-        emailHistoryCount = reminderEmailHistory_BAO.GetQuestionnaireListCount(GetSqlCondition(2));
+        emailHistoryCount = reminderEmailHistoryBusinessAccessObject.GetQuestionnaireListCount(GetSqlCondition(2));
 
         if (emailHistoryCount > 0)
         {
@@ -293,12 +293,20 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, emailHistoryCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -315,39 +323,52 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvReminderMailHistory.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvReminderMailHistory.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvReminderMailHistory.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
-        {
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            pageNo = txtGoto.Text;
+        if (textBoxGoto.Text.Trim() != "")
+        {
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvReminderMailHistory.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            grdvReminderMailHistory.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvReminderMailHistory.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Bind Reminder Grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -364,7 +385,7 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
 
             ManagePaging();
 
-            
+
             if (txtFromDate.Text != "")
                 SetDTPicker1(updPanel, "dtFromDate", "txtFromDate");
 
@@ -377,6 +398,11 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Rebindd Controls
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         txtFromDate.Text = "";
@@ -397,37 +423,42 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Set Grid Label Value
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvReminderMailHistory_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
-            Label lblStatus = (Label)e.Row.FindControl("lblStatus");
+            Label labelStatus = (Label)e.Row.FindControl("lblStatus");
             HiddenField hdnStatus = (HiddenField)e.Row.FindControl("hdnStatus");
 
-            Label lblType = (Label)e.Row.FindControl("lblType");
+            Label labelType = (Label)e.Row.FindControl("lblType");
             HiddenField hdnType = (HiddenField)e.Row.FindControl("hdnType");
 
             if (hdnStatus != null)
             {
                 if (hdnStatus.Value == "True")
-                    lblStatus.Text = "Success";
+                    labelStatus.Text = "Success";
                 else
-                    lblStatus.Text = "Failure";
+                    labelStatus.Text = "Failure";
 
                 if (hdnType.Value == "1")
-                    lblType.Text = "Candidate Reminder 1";
+                    labelType.Text = "Candidate Reminder 1";
                 else if (hdnType.Value == "2")
-                    lblType.Text = "Candidate Reminder 2";
+                    labelType.Text = "Candidate Reminder 2";
                 else if (hdnType.Value == "3")
-                    lblType.Text = "Candidate Reminder 3";
+                    labelType.Text = "Candidate Reminder 3";
                 else if (hdnType.Value == "4")
-                    lblType.Text = "Report Available";
+                    labelType.Text = "Report Available";
                 else if (hdnType.Value == "5")
-                    lblType.Text = "Participant Reminder 1";
+                    labelType.Text = "Participant Reminder 1";
                 else if (hdnType.Value == "6")
-                    lblType.Text = "Participant Reminder 2";
+                    labelType.Text = "Participant Reminder 2";
                 else if (hdnType.Value == "7")
-                    lblType.Text = "Participant Reminder 3";
+                    labelType.Text = "Participant Reminder 3";
             }
         }
         catch (Exception ex)
@@ -436,9 +467,14 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Generate Dynamic Query
+    /// </summary>
+    /// <param name="flag"></param>
+    /// <returns></returns>
     public string GetSqlCondition(int flag)
     {
-        string sqlData="";
+        string sqlData = "";
 
         if (flag == 1)
         {
@@ -478,11 +514,23 @@ public partial class Survey_Module_Admin_ReminderEmailHistory : CodeBehindBase
         return sqlData;
     }
 
+    /// <summary>
+    /// Bind Calender 
+    /// </summary>
+    /// <param name="btn"></param>
+    /// <param name="HtmlDate"></param>
+    /// <param name="aspDate"></param>
     private void SetDTPicker1(Control btn, string HtmlDate, string aspDate)//instance of button clicked
     {
         ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "test1", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);
     }
 
+    /// <summary>
+    /// Bind Calender
+    /// </summary>
+    /// <param name="btn"></param>
+    /// <param name="HtmlDate"></param>
+    /// <param name="aspDate"></param>
     private void SetDTPicker2(Control btn, string HtmlDate, string aspDate)//instance of button clicked
     {
         ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "test2", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);

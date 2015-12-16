@@ -14,8 +14,8 @@ using Administration_BAO;
 
 public partial class Survey_Module_Admin_AccountUserList : CodeBehindBase
 {
-    Survey_AccountUser_BAO accountuser_BAO = new Survey_AccountUser_BAO();
-    Survey_AccountUser_BE accountuser_BE = new Survey_AccountUser_BE();
+    Survey_AccountUser_BAO accountuserBusinessAccessObject = new Survey_AccountUser_BAO();
+    Survey_AccountUser_BE accountuseBusinessEntity = new Survey_AccountUser_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -135,7 +135,7 @@ public partial class Survey_Module_Admin_AccountUserList : CodeBehindBase
         //    accountuserCount = accountuser_BAO.GetAccountUserListCount(ddlAccountCode.SelectedValue);
         //else    
 
-        accountuserCount = accountuser_BAO.GetAccountUserListCount(GetCondition());
+        accountuserCount = accountuserBusinessAccessObject.GetAccountUserListCount(GetCondition());
 
         plcPaging.Controls.Clear();
 
