@@ -44,7 +44,7 @@ namespace Administration_DAO {
         #endregion
 
         #region "Public Properties"
-        public List<User_BE> User_BEList { get; set; }
+        public List<User_BE> UserBusinessEntityList { get; set; }
         #endregion
 
         #region Private Methods
@@ -55,7 +55,7 @@ namespace Administration_DAO {
         /// <param name="p_dtAlluser"></param>
         private void ShiftDataTableToBEList(DataTable p_dtAlluser) {
             HandleWriteLog("Start", new StackTrace(true));
-            User_BEList = new List<User_BE>();
+            UserBusinessEntityList = new List<User_BE>();
 
             for (int recordCounter = 0; recordCounter < p_dtAlluser.Rows.Count; recordCounter++) {
                 User_BE user_BE = new User_BE();
@@ -107,7 +107,7 @@ namespace Administration_DAO {
                 user_BE.MenuBGColor = Convert.ToString(p_dtAlluser.Rows[recordCounter]["MenuBGColor"]);
                 user_BE.CopyRightLine = Convert.ToString(p_dtAlluser.Rows[recordCounter]["CopyRightLine"]);
                 
-                User_BEList.Add(user_BE);
+                UserBusinessEntityList.Add(user_BE);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -376,6 +376,10 @@ namespace Administration_DAO {
             catch (Exception ex) { HandleException(ex); }
         }
 
+        /// <summary>
+        /// Update user session
+        /// </summary>
+        /// <param name="p_userBE"></param>
         public void UpdateUserSession(User_BE p_userBE)
         {
             try

@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics;
 
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Admin_BE;  // Admin_BE;
@@ -16,15 +11,15 @@ using DatabaseAccessUtilities;
 
 namespace Admin_DAO
 {
-    public class AccountUser_DAO:DAO_Base
+    public class AccountUser_DAO : DAO_Base
     {
 
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
         #region Private Variables
-        
+
         private int returnValue;
-        
+
         #endregion
 
         #region "Public Constructor"
@@ -32,43 +27,48 @@ namespace Admin_DAO
         /// <summary>
         /// Public Constructor
         /// </summary>
-        public AccountUser_DAO() 
+        public AccountUser_DAO()
         {
             //HandleWriteLog("Start", new StackTrace(true));
             //HandleWriteLog("End", new StackTrace(true));
         }
-        
+
         #endregion
 
         #region "Public Properties"
-        
-        public List<AccountUser_BE> accountuser_BEList { get; set; }
-        
+
+        public List<AccountUser_BE> accountuserBusinessEntityList { get; set; }
+
         #endregion
 
         # region CRUD Operation
-
-        public int AddAccountUser(AccountUser_BE accountuser_BE)
+        /// <summary>
+        /// Insert account user details
+        /// </summary>
+        /// <param name="accountuserBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddAccountUser(AccountUser_BE accountuserBusinessEntity)
         {
-            try {
+            try
+            {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[15] {null,
-                                                accountuser_BE.LoginID,
-                                                accountuser_BE.Password,
-                                                accountuser_BE.GroupID ,
-                                                accountuser_BE.AccountID,
-                                                accountuser_BE.StatusID ,
-                                                accountuser_BE.Salutation,
-                                                accountuser_BE.FirstName,
-                                                accountuser_BE.LastName,
-                                                accountuser_BE.EmailID,
-                                                accountuser_BE.Notification,
-                                                accountuser_BE.ModifyBy,
-                                                accountuser_BE.ModifyDate,
-                                                accountuser_BE.IsActive,
+                                                accountuserBusinessEntity.LoginID,
+                                                accountuserBusinessEntity.Password,
+                                                accountuserBusinessEntity.GroupID ,
+                                                accountuserBusinessEntity.AccountID,
+                                                accountuserBusinessEntity.StatusID ,
+                                                accountuserBusinessEntity.Salutation,
+                                                accountuserBusinessEntity.FirstName,
+                                                accountuserBusinessEntity.LastName,
+                                                accountuserBusinessEntity.EmailID,
+                                                accountuserBusinessEntity.Notification,
+                                                accountuserBusinessEntity.ModifyBy,
+                                                accountuserBusinessEntity.ModifyDate,
+                                                accountuserBusinessEntity.IsActive,
                                                 "I" };
-                
+
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspAccountUserManagement", param, null));
 
                 cDataSrc = null;
@@ -80,26 +80,31 @@ namespace Admin_DAO
             return returnValue;
         }
 
-        public int UpdateAccountUser(AccountUser_BE accountuser_BE)
+        /// <summary>
+        /// Update  account user details
+        /// </summary>
+        /// <param name="accountuserBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateAccountUser(AccountUser_BE accountuserBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[15] {accountuser_BE.UserID,
-                                                accountuser_BE.LoginID,
-                                                accountuser_BE.Password,
-                                                accountuser_BE.GroupID ,
-                                                accountuser_BE.AccountID,
-                                                accountuser_BE.StatusID ,
-                                                accountuser_BE.Salutation,
-                                                accountuser_BE.FirstName,
-                                                accountuser_BE.LastName,
-                                                accountuser_BE.EmailID,
-                                                accountuser_BE.Notification,
-                                                accountuser_BE.ModifyBy,
-                                                accountuser_BE.ModifyDate,
-                                                accountuser_BE.IsActive,
+                object[] param = new object[15] {accountuserBusinessEntity.UserID,
+                                                accountuserBusinessEntity.LoginID,
+                                                accountuserBusinessEntity.Password,
+                                                accountuserBusinessEntity.GroupID ,
+                                                accountuserBusinessEntity.AccountID,
+                                                accountuserBusinessEntity.StatusID ,
+                                                accountuserBusinessEntity.Salutation,
+                                                accountuserBusinessEntity.FirstName,
+                                                accountuserBusinessEntity.LastName,
+                                                accountuserBusinessEntity.EmailID,
+                                                accountuserBusinessEntity.Notification,
+                                                accountuserBusinessEntity.ModifyBy,
+                                                accountuserBusinessEntity.ModifyDate,
+                                                accountuserBusinessEntity.IsActive,
                                                 "U" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspAccountUserManagement", param, null));
@@ -113,13 +118,18 @@ namespace Admin_DAO
             return returnValue;
         }
 
-        public int DeleteAccountUser(AccountUser_BE accountuser_BE)
+        /// <summary>
+        /// Delete  account user details
+        /// </summary>
+        /// <param name="accountuserBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteAccountUser(AccountUser_BE accountuserBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[15] {accountuser_BE.UserID,
+                object[] param = new object[15] {accountuserBusinessEntity.UserID,
                                                 null,
                                                 null,
                                                 null,
@@ -145,18 +155,24 @@ namespace Admin_DAO
             catch (Exception ex) { HandleException(ex); }
             return returnValue;
         }
-    
+
+        /// <summary>
+        ///  Get account user details
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="accountuserID">account user ID</param>
+        /// <returns></returns>
         public int GetAccountUserByID(int accountID, int accountuserID)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAllAccountUser = new DataTable();
+                DataTable dataTableAllAccountUser = new DataTable();
                 object[] param = new object[3] { accountuserID, accountID, "I" };
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAllAccountUser);
+                ShiftDataTableToBEList(dataTableAllAccountUser);
                 returnValue = 1;
 
                 HandleWriteLogDAU("UspAccountUserSelect", param, new StackTrace(true));
@@ -166,17 +182,21 @@ namespace Admin_DAO
             return returnValue;
         }
 
+        /// <summary>
+        /// Get Account User List
+        /// </summary>
+        /// <returns></returns>
         public int GetAccountUserList()
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAllAccountUser = new DataTable();
+                DataTable dataTableAllAccountUser = new DataTable();
                 object[] param = new object[2] { null, "A" };
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAllAccountUser);
+                ShiftDataTableToBEList(dataTableAllAccountUser);
                 returnValue = 1;
 
                 //HandleWriteLogDAU("UspAccountUserSelect", param, new StackTrace(true));
@@ -186,44 +206,59 @@ namespace Admin_DAO
             return returnValue;
         }
 
+        /// <summary>
+        /// Get Account User By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="accountuserID">accountuser ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountUserByID(int accountID, int accountuserID)
         {
-            DataTable dtAllAccountUser = new DataTable();
+            DataTable dataTableAllAccountUser = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                
+
                 object[] param = new object[3] { accountuserID, accountID, "I" };
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspAccountUserSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllAccountUser;
+            return dataTableAllAccountUser;
         }
 
+        /// <summary>
+        /// Get Account User List by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountUserList(string accountID)
         {
-            DataTable dtAllAccountUser = new DataTable();
+            DataTable dataTableAllAccountUser = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { null, Convert.ToInt32(accountID), "A" };
-                dtAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspAccountUserSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllAccountUser;
+            return dataTableAllAccountUser;
         }
 
+        /// <summary>
+        /// Get Account User List
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtAccountUserListNew(string condition)
         {
-            DataTable dtAllAccountUser = new DataTable();
+            DataTable dataTableAllAccountUser = new DataTable();
             try
             {
 
@@ -248,65 +283,79 @@ namespace Admin_DAO
                             " WHERE [User].IsActive=1 AND [User].AccountID=" + condition +
                             " order by [User].AccountID Desc";
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet(sql, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet(sql, null).Tables[0];
 
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllAccountUser;
+            return dataTableAllAccountUser;
         }
 
+        /// <summary>
+        /// Get Participant List by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetParticipantList(string accountID)
         {
-            DataTable dtAllAccountUser = new DataTable();
+            DataTable dataTableAllAccountUser = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { null, Convert.ToInt32(accountID), "P" };
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet("UspAccountUserSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspAccountUserSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllAccountUser;
+            return dataTableAllAccountUser;
         }
 
-        #endregion 
+        #endregion
 
-        private void ShiftDataTableToBEList(DataTable dtAccountUser)
+        /// <summary>
+        /// Shift account user Data Table To BEList
+        /// </summary>
+        /// <param name="dataTableAccountUser"></param>
+        private void ShiftDataTableToBEList(DataTable dataTableAccountUser)
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            accountuser_BEList = new List<AccountUser_BE>();
+            accountuserBusinessEntityList = new List<AccountUser_BE>();
 
-            for (int recordCounter = 0; recordCounter < dtAccountUser.Rows.Count; recordCounter++)
+            for (int recordCounter = 0; recordCounter < dataTableAccountUser.Rows.Count; recordCounter++)
             {
                 AccountUser_BE accountuser_BE = new AccountUser_BE();
 
-                accountuser_BE.UserID = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["UserID"].ToString());
-                accountuser_BE.AccountID = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["AccountID"].ToString());
-                accountuser_BE.LoginID = dtAccountUser.Rows[recordCounter]["LoginID"].ToString();
-                accountuser_BE.Password = dtAccountUser.Rows[recordCounter]["Password"].ToString();
-                accountuser_BE.GroupID = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["GroupID"].ToString());
-                accountuser_BE.AccountID = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["AccountID"].ToString());
-                accountuser_BE.StatusID = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["StatusID"].ToString());
-                accountuser_BE.Salutation = dtAccountUser.Rows[recordCounter]["Salutation"].ToString();
-                accountuser_BE.FirstName = dtAccountUser.Rows[recordCounter]["FirstName"].ToString();
-                accountuser_BE.LastName = dtAccountUser.Rows[recordCounter]["LastName"].ToString();
-                accountuser_BE.EmailID = dtAccountUser.Rows[recordCounter]["EmailID"].ToString();
-                accountuser_BE.Notification = Convert.ToBoolean(dtAccountUser.Rows[recordCounter]["Notification"].ToString());
-                accountuser_BE.ModifyBy = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["ModifyBy"].ToString());
-                accountuser_BE.ModifyDate = Convert.ToDateTime(dtAccountUser.Rows[recordCounter]["ModifyDate"].ToString());
-                accountuser_BE.IsActive = Convert.ToInt32(dtAccountUser.Rows[recordCounter]["IsActive"].ToString());
-                accountuser_BE.Code = dtAccountUser.Rows[recordCounter]["Code"].ToString();
+                accountuser_BE.UserID = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["UserID"].ToString());
+                accountuser_BE.AccountID = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["AccountID"].ToString());
+                accountuser_BE.LoginID = dataTableAccountUser.Rows[recordCounter]["LoginID"].ToString();
+                accountuser_BE.Password = dataTableAccountUser.Rows[recordCounter]["Password"].ToString();
+                accountuser_BE.GroupID = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["GroupID"].ToString());
+                accountuser_BE.AccountID = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["AccountID"].ToString());
+                accountuser_BE.StatusID = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["StatusID"].ToString());
+                accountuser_BE.Salutation = dataTableAccountUser.Rows[recordCounter]["Salutation"].ToString();
+                accountuser_BE.FirstName = dataTableAccountUser.Rows[recordCounter]["FirstName"].ToString();
+                accountuser_BE.LastName = dataTableAccountUser.Rows[recordCounter]["LastName"].ToString();
+                accountuser_BE.EmailID = dataTableAccountUser.Rows[recordCounter]["EmailID"].ToString();
+                accountuser_BE.Notification = Convert.ToBoolean(dataTableAccountUser.Rows[recordCounter]["Notification"].ToString());
+                accountuser_BE.ModifyBy = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["ModifyBy"].ToString());
+                accountuser_BE.ModifyDate = Convert.ToDateTime(dataTableAccountUser.Rows[recordCounter]["ModifyDate"].ToString());
+                accountuser_BE.IsActive = Convert.ToInt32(dataTableAccountUser.Rows[recordCounter]["IsActive"].ToString());
+                accountuser_BE.Code = dataTableAccountUser.Rows[recordCounter]["Code"].ToString();
 
-                accountuser_BEList.Add(accountuser_BE);
+                accountuserBusinessEntityList.Add(accountuser_BE);
             }
 
             //HandleWriteLog("End", new StackTrace(true));
         }
 
+        /// <summary>
+        /// Get Account User List Count
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public int GetAccountUserListCount(string condition)
         {
             int accountuserCount = 0;
@@ -317,7 +366,7 @@ namespace Admin_DAO
                 //object[] param = new object[3] { null, Convert.ToInt32(accountID), "C" };
                 //accountuserCount = (int)cDataSrc.ExecuteScalar("UspAccountUserSelect", param, null);
 
-                string sql ="SELECT Count(Account.Code) " +
+                string sql = "SELECT Count(Account.Code) " +
                             " FROM   Account INNER JOIN" +
                             " [User] ON  Account.AccountID =  [User].AccountID INNER JOIN " +
                             " [Group] ON  [User].GroupID = [Group].GroupID" +
@@ -336,6 +385,10 @@ namespace Admin_DAO
             return accountuserCount;
         }
 
+        /// <summary>
+        /// Get max user count
+        /// </summary>
+        /// <returns></returns>
         public int MaxUser()
         {
             try
@@ -343,9 +396,6 @@ namespace Admin_DAO
                 HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[0] { };
-
-
-
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspUserMax", param, null));
 
@@ -360,43 +410,52 @@ namespace Admin_DAO
             return returnValue;
         }
 
-
+        /// <summary>
+        /// Get Account Admin
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtAccountAdmin(int accountID)
         {
-            DataTable dtAllAccountUser = new DataTable();
+            DataTable dataTableAllAccountUser = new DataTable();
             try
             {
-                
+
                 string sql = "SELECT FirstName + ' ' + LastName as FullName, EmailID" +
                             " FROM dbo.[User]" +
                             " WHERE (AccountID = " + accountID + ") AND (GroupID = 2)";
 
-                dtAllAccountUser = cDataSrc.ExecuteDataSet(sql, null).Tables[0];
+                dataTableAllAccountUser = cDataSrc.ExecuteDataSet(sql, null).Tables[0];
 
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllAccountUser;
+            return dataTableAllAccountUser;
         }
 
-        public int SaveManagerUser(AccountUser_BE managerDetails_BE)
+        /// <summary>
+        /// Insert Manager User
+        /// </summary>
+        /// <param name="managerDetailsBusinessEntity"></param>
+        /// <returns></returns>
+        public int SaveManagerUser(AccountUser_BE managerDetailsBusinessEntity)
         {
             int managerId = 0;
             try
             {
                 object[] newparam = new object[15] {null,
-                                                managerDetails_BE.LoginID,
-                                                managerDetails_BE.Password,
-                                                managerDetails_BE.GroupID,
-                                                managerDetails_BE.AccountID,
-                                                managerDetails_BE.StatusID,
-                                                managerDetails_BE.Salutation,
-                                                managerDetails_BE.FirstName,
-                                                managerDetails_BE.LastName,
-                                                managerDetails_BE.EmailID,
-                                                managerDetails_BE.Notification,
-                                                managerDetails_BE.ModifyBy,
-                                                managerDetails_BE.ModifyDate,
-                                                managerDetails_BE.IsActive,
+                                                managerDetailsBusinessEntity.LoginID,
+                                                managerDetailsBusinessEntity.Password,
+                                                managerDetailsBusinessEntity.GroupID,
+                                                managerDetailsBusinessEntity.AccountID,
+                                                managerDetailsBusinessEntity.StatusID,
+                                                managerDetailsBusinessEntity.Salutation,
+                                                managerDetailsBusinessEntity.FirstName,
+                                                managerDetailsBusinessEntity.LastName,
+                                                managerDetailsBusinessEntity.EmailID,
+                                                managerDetailsBusinessEntity.Notification,
+                                                managerDetailsBusinessEntity.ModifyBy,
+                                                managerDetailsBusinessEntity.ModifyDate,
+                                                managerDetailsBusinessEntity.IsActive,
                                                 "I" };
 
                 managerId = Convert.ToInt32(cDataSrc.ExecuteScalar("UspParticiantUserManagement", newparam, null));

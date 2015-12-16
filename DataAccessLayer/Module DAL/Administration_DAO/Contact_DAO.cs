@@ -10,14 +10,9 @@
 
 using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics;
 using System.Configuration;
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Administration_BE;
@@ -44,7 +39,7 @@ namespace Administration_DAO
 
         #region "Public Properties"
         //public Contact_BE[] Contact_BEArray { get; set; }
-        public List<Contact_BE> Contact_BEList { get; set; }
+        public List<Contact_BE> ContactBusinessEntityList { get; set; }
         #endregion
 
         #region Private Member Variables
@@ -57,40 +52,40 @@ namespace Administration_DAO
         /// Function to store DataTable data to BEArray object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllContact)
+        private void ShiftDataTableToBEList(DataTable dataTableAllContact)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                Contact_BEList = new List<Contact_BE>();
-                for (int recordCounter = 0; recordCounter < p_dtAllContact.Rows.Count; recordCounter++)
+                ContactBusinessEntityList = new List<Contact_BE>();
+                for (int recordCounter = 0; recordCounter < dataTableAllContact.Rows.Count; recordCounter++)
                 {
-                    Contact_BE contact_BE = new Contact_BE();
+                    Contact_BE contactBusinessEntity = new Contact_BE();
 
 
-                    contact_BE.ContactID = GetInt(p_dtAllContact.Rows[recordCounter]["ContactID"]);
-                    contact_BE.UserID = GetInt(p_dtAllContact.Rows[recordCounter]["UserID"]);
-                    contact_BE.BPNumber = Convert.ToString(p_dtAllContact.Rows[recordCounter]["BPNumber"]);
-                    contact_BE.SAPBPShipTo = Convert.ToString(p_dtAllContact.Rows[recordCounter]["SAPBPShipTo"]);
-                    contact_BE.Name = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Name"]);
-                    contact_BE.Email = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Email"]);
-                    contact_BE.Address1 = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Address1"]);
-                    contact_BE.Address2 = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Address2"]);
-                    contact_BE.City = Convert.ToString(p_dtAllContact.Rows[recordCounter]["City"]);
-                    contact_BE.State = Convert.ToString(p_dtAllContact.Rows[recordCounter]["State"]);
-                    contact_BE.CountryID = GetInt(p_dtAllContact.Rows[recordCounter]["CountryID"]);
-                    contact_BE.Zip = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Zip"]);
-                    contact_BE.TelNumber = Convert.ToString(p_dtAllContact.Rows[recordCounter]["TelNumber"]);
-                    contact_BE.FaxNumber = Convert.ToString(p_dtAllContact.Rows[recordCounter]["FaxNumber"]);
-                    contact_BE.IsActive = GetBool(p_dtAllContact.Rows[recordCounter]["IsActive"]);
-                    contact_BE.ContactTypeID = GetInt(p_dtAllContact.Rows[recordCounter]["ContactTypeID"]);
-                    contact_BE.IsDefault = GetBool(p_dtAllContact.Rows[recordCounter]["IsDefault"]);
+                    contactBusinessEntity.ContactID = GetInt(dataTableAllContact.Rows[recordCounter]["ContactID"]);
+                    contactBusinessEntity.UserID = GetInt(dataTableAllContact.Rows[recordCounter]["UserID"]);
+                    contactBusinessEntity.BPNumber = Convert.ToString(dataTableAllContact.Rows[recordCounter]["BPNumber"]);
+                    contactBusinessEntity.SAPBPShipTo = Convert.ToString(dataTableAllContact.Rows[recordCounter]["SAPBPShipTo"]);
+                    contactBusinessEntity.Name = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Name"]);
+                    contactBusinessEntity.Email = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Email"]);
+                    contactBusinessEntity.Address1 = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Address1"]);
+                    contactBusinessEntity.Address2 = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Address2"]);
+                    contactBusinessEntity.City = Convert.ToString(dataTableAllContact.Rows[recordCounter]["City"]);
+                    contactBusinessEntity.State = Convert.ToString(dataTableAllContact.Rows[recordCounter]["State"]);
+                    contactBusinessEntity.CountryID = GetInt(dataTableAllContact.Rows[recordCounter]["CountryID"]);
+                    contactBusinessEntity.Zip = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Zip"]);
+                    contactBusinessEntity.TelNumber = Convert.ToString(dataTableAllContact.Rows[recordCounter]["TelNumber"]);
+                    contactBusinessEntity.FaxNumber = Convert.ToString(dataTableAllContact.Rows[recordCounter]["FaxNumber"]);
+                    contactBusinessEntity.IsActive = GetBool(dataTableAllContact.Rows[recordCounter]["IsActive"]);
+                    contactBusinessEntity.ContactTypeID = GetInt(dataTableAllContact.Rows[recordCounter]["ContactTypeID"]);
+                    contactBusinessEntity.IsDefault = GetBool(dataTableAllContact.Rows[recordCounter]["IsDefault"]);
 
-                    contact_BE.PKCountry_BE.CountryID = GetInt(p_dtAllContact.Rows[recordCounter]["CountryID"]);
-                    contact_BE.PKCountry_BE.Code = Convert.ToString(p_dtAllContact.Rows[recordCounter]["Code"]);
-                    contact_BE.PKCountry_BE.Name = Convert.ToString(p_dtAllContact.Rows[recordCounter]["CountryName"]);
+                    contactBusinessEntity.PKCountry_BE.CountryID = GetInt(dataTableAllContact.Rows[recordCounter]["CountryID"]);
+                    contactBusinessEntity.PKCountry_BE.Code = Convert.ToString(dataTableAllContact.Rows[recordCounter]["Code"]);
+                    contactBusinessEntity.PKCountry_BE.Name = Convert.ToString(dataTableAllContact.Rows[recordCounter]["CountryName"]);
 
-                    Contact_BEList.Add(contact_BE);
+                    ContactBusinessEntityList.Add(contactBusinessEntity);
                 }
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -99,7 +94,7 @@ namespace Administration_DAO
                 HandleException(ex);
             }
         }
-        
+
         #endregion
 
         #region "Query Contact"
@@ -108,7 +103,7 @@ namespace Administration_DAO
         /// </summary>
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
-        public int GetContact(Contact_BE p_contactBE)
+        public int GetContact(Contact_BE contactBusinessEntity)
         {
             try
             {
@@ -116,9 +111,9 @@ namespace Administration_DAO
                 string sqlSelectCommand = string.Empty;
                 DataTable dtAllContact = new DataTable();
 
-                object[] param = new object[3] { p_contactBE.UserID,
-                                                GetString(p_contactBE.Name),
-                                                GetString(p_contactBE.Email)
+                object[] param = new object[3] { contactBusinessEntity.UserID,
+                                                GetString(contactBusinessEntity.Name),
+                                                GetString(contactBusinessEntity.Email)
                                             };
 
                 //CNameValueList cNameValueList = new CNameValueList();
@@ -144,29 +139,29 @@ namespace Administration_DAO
         /// Function to Insert records in Contact Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public void AddContact(Contact_BE p_contactBE)
+        public void AddContact(Contact_BE contactBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[18] {null,
-                    p_contactBE.UserID,
-                    GetString(p_contactBE.BPNumber),
-                    GetString(p_contactBE.SAPBPShipTo),
-                    GetString(p_contactBE.Name),
-                    GetString(p_contactBE.Email),
-                    GetString(p_contactBE.Address1),
-                    GetString(p_contactBE.Address2),
-                    GetString(p_contactBE.City),
-                    GetString(p_contactBE.State),
-                     p_contactBE.CountryID,
-                    GetString(p_contactBE.Zip),
-                    GetString(p_contactBE.TelNumber),
-                    GetString(p_contactBE.FaxNumber),
-                    GetBool(p_contactBE.IsActive),                    
-                   p_contactBE.ContactTypeID,
-                    GetBool(p_contactBE.IsDefault),
+                    contactBusinessEntity.UserID,
+                    GetString(contactBusinessEntity.BPNumber),
+                    GetString(contactBusinessEntity.SAPBPShipTo),
+                    GetString(contactBusinessEntity.Name),
+                    GetString(contactBusinessEntity.Email),
+                    GetString(contactBusinessEntity.Address1),
+                    GetString(contactBusinessEntity.Address2),
+                    GetString(contactBusinessEntity.City),
+                    GetString(contactBusinessEntity.State),
+                     contactBusinessEntity.CountryID,
+                    GetString(contactBusinessEntity.Zip),
+                    GetString(contactBusinessEntity.TelNumber),
+                    GetString(contactBusinessEntity.FaxNumber),
+                    GetBool(contactBusinessEntity.IsActive),                    
+                   contactBusinessEntity.ContactTypeID,
+                    GetBool(contactBusinessEntity.IsDefault),
                     'I'                };
 
                 //CNameValueList cNameValueList = new CNameValueList();
@@ -197,18 +192,21 @@ namespace Administration_DAO
         }
 
         /// <summary>
-        /// 
+        /// insert user contact
         /// </summary>
-        /// <param name="p_contactBEList"></param>
+        /// <param name="contactBusinessEntityList"></param>
         /// <param name="p_userID"></param>
-        public void AddContact(List<Contact_BE> p_contactBEList, int p_userID) {
-            try {
+        public void AddContact(List<Contact_BE> contactBusinessEntityList, int p_userID)
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
 
                 string flag = string.Empty;
-                int userID,contactID;
+                int userID, contactID;
 
-                foreach (Contact_BE contact_BE in p_contactBEList) {
+                foreach (Contact_BE contact_BE in contactBusinessEntityList)
+                {
                     flag = contact_BE.Status == Contact_BE.statusType.New ? "I" : contact_BE.Status == Contact_BE.statusType.Delete ? "D" : "U";
                     userID = contact_BE.UserID.HasValue && contact_BE.UserID.Value != 0 ? contact_BE.UserID.Value : p_userID;
                     contactID = contact_BE.ContactID.HasValue ? contact_BE.ContactID.Value : 0;
@@ -255,7 +253,7 @@ namespace Administration_DAO
                     //cNameValueList.Add("@bitIsActive", GetBool(contact_BE.IsActive));
                     //cNameValueList.Add("@intContactTypeID", contact_BE.ContactTypeID.ToString().Trim());
                     //cNameValueList.Add("@bitIsDefault", GetBool(contact_BE.IsDefault));
-                   // cNameValueList.Add("@chvFlag", flag);
+                    // cNameValueList.Add("@chvFlag", flag);
 
 
                     int iRes = cDataSrc.ExecuteNonQuery("UspContactMaintenance", param, null);
@@ -264,7 +262,7 @@ namespace Administration_DAO
 
                 cDataSrc = null;
 
-                
+
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
@@ -274,35 +272,35 @@ namespace Administration_DAO
         /// Function to Update records in Contact Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>        
-        public void UpdateContact(Contact_BE p_contactBE)
+        public void UpdateContact(Contact_BE contactBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                
-                object[] param = new object[18] {  p_contactBE.ContactID.ToString(),
-                    p_contactBE.UserID,
-                    GetString(p_contactBE.BPNumber),
-                    GetString(p_contactBE.SAPBPShipTo),
-                    GetString(p_contactBE.Name),
-                    GetString(p_contactBE.Email),
-                    GetString(p_contactBE.Address1),
-                    GetString(p_contactBE.Address2),
-                    GetString(p_contactBE.City),
-                    GetString(p_contactBE.State),
-                    p_contactBE.CountryID,
-                    GetString(p_contactBE.Zip),
-                    GetString(p_contactBE.TelNumber),
-                    GetString(p_contactBE.FaxNumber),
+
+                object[] param = new object[18] {  contactBusinessEntity.ContactID.ToString(),
+                    contactBusinessEntity.UserID,
+                    GetString(contactBusinessEntity.BPNumber),
+                    GetString(contactBusinessEntity.SAPBPShipTo),
+                    GetString(contactBusinessEntity.Name),
+                    GetString(contactBusinessEntity.Email),
+                    GetString(contactBusinessEntity.Address1),
+                    GetString(contactBusinessEntity.Address2),
+                    GetString(contactBusinessEntity.City),
+                    GetString(contactBusinessEntity.State),
+                    contactBusinessEntity.CountryID,
+                    GetString(contactBusinessEntity.Zip),
+                    GetString(contactBusinessEntity.TelNumber),
+                    GetString(contactBusinessEntity.FaxNumber),
                     true,
-                    p_contactBE.ContactTypeID,
-                    GetBool(p_contactBE.IsDefault),
+                    contactBusinessEntity.ContactTypeID,
+                    GetBool(contactBusinessEntity.IsDefault),
                     'U'
                 };
 
                 cDataSrc.ExecuteNonQuery("UspContactMaintenance", param, null);
                 cDataSrc = null;
-                HandleWriteLogDAU("UspContactMaintenance ",param, new StackTrace(true));
+                HandleWriteLogDAU("UspContactMaintenance ", param, new StackTrace(true));
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
@@ -312,13 +310,13 @@ namespace Administration_DAO
         /// Function to Delete records in Contact Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>        
-        public void DeleteContact(Contact_BE p_contactBE)
+        public void DeleteContact(Contact_BE contactBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                
-                object[] param = new object[18] { p_contactBE.ContactID.ToString(),
+
+                object[] param = new object[18] { contactBusinessEntity.ContactID.ToString(),
                                                     null,
                                                     null,
                                                     null,
@@ -337,8 +335,8 @@ namespace Administration_DAO
                                                     null,
                                                     'D' };
                 CNameValueList cNameValueList = new CNameValueList();
-                cNameValueList.Add("@intContactID", p_contactBE.ContactID);
-                cNameValueList.Add("@chvFlag",'D');
+                cNameValueList.Add("@intContactID", contactBusinessEntity.ContactID);
+                cNameValueList.Add("@chvFlag", 'D');
                 cDataSrc.ExecuteNonQuery("UspContactMaintenance", cNameValueList, null);
                 cDataSrc = null;
                 HandleWriteLogDAU("UspContactMaintenance ", cNameValueList, new StackTrace(true));

@@ -11,20 +11,17 @@
 using System;
 using System.Data;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics;
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Administration_BE;
 using DatabaseAccessUtilities;
 
-namespace Administration_DAO {
-    public class GroupRight_DAO : DAO_Base {
+namespace Administration_DAO
+{
+    public class GroupRight_DAO : DAO_Base
+    {
 
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
@@ -33,14 +30,15 @@ namespace Administration_DAO {
         /// <summary>
         /// Public Constructor
         /// </summary>
-        public GroupRight_DAO() {
+        public GroupRight_DAO()
+        {
             HandleWriteLog("Start", new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
         }
         #endregion
 
         #region "Public Properties"
-        public List<GroupRight_BE> GroupRight_BEList { get; set; }
+        public List<GroupRight_BE> GroupRightBusinessEntityList { get; set; }
         #endregion
 
         #region Private Member Variables
@@ -53,39 +51,42 @@ namespace Administration_DAO {
         /// Function to store DataTable data to GroupRight_BE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllGroupRight) {
+        private void ShiftDataTableToBEList(DataTable dataTableAllGroupRight)
+        {
             HandleWriteLog("Start", new StackTrace(true));
-            GroupRight_BEList = new List<GroupRight_BE>();
-            for (int recordCounter = 0; recordCounter < p_dtAllGroupRight.Rows.Count; recordCounter++) {
-                GroupRight_BE groupRight_BE = new GroupRight_BE();
+            GroupRightBusinessEntityList = new List<GroupRight_BE>();
 
-                groupRight_BE.GroupRightID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["GroupRightID"]);
-                groupRight_BE.GroupID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["GroupID"]);
-                groupRight_BE.MenuID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["MenuID"]);
-                groupRight_BE.AccessRights = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["AccessRights"]);
-                groupRight_BE.ADEVFlag = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
-                groupRight_BE.ParentId=GetInt(p_dtAllGroupRight.Rows[recordCounter]["ParentID"]);
+            for (int recordCounter = 0; recordCounter < dataTableAllGroupRight.Rows.Count; recordCounter++)
+            {
+                GroupRight_BE groupRightBusinessEntity = new GroupRight_BE();
 
-
-                groupRight_BE.FKGroup_BE.GroupID = Convert.ToInt32(p_dtAllGroupRight.Rows[recordCounter]["GroupID"]);
-                groupRight_BE.FKGroup_BE.GroupName = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["GroupName"]);
-                groupRight_BE.FKGroup_BE.Description = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Description"]);
-                groupRight_BE.FKGroup_BE.WelcomeText = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["WelcomeText"]);
-                groupRight_BE.FKGroup_BE.NewsText = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["NewsText"]);
-                groupRight_BE.FKGroup_BE.IsActive = GetBool(p_dtAllGroupRight.Rows[recordCounter]["IsActive"]);
-                groupRight_BE.FKGroup_BE.CreatedDate = GetDateTime(p_dtAllGroupRight.Rows[recordCounter]["CreatedDate"]);
+                groupRightBusinessEntity.GroupRightID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["GroupRightID"]);
+                groupRightBusinessEntity.GroupID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["GroupID"]);
+                groupRightBusinessEntity.MenuID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["MenuID"]);
+                groupRightBusinessEntity.AccessRights = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["AccessRights"]);
+                groupRightBusinessEntity.ADEVFlag = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
+                groupRightBusinessEntity.ParentId = GetInt(dataTableAllGroupRight.Rows[recordCounter]["ParentID"]);
 
 
-                groupRight_BE.FKMenuMaster_BE.MenuID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["MenuID"]);
-                groupRight_BE.FKMenuMaster_BE.Name = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Name"]);
-                groupRight_BE.FKMenuMaster_BE.Page = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Page"]);
-                groupRight_BE.FKMenuMaster_BE.LinkedPage = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["LinkedPage"]);
-                groupRight_BE.FKMenuMaster_BE.ParentID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["ParentID"]);
-                groupRight_BE.FKMenuMaster_BE.Visibility = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Visibility"]);
-                groupRight_BE.FKMenuMaster_BE.IsActive = GetBool(p_dtAllGroupRight.Rows[recordCounter]["IsActive"]);
-                groupRight_BE.FKMenuMaster_BE.SortOrder = GetInt(p_dtAllGroupRight.Rows[recordCounter]["SortOrder"]);
-                groupRight_BE.FKMenuMaster_BE.ADEVFlag = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
-                GroupRight_BEList.Add(groupRight_BE);
+                groupRightBusinessEntity.FKGroup_BE.GroupID = Convert.ToInt32(dataTableAllGroupRight.Rows[recordCounter]["GroupID"]);
+                groupRightBusinessEntity.FKGroup_BE.GroupName = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["GroupName"]);
+                groupRightBusinessEntity.FKGroup_BE.Description = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Description"]);
+                groupRightBusinessEntity.FKGroup_BE.WelcomeText = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["WelcomeText"]);
+                groupRightBusinessEntity.FKGroup_BE.NewsText = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["NewsText"]);
+                groupRightBusinessEntity.FKGroup_BE.IsActive = GetBool(dataTableAllGroupRight.Rows[recordCounter]["IsActive"]);
+                groupRightBusinessEntity.FKGroup_BE.CreatedDate = GetDateTime(dataTableAllGroupRight.Rows[recordCounter]["CreatedDate"]);
+
+
+                groupRightBusinessEntity.FKMenuMaster_BE.MenuID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["MenuID"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Name = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Name"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Page = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Page"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.LinkedPage = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["LinkedPage"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.ParentID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["ParentID"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Visibility = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Visibility"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.IsActive = GetBool(dataTableAllGroupRight.Rows[recordCounter]["IsActive"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.SortOrder = GetInt(dataTableAllGroupRight.Rows[recordCounter]["SortOrder"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.ADEVFlag = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
+                GroupRightBusinessEntityList.Add(groupRightBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -171,17 +172,15 @@ namespace Administration_DAO {
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
         /// 
-
-
         public DataTable get_parentid()
         {
-            DataTable dtAllGroupRight=null;
+            DataTable dataTableAllGroupRight = null;
 
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlDeleteCommand = string.Empty;
-                dtAllGroupRight = cDataSrc.ExecuteDataSet("Usp_get_ParentID", null).Tables[0];
+                dataTableAllGroupRight = cDataSrc.ExecuteDataSet("Usp_get_ParentID", null).Tables[0];
                 cDataSrc = null;
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -189,19 +188,23 @@ namespace Administration_DAO {
             {
                 HandleException(ex);
             }
-            return dtAllGroupRight;
+            return dataTableAllGroupRight;
 
 
         }
 
-
-        public int GetGroupAcessRights(GroupRight_BE p_GroupRightBE)
+        /// <summary>
+        /// Get Group Acess Rights
+        /// </summary>
+        /// <param name="groupRightBusinessEntity"></param>
+        /// <returns></returns>
+        public int GetGroupAcessRights(GroupRight_BE groupRightBusinessEntity)
         {
             //try {
             HandleWriteLog("Start", new StackTrace(true));
-            DataTable dtAllGroupRight = new DataTable();
-            object[] param = new object[1] { p_GroupRightBE.GroupID};
-            dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupAcessRights", param, null).Tables[0];
+            DataTable dataTableAllGroupRight = new DataTable();
+            object[] param = new object[1] { groupRightBusinessEntity.GroupID };
+            dataTableAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupAcessRights", param, null).Tables[0];
 
             //CNameValueList cNameValueList = null;
             //cNameValueList = new CNameValueList();
@@ -209,7 +212,7 @@ namespace Administration_DAO {
 
             //dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", cNameValueList, null).Tables[0];
 
-            ShiftDataTableToBEList(dtAllGroupRight);
+            ShiftDataTableToBEList(dataTableAllGroupRight);
             m_returnValue = 1;
             HandleWriteLogDAU("UspGetGroupAcessRights ", param, new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
@@ -218,35 +221,18 @@ namespace Administration_DAO {
             return m_returnValue;
         }
 
-
-        public int GetGroupRight(GroupRight_BE p_GroupRightBE) {
-            //try {
-                HandleWriteLog("Start", new StackTrace(true));               
-                DataTable dtAllGroupRight = new DataTable();                                
-                object[] param = new object[1] { p_GroupRightBE.GroupID};
-                dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", param, null).Tables[0];
-
-                //CNameValueList cNameValueList = null;
-                //cNameValueList = new CNameValueList();
-                //cNameValueList.Add("@intGroupID", p_GroupRightBE.GroupID);
-
-                //dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", cNameValueList, null).Tables[0];
-
-                ShiftDataTableToBEList(dtAllGroupRight);
-                m_returnValue = 1;
-                HandleWriteLogDAU("UspGetGroupRights ", param, new StackTrace(true));
-                HandleWriteLog("End", new StackTrace(true));
-            //}
-            //catch (Exception ex) { HandleException(ex); }
-            return m_returnValue;
-        }
-        public int GetGroupRightFeedback(GroupRight_BE p_GroupRightBE)
+        /// <summary>
+        /// Get Group Right
+        /// </summary>
+        /// <param name="groupRightBusinessEntity"></param>
+        /// <returns></returns>
+        public int GetGroupRight(GroupRight_BE groupRightBusinessEntity)
         {
             //try {
             HandleWriteLog("Start", new StackTrace(true));
-            DataTable dtAllGroupRight = new DataTable();
-            object[] param = new object[1] { p_GroupRightBE.GroupID };
-            dtAllGroupRight = cDataSrc.ExecuteDataSet("Feedback_UspGetGroupRights", param, null).Tables[0];
+            DataTable dataTableAllGroupRight = new DataTable();
+            object[] param = new object[1] { groupRightBusinessEntity.GroupID };
+            dataTableAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", param, null).Tables[0];
 
             //CNameValueList cNameValueList = null;
             //cNameValueList = new CNameValueList();
@@ -254,7 +240,35 @@ namespace Administration_DAO {
 
             //dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", cNameValueList, null).Tables[0];
 
-            ShiftDataTableToBEList(dtAllGroupRight);
+            ShiftDataTableToBEList(dataTableAllGroupRight);
+            m_returnValue = 1;
+            HandleWriteLogDAU("UspGetGroupRights ", param, new StackTrace(true));
+            HandleWriteLog("End", new StackTrace(true));
+            //}
+            //catch (Exception ex) { HandleException(ex); }
+            return m_returnValue;
+        }
+
+        /// <summary>
+        /// Get Group Right Feedback
+        /// </summary>
+        /// <param name="groupRightBusinessEntity"></param>
+        /// <returns></returns>
+        public int GetGroupRightFeedback(GroupRight_BE groupRightBusinessEntity)
+        {
+            //try {
+            HandleWriteLog("Start", new StackTrace(true));
+            DataTable dataTableAllGroupRight = new DataTable();
+            object[] param = new object[1] { groupRightBusinessEntity.GroupID };
+            dataTableAllGroupRight = cDataSrc.ExecuteDataSet("Feedback_UspGetGroupRights", param, null).Tables[0];
+
+            //CNameValueList cNameValueList = null;
+            //cNameValueList = new CNameValueList();
+            //cNameValueList.Add("@intGroupID", p_GroupRightBE.GroupID);
+
+            //dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", cNameValueList, null).Tables[0];
+
+            ShiftDataTableToBEList(dataTableAllGroupRight);
             m_returnValue = 1;
             HandleWriteLogDAU("UspGetGroupRights ", param, new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
@@ -264,27 +278,22 @@ namespace Administration_DAO {
         }
         #endregion
 
-
-
-       
-
-
-
-
         #region Public Methods
 
         /// <summary>
         /// Function to insert records in GroupRights Entity to add group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void AddGroupRight(GroupRight_BE p_GroupRightBE) {
-            try {
+        public void AddGroupRight(GroupRight_BE groupRightBusinessEntity)
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlInsertCommand = string.Empty;
                 sqlInsertCommand = "INSERT INTO GroupRight (GroupRights.MenuID, GroupRights.AccessRights) VALUES (";
-                sqlInsertCommand = sqlInsertCommand + p_GroupRightBE.MenuID.ToString() + ", '" + p_GroupRightBE.AccessRights + "')";
+                sqlInsertCommand = sqlInsertCommand + groupRightBusinessEntity.MenuID.ToString() + ", '" + groupRightBusinessEntity.AccessRights + "')";
                 cDataSrc.ExecuteNonQuery(sqlInsertCommand);
-                cDataSrc = null;              
+                cDataSrc = null;
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
@@ -294,14 +303,16 @@ namespace Administration_DAO {
         /// Function to insert records in GroupRights Entity to add group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void AddGroupRight(List<GroupRight_BE> p_GroupRightBEList, IDbTransaction transaction)
+        public void AddGroupRight(List<GroupRight_BE> groupRightBusinessEntityList, IDbTransaction transaction)
         {
-            try {
-                HandleWriteLog("Start", new StackTrace(true));                
+            try
+            {
+                HandleWriteLog("Start", new StackTrace(true));
                 int groupID = 0;
                 string menuIDs = string.Empty;
                 string accessRights = string.Empty;
-                foreach (GroupRight_BE GroupRight_BE in p_GroupRightBEList) {
+                foreach (GroupRight_BE GroupRight_BE in groupRightBusinessEntityList)
+                {
                     groupID = Convert.ToInt32(GroupRight_BE.GroupID);
                     menuIDs += Convert.ToString(GroupRight_BE.MenuID) + ",";
                     accessRights += GroupRight_BE.AccessRights != null && GroupRight_BE.AccessRights != string.Empty ? Convert.ToString(GroupRight_BE.AccessRights) + "," : "-,";
@@ -309,7 +320,7 @@ namespace Administration_DAO {
                 }
                 //Trim , from the end of the texts
                 menuIDs = menuIDs.TrimEnd(',');
-               
+
                 accessRights = accessRights.TrimEnd(',');
 
                 //to set parameters
@@ -336,11 +347,13 @@ namespace Administration_DAO {
         /// Function to update records in GroupRights Entity to update group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void UpdateGroupRight(GroupRight_BE p_GroupRightBE) {
-            try {
+        public void UpdateGroupRight(GroupRight_BE groupRightBusinessEntity)
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlUpdateCommand = string.Empty;
-                sqlUpdateCommand = "UPDATE GroupRight SET MenuID = " + p_GroupRightBE.MenuID.ToString() + " , AccessRights = '" + p_GroupRightBE.AccessRights + "'";
+                sqlUpdateCommand = "UPDATE GroupRight SET MenuID = " + groupRightBusinessEntity.MenuID.ToString() + " , AccessRights = '" + groupRightBusinessEntity.AccessRights + "'";
                 //sqlUpdateCommand = sqlUpdateCommand + GenerateWhereClause(p_GroupRight_BE);
                 cDataSrc.ExecuteNonQuery(sqlUpdateCommand);
                 cDataSrc = null;
@@ -353,11 +366,13 @@ namespace Administration_DAO {
         /// Function to delete records in GroupRights Entity to remove group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void DeleteGroupRight(GroupRight_BE p_GroupRightBE) {
-            try {
+        public void DeleteGroupRight(GroupRight_BE groupRightBusinessEntity)
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlDeleteCommand = string.Empty;
-                sqlDeleteCommand = "DELETE FROM GroupRight WHERE GroupRightID = " + p_GroupRightBE.GroupRightID.ToString();
+                sqlDeleteCommand = "DELETE FROM GroupRight WHERE GroupRightID = " + groupRightBusinessEntity.GroupRightID.ToString();
                 cDataSrc.ExecuteNonQuery(sqlDeleteCommand);
                 cDataSrc = null;
                 HandleWriteLog("End", new StackTrace(true));
@@ -366,31 +381,6 @@ namespace Administration_DAO {
         }
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public class Survey_GroupRight_DAO : DAO_Base
     {
@@ -410,7 +400,7 @@ namespace Administration_DAO {
         #endregion
 
         #region "Public Properties"
-        public List<Survey_GroupRight_BE> GroupRight_BEList { get; set; }
+        public List<Survey_GroupRight_BE> GroupRightBusinessEntityList { get; set; }
         #endregion
 
         #region Private Member Variables
@@ -423,44 +413,45 @@ namespace Administration_DAO {
         /// Function to store DataTable data to GroupRight_BE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllGroupRight)
+        private void ShiftDataTableToBEList(DataTable dataTableAllGroupRight)
         {
             HandleWriteLog("Start", new StackTrace(true));
-            GroupRight_BEList = new List<Survey_GroupRight_BE>();
-            for (int recordCounter = 0; recordCounter < p_dtAllGroupRight.Rows.Count; recordCounter++)
+            GroupRightBusinessEntityList = new List<Survey_GroupRight_BE>();
+
+            for (int recordCounter = 0; recordCounter < dataTableAllGroupRight.Rows.Count; recordCounter++)
             {
-                Survey_GroupRight_BE groupRight_BE = new Survey_GroupRight_BE();
+                Survey_GroupRight_BE groupRightBusinessEntity = new Survey_GroupRight_BE();
 
-                groupRight_BE.GroupRightID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["GroupRightID"]);
-                groupRight_BE.GroupID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["GroupID"]);
-                groupRight_BE.MenuID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["MenuID"]);
-                groupRight_BE.AccessRights = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["AccessRights"]);
+                groupRightBusinessEntity.GroupRightID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["GroupRightID"]);
+                groupRightBusinessEntity.GroupID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["GroupID"]);
+                groupRightBusinessEntity.MenuID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["MenuID"]);
+                groupRightBusinessEntity.AccessRights = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["AccessRights"]);
 
 
-                groupRight_BE.FKGroup_BE.GroupID = Convert.ToInt32(p_dtAllGroupRight.Rows[recordCounter]["GroupID"]);
-                groupRight_BE.FKGroup_BE.GroupName = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["GroupName"]);
-                groupRight_BE.FKGroup_BE.Description = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Description"]);
-                groupRight_BE.FKGroup_BE.WelcomeText = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["WelcomeText"]);
-                groupRight_BE.FKGroup_BE.NewsText = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["NewsText"]);
-                groupRight_BE.FKGroup_BE.IsActive = GetBool(p_dtAllGroupRight.Rows[recordCounter]["IsActive"]);
-                groupRight_BE.FKGroup_BE.CreatedDate = GetDateTime(p_dtAllGroupRight.Rows[recordCounter]["CreatedDate"]);
-                groupRight_BE.FKGroup_BE.ModifiedDate = GetDateTime(p_dtAllGroupRight.Rows[recordCounter]["ModifiedDate"]);
-                
-                groupRight_BE.FKMenuMaster_BE.MenuID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["MenuID"]);
-                groupRight_BE.FKMenuMaster_BE.Name = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Name"]);
-                groupRight_BE.FKMenuMaster_BE.Page = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Page"]);
-                groupRight_BE.FKMenuMaster_BE.LinkedPage = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["LinkedPage"]);
-                groupRight_BE.FKMenuMaster_BE.ParentID = GetInt(p_dtAllGroupRight.Rows[recordCounter]["ParentID"]);
-                groupRight_BE.FKMenuMaster_BE.Visibility = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["Visibility"]);
-                groupRight_BE.FKMenuMaster_BE.IsActive = GetBool(p_dtAllGroupRight.Rows[recordCounter]["IsActive"]);
-                groupRight_BE.FKMenuMaster_BE.SortOrder = GetInt(p_dtAllGroupRight.Rows[recordCounter]["SortOrder"]);
-                groupRight_BE.FKMenuMaster_BE.ADEVFlag = Convert.ToString(p_dtAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
-                GroupRight_BEList.Add(groupRight_BE);
+                groupRightBusinessEntity.FKGroup_BE.GroupID = Convert.ToInt32(dataTableAllGroupRight.Rows[recordCounter]["GroupID"]);
+                groupRightBusinessEntity.FKGroup_BE.GroupName = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["GroupName"]);
+                groupRightBusinessEntity.FKGroup_BE.Description = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Description"]);
+                groupRightBusinessEntity.FKGroup_BE.WelcomeText = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["WelcomeText"]);
+                groupRightBusinessEntity.FKGroup_BE.NewsText = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["NewsText"]);
+                groupRightBusinessEntity.FKGroup_BE.IsActive = GetBool(dataTableAllGroupRight.Rows[recordCounter]["IsActive"]);
+                groupRightBusinessEntity.FKGroup_BE.CreatedDate = GetDateTime(dataTableAllGroupRight.Rows[recordCounter]["CreatedDate"]);
+                groupRightBusinessEntity.FKGroup_BE.ModifiedDate = GetDateTime(dataTableAllGroupRight.Rows[recordCounter]["ModifiedDate"]);
+
+                groupRightBusinessEntity.FKMenuMaster_BE.MenuID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["MenuID"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Name = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Name"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Page = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Page"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.LinkedPage = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["LinkedPage"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.ParentID = GetInt(dataTableAllGroupRight.Rows[recordCounter]["ParentID"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.Visibility = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["Visibility"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.IsActive = GetBool(dataTableAllGroupRight.Rows[recordCounter]["IsActive"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.SortOrder = GetInt(dataTableAllGroupRight.Rows[recordCounter]["SortOrder"]);
+                groupRightBusinessEntity.FKMenuMaster_BE.ADEVFlag = Convert.ToString(dataTableAllGroupRight.Rows[recordCounter]["ADEVFlag"]);
+                GroupRightBusinessEntityList.Add(groupRightBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
 
-       
+
 
         #endregion
 
@@ -471,13 +462,13 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
-        public int GetGroupRight(Survey_GroupRight_BE p_GroupRightBE)
+        public int GetGroupRight(Survey_GroupRight_BE groupRightBusinessEntity)
         {
             //try {
             HandleWriteLog("Start", new StackTrace(true));
-            DataTable dtAllGroupRight = new DataTable();
-            object[] param = new object[1] { p_GroupRightBE.GroupID };
-            dtAllGroupRight = cDataSrc.ExecuteDataSet("Survey_UspGetGroupRights", param, null).Tables[0];
+            DataTable dataTableAllGroupRight = new DataTable();
+            object[] param = new object[1] { groupRightBusinessEntity.GroupID };
+            dataTableAllGroupRight = cDataSrc.ExecuteDataSet("Survey_UspGetGroupRights", param, null).Tables[0];
 
             //CNameValueList cNameValueList = null;
             //cNameValueList = new CNameValueList();
@@ -485,7 +476,7 @@ namespace Administration_DAO {
 
             //dtAllGroupRight = cDataSrc.ExecuteDataSet("UspGetGroupRights", cNameValueList, null).Tables[0];
 
-            ShiftDataTableToBEList(dtAllGroupRight);
+            ShiftDataTableToBEList(dataTableAllGroupRight);
             m_returnValue = 1;
             HandleWriteLogDAU("Survey_UspGetGroupRights ", param, new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
@@ -495,25 +486,20 @@ namespace Administration_DAO {
         }
         #endregion
 
-
-
-       
-
-
         #region Public Methods
 
         /// <summary>
         /// Function to insert records in GroupRights Entity to add group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void AddGroupRight(Survey_GroupRight_BE p_GroupRightBE)
+        public void AddGroupRight(Survey_GroupRight_BE groupRightBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlInsertCommand = string.Empty;
                 sqlInsertCommand = "INSERT INTO Survey_GroupRights (Survey_GroupRights.MenuID, Survey_GroupRights.AccessRights) VALUES (";
-                sqlInsertCommand = sqlInsertCommand + p_GroupRightBE.MenuID.ToString() + ", '" + p_GroupRightBE.AccessRights + "')";
+                sqlInsertCommand = sqlInsertCommand + groupRightBusinessEntity.MenuID.ToString() + ", '" + groupRightBusinessEntity.AccessRights + "')";
                 cDataSrc.ExecuteNonQuery(sqlInsertCommand);
                 cDataSrc = null;
                 HandleWriteLog("End", new StackTrace(true));
@@ -525,7 +511,7 @@ namespace Administration_DAO {
         /// Function to insert records in GroupRights Entity to add group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void AddGroupRight(List<Survey_GroupRight_BE> p_GroupRightBEList, IDbTransaction transaction)
+        public void AddGroupRight(List<Survey_GroupRight_BE> groupRightBusinessEntityList, IDbTransaction transaction)
         {
             try
             {
@@ -533,11 +519,11 @@ namespace Administration_DAO {
                 int groupID = 0;
                 string menuIDs = string.Empty;
                 string accessRights = string.Empty;
-                foreach (Survey_GroupRight_BE GroupRight_BE in p_GroupRightBEList)
+                foreach (Survey_GroupRight_BE groupRightBusinessEntity in groupRightBusinessEntityList)
                 {
-                    groupID = Convert.ToInt32(GroupRight_BE.GroupID);
-                    menuIDs += Convert.ToString(GroupRight_BE.MenuID) + ",";
-                    accessRights += GroupRight_BE.AccessRights != null && GroupRight_BE.AccessRights != string.Empty ? Convert.ToString(GroupRight_BE.AccessRights) + "," : "-,";
+                    groupID = Convert.ToInt32(groupRightBusinessEntity.GroupID);
+                    menuIDs += Convert.ToString(groupRightBusinessEntity.MenuID) + ",";
+                    accessRights += groupRightBusinessEntity.AccessRights != null && groupRightBusinessEntity.AccessRights != string.Empty ? Convert.ToString(groupRightBusinessEntity.AccessRights) + "," : "-,";
                     //accessRights += Convert.ToString(GroupRight_BE.AccessRights)+",";
                 }
                 //Trim , from the end of the texts
@@ -553,7 +539,7 @@ namespace Administration_DAO {
                 //cNameValueList.Add("@chvMenuID", menuIDs);
                 //cNameValueList.Add("@chvAccessRights", accessRights);
 
-                int iRes = cDataSrc.ExecuteNonQuery("Survey_UspGroupRights", param, transaction);
+                int result = cDataSrc.ExecuteNonQuery("Survey_UspGroupRights", param, transaction);
 
                 //int iRes = cDataSrc.ExecuteNonQuery("UspGroupRights", cNameValueList, transaction);
 
@@ -568,13 +554,13 @@ namespace Administration_DAO {
         /// Function to update records in GroupRights Entity to update group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void UpdateGroupRight(Survey_GroupRight_BE p_GroupRightBE)
+        public void UpdateGroupRight(Survey_GroupRight_BE groupRightBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlUpdateCommand = string.Empty;
-                sqlUpdateCommand = "UPDATE Survey_GroupRights SET MenuID = " + p_GroupRightBE.MenuID.ToString() + " , AccessRights = '" + p_GroupRightBE.AccessRights + "'";
+                sqlUpdateCommand = "UPDATE Survey_GroupRights SET MenuID = " + groupRightBusinessEntity.MenuID.ToString() + " , AccessRights = '" + groupRightBusinessEntity.AccessRights + "'";
                 //sqlUpdateCommand = sqlUpdateCommand + GenerateWhereClause(p_GroupRight_BE);
                 cDataSrc.ExecuteNonQuery(sqlUpdateCommand);
                 cDataSrc = null;
@@ -587,13 +573,13 @@ namespace Administration_DAO {
         /// Function to delete records in GroupRights Entity to remove group rights
         /// </summary>
         /// <param name="p_GroupRight_BEList"></param>
-        public void DeleteGroupRight(Survey_GroupRight_BE p_GroupRightBE)
+        public void DeleteGroupRight(Survey_GroupRight_BE groupRightBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlDeleteCommand = string.Empty;
-                sqlDeleteCommand = "DELETE FROM Survey_GroupRights WHERE GroupRightID = " + p_GroupRightBE.GroupRightID.ToString();
+                sqlDeleteCommand = "DELETE FROM Survey_GroupRights WHERE GroupRightID = " + groupRightBusinessEntity.GroupRightID.ToString();
                 cDataSrc.ExecuteNonQuery(sqlDeleteCommand);
                 cDataSrc = null;
                 HandleWriteLog("End", new StackTrace(true));
@@ -602,18 +588,4 @@ namespace Administration_DAO {
         }
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

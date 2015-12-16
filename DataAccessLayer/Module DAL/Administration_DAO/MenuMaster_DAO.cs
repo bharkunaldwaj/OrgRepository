@@ -11,19 +11,17 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
 using System.Data;
-using System.Data.SqlClient;
 using System.Diagnostics;
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Administration_BE;
 using DatabaseAccessUtilities;
 
-namespace Administration_DAO {
-    public class MenuMaster_DAO : DAO_Base {
+namespace Administration_DAO
+{
+    public class MenuMaster_DAO : DAO_Base
+    {
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
         //List<MenuMaster_BE> MenuMaster_BEList = new List<MenuMaster_BE>();
 
@@ -32,14 +30,15 @@ namespace Administration_DAO {
         /// <summary>
         /// Public Constructor
         /// </summary>
-        public MenuMaster_DAO() {
+        public MenuMaster_DAO()
+        {
             HandleWriteLog("Start", new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
         }
         #endregion
 
         #region Public Properties
-        public List<MenuMaster_BE> MenuMaster_BEList { get; set; }
+        public List<MenuMaster_BE> MenuMasterBusinessEntityList { get; set; }
         #endregion
 
         #region "Private Variable"
@@ -52,21 +51,23 @@ namespace Administration_DAO {
         /// Function to store DataTable data to MenuMaster_BE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllMenus) {
+        private void ShiftDataTableToBEList(DataTable dataTableAllMenus)
+        {
             HandleWriteLog("Start", new StackTrace(true));
-            MenuMaster_BEList = new List<MenuMaster_BE>();
+            MenuMasterBusinessEntityList = new List<MenuMaster_BE>();
 
-            for (int recordCounter = 0; recordCounter < p_dtAllMenus.Rows.Count; recordCounter++) {
+            for (int recordCounter = 0; recordCounter < dataTableAllMenus.Rows.Count; recordCounter++)
+            {
                 MenuMaster_BE menuMaster_BE = new MenuMaster_BE();
 
-                menuMaster_BE.MenuID = GetInt(p_dtAllMenus.Rows[recordCounter]["MenuID"]);
-                menuMaster_BE.Name = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Name"]);
-                menuMaster_BE.Page = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Page"]);
-                menuMaster_BE.ParentID = GetInt(p_dtAllMenus.Rows[recordCounter]["ParentID"]);
-                menuMaster_BE.Visibility = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Visibility"]);
-                menuMaster_BE.SortOrder = GetInt(p_dtAllMenus.Rows[recordCounter]["SortOrder"]);
-                menuMaster_BE.ADEVFlag = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["ADEVFlag"]);
-                MenuMaster_BEList.Add(menuMaster_BE);
+                menuMaster_BE.MenuID = GetInt(dataTableAllMenus.Rows[recordCounter]["MenuID"]);
+                menuMaster_BE.Name = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Name"]);
+                menuMaster_BE.Page = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Page"]);
+                menuMaster_BE.ParentID = GetInt(dataTableAllMenus.Rows[recordCounter]["ParentID"]);
+                menuMaster_BE.Visibility = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Visibility"]);
+                menuMaster_BE.SortOrder = GetInt(dataTableAllMenus.Rows[recordCounter]["SortOrder"]);
+                menuMaster_BE.ADEVFlag = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["ADEVFlag"]);
+                MenuMasterBusinessEntityList.Add(menuMaster_BE);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -79,19 +80,21 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_MenuMaster_BE"></param>
         /// <returns></returns>
-        public int GetMenuMaster(MenuMaster_BE p_MenuMasterBE) {
-            try {
-                HandleWriteLog("Start", new StackTrace(true));             
-                DataTable dtAllMenus = new DataTable();
-                object[] param1 = new object[1] { p_MenuMasterBE.ADEVFlag };
-                dtAllMenus = cDataSrc.ExecuteDataSet("UspGetMenuMaster", param1,null).Tables[0];
+        public int GetMenuMaster(MenuMaster_BE menuMasterBusinessEntity)
+        {
+            try
+            {
+                HandleWriteLog("Start", new StackTrace(true));
+                DataTable dataTableAllMenus = new DataTable();
+                object[] param1 = new object[1] { menuMasterBusinessEntity.ADEVFlag };
+                dataTableAllMenus = cDataSrc.ExecuteDataSet("UspGetMenuMaster", param1, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAllMenus);
+                ShiftDataTableToBEList(dataTableAllMenus);
                 m_returnValue = 1;
-                object[] param=new object[1];
+                object[] param = new object[1];
 
-               // CNameValueList cNameValueList = new CNameValueList();
-               // cNameValueList.Add("@id", "");
+                // CNameValueList cNameValueList = new CNameValueList();
+                // cNameValueList.Add("@id", "");
                 HandleWriteLogDAU("UspGetMenuMaster ", param, new StackTrace(true));
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -104,54 +107,27 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_MenuMaster_BE"></param>
         /// <returns></returns>
-        public List<MenuMaster_BE> GetMenuParent(List<MenuMaster_BE> p_MenuMasterBE) {
-            try {
+        public List<MenuMaster_BE> GetMenuParent(List<MenuMaster_BE> menuMasterBusinessEntity)
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                for (int counter = 0; counter < p_MenuMasterBE.Count; counter++) {
-                    if (p_MenuMasterBE[counter].ParentID == null || p_MenuMasterBE[counter].ParentID == 0) {
-                        MenuMaster_BEList.Add(p_MenuMasterBE[counter]);
+                for (int counter = 0; counter < menuMasterBusinessEntity.Count; counter++)
+                {
+                    if (menuMasterBusinessEntity[counter].ParentID == null || menuMasterBusinessEntity[counter].ParentID == 0)
+                    {
+                        MenuMasterBusinessEntityList.Add(menuMasterBusinessEntity[counter]);
                     }
                 }
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return MenuMaster_BEList;
+            return MenuMasterBusinessEntityList;
         }
 
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public class Survey_MenuMaster_DAO : DAO_Base
     {
@@ -171,7 +147,7 @@ namespace Administration_DAO {
         #endregion
 
         #region Public Properties
-        public List<Survey_MenuMaster_BE> MenuMaster_BEList { get; set; }
+        public List<Survey_MenuMaster_BE> MenuMasterBusinessEntityList { get; set; }
         #endregion
 
         #region "Private Variable"
@@ -184,23 +160,23 @@ namespace Administration_DAO {
         /// Function to store DataTable data to MenuMaster_BE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllMenus)
+        private void ShiftDataTableToBEList(DataTable dataTableAllMenus)
         {
             HandleWriteLog("Start", new StackTrace(true));
-            MenuMaster_BEList = new List<Survey_MenuMaster_BE>();
+            MenuMasterBusinessEntityList = new List<Survey_MenuMaster_BE>();
 
-            for (int recordCounter = 0; recordCounter < p_dtAllMenus.Rows.Count; recordCounter++)
+            for (int recordCounter = 0; recordCounter < dataTableAllMenus.Rows.Count; recordCounter++)
             {
-                Survey_MenuMaster_BE menuMaster_BE = new Survey_MenuMaster_BE();
+                Survey_MenuMaster_BE menuMasterBusinessEntity = new Survey_MenuMaster_BE();
 
-                menuMaster_BE.MenuID = GetInt(p_dtAllMenus.Rows[recordCounter]["MenuID"]);
-                menuMaster_BE.Name = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Name"]);
-                menuMaster_BE.Page = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Page"]);
-                menuMaster_BE.ParentID = GetInt(p_dtAllMenus.Rows[recordCounter]["ParentID"]);
-                menuMaster_BE.Visibility = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Visibility"]);
-                menuMaster_BE.SortOrder = GetInt(p_dtAllMenus.Rows[recordCounter]["SortOrder"]);
-                menuMaster_BE.ADEVFlag = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["ADEVFlag"]);
-                MenuMaster_BEList.Add(menuMaster_BE);
+                menuMasterBusinessEntity.MenuID = GetInt(dataTableAllMenus.Rows[recordCounter]["MenuID"]);
+                menuMasterBusinessEntity.Name = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Name"]);
+                menuMasterBusinessEntity.Page = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Page"]);
+                menuMasterBusinessEntity.ParentID = GetInt(dataTableAllMenus.Rows[recordCounter]["ParentID"]);
+                menuMasterBusinessEntity.Visibility = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Visibility"]);
+                menuMasterBusinessEntity.SortOrder = GetInt(dataTableAllMenus.Rows[recordCounter]["SortOrder"]);
+                menuMasterBusinessEntity.ADEVFlag = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["ADEVFlag"]);
+                MenuMasterBusinessEntityList.Add(menuMasterBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -213,15 +189,15 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_MenuMaster_BE"></param>
         /// <returns></returns>
-        public int GetMenuMaster(Survey_MenuMaster_BE p_MenuMasterBE)
+        public int GetMenuMaster(Survey_MenuMaster_BE menuMasterBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAllMenus = new DataTable();
-                dtAllMenus = cDataSrc.ExecuteDataSet("Survey_UspGetMenuMaster", null).Tables[0];
+                DataTable dataTableAllMenus = new DataTable();
+                dataTableAllMenus = cDataSrc.ExecuteDataSet("Survey_UspGetMenuMaster", null).Tables[0];
 
-                ShiftDataTableToBEList(dtAllMenus);
+                ShiftDataTableToBEList(dataTableAllMenus);
                 m_returnValue = 1;
                 object[] param = new object[1];
 
@@ -239,42 +215,24 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_MenuMaster_BE"></param>
         /// <returns></returns>
-        public List<Survey_MenuMaster_BE> GetMenuParent(List<Survey_MenuMaster_BE> p_MenuMasterBE)
+        public List<Survey_MenuMaster_BE> GetMenuParent(List<Survey_MenuMaster_BE> menuMasterBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                for (int counter = 0; counter < p_MenuMasterBE.Count; counter++)
+                for (int counter = 0; counter < menuMasterBusinessEntity.Count; counter++)
                 {
-                    if (p_MenuMasterBE[counter].ParentID == null || p_MenuMasterBE[counter].ParentID == 0)
+                    if (menuMasterBusinessEntity[counter].ParentID == null || menuMasterBusinessEntity[counter].ParentID == 0)
                     {
-                        MenuMaster_BEList.Add(p_MenuMasterBE[counter]);
+                        MenuMasterBusinessEntityList.Add(menuMasterBusinessEntity[counter]);
                     }
                 }
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return MenuMaster_BEList;
+            return MenuMasterBusinessEntityList;
         }
-
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

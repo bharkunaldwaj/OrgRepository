@@ -22,13 +22,15 @@ using feedbackFramework_DAO;
 using Administration_BE;
 using DatabaseAccessUtilities;
 
-namespace Administration_DAO {
-    public class FieldRight_DAO : DAO_Base {
+namespace Administration_DAO
+{
+    public class FieldRight_DAO : DAO_Base
+    {
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
         #region "Public Properties"
         //public FieldRight_BE[] FieldRight_BEArray { get; set; }
-        public List<FieldRight_BE> FieldRight_BEList { get; set; }
+        public List<FieldRight_BE> FieldRightBusinessEntityList { get; set; }
         #endregion
 
         #region "Private Variable"
@@ -41,20 +43,23 @@ namespace Administration_DAO {
         /// Function to store DataTable data to BEArray object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllMenus) {
+        private void ShiftDataTableToBEList(DataTable dataTableAllMenus)
+        {
             HandleWriteLog("Start", new StackTrace(true));
-            FieldRight_BEList = new List<FieldRight_BE>();
-            for (int recordCounter = 0; recordCounter < p_dtAllMenus.Rows.Count; recordCounter++) {
-                FieldRight_BE fieldRight_BE = new FieldRight_BE();
+            FieldRightBusinessEntityList = new List<FieldRight_BE>();
 
-                fieldRight_BE.FRID = GetInt(p_dtAllMenus.Rows[recordCounter]["FRID"]);
-                fieldRight_BE.Name = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Name"]);
-                fieldRight_BE.Value = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["Value"]);
-                fieldRight_BE.SortOrder = GetInt(p_dtAllMenus.Rows[recordCounter]["SortOrder"]);
-                fieldRight_BE.IsActive = GetInt(p_dtAllMenus.Rows[recordCounter]["IsActive"]);
-                fieldRight_BE.SortOrder = GetInt(p_dtAllMenus.Rows[recordCounter]["SortOrder"]);
-                fieldRight_BE.MenuID = Convert.ToString(p_dtAllMenus.Rows[recordCounter]["MenuID"]);
-                FieldRight_BEList.Add(fieldRight_BE);
+            for (int recordCounter = 0; recordCounter < dataTableAllMenus.Rows.Count; recordCounter++)
+            {
+                FieldRight_BE fieldRightBusinessEntity = new FieldRight_BE();
+
+                fieldRightBusinessEntity.FRID = GetInt(dataTableAllMenus.Rows[recordCounter]["FRID"]);
+                fieldRightBusinessEntity.Name = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Name"]);
+                fieldRightBusinessEntity.Value = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["Value"]);
+                fieldRightBusinessEntity.SortOrder = GetInt(dataTableAllMenus.Rows[recordCounter]["SortOrder"]);
+                fieldRightBusinessEntity.IsActive = GetInt(dataTableAllMenus.Rows[recordCounter]["IsActive"]);
+                fieldRightBusinessEntity.SortOrder = GetInt(dataTableAllMenus.Rows[recordCounter]["SortOrder"]);
+                fieldRightBusinessEntity.MenuID = Convert.ToString(dataTableAllMenus.Rows[recordCounter]["MenuID"]);
+                FieldRightBusinessEntityList.Add(fieldRightBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -67,15 +72,19 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
-        public int GetFieldRight() {
-            try {
+        public int GetFieldRight()
+        {
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
                 string sqlSelectCommand = string.Empty;
-                DataTable dtAllMenus = new DataTable();
+                DataTable dataTableAllMenus = new DataTable();
 
-                dtAllMenus = cDataSrc.ExecuteDataSet("UspGetFieldRights",null).Tables[0];
+                dataTableAllMenus = cDataSrc.ExecuteDataSet("UspGetFieldRights", null).Tables[0];
                 object[] param = new object[1];
-                ShiftDataTableToBEList(dtAllMenus);
+
+                ShiftDataTableToBEList(dataTableAllMenus);
+
                 m_returnValue = 1;
                 HandleWriteLogDAU("UspGetFieldRights ", param, new StackTrace(true));
                 HandleWriteLog("End", new StackTrace(true));

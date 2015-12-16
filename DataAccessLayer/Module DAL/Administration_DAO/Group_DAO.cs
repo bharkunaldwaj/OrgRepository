@@ -11,20 +11,17 @@
 using System;
 using System.Data;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
 using System.Diagnostics;
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Administration_BE;
 using DatabaseAccessUtilities;
 
-namespace Administration_DAO {
-    public class Group_DAO : DAO_Base {
+namespace Administration_DAO
+{
+    public class Group_DAO : DAO_Base
+    {
 
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
@@ -32,14 +29,15 @@ namespace Administration_DAO {
         /// <summary>
         /// Public Constructor
         /// </summary>
-        public Group_DAO() {
+        public Group_DAO()
+        {
             HandleWriteLog("Start", new StackTrace(true));
             HandleWriteLog("End", new StackTrace(true));
         }
         #endregion
 
         #region "Public Properties"
-        public List<Group_BE> Group_BEList { get; set; }
+        public List<Group_BE> _groupBusinessEntityList { get; set; }
         #endregion
 
         #region Private Member Variables
@@ -53,22 +51,25 @@ namespace Administration_DAO {
         /// Function to store DataTable data to GroupBE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllGroup) {
+        private void ShiftDataTableToBEList(DataTable dataTableAllGroup)
+        {
             HandleWriteLog("Start", new StackTrace(true));
-            Group_BEList = new List<Group_BE>();
-            for (int recordCounter = 0; recordCounter < p_dtAllGroup.Rows.Count; recordCounter++) {
-                Group_BE group_BE = new Group_BE();
+            _groupBusinessEntityList = new List<Group_BE>();
 
-                group_BE.GroupID = GetInt(p_dtAllGroup.Rows[recordCounter]["GroupID"]);
-                group_BE.GroupName = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["GroupName"]);
-                group_BE.Description = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["Description"]);
-                group_BE.WelcomeText = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["WelcomeText"]);
-                group_BE.NewsText = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["NewsText"]);
-                group_BE.IsActive = GetBool(p_dtAllGroup.Rows[recordCounter]["IsActive"]);
-                group_BE.CreatedDate = GetDateTime(p_dtAllGroup.Rows[recordCounter]["CreatedDate"]);
-                group_BE.ModifiedDate = GetDateTime(p_dtAllGroup.Rows[recordCounter]["ModifiedDate"]);
-                group_BE.Description = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["Description"]);
-                Group_BEList.Add(group_BE);
+            for (int recordCounter = 0; recordCounter < dataTableAllGroup.Rows.Count; recordCounter++)
+            {
+                Group_BE groupBusinessEntity = new Group_BE();
+
+                groupBusinessEntity.GroupID = GetInt(dataTableAllGroup.Rows[recordCounter]["GroupID"]);
+                groupBusinessEntity.GroupName = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["GroupName"]);
+                groupBusinessEntity.Description = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["Description"]);
+                groupBusinessEntity.WelcomeText = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["WelcomeText"]);
+                groupBusinessEntity.NewsText = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["NewsText"]);
+                groupBusinessEntity.IsActive = GetBool(dataTableAllGroup.Rows[recordCounter]["IsActive"]);
+                groupBusinessEntity.CreatedDate = GetDateTime(dataTableAllGroup.Rows[recordCounter]["CreatedDate"]);
+                groupBusinessEntity.ModifiedDate = GetDateTime(dataTableAllGroup.Rows[recordCounter]["ModifiedDate"]);
+                groupBusinessEntity.Description = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["Description"]);
+                _groupBusinessEntityList.Add(groupBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -81,15 +82,17 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
-        public int GetGroup(Group_BE p_GroupBE) {
-            try {
-                HandleWriteLog("Start", new StackTrace(true));              
-                DataTable dtAllGroup = new DataTable();
+        public int GetGroup(Group_BE groupBusinessEntity)
+        {
+            try
+            {
+                HandleWriteLog("Start", new StackTrace(true));
+                DataTable dataTableAllGroup = new DataTable();
 
-                object[] param = new object[3] {p_GroupBE.GroupID,
-                                                GetString(p_GroupBE.GroupName),
+                object[] param = new object[3] {groupBusinessEntity.GroupID,
+                                                GetString(groupBusinessEntity.GroupName),
                                                 "ALL" };
-  
+
                 //CNameValueList cNameValueList = null;
                 //cNameValueList = new CNameValueList();
                 //cNameValueList.Add("@intGroupID", p_GroupBE.GroupID);
@@ -97,11 +100,11 @@ namespace Administration_DAO {
                 //cNameValueList.Add("@chvFlag", "ALL");
 
 
-                dtAllGroup = cDataSrc.ExecuteDataSet("UspGetGroup", param, null).Tables[0];
+                dataTableAllGroup = cDataSrc.ExecuteDataSet("UspGetGroup", param, null).Tables[0];
 
                 //dtAllGroup = cDataSrc.ExecuteDataSet("UspGetGroup", cNameValueList, null).Tables[0];                              
 
-                ShiftDataTableToBEList(dtAllGroup);
+                ShiftDataTableToBEList(dataTableAllGroup);
                 returnValue = 1;
 
                 HandleWriteLog("End", new StackTrace(true));
@@ -114,15 +117,17 @@ namespace Administration_DAO {
         /// <summary>
         /// Function to check existence of Group
         /// </summary>
-        /// <param name="p_Group_BE"></param>
+        /// <param name="groupBusinessEntity"></param>
         /// <returns></returns>
-        public bool IsGroupExist(Group_BE p_Group_BE) {
-            try {
-                HandleWriteLog("Start", new StackTrace(true));                
-                DataTable dtAllGroup = new DataTable();
+        public bool IsGroupExist(Group_BE groupBusinessEntity)
+        {
+            try
+            {
+                HandleWriteLog("Start", new StackTrace(true));
+                DataTable dataTableAllGroup = new DataTable();
 
-                object[] param = new object[3] {p_Group_BE.GroupID,
-                                                GetString(p_Group_BE.GroupName) ,
+                object[] param = new object[3] {groupBusinessEntity.GroupID,
+                                                GetString(groupBusinessEntity.GroupName) ,
                                                 "COUNT" };
 
                 //CNameValueList cNameValueList = null;
@@ -150,18 +155,20 @@ namespace Administration_DAO {
         /// Function to Insert records in Group Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public int AddGroup(Group_BE p_GroupBE) {
+        public int AddGroup(Group_BE groupBusinessEntity)
+        {
             //int IsActive=0;
             //IsActive = p_Group_BE.IsActive == true ? 1 : 0;
             string GroupID = string.Empty;
-            try {
-                HandleWriteLog("Start", new StackTrace(true));                             
+            try
+            {
+                HandleWriteLog("Start", new StackTrace(true));
                 object[] param = new object[7] {null,
-                    GetString(p_GroupBE.GroupName) ,
-                    GetString(p_GroupBE.Description),
-                    GetString(p_GroupBE.WelcomeText),
-                    GetString(p_GroupBE.NewsText),
-                    p_GroupBE.IsActive,
+                    GetString(groupBusinessEntity.GroupName) ,
+                    GetString(groupBusinessEntity.Description),
+                    GetString(groupBusinessEntity.WelcomeText),
+                    GetString(groupBusinessEntity.NewsText),
+                    groupBusinessEntity.IsActive,
                     "I"
                 };
 
@@ -183,7 +190,8 @@ namespace Administration_DAO {
                 HandleWriteLogDAU("UspGroupMaintenance ", param, new StackTrace(true));
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
             return (Convert.ToInt32(GroupID));
@@ -193,14 +201,15 @@ namespace Administration_DAO {
         /// Function to Update records in Country Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public void UpdateGroup(Group_BE p_GroupBE) {
-            HandleWriteLog("Start", new StackTrace(true));           
-            object[] param = new object[7] { p_GroupBE.GroupID,
-                                GetString(p_GroupBE.GroupName),
-                                GetString(p_GroupBE.Description),
-                                GetString(p_GroupBE.WelcomeText),
-                                GetString(p_GroupBE.NewsText),
-                                p_GroupBE.IsActive,
+        public void UpdateGroup(Group_BE groupBusinessEntity)
+        {
+            HandleWriteLog("Start", new StackTrace(true));
+            object[] param = new object[7] { groupBusinessEntity.GroupID,
+                                GetString(groupBusinessEntity.GroupName),
+                                GetString(groupBusinessEntity.Description),
+                                GetString(groupBusinessEntity.WelcomeText),
+                                GetString(groupBusinessEntity.NewsText),
+                                groupBusinessEntity.IsActive,
                                 'U'
                 };
 
@@ -226,9 +235,10 @@ namespace Administration_DAO {
         /// Function to Delete records in Country Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public void DeleteGroup(Group_BE p_GroupBE) {
-            HandleWriteLog("Start", new StackTrace(true));               
-            object[] param = new object[7] { p_GroupBE.GroupID,
+        public void DeleteGroup(Group_BE groupBusinessEntity)
+        {
+            HandleWriteLog("Start", new StackTrace(true));
+            object[] param = new object[7] { groupBusinessEntity.GroupID,
                                                 null,
                                                 null,
                                                 null,
@@ -236,10 +246,10 @@ namespace Administration_DAO {
                                                 null,
                                             "D" };
 
-             //CNameValueList cNameValueList = null;
-             //cNameValueList = new CNameValueList();
-             //cNameValueList.Add("@intID", p_GroupBE.GroupID.ToString());
-             //cNameValueList.Add("@chvMode", 'D');
+            //CNameValueList cNameValueList = null;
+            //cNameValueList = new CNameValueList();
+            //cNameValueList.Add("@intID", p_GroupBE.GroupID.ToString());
+            //cNameValueList.Add("@chvMode", 'D');
 
             cDataSrc.ExecuteNonQuery("UspGroupMaintenance", param, null);
 
@@ -251,6 +261,11 @@ namespace Administration_DAO {
         }
         #endregion
 
+        /// <summary>
+        /// Get Group List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetGroupListCount(string accountID)
         {
             int groupCount = 0;
@@ -258,7 +273,7 @@ namespace Administration_DAO {
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[3] {accountID, null, "C" };
+                object[] param = new object[3] { accountID, null, "C" };
 
                 groupCount = (int)cDataSrc.ExecuteScalar("UspGroupSelect", param, null);
 
@@ -269,43 +284,29 @@ namespace Administration_DAO {
             return groupCount;
         }
 
+        /// <summary>
+        /// Get datatable Group List by account ID
+        /// </summary>
+        /// <param name="accountID"> account ID</param>
+        /// <returns></returns>
         public DataTable GetdtGroupList(string accountID)
         {
-            DataTable dtAllGroup = new DataTable();
+            DataTable dataTableAllGroup = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { accountID, null, "A" };
 
-                dtAllGroup = cDataSrc.ExecuteDataSet("UspGroupSelect", param, null).Tables[0];
+                dataTableAllGroup = cDataSrc.ExecuteDataSet("UspGroupSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspGroupSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllGroup;
+            return dataTableAllGroup;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public class Survey_Group_DAO : DAO_Base
     {
@@ -324,7 +325,7 @@ namespace Administration_DAO {
         #endregion
 
         #region "Public Properties"
-        public List<Survey_Group_BE> Group_BEList { get; set; }
+        public List<Survey_Group_BE> GroupBusinessEntityList { get; set; }
         #endregion
 
         #region Private Member Variables
@@ -338,24 +339,25 @@ namespace Administration_DAO {
         /// Function to store DataTable data to GroupBE object
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        private void ShiftDataTableToBEList(DataTable p_dtAllGroup)
+        private void ShiftDataTableToBEList(DataTable dataTableAllGroup)
         {
             HandleWriteLog("Start", new StackTrace(true));
-            Group_BEList = new List<Survey_Group_BE>();
-            for (int recordCounter = 0; recordCounter < p_dtAllGroup.Rows.Count; recordCounter++)
-            {
-                Survey_Group_BE group_BE = new Survey_Group_BE();
+            GroupBusinessEntityList = new List<Survey_Group_BE>();
 
-                group_BE.GroupID = GetInt(p_dtAllGroup.Rows[recordCounter]["GroupID"]);
-                group_BE.GroupName = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["GroupName"]);
-                group_BE.Description = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["Description"]);
-                group_BE.WelcomeText = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["WelcomeText"]);
-                group_BE.NewsText = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["NewsText"]);
-                group_BE.IsActive = GetBool(p_dtAllGroup.Rows[recordCounter]["IsActive"]);
-                group_BE.CreatedDate = GetDateTime(p_dtAllGroup.Rows[recordCounter]["CreatedDate"]);
-                group_BE.ModifiedDate = GetDateTime(p_dtAllGroup.Rows[recordCounter]["ModifiedDate"]);
-                group_BE.Description = Convert.ToString(p_dtAllGroup.Rows[recordCounter]["Description"]);
-                Group_BEList.Add(group_BE);
+            for (int recordCounter = 0; recordCounter < dataTableAllGroup.Rows.Count; recordCounter++)
+            {
+                Survey_Group_BE groupBusinessEntity = new Survey_Group_BE();
+
+                groupBusinessEntity.GroupID = GetInt(dataTableAllGroup.Rows[recordCounter]["GroupID"]);
+                groupBusinessEntity.GroupName = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["GroupName"]);
+                groupBusinessEntity.Description = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["Description"]);
+                groupBusinessEntity.WelcomeText = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["WelcomeText"]);
+                groupBusinessEntity.NewsText = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["NewsText"]);
+                groupBusinessEntity.IsActive = GetBool(dataTableAllGroup.Rows[recordCounter]["IsActive"]);
+                groupBusinessEntity.CreatedDate = GetDateTime(dataTableAllGroup.Rows[recordCounter]["CreatedDate"]);
+                groupBusinessEntity.ModifiedDate = GetDateTime(dataTableAllGroup.Rows[recordCounter]["ModifiedDate"]);
+                groupBusinessEntity.Description = Convert.ToString(dataTableAllGroup.Rows[recordCounter]["Description"]);
+                GroupBusinessEntityList.Add(groupBusinessEntity);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -368,15 +370,15 @@ namespace Administration_DAO {
         /// </summary>
         /// <param name="p_contact_BE"></param>
         /// <returns></returns>
-        public int GetGroup(Survey_Group_BE p_GroupBE)
+        public int GetGroup(Survey_Group_BE groupBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAllGroup = new DataTable();
+                DataTable dataTableAllGroup = new DataTable();
 
-                object[] param = new object[3] {p_GroupBE.GroupID,
-                                                GetString(p_GroupBE.GroupName),
+                object[] param = new object[3] {groupBusinessEntity.GroupID,
+                                                GetString(groupBusinessEntity.GroupName),
                                                 "ALL" };
 
                 //CNameValueList cNameValueList = null;
@@ -386,11 +388,11 @@ namespace Administration_DAO {
                 //cNameValueList.Add("@chvFlag", "ALL");
 
 
-                dtAllGroup = cDataSrc.ExecuteDataSet("Survey_UspGetGroup", param, null).Tables[0];
+                dataTableAllGroup = cDataSrc.ExecuteDataSet("Survey_UspGetGroup", param, null).Tables[0];
 
                 //dtAllGroup = cDataSrc.ExecuteDataSet("UspGetGroup", cNameValueList, null).Tables[0];                              
 
-                ShiftDataTableToBEList(dtAllGroup);
+                ShiftDataTableToBEList(dataTableAllGroup);
                 returnValue = 1;
 
                 HandleWriteLog("End", new StackTrace(true));
@@ -403,17 +405,17 @@ namespace Administration_DAO {
         /// <summary>
         /// Function to check existence of Group
         /// </summary>
-        /// <param name="p_Group_BE"></param>
+        /// <param name="groupBusinessEntity"></param>
         /// <returns></returns>
-        public bool IsGroupExist(Survey_Group_BE p_Group_BE)
+        public bool IsGroupExist(Survey_Group_BE groupBusinessEntity)
         {
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 DataTable dtAllGroup = new DataTable();
 
-                object[] param = new object[3] {p_Group_BE.GroupID,
-                                                GetString(p_Group_BE.GroupName) ,
+                object[] param = new object[3] {groupBusinessEntity.GroupID,
+                                                GetString(groupBusinessEntity.GroupName) ,
                                                 "COUNT" };
 
                 //CNameValueList cNameValueList = null;
@@ -441,7 +443,7 @@ namespace Administration_DAO {
         /// Function to Insert records in Group Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public int AddGroup(Survey_Group_BE p_GroupBE)
+        public int AddGroup(Survey_Group_BE groupBusinessEntity)
         {
             //int IsActive=0;
             //IsActive = p_Group_BE.IsActive == true ? 1 : 0;
@@ -450,11 +452,11 @@ namespace Administration_DAO {
             {
                 HandleWriteLog("Start", new StackTrace(true));
                 object[] param = new object[7] {null,
-                    GetString(p_GroupBE.GroupName) ,
-                    GetString(p_GroupBE.Description),
-                    GetString(p_GroupBE.WelcomeText),
-                    GetString(p_GroupBE.NewsText),
-                    p_GroupBE.IsActive,
+                    GetString(groupBusinessEntity.GroupName) ,
+                    GetString(groupBusinessEntity.Description),
+                    GetString(groupBusinessEntity.WelcomeText),
+                    GetString(groupBusinessEntity.NewsText),
+                    groupBusinessEntity.IsActive,
                     "I"
                 };
 
@@ -487,15 +489,15 @@ namespace Administration_DAO {
         /// Function to Update records in Country Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public void UpdateGroup(Survey_Group_BE p_GroupBE)
+        public void UpdateGroup(Survey_Group_BE groupBusinessEntity)
         {
             HandleWriteLog("Start", new StackTrace(true));
-            object[] param = new object[7] { p_GroupBE.GroupID,
-                                GetString(p_GroupBE.GroupName),
-                                GetString(p_GroupBE.Description),
-                                GetString(p_GroupBE.WelcomeText),
-                                GetString(p_GroupBE.NewsText),
-                                p_GroupBE.IsActive,
+            object[] param = new object[7] { groupBusinessEntity.GroupID,
+                                GetString(groupBusinessEntity.GroupName),
+                                GetString(groupBusinessEntity.Description),
+                                GetString(groupBusinessEntity.WelcomeText),
+                                GetString(groupBusinessEntity.NewsText),
+                                groupBusinessEntity.IsActive,
                                 'U'
                 };
 
@@ -521,10 +523,10 @@ namespace Administration_DAO {
         /// Function to Delete records in Country Entity
         /// </summary>
         /// <param name="p_contact_BE"></param>
-        public void DeleteGroup(Survey_Group_BE p_GroupBE)
+        public void DeleteGroup(Survey_Group_BE groupBusinessEntity)
         {
             HandleWriteLog("Start", new StackTrace(true));
-            object[] param = new object[7] { p_GroupBE.GroupID,
+            object[] param = new object[7] { groupBusinessEntity.GroupID,
                                                 null,
                                                 null,
                                                 null,
@@ -547,6 +549,11 @@ namespace Administration_DAO {
         }
         #endregion
 
+        /// <summary>
+        /// Get Group List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetGroupListCount(string accountID)
         {
             int groupCount = 0;
@@ -565,31 +572,27 @@ namespace Administration_DAO {
             return groupCount;
         }
 
+        /// <summary>
+        /// Get datatable Group List by account ID
+        /// </summary>
+        /// <param name="accountID"> account ID</param>
+        /// <returns></returns>
         public DataTable GetdtGroupList(string accountID)
         {
-            DataTable dtAllGroup = new DataTable();
+            DataTable dataTableAllGroup = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { accountID, null, "A" };
 
-                dtAllGroup = cDataSrc.ExecuteDataSet("Survey_UspGroupSelect", param, null).Tables[0];
+                dataTableAllGroup = cDataSrc.ExecuteDataSet("Survey_UspGroupSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspGroupSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllGroup;
+            return dataTableAllGroup;
         }
     }
-
-
-
-
-
-
-
-
-
 }
