@@ -1,22 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using Questionnaire_BAO;
-using Miscellaneous;
-using Administration_BAO;
 
 public partial class Module_Feedback_QuestionReview : System.Web.UI.Page
 {
-    
     CodeBehindBase cBase = new CodeBehindBase();
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
         if (!IsPostBack)
         {
             Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
@@ -28,10 +20,12 @@ public partial class Module_Feedback_QuestionReview : System.Web.UI.Page
             lblQuestionnaireName.Text = questionnaire_BEList[0].QSTNName.ToString();
 
             DataTable dtResult = new DataTable();
+            //Get Questionnaire Categories list by Questionnaire id.
             dtResult = questionnaire_BAO.GetQuestionnaireCategories(questionnaireID);
 
             if (dtResult.Rows.Count > 0)
             {
+                //Bind question repeator.
                 rptrQstCategory.DataSource = dtResult;
                 rptrQstCategory.DataBind();
             }
@@ -42,24 +36,31 @@ public partial class Module_Feedback_QuestionReview : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Bind question type by category.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void rptrQstCategory_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         try
         {
             RepeaterItem rpItem = e.Item;
 
-            Label lblCatID = (Label)rpItem.FindControl("lblCategoryID");
-            Repeater rptrQst = (Repeater)rpItem.FindControl("rptrQuestion");
+            Label labelCategoryID = (Label)rpItem.FindControl("lblCategoryID");
+            Repeater repeaterQuestion = (Repeater)rpItem.FindControl("rptrQuestion");
 
-            if (rptrQst != null)
+            if (repeaterQuestion != null)
             {
                 Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-                DataTable dtResult = new DataTable();
-                dtResult = questionnaire_BAO.GetCategoryQuestions(Convert.ToInt32(lblCatID.Text));
-                if (dtResult.Rows.Count > 0)
+                DataTable dataTableResult = new DataTable();
+                //Get Question by category or by category Id.
+                dataTableResult = questionnaire_BAO.GetCategoryQuestions(Convert.ToInt32(labelCategoryID.Text));
+                if (dataTableResult.Rows.Count > 0)
                 {
-                    rptrQst.DataSource = dtResult;
-                    rptrQst.DataBind();
+                    //Bind question grid.
+                    repeaterQuestion.DataSource = dataTableResult;
+                    repeaterQuestion.DataBind();
                 }
             }
         }
@@ -68,5 +69,4 @@ public partial class Module_Feedback_QuestionReview : System.Web.UI.Page
             cBase.HandleExceptionError(ex);
         }
     }
-    
 }

@@ -1,32 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Diagnostics;
-using System.Text;
 using Miscellaneous;
 using System.Net.Mail;
 
 using Questionnaire_BE;
 using Questionnaire_BAO;
-using Administration_BE;
-using Administration_BAO;
-using System.Globalization;
 
 public partial class Module_Feedback_Feedback : System.Web.UI.Page
 {
-    Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-    DataTable dtQuestion = new DataTable();
-    DataTable dtCategory = new DataTable();
+    //Global variables
+    Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
+    DataTable dataTableQuestion = new DataTable();
+    DataTable dataTableCategory = new DataTable();
     Int32 questionCount = 0;
     Int32 currentCount = 0;
     Int32 categoryCount = 0;
@@ -46,7 +34,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         //string cID = PasswordGenerator.EnryptString("3818");
         string candidateID = PasswordGenerator.DecryptString("MTQ4");
 
-        DataTable dtResult = new DataTable();
+        DataTable dataTableResult = new DataTable();
         try
         {
             if (!IsPostBack)
@@ -61,10 +49,9 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                 }
 
                 str = str + "</table>";
-
+                //If questionnaireId and candidate Id is not null
                 if (Request.QueryString["QID"] != null && Request.QueryString["CID"] != null)
                 {
-
                     candidateID = Convert.ToString(Request.QueryString["CID"]);
                     candidateID = PasswordGenerator.DecryptString(candidateID);
                     hdnCandidateId.Value = candidateID;
@@ -76,46 +63,48 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
                     imbStart.Visible = true;
 
-                    AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-                    dtResult = assignQuestionnaire_BAO.GetAllAssignmentInfo(Convert.ToInt32(candidateID));
+                    AssignQuestionnaire_BAO assignQuestionnaireBusinessAccessObject = new AssignQuestionnaire_BAO();
 
-                    if (dtResult.Rows.Count > 0)
+                    dataTableResult = assignQuestionnaireBusinessAccessObject.GetAllAssignmentInfo(Convert.ToInt32(candidateID));
+
+                    if (dataTableResult.Rows.Count > 0)
                     {
                         //Setting Questionnaire Project Information
-                        DataTable dtProjectInfo = new DataTable();
-                        dtProjectInfo = questionnaire_BAO.GetProjectQuestionnaireInfo(Convert.ToInt32(questionnaireID), Convert.ToInt32(candidateID));
+                        DataTable dataTableProjectInformation = new DataTable();
 
-                        hdnAccountId.Value = dtResult.Rows[0]["AccountID"].ToString();
+                        dataTableProjectInformation = questionnaireBusinessAccessObject.GetProjectQuestionnaireInfo(Convert.ToInt32(questionnaireID), Convert.ToInt32(candidateID));
 
-                        hdnProjectId.Value = dtProjectInfo.Rows[0]["ProjectID"].ToString();
-                        lblProjectName.Text = dtProjectInfo.Rows[0]["Title"].ToString();
-                        lblParticipantName.Text = dtProjectInfo.Rows[0]["FullName"].ToString();
+                        hdnAccountId.Value = dataTableResult.Rows[0]["AccountID"].ToString();
 
-                        hdnFirstName.Value = dtProjectInfo.Rows[0]["FirstName"].ToString();
-                        hdnLastName.Value = dtProjectInfo.Rows[0]["LastName"].ToString();
-                        hdnRelationship.Value = dtResult.Rows[0]["RelationShip"].ToString();
+                        hdnProjectId.Value = dataTableProjectInformation.Rows[0]["ProjectID"].ToString();
+                        lblProjectName.Text = dataTableProjectInformation.Rows[0]["Title"].ToString();
+                        lblParticipantName.Text = dataTableProjectInformation.Rows[0]["FullName"].ToString();
+
+                        hdnFirstName.Value = dataTableProjectInformation.Rows[0]["FirstName"].ToString();
+                        hdnLastName.Value = dataTableProjectInformation.Rows[0]["LastName"].ToString();
+                        hdnRelationship.Value = dataTableResult.Rows[0]["RelationShip"].ToString();
 
                         //Set Client Name
-                        DataTable dtProgramme = new DataTable();
-                        Programme_BAO programme_BAO = new Programme_BAO();
-                        dtProgramme = programme_BAO.GetProgrammeByID(Convert.ToInt32(dtResult.Rows[0]["ProgrammeID"]));
+                        DataTable dataTableProgramme = new DataTable();
+                        Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+                        dataTableProgramme = programmeBusinessAccessObject.GetProgrammeByID(Convert.ToInt32(dataTableResult.Rows[0]["ProgrammeID"]));
 
-                        hdnClientName.Value = dtProgramme.Rows[0]["ClientName"].ToString();
+                        hdnClientName.Value = dataTableProgramme.Rows[0]["ClientName"].ToString();
 
                         //Set Increment Value
-                        hdnIncrementValue.Value = dtProjectInfo.Rows[0]["DisplayCategory"].ToString();
+                        hdnIncrementValue.Value = dataTableProjectInformation.Rows[0]["DisplayCategory"].ToString();
 
                         //Set Login User Name
-                        lblUserName.Text = dtResult.Rows[0]["CandidateName"].ToString();
+                        lblUserName.Text = dataTableResult.Rows[0]["CandidateName"].ToString();
 
                         //Set Header Background Color
-                        tdHeader.Attributes.Add("style", "background:" + dtResult.Rows[0]["HeaderBGColor"].ToString() + ";");
+                        tdHeader.Attributes.Add("style", "background:" + dataTableResult.Rows[0]["HeaderBGColor"].ToString() + ";");
 
                         //Set Header Image
-                        imgHeader.ImageUrl = "~/UploadDocs/" + dtResult.Rows[0]["CompanyLogo"].ToString();
+                        imgHeader.ImageUrl = "~/UploadDocs/" + dataTableResult.Rows[0]["CompanyLogo"].ToString();
 
                         //Set Footer Copyright Line
-                        lblFooter.Text = dtResult.Rows[0]["CopyRightLine"].ToString();
+                        lblFooter.Text = dataTableResult.Rows[0]["CopyRightLine"].ToString();
 
                         ////Set Project Logo
                         //if (dtResult.Rows[0]["Logo"].ToString() != "")
@@ -129,10 +118,10 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                         //}
 
                         //Set Programme Logo
-                        if (dtProgramme.Rows[0]["Logo"].ToString() != "")
+                        if (dataTableProgramme.Rows[0]["Logo"].ToString() != "")
                         {
                             imgProjectLogo.Visible = true;
-                            imgProjectLogo.ImageUrl = "~/UploadDocs/" + dtProgramme.Rows[0]["Logo"].ToString();
+                            imgProjectLogo.ImageUrl = "~/UploadDocs/" + dataTableProgramme.Rows[0]["Logo"].ToString();
                         }
                         else
                         {
@@ -140,9 +129,10 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                         }
 
                         //Set Menu Background Color
-                        tdMenuBar.Attributes.Add("style", "background:" + dtResult.Rows[0]["MenuBGColor"].ToString() + ";text-align:right;padding-right:15px; padding-top:3px; color:#ffffff;");
+                        tdMenuBar.Attributes.Add("style", "background:" + dataTableResult.Rows[0]["MenuBGColor"].ToString() + ";text-align:right;padding-right:15px; padding-top:3px; color:#ffffff;");
 
                         Session["Count"] = 0;
+                        //Bind question information
                         BindQuestionInformation();
                     }
                     else
@@ -154,7 +144,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             }
 
             //Set Graph Details
-            if (dtResult.Rows.Count > 0)
+            if (dataTableResult.Rows.Count > 0)
                 SetGraphData();
 
         }
@@ -164,12 +154,14 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Save Question answers
+    /// </summary>
     protected void SaveQuestionAnswer()
     {
         try
         {
-
-            QuestionAnswer_BAO questionAnswer_BAO = new QuestionAnswer_BAO();
+            QuestionAnswer_BAO questionAnswerBusinessAccessObject = new QuestionAnswer_BAO();
 
             string answer = "";
             int questionID = 0;
@@ -177,41 +169,43 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             foreach (RepeaterItem rptrItem in rptrQuestionListMain.Items)
             {
                 Repeater rptrQuestionList = (Repeater)rptrItem.FindControl("rptrQuestionList");
+
                 foreach (RepeaterItem item in rptrQuestionList.Items)
                 {
-                    QuestionAnswer_BE questionAnswer_BE = new QuestionAnswer_BE();
+                    QuestionAnswer_BE questionAnswerBusinessEntity = new QuestionAnswer_BE();
 
-                    Label lblQType = (Label)item.FindControl("lblQType");
-                    Label lblQId = (Label)item.FindControl("lblQId");
-                    questionID = Convert.ToInt32(lblQId.Text);
+                    Label labelQuestionType = (Label)item.FindControl("lblQType");
+                    Label labelQuestionId = (Label)item.FindControl("lblQId");
+                    questionID = Convert.ToInt32(labelQuestionId.Text);
 
-                    if (Convert.ToInt16(lblQType.Text) == 1)
+                    if (Convert.ToInt16(labelQuestionType.Text) == 1)
                     {
-                        CKEditor.NET.CKEditorControl txtAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
-                        if (txtAnswers != null)
-                        {
-                            txtAnswers.config.toolbar = new object[] { };
-                            txtAnswers.config.keystrokes = new object[] { };
-                            txtAnswers.CssClass = "";
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = true;
-                            txtAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
-                            txtAnswers.AutoCompleteType = AutoCompleteType.None;
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = false;
-                            txtAnswers.IgnoreEmptyParagraph = true;
-                            txtAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
-                            txtAnswers.EnableTabKeyTools = false;
-                            txtAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
-                            txtAnswers.Entities = false;
-                            txtAnswers.PasteFromWordNumberedHeadingToList = false;
-                            txtAnswers.PasteFromWordRemoveStyles = true;
+                        CKEditor.NET.CKEditorControl textBoxAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
 
-                            answer = txtAnswers.Text;
+                        if (textBoxAnswers != null)
+                        {
+                            textBoxAnswers.config.toolbar = new object[] { };
+                            textBoxAnswers.config.keystrokes = new object[] { };
+                            textBoxAnswers.CssClass = "";
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = true;
+                            textBoxAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
+                            textBoxAnswers.AutoCompleteType = AutoCompleteType.None;
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = false;
+                            textBoxAnswers.IgnoreEmptyParagraph = true;
+                            textBoxAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
+                            textBoxAnswers.EnableTabKeyTools = false;
+                            textBoxAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
+                            textBoxAnswers.Entities = false;
+                            textBoxAnswers.PasteFromWordNumberedHeadingToList = false;
+                            textBoxAnswers.PasteFromWordRemoveStyles = true;
+
+                            answer = textBoxAnswers.Text;
                         }
 
                         //TextBox txtAnswer = (TextBox)item.FindControl("txtAnswer");
@@ -220,29 +214,31 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     }
                     else
                     {
-                        RadioButtonList rblAnswer = (RadioButtonList)item.FindControl("rblAnswer");
-                        if (rblAnswer != null)
+                        RadioButtonList radioButtonAnswer = (RadioButtonList)item.FindControl("rblAnswer");
+
+                        if (radioButtonAnswer != null)
                         {
-                            if (rblAnswer.SelectedItem != null)
+                            if (radioButtonAnswer.SelectedItem != null)
                             {
                                 //   answer = rblAnswer.SelectedItem.Text;
-                                answer = rblAnswer.SelectedItem.Value;
+                                answer = radioButtonAnswer.SelectedItem.Value;
                             }
                             else
                                 answer = "";
                         }
                     }
 
-                    questionAnswer_BE.AssignDetId = Convert.ToInt32(hdnCandidateId.Value);
-                    questionAnswer_BE.QuestionID = questionID;
-                    questionAnswer_BE.Answer = answer;
-                    questionAnswer_BE.ModifyBy = 1;
-                    questionAnswer_BE.ModifyDate = DateTime.Now;
-                    questionAnswer_BE.IsActive = 1;
-
-                    questionAnswer_BAO.AddQuestionAnswer(questionAnswer_BE);
+                    questionAnswerBusinessEntity.AssignDetId = Convert.ToInt32(hdnCandidateId.Value);
+                    questionAnswerBusinessEntity.QuestionID = questionID;
+                    questionAnswerBusinessEntity.Answer = answer;
+                    questionAnswerBusinessEntity.ModifyBy = 1;
+                    questionAnswerBusinessEntity.ModifyDate = DateTime.Now;
+                    questionAnswerBusinessEntity.IsActive = 1;
+                    //Insert Answer
+                    questionAnswerBusinessAccessObject.AddQuestionAnswer(questionAnswerBusinessEntity);
                 }
             }
+
             SetGraphData();
         }
         catch (Exception ex)
@@ -251,50 +247,56 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Set Editor property by question type or set answers checkbox.
+    /// </summary>
+    /// <returns></returns>
     protected Int32 CheckQuestionAnswer()
     {
         int result = 1;
         try
         {
-            QuestionAnswer_BAO questionAnswer_BAO = new QuestionAnswer_BAO();
+            QuestionAnswer_BAO questionAnswerBusinessAccessObject = new QuestionAnswer_BAO();
             string answer = "";
 
             foreach (RepeaterItem rptrItem in rptrQuestionListMain.Items)
             {
-                Repeater rptrQuestionList = (Repeater)rptrItem.FindControl("rptrQuestionList");
-                foreach (RepeaterItem item in rptrQuestionList.Items)
+                Repeater repeaterQuestionList = (Repeater)rptrItem.FindControl("rptrQuestionList");
+
+                foreach (RepeaterItem item in repeaterQuestionList.Items)
                 {
-                    Label lblValidation = (Label)item.FindControl("lblValidation");
-                    Label lblQType = (Label)item.FindControl("lblQType");
-                    Label lblQId = (Label)item.FindControl("lblQId");
+                    Label labelValidation = (Label)item.FindControl("lblValidation");
+                    Label labelQuestionType = (Label)item.FindControl("lblQType");
+                    Label lblQuestionId = (Label)item.FindControl("lblQId");
 
-                    if (Convert.ToInt16(lblQType.Text) == 1)
+                    if (Convert.ToInt16(labelQuestionType.Text) == 1)
                     {
-                        CKEditor.NET.CKEditorControl txtAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
-                        if (txtAnswers != null)
-                        {
-                            txtAnswers.config.toolbar = new object[] { };
-                            txtAnswers.config.keystrokes = new object[] { };
-                            txtAnswers.CssClass = "";
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = true;
-                            txtAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
-                            txtAnswers.AutoCompleteType = AutoCompleteType.None;
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = false;
-                            txtAnswers.IgnoreEmptyParagraph = true;
-                            txtAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
-                            txtAnswers.EnableTabKeyTools = false;
-                            txtAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
-                            txtAnswers.Entities = false;
-                            txtAnswers.PasteFromWordNumberedHeadingToList = false;
-                            txtAnswers.PasteFromWordRemoveStyles = true;
+                        CKEditor.NET.CKEditorControl textBoxAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
 
-                            answer = Convert.ToString(txtAnswers.Text);
+                        if (textBoxAnswers != null)
+                        {
+                            textBoxAnswers.config.toolbar = new object[] { };
+                            textBoxAnswers.config.keystrokes = new object[] { };
+                            textBoxAnswers.CssClass = "";
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = true;
+                            textBoxAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
+                            textBoxAnswers.AutoCompleteType = AutoCompleteType.None;
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = false;
+                            textBoxAnswers.IgnoreEmptyParagraph = true;
+                            textBoxAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
+                            textBoxAnswers.EnableTabKeyTools = false;
+                            textBoxAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
+                            textBoxAnswers.Entities = false;
+                            textBoxAnswers.PasteFromWordNumberedHeadingToList = false;
+                            textBoxAnswers.PasteFromWordRemoveStyles = true;
+
+                            answer = Convert.ToString(textBoxAnswers.Text);
                         }
 
                         //TextBox txtAnswer = (TextBox)item.FindControl("txtAnswer");
@@ -303,29 +305,29 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     }
                     else
                     {
-                        RadioButtonList rblAnswer = (RadioButtonList)item.FindControl("rblAnswer");
-                        if (rblAnswer != null)
+                        RadioButtonList radioButtonAnswer = (RadioButtonList)item.FindControl("rblAnswer");
+
+                        if (radioButtonAnswer != null)
                         {
-                            if (rblAnswer.SelectedItem != null)
+                            if (radioButtonAnswer.SelectedItem != null)
                             {
                                 //answer = rblAnswer.SelectedItem.Text;
-                                answer = rblAnswer.SelectedItem.Value;
+                                answer = radioButtonAnswer.SelectedItem.Value;
                             }
                             else
                                 answer = "";
                         }
                     }
 
-                    if (lblValidation.Text == "2" && answer == string.Empty && result < 3)
+                    if (labelValidation.Text == "2" && answer == string.Empty && result < 3)
                     {
                         if (Convert.ToString(ViewState["ValidationCheck"]) == "0" && result < 2)
                             result = 1;
                         else
                             result = 2;
                     }
-                    else if (lblValidation.Text == "3" && answer == string.Empty)
+                    else if (labelValidation.Text == "3" && answer == string.Empty)
                         result = 3;
-
                 }
             }
         }
@@ -336,6 +338,11 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         return result;
     }
 
+    /// <summary>
+    /// When click on prevoius save answer and bind question
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbPrevious_Click(object sender, EventArgs e)
     {
         try
@@ -346,6 +353,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
             if (result <= 1)
             {
+                //Save answers
                 SaveQuestionAnswer();
 
                 Session["Count"] = Convert.ToInt32(Session["Count"]) - 1;
@@ -373,11 +381,12 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     imbNext.Visible = true;
                     imbPrevious.Visible = true;
 
-                    DataTable dtCat = new DataTable();
-                    dtCat = (DataTable)Session["Category"];
+                    DataTable dataTableCategory = new DataTable();
+                    dataTableCategory = (DataTable)Session["Category"];
                     currentCount = Convert.ToInt32(Session["Count"]);
-
+                    //Bind Questions
                     BindQuestions(currentCount);
+                    //Set answer
                     SetQuestionAnswer();
 
                 }
@@ -392,11 +401,12 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     imbNext.Visible = true;
                     imbPrevious.Visible = true;
 
-                    DataTable dtCat = new DataTable();
-                    dtCat = (DataTable)Session["Category"];
+                    DataTable dataTableCategory = new DataTable();
+                    dataTableCategory = (DataTable)Session["Category"];
                     currentCount = Convert.ToInt32(Session["Count"]);
-
+                    //Bind Questions
                     BindQuestions(currentCount);
+                    //Set answer
                     SetQuestionAnswer();
 
                 }
@@ -418,6 +428,11 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// When click on prevoius save answer and bind question
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbNext_Click(object sender, EventArgs e)
     {
         try
@@ -426,6 +441,7 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
             if (result <= 1)
             {
+                //Save questions answer
                 SaveQuestionAnswer();
 
                 Session["Count"] = Convert.ToInt32(Session["Count"]) + 1;
@@ -445,20 +461,21 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     questionnaireID = PasswordGenerator.DecryptString(questionnaireID);
 
                     //Set Prolog of questionnaire
-                    List<Questionnaire_BE.Questionnaire_BE> questionnaire_BEList = new List<Questionnaire_BE.Questionnaire_BE>();
-                    questionnaire_BEList = questionnaire_BAO.GetQuestionnaireByID(Convert.ToInt32(questionnaireID));
-                    lblQuestionnaireText.Text = questionnaire_BEList[0].QSTNEpilogue.ToString();
+                    List<Questionnaire_BE.Questionnaire_BE> questionnaireBusinessEntityList = new List<Questionnaire_BE.Questionnaire_BE>();
+                    questionnaireBusinessEntityList = questionnaireBusinessAccessObject.GetQuestionnaireByID(Convert.ToInt32(questionnaireID));
+                    lblQuestionnaireText.Text = questionnaireBusinessEntityList[0].QSTNEpilogue.ToString();
                 }
                 else
                 {
                     imbNext.Visible = true;
                     imbPrevious.Visible = true;
 
-                    DataTable dtCat = new DataTable();
-                    dtCat = (DataTable)Session["Category"];
+                    DataTable dataTableCategory = new DataTable();
+                    dataTableCategory = (DataTable)Session["Category"];
                     currentCount = Convert.ToInt32(Session["Count"]);
-
+                    //Bind questions
                     BindQuestions(currentCount);
+                    //Set Answer
                     SetQuestionAnswer();
                 }
 
@@ -479,22 +496,29 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Update Submit flag
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbFinish_Click(object sender, EventArgs e)
     {
         //if (cbxNotifyMail.Checked == true)
         //{
+        DataTable dataTableProjectInformation = new DataTable();
 
-        DataTable dtProjectInfo = new DataTable();
-        dtProjectInfo = questionnaire_BAO.GetProjectQuestionnaireInfo(Convert.ToInt32(hdnQuestionnaireId.Value), Convert.ToInt32(hdnCandidateId.Value));
+        dataTableProjectInformation = questionnaireBusinessAccessObject.GetProjectQuestionnaireInfo(Convert.ToInt32(hdnQuestionnaireId.Value),
+            Convert.ToInt32(hdnCandidateId.Value));
 
-        DataTable dtResult = new DataTable();
-        AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-        dtResult = assignQuestionnaire_BAO.GetAllAssignmentInfo(Convert.ToInt32(hdnCandidateId.Value));
+        DataTable dataTableResult = new DataTable();
+
+        AssignQuestionnaire_BAO assignQuestionnaireBusinessAccessObject = new AssignQuestionnaire_BAO();
+
+        dataTableResult = assignQuestionnaireBusinessAccessObject.GetAllAssignmentInfo(Convert.ToInt32(hdnCandidateId.Value));
 
         //Send mail to candidates
-        for (int i = 0; i < dtProjectInfo.Rows.Count; i++)
+        for (int i = 0; i < dataTableProjectInformation.Rows.Count; i++)
         {
-
             Template = System.IO.File.ReadAllText(Server.MapPath("~") + "\\UploadDocs\\FeedbackTemplate.txt");
 
             string candidatename = "";
@@ -504,12 +528,12 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             string participantname = "";
             string participantemail = "";
 
-            candidatename = dtResult.Rows[i]["CandidateName"].ToString();
-            candidateemail = dtResult.Rows[i]["CandidateEmail"].ToString();
-            organizationname = dtResult.Rows[i]["OrganisationName"].ToString();
-            Projectname = dtProjectInfo.Rows[i]["Title"].ToString();
-            participantname = dtProjectInfo.Rows[i]["Fullname"].ToString();
-            participantemail = dtProjectInfo.Rows[i]["EmailID"].ToString();
+            candidatename = dataTableResult.Rows[i]["CandidateName"].ToString();
+            candidateemail = dataTableResult.Rows[i]["CandidateEmail"].ToString();
+            organizationname = dataTableResult.Rows[i]["OrganisationName"].ToString();
+            Projectname = dataTableProjectInformation.Rows[i]["Title"].ToString();
+            participantname = dataTableProjectInformation.Rows[i]["Fullname"].ToString();
+            participantemail = dataTableProjectInformation.Rows[i]["EmailID"].ToString();
 
             Template = Template.Replace("[TITLE]", Projectname);
             Template = Template.Replace("[EMAILID]", participantemail);
@@ -517,13 +541,13 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             Template = Template.Replace("[COMPANY]", organizationname);
             Template = Template.Replace("[PARTICIPANTNAME]", participantname);
 
-            MailAddress maddr = new MailAddress(candidateemail, candidatename);
+            MailAddress eMailaddress = new MailAddress(candidateemail, candidatename);
             //SendEmail.Send("Questionnaire Feedback Submitted", Template, participantemail,maddr,"");
 
             lblMessage.Text = "Questionnaire has been submitted and email sent successfully.";
         }
 
-        int result = questionnaire_BAO.UpdateSubmitFlag(Convert.ToInt32(hdnCandidateId.Value), 1);
+        int result = questionnaireBusinessAccessObject.UpdateSubmitFlag(Convert.ToInt32(hdnCandidateId.Value), 1);
         //}
         //else
         //{
@@ -531,11 +555,17 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         //}
     }
 
+    /// <summary>
+    /// Bind Questions
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbStart_Click(object sender, EventArgs e)
     {
         try
         {
             Session["Count"] = 0;
+            //Bind Questions
             BindQuestionInformation();
 
             divText.Visible = false;
@@ -563,6 +593,11 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Set Editor peoperty according to question type.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void rptrQuestionList_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         try
@@ -571,60 +606,59 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
             if (rpItem.ItemType == ListItemType.Footer)
             {
-                Label lblNote2 = (Label)rpItem.FindControl("lblNote2");
-                if (lblNote2 != null && hdnAccountId.Value.ToString() == "68")
-                    lblNote2.Visible = false;
+                Label labelNote2 = (Label)rpItem.FindControl("lblNote2");
 
+                if (labelNote2 != null && hdnAccountId.Value.ToString() == "68")
+                    labelNote2.Visible = false;
             }
 
-            Label lblQType = (Label)rpItem.FindControl("lblQType");
-            Label lblQstId = (Label)rpItem.FindControl("lblQId");
-            Label lblQuestionText = (Label)rpItem.FindControl("lblQuestionText");
-            Label lblQuestionHint = (Label)rpItem.FindControl("lblHint");
-            HtmlTable tblGraph = (HtmlTable)rpItem.FindControl("tblGraph");
+            Label labelQuestionType = (Label)rpItem.FindControl("lblQType");
+            Label labelQuestiontId = (Label)rpItem.FindControl("lblQId");
+            Label labelQuestionText = (Label)rpItem.FindControl("lblQuestionText");
+            Label labelQuestionHint = (Label)rpItem.FindControl("lblHint");
+            HtmlTable tabelGraph = (HtmlTable)rpItem.FindControl("tblGraph");
 
-            if (lblQType != null)
+            if (labelQuestionType != null)
             {
-
-                if (lblQType.Text == "2" && hdnAccountId.Value == "34")
-                    tblGraph.Visible = true;
+                if (labelQuestionType.Text == "2" && hdnAccountId.Value == "34")
+                    tabelGraph.Visible = true;
                 else
-                    tblGraph.Visible = false;
+                    tabelGraph.Visible = false;
 
-                DataTable dt = new DataTable();
-                dt = (DataTable)Session["Questions"];
+                DataTable dataTableQuestion = new DataTable();
+                dataTableQuestion = (DataTable)Session["Questions"];
 
-                DataTable dtClone = dt.Clone();
-                RadioButton rdbtnNA = (RadioButton)rpItem.FindControl("rbtnNotApplicable");
+                DataTable dataTableQuestionClone = dataTableQuestion.Clone();
+                RadioButton radioButtonNotApplicable = (RadioButton)rpItem.FindControl("rbtnNotApplicable");
 
-                DataRow[] result = dt.Select("QuestionID =" + lblQstId.Text);
+                DataRow[] result = dataTableQuestion.Select("QuestionID =" + labelQuestiontId.Text);
 
-                foreach (DataRow dr in result)
-                    dtClone.ImportRow(dr);
+                foreach (DataRow dataRow in result)
+                    dataTableQuestionClone.ImportRow(dataRow);
 
-                if (dtClone.Rows.Count > 0)
+                if (dataTableQuestionClone.Rows.Count > 0)
                 {
-                    lblQuestionText.Text = dtClone.Rows[0]["Description"].ToString();
+                    labelQuestionText.Text = dataTableQuestionClone.Rows[0]["Description"].ToString();
 
-                    if (dtClone.Rows[0]["Token"].ToString() == "1")
-                        lblQuestionText.Text = lblQuestionText.Text.Replace("[TARGETNAME]", hdnFirstName.Value);
-                    else if (dtClone.Rows[0]["Token"].ToString() == "2")
-                        lblQuestionText.Text = lblQuestionText.Text.Replace("[TARGETNAME]", hdnLastName.Value);
+                    if (dataTableQuestionClone.Rows[0]["Token"].ToString() == "1")
+                        labelQuestionText.Text = labelQuestionText.Text.Replace("[TARGETNAME]", hdnFirstName.Value);
+                    else if (dataTableQuestionClone.Rows[0]["Token"].ToString() == "2")
+                        labelQuestionText.Text = labelQuestionText.Text.Replace("[TARGETNAME]", hdnLastName.Value);
                     else
-                        lblQuestionText.Text = lblQuestionText.Text.Replace("[TARGETNAME]", lblParticipantName.Text);
+                        labelQuestionText.Text = labelQuestionText.Text.Replace("[TARGETNAME]", lblParticipantName.Text);
 
                     //Replace Client Name keyword with actual client name
-                    lblQuestionText.Text = lblQuestionText.Text.Replace("[CLIENTNAME]", hdnClientName.Value);
+                    labelQuestionText.Text = labelQuestionText.Text.Replace("[CLIENTNAME]", hdnClientName.Value);
 
                 }
 
-                if (Convert.ToInt16(lblQType.Text) == 1)
+                if (Convert.ToInt16(labelQuestionType.Text) == 1)
                 {
 
-                    RadioButtonList rblAnswer = (RadioButtonList)rpItem.FindControl("rblAnswer");
-                    rblAnswer.Visible = false;
+                    RadioButtonList radioButtonAnswer = (RadioButtonList)rpItem.FindControl("rblAnswer");
+                    radioButtonAnswer.Visible = false;
 
-                    CKEditor.NET.CKEditorControl txtAnswers = (CKEditor.NET.CKEditorControl)rpItem.FindControl("txtAnswers");
+                    CKEditor.NET.CKEditorControl textBoxAnswers = (CKEditor.NET.CKEditorControl)rpItem.FindControl("txtAnswers");
                     //TextBox txtAnswer = (TextBox)rpItem.FindControl("txtAnswer");
                     //if (Convert.ToBoolean(dtClone.Rows[0]["Multiline"].ToString()) == true)
                     //{
@@ -639,95 +673,94 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
                     //txtAnswer.Visible = true;
 
-                    if (txtAnswers != null)
+                    if (textBoxAnswers != null)
                     {
-                        txtAnswers.config.toolbar = new object[] { };
-                        txtAnswers.config.keystrokes = new object[] { };
-                        txtAnswers.CssClass = "";
-                        txtAnswers.AutoParagraph = false;
-                        txtAnswers.ScaytAutoStartup = true;
-                        txtAnswers.BrowserContextMenuOnCtrl = false;
-                        txtAnswers.ForcePasteAsPlainText = true;
-                        txtAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
-                        txtAnswers.AutoCompleteType = AutoCompleteType.None;
-                        txtAnswers.AutoParagraph = false;
-                        txtAnswers.ScaytAutoStartup = true;
-                        txtAnswers.BrowserContextMenuOnCtrl = false;
-                        txtAnswers.ForcePasteAsPlainText = false;
-                        txtAnswers.IgnoreEmptyParagraph = true;
-                        txtAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
-                        txtAnswers.EnableTabKeyTools = false;
-                        txtAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
-                        txtAnswers.Entities = false;
-                        txtAnswers.PasteFromWordNumberedHeadingToList = false;
-                        txtAnswers.PasteFromWordRemoveStyles = true;
-                        txtAnswers.Attributes.Add("onkeypress", "javascript:TextAreaMaxLengthCheck(this.id," + dtClone.Rows[0]["LengthMAX"].ToString() + ");");
+                        textBoxAnswers.config.toolbar = new object[] { };
+                        textBoxAnswers.config.keystrokes = new object[] { };
+                        textBoxAnswers.CssClass = "";
+                        textBoxAnswers.AutoParagraph = false;
+                        textBoxAnswers.ScaytAutoStartup = true;
+                        textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                        textBoxAnswers.ForcePasteAsPlainText = true;
+                        textBoxAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
+                        textBoxAnswers.AutoCompleteType = AutoCompleteType.None;
+                        textBoxAnswers.AutoParagraph = false;
+                        textBoxAnswers.ScaytAutoStartup = true;
+                        textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                        textBoxAnswers.ForcePasteAsPlainText = false;
+                        textBoxAnswers.IgnoreEmptyParagraph = true;
+                        textBoxAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
+                        textBoxAnswers.EnableTabKeyTools = false;
+                        textBoxAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
+                        textBoxAnswers.Entities = false;
+                        textBoxAnswers.PasteFromWordNumberedHeadingToList = false;
+                        textBoxAnswers.PasteFromWordRemoveStyles = true;
+                        textBoxAnswers.Attributes.Add("onkeypress", "javascript:TextAreaMaxLengthCheck(this.id," + dataTableQuestionClone.Rows[0]["LengthMAX"].ToString() + ");");
 
-                        txtAnswers.Visible = true;
+                        textBoxAnswers.Visible = true;
                     }
 
-                    rdbtnNA.Visible = false;
+                    radioButtonNotApplicable.Visible = false;
                 }
                 else
                 {
-                    Label lblLowerLabel = (Label)rpItem.FindControl("lblLowerLabel");
-                    Label lblUpperLabel = (Label)rpItem.FindControl("lblUpperLabel");
-                    Label lblLowerBound = (Label)rpItem.FindControl("lblLowerBound");
-                    Label lblUpperBound = (Label)rpItem.FindControl("lblUpperBound");
-                    Label lblIncrement = (Label)rpItem.FindControl("lblIncrement");
+                    Label labelLowerLabel = (Label)rpItem.FindControl("lblLowerLabel");
+                    Label labelUpperLabel = (Label)rpItem.FindControl("lblUpperLabel");
+                    Label labelLowerBound = (Label)rpItem.FindControl("lblLowerBound");
+                    Label labelUpperBound = (Label)rpItem.FindControl("lblUpperBound");
+                    Label labelIncrement = (Label)rpItem.FindControl("lblIncrement");
 
-                    RadioButtonList rblAnswer = (RadioButtonList)rpItem.FindControl("rblAnswer");
-                    rblAnswer.Visible = true;
-                    rblAnswer.CellPadding = 5;
-                    rblAnswer.CellSpacing = 5;
+                    RadioButtonList radioButtonListAnswer = (RadioButtonList)rpItem.FindControl("rblAnswer");
+                    radioButtonListAnswer.Visible = true;
+                    radioButtonListAnswer.CellPadding = 5;
+                    radioButtonListAnswer.CellSpacing = 5;
 
                     //TextBox txtAnswer = (TextBox)rpItem.FindControl("txtAnswer");
                     //txtAnswer.Visible = false;
-                    CKEditor.NET.CKEditorControl txtAnswers = (CKEditor.NET.CKEditorControl)rpItem.FindControl("txtAnswers");
-                    txtAnswers.config.toolbar = new object[] { };
-                    txtAnswers.config.keystrokes = new object[] { };
-                    txtAnswers.CssClass = "";
-                    txtAnswers.AutoParagraph = false;
-                    txtAnswers.ScaytAutoStartup = true;
-                    txtAnswers.BrowserContextMenuOnCtrl = false;
-                    txtAnswers.ForcePasteAsPlainText = true;
-                    txtAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
+                    CKEditor.NET.CKEditorControl textBoxAnswers = (CKEditor.NET.CKEditorControl)rpItem.FindControl("txtAnswers");
+                    textBoxAnswers.config.toolbar = new object[] { };
+                    textBoxAnswers.config.keystrokes = new object[] { };
+                    textBoxAnswers.CssClass = "";
+                    textBoxAnswers.AutoParagraph = false;
+                    textBoxAnswers.ScaytAutoStartup = true;
+                    textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                    textBoxAnswers.ForcePasteAsPlainText = true;
+                    textBoxAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
 
-                    txtAnswers.AutoCompleteType = AutoCompleteType.None;
-                    txtAnswers.AutoParagraph = false;
-                    txtAnswers.ScaytAutoStartup = true;
-                    txtAnswers.BrowserContextMenuOnCtrl = false;
-                    txtAnswers.ForcePasteAsPlainText = false;
-                    txtAnswers.IgnoreEmptyParagraph = true;
-                    txtAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
-                    txtAnswers.EnableTabKeyTools = false;
-                    txtAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
-                    txtAnswers.Entities = false;
-                    txtAnswers.PasteFromWordNumberedHeadingToList = false;
-                    txtAnswers.PasteFromWordRemoveStyles = true;
+                    textBoxAnswers.AutoCompleteType = AutoCompleteType.None;
+                    textBoxAnswers.AutoParagraph = false;
+                    textBoxAnswers.ScaytAutoStartup = true;
+                    textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                    textBoxAnswers.ForcePasteAsPlainText = false;
+                    textBoxAnswers.IgnoreEmptyParagraph = true;
+                    textBoxAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
+                    textBoxAnswers.EnableTabKeyTools = false;
+                    textBoxAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
+                    textBoxAnswers.Entities = false;
+                    textBoxAnswers.PasteFromWordNumberedHeadingToList = false;
+                    textBoxAnswers.PasteFromWordRemoveStyles = true;
 
-                    txtAnswers.Visible = false;
+                    textBoxAnswers.Visible = false;
 
+                    DataTable dataTableValues = new DataTable();
 
-                    DataTable dtValues = new DataTable();
+                    dataTableValues.Columns.Add("Id");
+                    dataTableValues.Columns.Add("Value");
 
-                    dtValues.Columns.Add("Id");
-                    dtValues.Columns.Add("Value");
+                    for (int counter = Convert.ToInt32(labelLowerBound.Text); counter <= Convert.ToInt32(labelUpperBound.Text); counter = counter + Convert.ToInt32(labelIncrement.Text))
+                        dataTableValues.Rows.Add(counter.ToString() + "&nbsp;&nbsp;", counter.ToString() + "&nbsp;&nbsp;");
 
-                    for (int counter = Convert.ToInt32(lblLowerBound.Text); counter <= Convert.ToInt32(lblUpperBound.Text); counter = counter + Convert.ToInt32(lblIncrement.Text))
-                        dtValues.Rows.Add(counter.ToString() + "&nbsp;&nbsp;", counter.ToString() + "&nbsp;&nbsp;");
+                    dataTableValues.Rows.Add("N/A", "N/A");
 
-                    dtValues.Rows.Add("N/A", "N/A");
+                    dataTableValues.Rows[Convert.ToInt32(dataTableValues.Rows.Count) - 2]["Value"] = labelUpperBound.Text + "&nbsp;&nbsp;&nbsp;<b>" + dataTableQuestionClone.Rows[0]["UpperLabel"].ToString() + "</b>&nbsp;&nbsp;&nbsp;";
 
-                    dtValues.Rows[Convert.ToInt32(dtValues.Rows.Count) - 2]["Value"] = lblUpperBound.Text + "&nbsp;&nbsp;&nbsp;<b>" + dtClone.Rows[0]["UpperLabel"].ToString() + "</b>&nbsp;&nbsp;&nbsp;";
+                    radioButtonListAnswer.DataSource = dataTableValues;
+                    radioButtonListAnswer.DataValueField = "Id";
+                    radioButtonListAnswer.DataTextField = "Value";
+                    radioButtonListAnswer.DataBind();
 
-                    rblAnswer.DataSource = dtValues;
-                    rblAnswer.DataValueField = "Id";
-                    rblAnswer.DataTextField = "Value";
-                    rblAnswer.DataBind();
-
-                    rdbtnNA.Visible = false;
-                    lblUpperLabel.Visible = false;
+                    radioButtonNotApplicable.Visible = false;
+                    labelUpperLabel.Visible = false;
                 }
             }
         }
@@ -737,34 +770,39 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Bind Question list
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void rptrQuestionListMain_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         try
         {
-            DataTable dt = new DataTable();
-            dt = (DataTable)Session["Questions"];
+            DataTable dataTableQuestions = new DataTable();
+            dataTableQuestions = (DataTable)Session["Questions"];
 
-            DataTable dtClone = dt.Clone();
+            DataTable dataTableQuestionsClone = dataTableQuestions.Clone();
 
-            Repeater rptrQuestionList = (Repeater)e.Item.FindControl("rptrQuestionList");
+            Repeater repeaterQuestionList = (Repeater)e.Item.FindControl("rptrQuestionList");
             Label LabelQuestionnaireDescription = (Label)e.Item.FindControl("LabelQuestionnaireDescription");
-            Label lblCategoryTitle = (Label)e.Item.FindControl("lblCategoryTitle");
-            Label lblCategoryID = (Label)e.Item.FindControl("lblCategoryID");
+            Label labelCategoryTitle = (Label)e.Item.FindControl("lblCategoryTitle");
+            Label labelCategoryID = (Label)e.Item.FindControl("lblCategoryID");
 
-            if (lblCategoryID != null)
+            if (labelCategoryID != null)
             {
-                DataRow[] result = dt.Select("CategoryID=" + lblCategoryID.Text, "Sequence");
+                DataRow[] result = dataTableQuestions.Select("CategoryID=" + labelCategoryID.Text, "Sequence");
 
-                foreach (DataRow dr in result)
-                    dtClone.ImportRow(dr);
+                foreach (DataRow dataRow in result)
+                    dataTableQuestionsClone.ImportRow(dataRow);
 
-                if (dtClone.Rows.Count > 0)
+                if (dataTableQuestionsClone.Rows.Count > 0)
                 {
-                    rptrQuestionList.DataSource = dtClone;
-                    rptrQuestionList.DataBind();
+                    repeaterQuestionList.DataSource = dataTableQuestionsClone;
+                    repeaterQuestionList.DataBind();
                     //lblCategoryName.Text = dtClone.Rows[0]["CategoryName"].ToString();
-                    lblCategoryTitle.Text = dtClone.Rows[0]["CategoryTitle"].ToString();
-                    LabelQuestionnaireDescription.Text = dtClone.Rows[0].Field<string>("QuestionnaireCategoryDescription");
+                    labelCategoryTitle.Text = dataTableQuestionsClone.Rows[0]["CategoryTitle"].ToString();
+                    LabelQuestionnaireDescription.Text = dataTableQuestionsClone.Rows[0].Field<string>("QuestionnaireCategoryDescription");
                 }
             }
         }
@@ -776,23 +814,31 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
     #endregion
 
     #region Private Region
+    /// <summary>
+    /// Calculate % of survey completion ans ser prologue text.
+    /// </summary>
     private void SetGraphData()
     {
-        int answeredQuestion = questionnaire_BAO.CalculateGraph(Convert.ToInt32(hdnQuestionnaireId.Value), Convert.ToInt32(hdnCandidateId.Value));
+        int answeredQuestion = questionnaireBusinessAccessObject.CalculateGraph(Convert.ToInt32(hdnQuestionnaireId.Value), Convert.ToInt32(hdnCandidateId.Value));
 
-        double percentage = answeredQuestion==0? 0 :(answeredQuestion * 100) / Convert.ToInt32(hdnQuestionCount.Value);
+        double percentage = answeredQuestion == 0 ? 0 : (answeredQuestion * 100) / Convert.ToInt32(hdnQuestionCount.Value);
         percentage = Convert.ToInt32(Math.Abs(percentage));
         tbGraph.Width = percentage.ToString() + "%";
 
         lblCompletionStatus.Text = percentage + "%";
         //lblCompletionStatus.ForeColor = System.Drawing.Color.Red;
 
-        //Set Prolog of questionnaire
-        List<Questionnaire_BE.Questionnaire_BE> questionnaire_BEList = new List<Questionnaire_BE.Questionnaire_BE>();
-        questionnaire_BEList = questionnaire_BAO.GetQuestionnaireByID(Convert.ToInt32(hdnQuestionnaireId.Value));
-        lblQuestionnaireText.Text = questionnaire_BEList[0].QSTNPrologue.ToString();
+        //Set Prologue of questionnaire
+        List<Questionnaire_BE.Questionnaire_BE> questionnaireBusinessEntityList = new List<Questionnaire_BE.Questionnaire_BE>();
+
+        questionnaireBusinessEntityList = questionnaireBusinessAccessObject.GetQuestionnaireByID(Convert.ToInt32(hdnQuestionnaireId.Value));
+
+        lblQuestionnaireText.Text = questionnaireBusinessEntityList[0].QSTNPrologue.ToString();
     }
 
+    /// <summary>
+    /// Bind questions and set answer
+    /// </summary>
     private void BindQuestionInformation()
     {
         try
@@ -807,30 +853,33 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
             int qID = Convert.ToInt32(questionnaireID);
 
             if (hdnRelationship.Value != "Self")
-                dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaireByRelationShip(AccountID, ProjectId, qID, Relationship);
+                dataTableQuestion = questionnaireBusinessAccessObject.GetFeedbackQuestionnaireByRelationShip(AccountID, ProjectId, qID, Relationship);
             else
-                dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaireSelfByRelationShip(AccountID, ProjectId, qID, Relationship);
+                dataTableQuestion = questionnaireBusinessAccessObject.GetFeedbackQuestionnaireSelfByRelationShip(AccountID, ProjectId, qID, Relationship);
 
-            Session["Questions"] = dtQuestion;
+            Session["Questions"] = dataTableQuestion;
 
-            dtCategory = questionnaire_BAO.GetQuestionnaireCategoriesByRelationShip(AccountID, ProjectId, qID, Relationship);
-            Session["Category"] = dtCategory;
+            dataTableCategory = questionnaireBusinessAccessObject.GetQuestionnaireCategoriesByRelationShip(AccountID, ProjectId, qID, Relationship);
 
-            Session["categoryCount"] = (Math.Abs(dtCategory.Rows.Count / Convert.ToInt32(hdnIncrementValue.Value)));
+            Session["Category"] = dataTableCategory;
 
-            if (dtCategory.Rows.Count % Convert.ToInt32(hdnIncrementValue.Value) > 0)
+            Session["categoryCount"] = (Math.Abs(dataTableCategory.Rows.Count / Convert.ToInt32(hdnIncrementValue.Value)));
+
+            if (dataTableCategory.Rows.Count % Convert.ToInt32(hdnIncrementValue.Value) > 0)
                 Session["categoryCount"] = Convert.ToInt32(Session["categoryCount"]) + 1;
 
-            questionCount = dtQuestion.Rows.Count;
+            questionCount = dataTableQuestion.Rows.Count;
             hdnQuestionCount.Value = questionCount.ToString(); ;
 
             if (questionCount > 0)
             {
-                DataTable dtCat = new DataTable();
-                dtCat = (DataTable)Session["Category"];
+                DataTable CategorydataTable = new DataTable();
+                CategorydataTable = (DataTable)Session["Category"];
                 currentCount = Convert.ToInt32(Session["Count"]);
 
+                //Bind Question
                 BindQuestions(currentCount);
+                //Set Answer if given
                 SetQuestionAnswer();
 
                 divText.Visible = true;
@@ -845,6 +894,10 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Bind questions
+    /// </summary>
+    /// <param name="qstCount"></param>
     private void BindQuestions(int qstCount)
     {
         try
@@ -862,19 +915,19 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                 countTo = Convert.ToInt32(hdnIncrementValue.Value);
             }
 
-            DataTable dt = new DataTable();
-            dt = (DataTable)Session["Category"];
+            DataTable dataTableCategory = new DataTable();
+            dataTableCategory = (DataTable)Session["Category"];
 
-            DataTable dtClone = dt.Clone();
+            DataTable dataTableCategoryClone = dataTableCategory.Clone();
 
-            DataRow[] result = dt.Select("RowNumber >=" + countFrom + " and RowNumber <=" + countTo);
+            DataRow[] result = dataTableCategory.Select("RowNumber >=" + countFrom + " and RowNumber <=" + countTo);
 
             //DataRow[] result = dt.Select("CategoryID=" + qstCount,"Sequence" );
 
-            foreach (DataRow dr in result)
-                dtClone.ImportRow(dr);
+            foreach (DataRow dataRow in result)
+                dataTableCategoryClone.ImportRow(dataRow);
 
-            rptrQuestionListMain.DataSource = dtClone;
+            rptrQuestionListMain.DataSource = dataTableCategoryClone;
             rptrQuestionListMain.DataBind();
 
             //if (dtClone.Rows.Count > 0)
@@ -896,6 +949,9 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Set Answers
+    /// </summary>
     private void SetQuestionAnswer()
     {
         try
@@ -905,53 +961,57 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
 
             foreach (RepeaterItem rptrItem in rptrQuestionListMain.Items)
             {
-                Repeater rptrQuestionList = (Repeater)rptrItem.FindControl("rptrQuestionList");
-                foreach (RepeaterItem item in rptrQuestionList.Items)
+                Repeater repeaterQuestionList = (Repeater)rptrItem.FindControl("rptrQuestionList");
+
+                foreach (RepeaterItem item in repeaterQuestionList.Items)
                 {
-                    Label lblQId = (Label)item.FindControl("lblQId");
-                    Label lblQType = (Label)item.FindControl("lblQType");
-                    Label lblLowerLabel = (Label)item.FindControl("lblLowerLabel");
-                    Label lblUpperLabel = (Label)item.FindControl("lblUpperLabel");
-                    Label lblLowerBound = (Label)item.FindControl("lblLowerBound");
-                    Label lblUpperBound = (Label)item.FindControl("lblUpperBound");
-                    Label lblIncrement = (Label)item.FindControl("lblIncrement");
+                    Label labelQuestionId = (Label)item.FindControl("lblQId");
+                    Label labelQuestionType = (Label)item.FindControl("lblQType");
+                    Label labelLowerLabel = (Label)item.FindControl("lblLowerLabel");
+                    Label labelUpperLabel = (Label)item.FindControl("lblUpperLabel");
+                    Label labelLowerBound = (Label)item.FindControl("lblLowerBound");
+                    Label labelUpperBound = (Label)item.FindControl("lblUpperBound");
+                    Label labelIncrement = (Label)item.FindControl("lblIncrement");
                     RadioButton rdbtnNA = (RadioButton)item.FindControl("rbtnNotApplicable");
 
-                    if (lblQId != null)
-                        questionID = Convert.ToInt32(lblQId.Text);
+                    if (labelQuestionId != null)
+                        questionID = Convert.ToInt32(labelQuestionId.Text);
+
                     candidateId = Convert.ToInt32(hdnCandidateId.Value);
 
-                    QuestionAnswer_BAO questionAnswer_BAO = new QuestionAnswer_BAO();
-                    string answer = questionAnswer_BAO.GetQuestionAnswer(candidateId, questionID);
+                    QuestionAnswer_BAO questionAnswerBusinessAccessObject = new QuestionAnswer_BAO();
 
-                    if (Convert.ToInt16(lblQType.Text) == 1)
+                    string answer = questionAnswerBusinessAccessObject.GetQuestionAnswer(candidateId, questionID);
+
+                    if (Convert.ToInt16(labelQuestionType.Text) == 1)
                     {
-                        CKEditor.NET.CKEditorControl txtAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
-                        if (txtAnswers != null)
+                        CKEditor.NET.CKEditorControl textBoxAnswers = (CKEditor.NET.CKEditorControl)item.FindControl("txtAnswers");
+
+                        if (textBoxAnswers != null)
                         {
-                            txtAnswers.config.toolbar = new object[] { };
-                            txtAnswers.config.keystrokes = new object[] { };
-                            txtAnswers.CssClass = "";
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = true;
-                            txtAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
+                            textBoxAnswers.config.toolbar = new object[] { };
+                            textBoxAnswers.config.keystrokes = new object[] { };
+                            textBoxAnswers.CssClass = "";
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = true;
+                            textBoxAnswers.config.removeFormatTags = "b,big,code,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var";
 
-                            txtAnswers.AutoCompleteType = AutoCompleteType.None;
-                            txtAnswers.AutoParagraph = false;
-                            txtAnswers.ScaytAutoStartup = true;
-                            txtAnswers.BrowserContextMenuOnCtrl = false;
-                            txtAnswers.ForcePasteAsPlainText = false;
-                            txtAnswers.IgnoreEmptyParagraph = true;
-                            txtAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
-                            txtAnswers.EnableTabKeyTools = false;
-                            txtAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
-                            txtAnswers.Entities = false;
-                            txtAnswers.PasteFromWordNumberedHeadingToList = false;
-                            txtAnswers.PasteFromWordRemoveStyles = true;
+                            textBoxAnswers.AutoCompleteType = AutoCompleteType.None;
+                            textBoxAnswers.AutoParagraph = false;
+                            textBoxAnswers.ScaytAutoStartup = true;
+                            textBoxAnswers.BrowserContextMenuOnCtrl = false;
+                            textBoxAnswers.ForcePasteAsPlainText = false;
+                            textBoxAnswers.IgnoreEmptyParagraph = true;
+                            textBoxAnswers.ContentsLangDirection = CKEditor.NET.contentsLangDirections.Ltr;
+                            textBoxAnswers.EnableTabKeyTools = false;
+                            textBoxAnswers.EnterMode = CKEditor.NET.EnterMode.BR;
+                            textBoxAnswers.Entities = false;
+                            textBoxAnswers.PasteFromWordNumberedHeadingToList = false;
+                            textBoxAnswers.PasteFromWordRemoveStyles = true;
 
-                            txtAnswers.Text = answer;
+                            textBoxAnswers.Text = answer;
 
                         }
                         //TextBox txtAnswer = (TextBox)item.FindControl("txtAnswer");
@@ -960,49 +1020,48 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
                     }
                     else
                     {
-                        RadioButtonList rblAnswer = (RadioButtonList)item.FindControl("rblAnswer");
-                        rblAnswer.Visible = true;
-                        rblAnswer.CellPadding = 5;
-                        rblAnswer.CellSpacing = 5;
+                        RadioButtonList radioButtonListAnswer = (RadioButtonList)item.FindControl("rblAnswer");
+                        radioButtonListAnswer.Visible = true;
+                        radioButtonListAnswer.CellPadding = 5;
+                        radioButtonListAnswer.CellSpacing = 5;
 
-                        DataTable dtValues = new DataTable();
+                        DataTable dataTableValues = new DataTable();
 
-                        dtValues.Columns.Add("Id");
-                        dtValues.Columns.Add("Value");
+                        dataTableValues.Columns.Add("Id");
+                        dataTableValues.Columns.Add("Value");
 
-                        for (int counter = Convert.ToInt32(lblLowerBound.Text); counter <= Convert.ToInt32(lblUpperBound.Text);
-                            counter = counter + Convert.ToInt32(lblIncrement.Text))
-                            dtValues.Rows.Add(counter.ToString(), counter.ToString());
+                        for (int counter = Convert.ToInt32(labelLowerBound.Text); counter <= Convert.ToInt32(labelUpperBound.Text);
+                            counter = counter + Convert.ToInt32(labelIncrement.Text))
 
-                        dtValues.Rows.Add("N/A", "N/A");
+                            dataTableValues.Rows.Add(counter.ToString(), counter.ToString());
+
+                        dataTableValues.Rows.Add("N/A", "N/A");
 
                         //dtValues.Rows[Convert.ToInt32(dtValues.Rows.Count) - 2]["Value"] = lblUpperBound.Text + "&nbsp;&nbsp;&nbsp;<b>" + lblUpperLabel.Text + "</b>&nbsp;&nbsp;&nbsp;";
 
-                        dtValues.Rows[Convert.ToInt32(dtValues.Rows.Count) - 2]["Value"] = lblUpperBound.Text + "</label></td><td>&nbsp;&nbsp;</td><td ><b>" + lblUpperLabel.Text + "</b></td><td><label>&nbsp;&nbsp;";
+                        dataTableValues.Rows[Convert.ToInt32(dataTableValues.Rows.Count) - 2]["Value"] = labelUpperBound.Text + "</label></td><td>&nbsp;&nbsp;</td><td ><b>" + labelUpperLabel.Text + "</b></td><td><label>&nbsp;&nbsp;";
 
-                        rblAnswer.DataSource = dtValues;
-                        rblAnswer.DataValueField = "Id";
-                        rblAnswer.DataTextField = "Value";
-                        rblAnswer.DataBind();
+                        radioButtonListAnswer.DataSource = dataTableValues;
+                        radioButtonListAnswer.DataValueField = "Id";
+                        radioButtonListAnswer.DataTextField = "Value";
+                        radioButtonListAnswer.DataBind();
 
-                        if (rblAnswer != null && answer != "")
+                        if (radioButtonListAnswer != null && answer != "")
                         {
-                            for (int i = 0; i < dtValues.Rows.Count; i++)
+                            for (int i = 0; i < dataTableValues.Rows.Count; i++)
                             {
-
-
-                                if (rblAnswer.Items[i].Text == answer)
+                                if (radioButtonListAnswer.Items[i].Text == answer)
                                 {
-                                    rblAnswer.Items[i].Selected = true;
+                                    radioButtonListAnswer.Items[i].Selected = true;
                                     break;
                                 }
                                 else
                                 {
-                                    if (rblAnswer.Items[i].Text.Contains("</label>"))
+                                    if (radioButtonListAnswer.Items[i].Text.Contains("</label>"))
                                     {
-                                        if (((rblAnswer.Items[i].Text.Split('<'))[0]).Trim() == answer)
+                                        if (((radioButtonListAnswer.Items[i].Text.Split('<'))[0]).Trim() == answer)
                                         {
-                                            rblAnswer.Items[i].Selected = true;
+                                            radioButtonListAnswer.Items[i].Selected = true;
                                             break;
                                         }
                                     }
@@ -1023,5 +1082,4 @@ public partial class Module_Feedback_Feedback : System.Web.UI.Page
         }
     }
     #endregion
-
 }
