@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -14,8 +11,9 @@ using Administration_BAO;
 
 public partial class Module_Admin_AccountUserList : CodeBehindBase
 {
-    AccountUser_BAO accountuser_BAO = new AccountUser_BAO();
-    AccountUser_BE accountuser_BE = new AccountUser_BE();
+    //Global variable
+    AccountUser_BAO accountuserBusinessAccessObject = new AccountUser_BAO();
+    AccountUser_BE accountuserBusinessEntity = new AccountUser_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -24,7 +22,7 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
     int accountuserCount = 0;
     string pageNo = "";
 
-    DataTable dtCompanyName;
+    DataTable dataTableCompanyName;
     //DataTable dtAllAccount;
     //string expression1;
     //string Finalexpression;
@@ -32,8 +30,8 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
     protected void Page_Load(object sender, EventArgs e)
     {
 
-    //    Label ll = (Label)this.Master.FindControl("Current_location");
-    //    ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        //    Label ll = (Label)this.Master.FindControl("Current_location");
+        //    ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
@@ -45,19 +43,22 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
 
             if (!IsPostBack)
             {
-                Group_BAO group_BAO = new Group_BAO();
-                ddlGroup.DataSource = group_BAO.GetdtGroupList(identity.User.AccountID.ToString());
+
+                // Bind Group dropdown list by user account id.
+                Group_BAO groupBusinessAccessObject = new Group_BAO();
+                ddlGroup.DataSource = groupBusinessAccessObject.GetdtGroupList(identity.User.AccountID.ToString());
                 ddlGroup.DataTextField = "GroupName";
                 ddlGroup.DataValueField = "GroupID";
                 ddlGroup.DataBind();
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(identity.User.AccountID.ToString());
+                // Bind account dropdown list user account id.
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(identity.User.AccountID.ToString());
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
 
-                if (identity.User.GroupID == 1)
+                if (identity.User.GroupID == 1)// If it is a SUPER ADMIN then Account section visible true else false.
                 {
                     divAccount.Visible = true;
                     ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
@@ -68,18 +69,20 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
+                //Reset the DataSource.
                 odsAccountUser.SelectParameters.Clear();
                 odsAccountUser.SelectParameters.Add("accountID", GetCondition());
                 odsAccountUser.Select();
-                
+                //Hansdle page related events.
                 ManagePaging();
             }
 
             grdvAccountUser.PageSize = pageSize;
-            
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -89,6 +92,11 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind Data on Grid view every row.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvAccountUser_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
@@ -97,8 +105,8 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
 
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[7].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this user?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[7].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this user?')) return false";
             }
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -109,6 +117,11 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Add new Record.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -127,22 +140,24 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
 
     #region Gridview Paging Related Methods
 
+    /// <summary>
+    /// Manage Paging for Gridview .
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
 
-        
         //if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         //    accountuserCount = accountuser_BAO.GetAccountUserListCount(ddlAccountCode.SelectedValue);
         //else    
 
-        accountuserCount = accountuser_BAO.GetAccountUserListCount(GetCondition());
+        //Get Account list count.
+        accountuserCount = accountuserBusinessAccessObject.GetAccountUserListCount(GetCondition());
 
         plcPaging.Controls.Clear();
 
         if (accountuserCount > 0)
         {
-            
             // Variable declaration
             int numberOfPages;
             int numberOfRecords = accountuserCount;
@@ -160,7 +175,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             {
                 numberOfPages = 1;
             }
-
 
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
@@ -188,9 +202,7 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -223,7 +235,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -248,7 +259,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -269,7 +279,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
 
-
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
             {
@@ -280,7 +289,7 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
                     objLb.Text = i.ToString();
                     objLb.ID = "lb_" + i.ToString();
                     objLb.CommandName = "pgChange";
-                    objLb.ToolTip = "Page " + i.ToString(); 
+                    objLb.ToolTip = "Page " + i.ToString();
                     objLb.EnableViewState = true;
                     objLb.CommandArgument = i.ToString();
 
@@ -288,7 +297,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
                     {
                         objLb.CssClass = "active";
                         objLb.Enabled = false;
-
                     }
 
                     plcPaging.Controls.Add(objLb);
@@ -359,12 +367,20 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Manage View State of page when Expires.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, accountuserCount };
     }
 
+    /// <summary>
+    /// Reload the view state of Page.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -379,54 +395,77 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Use to Handle Previous or next button click on grid view paging.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvAccountUser.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvAccountUser.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvAccountUser.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Page index change command.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
+
+            //Clear paging control.
             plcPaging.Controls.Clear();
 
-            grdvAccountUser.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Set page index.
+            grdvAccountUser.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
+            //Bind grid.
             grdvAccountUser.DataBind();
+
+            //Mange page index change.
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
-
     #endregion
 
     #region Search Related Function
 
+    /// <summary>
+    /// Get dynamic query and bind user list.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
-        
+        //ReInitilize Datasource  
         odsAccountUser.SelectParameters.Clear();
         odsAccountUser.SelectParameters.Add("accountID", GetCondition());
         odsAccountUser.Select();
 
+        //Bind Gridview
         grdvAccountUser.PageIndex = 0;
         grdvAccountUser.DataBind();
         ManagePaging();
-        
     }
 
+    /// <summary>
+    /// Reset control value to default.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         txtLastName.Text = "";
@@ -434,9 +473,11 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
         txtUserName.Text = "";
         ddlGroup.SelectedIndex = 0;
 
+        //Set Account dropdown to user Account ID.
         ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
         ddlAccountCode_SelectedIndexChanged(sender, e);
 
+        //ReInitilize Datasource 
         odsAccountUser.SelectParameters.Clear();
         odsAccountUser.SelectParameters.Add("accountID", GetCondition());
         odsAccountUser.Select();
@@ -446,20 +487,26 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Accont Selected Index change, then bind account details section.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
+            //Get account details.
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
             foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                dataTableAccount.ImportRow(drAccount);
+            //set comapny name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             //odsAccountUser.SelectParameters.Clear();
             //odsAccountUser.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
@@ -468,8 +515,6 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             //ManagePaging();
 
             ViewState["AccountID"] = ddlAccountCode.SelectedValue;
-
-            
         }
         else
         {
@@ -480,35 +525,36 @@ public partial class Module_Admin_AccountUserList : CodeBehindBase
             //odsAccountUser.Select();
 
             //ManagePaging();
-            
-            
         }
     }
 
+    /// <summary>
+    /// Create Condition for DataSource Element.
+    /// </summary>
+    /// <returns></returns>
     protected string GetCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-            str = str + "" + ViewState["AccountID"] + " and ";
+            stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
         else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
         if (txtUserName.Text.Trim() != string.Empty)
-            str = str + "[FirstName] like '" + txtUserName.Text.Trim() + "%' and ";
+            stringQuery = stringQuery + "[FirstName] like '" + txtUserName.Text.Trim() + "%' and ";
 
         if (txtLoginId.Text.Trim() != string.Empty)
-            str = str + "[User].[LoginID] like '" + txtLoginId.Text.Trim() + "%' and ";
+            stringQuery = stringQuery + "[User].[LoginID] like '" + txtLoginId.Text.Trim() + "%' and ";
 
         if (ddlGroup.SelectedIndex > 0)
-            str = str + "[GroupName] = '" + ddlGroup.SelectedItem.Text.Trim() + "' and ";
+            stringQuery = stringQuery + "[GroupName] = '" + ddlGroup.SelectedItem.Text.Trim() + "' and ";
 
         if (txtLastName.Text.Trim() != string.Empty)
-            str = str + "[LastName] like '" + txtLastName.Text.Trim() + "%' and ";
+            stringQuery = stringQuery + "[LastName] like '" + txtLastName.Text.Trim() + "%' and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
-
 }

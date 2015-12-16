@@ -7,6 +7,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
+     <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
     <div id="bodytextcontainer">
         <div class="innercontainer">
             <!-- start heading logout -->
@@ -233,10 +234,15 @@
                                         class="style3"></span>
                                 </td>
                                 <td width="85%">
-                                    <FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                  <%--  <FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
                                         ToolbarSet="Feedback">
-                                    </FCKeditorV2:FCKeditor>
+                                    </FCKeditorV2:FCKeditor>--%>
                                     <%--<asp:TextBox ID="txtFaqText" TextMode="MultiLine" SkinID="txtarea500" Rows="5" runat="server"></asp:TextBox>--%>
+                                    <div style="width: 100%;">
+                                        <textarea id="txtFaqText" runat="server" rows="10" cols="80" style="width: 90%;"
+                                            clientidmode="Static">
+                                        </textarea>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
@@ -268,4 +274,21 @@
             
         </div>
     </div>
+
+     <script type="text/javascript">
+         CKEDITOR.config.htmlEncodeOutput = true;
+         CKEDITOR.replace('txtFaqText', {
+             uiColor: '#9AB8F3',
+             toolbar: [
+		{ name: 'document', items: ['Source', '-', 'NewPage', 'Preview', '-', 'Templates'] }, // Defines toolbar group with name (used to create voice label) and items in 3 subgroups.
+		['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'],
+        { name: 'editing', items: ['spellchecker'] }, ['Scayt'],
+         { name: 'basicstyles', items: ['basicstyles'] }, ['Bold', 'Italic'], // Defines toolbar group without name.
+		'/', 																		// Line break - next group will be placed in new line.
+        {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+	    { name: 'styles', items: ['Styles', 'Format'] },
+        { name: 'colors' }
+	    ]
+         });
+        </script>
 </asp:Content>

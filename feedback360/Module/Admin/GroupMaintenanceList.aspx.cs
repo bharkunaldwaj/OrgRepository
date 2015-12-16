@@ -1,55 +1,47 @@
 ﻿using System;
-using System.Collections;
 using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 using System.Text;
-using System.Collections.Generic;
 using Administration_BE;
 using Administration_BAO;
-using System.Diagnostics;
-using System.Data.SqlClient;
 
 public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
 {
-    Group_BAO group_BAO = new Group_BAO();
-    Group_BE group_BE = new Group_BE();
+    //Global variables
+    Group_BAO groupBusinessAccessObject = new Group_BAO();
+    Group_BE groupBusinessEntity = new Group_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
 
     int groupCount = 0;
     string pageNo = "";
-    
+
     WADIdentity identity;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-   //     Label ll = (Label)this.Master.FindControl("Current_location");
-  //      ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        //     Label ll = (Label)this.Master.FindControl("Current_location");
+        //      ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
             identity = this.Page.User.Identity as WADIdentity;
 
+            //Reset Gridview object data source Parameter. 
             odsGroup.SelectParameters.Clear();
             odsGroup.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsGroup.Select();
 
+            //Reset gridview pagesize.
             grdvGroup.PageSize = pageSize;
+            //Manage gridview pagaing.
             ManagePaging();
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -59,16 +51,22 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Add contorl attribute to every row of gridview.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvGroup_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
 
+            //Add client side event to delete button.
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[4].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this group?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[4].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this group?')) return false";
             }
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -79,6 +77,11 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Group maintance page when click on Add new.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -96,22 +99,22 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Manage Pagaing to gridview on page index change.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
 
-        groupCount = group_BAO.GetGroupListCount(identity.User.AccountID.ToString());
+        groupCount = groupBusinessAccessObject.GetGroupListCount(identity.User.AccountID.ToString());
 
         if (groupCount > 0)
         {
-
             // Variable declaration
             int numberOfPages;
             int numberOfRecords = groupCount;
             int currentPage = (grdvGroup.PageIndex);
-            StringBuilder strSummary = new StringBuilder();
-
+            StringBuilder stringSummary = new StringBuilder();
 
             // If number of records is more then the page size (specified in global variable)
             // Just to check either gridview have enough records to implement paging
@@ -125,14 +128,13 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
                 numberOfPages = 1;
             }
 
-
             // Creating a small summary for records.
-            strSummary.Append("Displaying <b>");
+            stringSummary.Append("Displaying <b>");
 
             // Creating X f X Records
             int floor = (currentPage * pageSize) + 1;
-            strSummary.Append(floor.ToString());
-            strSummary.Append("</b>-<b>");
+            stringSummary.Append(floor.ToString());
+            stringSummary.Append("</b>-<b>");
             int ceil = ((currentPage * pageSize) + pageSize);
 
             //let say you have 26 records and you specified 10 page size, 
@@ -140,21 +142,19 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
             // So this check will see if the ceil value is increasing the number of records. Consider numberOfRecords
             if (ceil > numberOfRecords)
             {
-                strSummary.Append(numberOfRecords.ToString());
+                stringSummary.Append(numberOfRecords.ToString());
             }
             else
             {
-                strSummary.Append(ceil.ToString());
+                stringSummary.Append(ceil.ToString());
             }
 
             // Displaying Total number of records Creating X of X of About X records.
-            strSummary.Append("</b> of <b>");
-            strSummary.Append(numberOfRecords.ToString());
-            strSummary.Append("</b> records</br>");
-
+            stringSummary.Append("</b> of <b>");
+            stringSummary.Append(numberOfRecords.ToString());
+            stringSummary.Append("</b> records</br>");
 
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -187,7 +187,6 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -212,7 +211,6 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -233,7 +231,6 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
 
-
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
             {
@@ -252,7 +249,6 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
                     {
                         objLb.CssClass = "active";
                         objLb.Enabled = false;
-
                     }
 
                     plcPaging.Controls.Add(objLb);
@@ -323,12 +319,20 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state of the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, groupCount };
     }
 
+    /// <summary>
+    /// Reload the viewsate when view sate of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -343,37 +347,49 @@ public partial class Module_Admin_GroupMaintenanceList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Gridview Paging Next previous button event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvGroup.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        //Reset Page index to new index.
+        grdvGroup.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvGroup.DataBind();
 
         ManagePaging();
 
     }
 
+    /// <summary>
+    /// Handel record search in gridview by page number.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-        if (txtGoto.Text.Trim() != "")
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvGroup.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Reset Page index to new index.
+            grdvGroup.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvGroup.DataBind();
-            ManagePaging();
 
-            txtGoto.Text = pageNo;
+            //Handel pageing in Gridview.
+            ManagePaging();
+            //set page number.
+            textBoxGoto.Text = pageNo;
         }
     }
-
     #endregion
 }

@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using System.Text;
 using System.Configuration;
 
 using Admin_BAO;
 using Admin_BE;
-using Administration_BAO;
 
 public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 {
-    ReminderEmailHistory_BAO reminderEmailHistory_BAO = new ReminderEmailHistory_BAO();
-    ReminderEmailHistory_BE reminderEmailHistory_BE = new ReminderEmailHistory_BE();
+    //GLobal variable
+    ReminderEmailHistory_BAO reminderEmailHistoryBusinessAccessObject = new ReminderEmailHistory_BAO();
+    ReminderEmailHistory_BE reminderEmailHistoryBusinessEntity = new ReminderEmailHistory_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -26,9 +22,9 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //if (txtFromDate.Text != "")
@@ -36,7 +32,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
             //if (txtToDate.Text != "")
             //    SetDTPicker(updPanel, "dtToDate", "txtToDate");
-
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
@@ -45,9 +40,10 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
                 ViewState["ToDate"] = "";
 
                 odsReminderMailHistory.SelectParameters.Clear();
-
+                //If user is super Admin then bind reminder grid with account id=1 else user account id.
                 if (identity.User.GroupID == 1)
                 {
+                    //Set the parameter for object datasource parameter with dynamic query.
                     odsReminderMailHistory.SelectParameters.Add("sql", GetSqlCondition(1, 1));
                 }
                 else
@@ -56,14 +52,16 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
                 }
 
                 odsReminderMailHistory.Select();
-
+                //Manage pagin when grid binds.
                 ManagePaging();
             }
+            //Set grid page index
             grdvReminderMailHistory.PageSize = pageSize;
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
         }
         catch (Exception ex)
         {
@@ -72,25 +70,26 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
     }
 
     #region "Gridview Related Methods"
-
+    /// <summary>
+    ///  Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
 
         if (identity.User.GroupID == 1)
         {
-            emailHistoryCount = reminderEmailHistory_BAO.GetQuestionnaireListCount(GetSqlCondition(2, 1));
+            emailHistoryCount = reminderEmailHistoryBusinessAccessObject.GetQuestionnaireListCount(GetSqlCondition(2, 1));
         }
         else
         {
-            emailHistoryCount = reminderEmailHistory_BAO.GetQuestionnaireListCount(GetSqlCondition(2, Convert.ToInt32(identity.User.AccountID)));
+            emailHistoryCount = reminderEmailHistoryBusinessAccessObject.GetQuestionnaireListCount(GetSqlCondition(2, Convert.ToInt32(identity.User.AccountID)));
         }
 
         //emailHistoryCount = reminderEmailHistory_BAO.GetQuestionnaireListCount(GetSqlCondition(2));
 
         if (emailHistoryCount > 0)
         {
-
             plcPaging.Controls.Clear();
 
             // Variable declaration
@@ -98,7 +97,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             int numberOfRecords = emailHistoryCount;
             int currentPage = (grdvReminderMailHistory.PageIndex);
             StringBuilder strSummary = new StringBuilder();
-
 
             // If number of records is more then the page size (specified in global variable)
             // Just to check either gridview have enough records to implement paging
@@ -111,7 +109,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             {
                 numberOfPages = 1;
             }
-
 
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
@@ -139,9 +136,7 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -199,7 +194,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -220,7 +214,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
 
-
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
             {
@@ -239,7 +232,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
                     {
                         objLb.CssClass = "active";
                         objLb.Enabled = false;
-
                     }
 
                     plcPaging.Controls.Add(objLb);
@@ -314,12 +306,20 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, emailHistoryCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -336,39 +336,50 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
         LinkButton objlb = (LinkButton)sender;
-
+        //Reset Gridview page index to new index.
         grdvReminderMailHistory.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
         grdvReminderMailHistory.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
         TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
         if (txtGoto.Text.Trim() != "")
         {
-
             pageNo = txtGoto.Text;
             plcPaging.Controls.Clear();
-
+            //Set Gridview page index and bind grid.
             grdvReminderMailHistory.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
             grdvReminderMailHistory.DataBind();
             ManagePaging();
-
+            //show page number on page number text.
             txtGoto.Text = pageNo;
         }
     }
-
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Bind reminder list with selected account
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -377,7 +388,7 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
             ViewState["ToDate"] = txtToDate.Text;
 
             odsReminderMailHistory.SelectParameters.Clear();
-
+            //If user is Super Admin then set account id to 1 else user account id.
             if (identity.User.GroupID == 1)
             {
                 odsReminderMailHistory.SelectParameters.Add("sql", GetSqlCondition(1, 1));
@@ -389,18 +400,17 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
             //odsReminderMailHistory.SelectParameters.Add("sql", GetSqlCondition(1));
             odsReminderMailHistory.Select();
-
+            //Reset reminder grid page index and bind grid
             grdvReminderMailHistory.PageIndex = 0;
             grdvReminderMailHistory.DataBind();
-
+            //Manage paging
             ManagePaging();
 
-            
             if (txtFromDate.Text != "")
-                SetDTPicker1(updPanel, "dtFromDate", "txtFromDate");
+                SetDTPicker1(updPanel, "dtFromDate", "txtFromDate");//set calender to from date picker
 
             if (txtToDate.Text != "")
-                SetDTPicker2(updPanel, "dtToDate", "txtToDate");
+                SetDTPicker2(updPanel, "dtToDate", "txtToDate");//set calender to To date picker
         }
         catch (Exception ex)
         {
@@ -408,6 +418,11 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset controls value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         txtFromDate.Text = "";
@@ -435,38 +450,44 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
         ManagePaging();
     }
-
     #endregion
 
+    /// <summary>
+    /// Set Grid row element with email status and Reminder type.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvReminderMailHistory_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
-            Label lblStatus = (Label)e.Row.FindControl("lblStatus");
+            Label labelStatus = (Label)e.Row.FindControl("lblStatus");
             HiddenField hdnStatus = (HiddenField)e.Row.FindControl("hdnStatus");
 
-            Label lblType = (Label)e.Row.FindControl("lblType");
+            Label labelType = (Label)e.Row.FindControl("lblType");
             HiddenField hdnType = (HiddenField)e.Row.FindControl("hdnType");
 
             if (hdnStatus != null)
             {
+                //If status true then sucess else failure.
                 if (hdnStatus.Value == "True")
-                    lblStatus.Text = "Success";
+                    labelStatus.Text = "Success";
                 else
-                    lblStatus.Text = "Failure";
+                    labelStatus.Text = "Failure";
 
+                //Set reminder type
                 if (hdnType.Value == "1")
-                    lblType.Text = "Candidate Reminder 1";
+                    labelType.Text = "Candidate Reminder 1";
                 else if (hdnType.Value == "2")
-                    lblType.Text = "Candidate Reminder 2";
+                    labelType.Text = "Candidate Reminder 2";
                 else if (hdnType.Value == "3")
-                    lblType.Text = "Candidate Reminder 3";
+                    labelType.Text = "Candidate Reminder 3";
                 else if (hdnType.Value == "4")
-                    lblType.Text = "Report Available";
+                    labelType.Text = "Report Available";
                 else if (hdnType.Value == "5")
-                    lblType.Text = "Participant Reminder 1";
+                    labelType.Text = "Participant Reminder 1";
                 else if (hdnType.Value == "6")
-                    lblType.Text = "Participant Reminder 2";
+                    labelType.Text = "Participant Reminder 2";
             }
         }
         catch (Exception ex)
@@ -475,9 +496,15 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Dynamic generate query
+    /// </summary>
+    /// <param name="flag"></param>
+    /// <param name="accountID"></param>
+    /// <returns></returns>
     public string GetSqlCondition(int flag, int accountID)
     {
-        string sqlData="";
+        string sqlData = "";
 
         if (flag == 1)
         {
@@ -496,7 +523,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
             if ((ViewState["FromDate"].ToString() == "") && (ViewState["ToDate"].ToString() == ""))
                 sqlData = sqlData + " and (EmailDate = CONVERT(datetime, '" + DateTime.Today.ToString("dd/MM/yyyy") + "', 103))";
-
         }
         else
         {
@@ -515,7 +541,6 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
             if ((ViewState["FromDate"].ToString() == "") && (ViewState["ToDate"].ToString() == ""))
                 sqlData = sqlData + " and (EmailDate = CONVERT(datetime, '" + DateTime.Today.ToString("dd/MM/yyyy") + "', 103))";
-
         }
 
         txtFromDate.Text = ViewState["FromDate"].ToString();
@@ -527,16 +552,29 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
         return sqlData;
     }
 
+    /// <summary>
+    /// Set calender to from date picker
+    /// </summary>
+    /// <param name="btn"></param>
+    /// <param name="HtmlDate"></param>
+    /// <param name="aspDate"></param>
     private void SetDTPicker1(Control btn, string HtmlDate, string aspDate)//instance of button clicked
     {
         ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "test1", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);
     }
 
+    /// <summary>
+    /// Set calender to to date picker
+    /// </summary>
+    /// <param name="btn"></param>
+    /// <param name="HtmlDate"></param>
+    /// <param name="aspDate"></param>
     private void SetDTPicker2(Control btn, string HtmlDate, string aspDate)//instance of button clicked
     {
         ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "test2", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);
     }
 
+#if CommentOut
     //public string GetSqlCondition(int flag)
     //{
     //    string sqlData = "";
@@ -564,4 +602,5 @@ public partial class Module_Admin_ReminderEmailHistory : CodeBehindBase
 
     //    return sqlData;
     //}
+#endif
 }

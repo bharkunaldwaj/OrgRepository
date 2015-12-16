@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using System.Text;
 using System.Configuration;
 
@@ -13,8 +9,9 @@ using Admin_BE;
 
 public partial class Module_Admin_AccountList : CodeBehindBase
 {
-    Account_BAO account_BAO = new Account_BAO();
-    Account_BE account_BE = new Account_BE();
+    //Global vAriable.
+    Account_BAO accountBusinessAccessObject = new Account_BAO();
+    Account_BE accountBusinessEntity = new Account_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -26,15 +23,15 @@ public partial class Module_Admin_AccountList : CodeBehindBase
     protected void Page_Load(object sender, EventArgs e)
     {
 
-     //   Label ll = (Label)this.Master.FindControl("Current_location");
-     //   ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        //   Label ll = (Label)this.Master.FindControl("Current_location");
+        //   ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            
+
             identity = this.Page.User.Identity as WADIdentity;
 
-
+            // If user is Super Admin then Set Add new button visible True else False.
             if (identity.User.GroupID == 1)
             {
                 ibtnAddNew.Visible = true;
@@ -44,16 +41,20 @@ public partial class Module_Admin_AccountList : CodeBehindBase
                 ibtnAddNew.Visible = false;
             }
 
+            //Reset Object Data source value.
             odsAccount.SelectParameters.Clear();
             odsAccount.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsAccount.Select();
 
+            //Reset Gridview page size.
             grdvAccount.PageSize = pageSize;
+
+            //Manage Paging.
             ManagePaging();
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto!=null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -63,6 +64,11 @@ public partial class Module_Admin_AccountList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind data to every Row of GridView.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvAccount_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
@@ -71,8 +77,8 @@ public partial class Module_Admin_AccountList : CodeBehindBase
 
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[5].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this account?')) return false";
+                LinkButton deleteLinkButton = (LinkButton)e.Row.Cells[5].Controls[0];
+                deleteLinkButton.OnClientClick = "if (!window.confirm('Are you sure you want to delete this account?')) return false";
             }
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -83,6 +89,11 @@ public partial class Module_Admin_AccountList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Account page when click on Add new .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -100,11 +111,14 @@ public partial class Module_Admin_AccountList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Managing Paging  on GridView onPage Index change.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
-        accountCount = account_BAO.GetAccountListCount(identity.User.AccountID.ToString());
+        //Get Account list count by Accout Id.
+        accountCount = accountBusinessAccessObject.GetAccountListCount(identity.User.AccountID.ToString());
 
         if (accountCount > 0)
         {
@@ -326,12 +340,20 @@ public partial class Module_Admin_AccountList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save View state of Page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, accountCount };
     }
 
+    /// <summary>
+    /// Load Viewstate of page when viewstate Expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -346,57 +368,77 @@ public partial class Module_Admin_AccountList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Handle GridView Previous and Next Page button click .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
         LinkButton objlb = (LinkButton)sender;
 
+        //Reset Page Index.
         grdvAccount.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
         grdvAccount.DataBind();
 
+        //Manage Gridview Paging.
         ManagePaging();
 
     }
 
+    /// <summary>
+    /// Move to Specified page when record exist.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvAccount.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Reset gridview page index
+            grdvAccount.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvAccount.DataBind();
+
+            //Manage paging for gridview .
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            //Set Page Number.
+            textBoxGoto.Text = pageNo;
         }
     }
-
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Search Account details by account code and organization Name.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
-        string str = "";
-        
+        string stringQuery = "";
+        //Create dynamic query.
         if (txtAccountCode.Text.Trim() != string.Empty)
-            str = str + "[Code] like '" + txtAccountCode.Text.Trim() + "%' and " ;
+            stringQuery = stringQuery + "[Code] like '" + txtAccountCode.Text.Trim() + "%' and ";
 
         if (txtLoginID.Text.Trim() != string.Empty)
-            str = str + "[LoginID] like '" + txtLoginID.Text.Trim() + "%' and ";
+            stringQuery = stringQuery + "[LoginID] like '" + txtLoginID.Text.Trim() + "%' and ";
 
         if (txtAccountName.Text.Trim() != string.Empty)
-            str = str + "[OrganisationName] like '" + txtAccountName.Text.Trim() + "%' and ";
+            stringQuery = stringQuery + "[OrganisationName] like '" + txtAccountName.Text.Trim() + "%' and ";
 
-        if (str.Trim().Length != 0)
+        //If query length is more then zero ReInitilize GridView DataSource.
+        if (stringQuery.Trim().Length != 0)
         {
-            string param = str.Substring(0, str.Length - 4);
+            string param = stringQuery.Substring(0, stringQuery.Length - 4);
             odsAccount.FilterExpression = param;
             odsAccount.FilterParameters.Clear();
         }
@@ -407,6 +449,11 @@ public partial class Module_Admin_AccountList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// ReSet Controls value. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         txtAccountCode.Text = "";
@@ -416,7 +463,5 @@ public partial class Module_Admin_AccountList : CodeBehindBase
         odsAccount.FilterExpression = null;
         odsAccount.FilterParameters.Clear();
     }
-
     #endregion
-
 }

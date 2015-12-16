@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -11,10 +9,7 @@ using Questionnaire_BAO;
 using Admin_BE;
 using Admin_BAO;
 using System.Text;
-using System.Web.UI.HtmlControls;
-using System.Collections;
 using Miscellaneous;
-using System.Net.Mail;
 
 public partial class Module_Admin_EmailCandidate : CodeBehindBase
 {
@@ -25,10 +20,10 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
     Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
     EmailTemplate_BAO emailtemplate_BAO = new EmailTemplate_BAO();
     EmailTemplate_BE emailtemplate_BE = new EmailTemplate_BE();
-    List<EmailTemplate_BE> emailtemplate_BEList = new List<EmailTemplate_BE>();
+    List<EmailTemplate_BE> emailtemplateList = new List<EmailTemplate_BE>();
     AssignQuestionnaire_BAO assignquestionnaireTemplete_BAO = new AssignQuestionnaire_BAO();
 
-    DataTable dtCompanyName;
+    DataTable dataTableCompanyName;
     WADIdentity identity;
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -43,9 +38,9 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             if (!IsPostBack)
@@ -64,6 +59,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                 //}
 
                 Account_BAO account_BAO = new Account_BAO();
+                //Bind account drop down by user account id.
                 ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
@@ -79,11 +75,13 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                     //ddlParticipant.DataTextField = "UserName";
                     //ddlParticipant.DataBind();
 
+                    //Set the parameter for candidateobject data source.
                     odsCandidateStatus.SelectParameters.Clear();
                     odsCandidateStatus.SelectParameters.Add("condition", "-1");
                     odsCandidateStatus.Select();
 
                     Project_BAO project_BAO = new Project_BAO();
+                    //Bind project drop down by user account id.
                     ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString("-1"));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
@@ -97,13 +95,15 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                     //ddlParticipant.Visible = false;
                     //lblParticipant.Visible = true;
 
+                    //Else set participant name instead of account name.
                     lblParticipant.Text = identity.User.FName + " " + identity.User.LName;
                     lblProjectName.Text = "Participant";
                     lblParticipantHeading.Visible = false;
 
                     AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-                    DataTable dtParticipantInfo = new DataTable();
-                    dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32("-1"));
+                    DataTable dataTableParticipantInfo = new DataTable();
+
+                    dataTableParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32("-1"));
 
                     //odsCandidateStatus.SelectParameters.Clear();
                     //odsCandidateStatus.SelectParameters.Add("condition", Convert.ToInt32(identity.User.AccountID) + " and [TargetPersonID]=" + Convert.ToInt32(identity.User.UserID) + " and Project.[ProjectID]=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProjecctID"]) + " and [Programme].ProgrammeID=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProgrammeID"]));
@@ -129,7 +129,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
                         ddlProject.Items.Clear();
                         ddlProject.Items.Insert(0, new ListItem("Select", "0"));
-
+                        //Get all project by users and bind project drop downlist.
                         DataTable project = project_BAO.GetdataProjectByID(Convert.ToInt32(dtuserlist.Rows[0]["ProjectID"]));
                         ddlProject.DataSource = project;
                         ddlProject.DataTextField = "Title";
@@ -145,25 +145,26 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
                     }
                 }
-            grdvCandidateStatus.PageSize = pageSize;
-            ManagePaging();
+                //Reset grid page index .
+                grdvCandidateStatus.PageSize = pageSize;
+                ManagePaging();
             }
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-           
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
-
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    ///  Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -172,7 +173,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
         //if (identity.User.GroupID != Convert.ToInt32(participantRoleId))
         //{
-            AssignQuestionnaireCount = AssignQuestionnaire_BAO.GetAssignQuestionnaireListCount(GetCondition());
+        AssignQuestionnaireCount = AssignQuestionnaire_BAO.GetAssignQuestionnaireListCount(GetCondition());
         //}
         //else
         //{
@@ -207,7 +208,6 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                 numberOfPages = 1;
             }
 
-
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
 
@@ -234,9 +234,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -269,7 +267,6 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -294,7 +291,6 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -315,7 +311,6 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
 
-
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
             {
@@ -334,9 +329,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                     {
                         objLb.CssClass = "active";
                         objLb.Enabled = false;
-
                     }
-
                     plcPaging.Controls.Add(objLb);
                     //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
                 }
@@ -403,14 +396,24 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
             plcPaging.Controls.Add(new LiteralControl("</td></tr></table>"));
         }
+
+        ReBindEmailContent();
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, AssignQuestionnaireCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -427,11 +430,16 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
         LinkButton objlb = (LinkButton)sender;
-
+        //Reset Gridview page index to new index.
         grdvCandidateStatus.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
         grdvCandidateStatus.DataBind();
 
@@ -439,29 +447,40 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
-        {
-            pageNo = txtGoto.Text;
-            plcPaging.Controls.Clear();
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            grdvCandidateStatus.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+        if (textBoxGoto.Text.Trim() != "")
+        {
+            pageNo = textBoxGoto.Text;
+            plcPaging.Controls.Clear();
+            //Set Gridview page index and bind grid.
+            grdvCandidateStatus.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvCandidateStatus.DataBind();
             ManagePaging();
-
-            txtGoto.Text = pageNo;
+            //show page number on page number text.
+            textBoxGoto.Text = pageNo;
         }
     }
 
+    /// <summary>
+    /// Sort gridview when clicked on heading.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
-        {
+        {//Reset page index
             grdvCandidateStatus.PageIndex = 0;
             grdvCandidateStatus.DataBind();
-
+            //Manage paging
             ManagePaging();
         }
         catch (Exception ex)
@@ -470,10 +489,20 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// No user
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_RowDataBound(object sender, GridViewRowEventArgs e)
-    {        
+    {
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_OnRowCommand(object sender, GridViewCommandEventArgs e)
     {
     }
@@ -481,26 +510,35 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Bind candidate list with selected account
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         ViewState["AccountID"] = ddlAccountCode.SelectedValue;
         ViewState["TargetPersonID"] = ddlParticipant.SelectedValue;
         ViewState["ProgrammeID"] = ddlProgramme.SelectedValue;
-
+        //Clear candidate object data source
         odsCandidateStatus.SelectParameters.Clear();
+        //Reset object data source properties dynamic query.
         odsCandidateStatus.SelectParameters.Add("condition", GetCondition());
         odsCandidateStatus.Select();
-
+        //Set grid default page index
         grdvCandidateStatus.PageIndex = 0;
         grdvCandidateStatus.DataBind();
-
+        //Manage paging
         ManagePaging();
     }
 
+    /// <summary>
+    /// Reset controls value
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
-
         ddlAccountCode.SelectedIndex = 0;
         ddlAccountCode_SelectedIndexChanged(sender, e);
 
@@ -516,6 +554,11 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         lblMessage.Text = "";
     }
 
+    /// <summary>
+    /// Send mail to selected candidate.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSend_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -525,29 +568,30 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             string imagepath = Server.MapPath("~/EmailImages/"); //ConfigurationSettings.AppSettings["EmailImagePath"].ToString();
 
             // Get Candidate Email Image Name & Will Combined with EmailImagePath
-            DataTable dtCandidateEmailImage = new DataTable();
+            DataTable dataTableCandidateEmailImage = new DataTable();
             string emailimagepath = "";
-            dtCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(ddlProject.SelectedValue));
-            if (dtCandidateEmailImage.Rows.Count > 0 && dtCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
-                emailimagepath = imagepath + dtCandidateEmailImage.Rows[0]["EmailImage"].ToString();
+            dataTableCandidateEmailImage = assignquestionnaire_BAO.GetCandidateEmailImageInfo(Convert.ToInt32(ddlProject.SelectedValue));
+
+            if (dataTableCandidateEmailImage.Rows.Count > 0 && dataTableCandidateEmailImage.Rows[0]["EmailImage"].ToString() != "")
+                emailimagepath = imagepath + dataTableCandidateEmailImage.Rows[0]["EmailImage"].ToString();
 
             identity = this.Page.User.Identity as WADIdentity;
-
+            //If it is a super Admin set account id to account drop down value else user account value.
             if (identity.User.GroupID == 1)
             {
-                assignquestionnaire_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);                
+                assignquestionnaire_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
             }
             else
             {
-                assignquestionnaire_BE.AccountID = identity.User.AccountID;                
+                assignquestionnaire_BE.AccountID = identity.User.AccountID;
             }
 
             assignquestionnaire_BE.TargetPersonID = Convert.ToInt32(ddlParticipant.SelectedValue);
-
+            //Read grid row by row for selected candidates
             foreach (GridViewRow row in grdvCandidateStatus.Rows)
             {
                 CheckBox myCheckBox = (CheckBox)row.FindControl("myCheckBox");
-                Label lblCandidateEmail = (Label)row.FindControl("lblCandidateEmail");
+                Label labelCandidateEmail = (Label)row.FindControl("lblCandidateEmail");
 
                 HiddenField hdnQuestionnaireId = (HiddenField)row.FindControl("hdnQuestionnaireId");
                 HiddenField hdnCandidateId = (HiddenField)row.FindControl("hdnCandidateId");
@@ -569,27 +613,25 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                 Subject = lblEmailSubject.Text; // ViewState["Subject"].ToString();
 
                 AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-                DataTable dtAccountAdmin = new DataTable();
-
-                dtAccountAdmin = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.TargetPersonID));
-
+                DataTable dataTableAccountAdmin = new DataTable();
+                //Get account admin details
+                dataTableAccountAdmin = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(assignquestionnaire_BE.AccountID), Convert.ToInt32(assignquestionnaire_BE.TargetPersonID));
 
                 //Template = assignquestionnaireTemplete_BAO.FindParticipantTemplate(Convert.ToInt32(ddlProject.SelectedValue));
                 //Subject = assignquestionnaireTemplete_BAO.FindParticipantSubjectTemplate(Convert.ToInt32(ddlProject.SelectedValue));
-
 
                 if (myCheckBox != null)
                 {
                     if (myCheckBox.Checked == true)
                     {
-                       // checkedCandidate.Add(lblCandidateEmail.Text);
-                       //checkedCandidate.Add(hdnQuestionnaireId.Value.ToString());
+                        // checkedCandidate.Add(lblCandidateEmail.Text);
+                        //checkedCandidate.Add(hdnQuestionnaireId.Value.ToString());
                         string questionnaireID = "";
                         string candidateID = "";
                         string OrganisationName = "";
                         string Startdate = "";
                         string Enddate = "";
-                        string CandidateName = "";                        
+                        string CandidateName = "";
                         string FirstName = "";
                         string candidateEmail = "";
                         string RelationShip = "";
@@ -600,9 +642,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                         string password = "";
                         string Accountcode = "";
 
-
-
-                        candidateEmail = lblCandidateEmail.Text.ToString();
+                        candidateEmail = labelCandidateEmail.Text.ToString();
                         questionnaireID = hdnQuestionnaireId.Value.ToString();
                         candidateID = hdnCandidateId.Value.ToString();
                         OrganisationName = hdnOrganizationName.Value.ToString();
@@ -619,13 +659,12 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                         Loginid = hdnLoginID.Value.ToString();
                         password = hdnPassword.Value.ToString();
                         Accountcode = hdnCode.Value.ToString();
-                        
 
                         questionnaireID = PasswordGenerator.EnryptString(questionnaireID);
                         candidateID = PasswordGenerator.EnryptString(candidateID);
-
+                        //get tempalte path 
                         string urlPath = ConfigurationManager.AppSettings["FeedbackURL"].ToString();
-
+                        //create feedback link
                         string link = "<a Target='_BLANK' href= '" + urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + candidateID + "' >Click Link</a> ";
 
                         //if (dtResult.Rows[i]["RelationShip"].ToString() == "Self")
@@ -634,7 +673,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                             string feedbackURL = urlPath + "Feedback.aspx?QID=" + questionnaireID + "&CID=" + PasswordGenerator.EnryptString(AsgnDetailID);
                             assignquestionnaire_BAO.SetFeedbackURL(Convert.ToInt32(AsgnDetailID.ToString()), Convert.ToInt32(AssignmentID.ToString()), feedbackURL);
                         }
-
+                        //Replace tokens 
                         Template = Template.Replace("[LINK]", link);
                         Template = Template.Replace("[NAME]", CandidateName);
                         Template = Template.Replace("[FIRSTNAME]", FirstName);
@@ -642,7 +681,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                         Template = Template.Replace("[STARTDATE]", Startdate);
                         Template = Template.Replace("[CLOSEDATE]", Enddate);
                         Template = Template.Replace("[TITLE]", Title);
-                        Template = Template.Replace("[EMAILID]", candidateEmail);                        
+                        Template = Template.Replace("[EMAILID]", candidateEmail);
                         Template = Template.Replace("[LOGINID]", Loginid);
                         Template = Template.Replace("[PASSWORD]", password);
                         Template = Template.Replace("[CODE]", Accountcode);
@@ -656,19 +695,19 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                         Subject = Subject.Replace("[CLOSEDATE]", Enddate);
 
                         //if (dtResult.Rows[i]["RelationShip"].ToString() != "Self")
-                        if (RelationShip != "Self")
+                        if (RelationShip != "Self")//If not self assest then replace token with participant details 
                         {
-                            if (dtAccountAdmin.Rows.Count > 0)
+                            if (dataTableAccountAdmin.Rows.Count > 0)
                             {
-                                Template = Template.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                                Template = Template.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
+                                Template = Template.Replace("[PARTICIPANTNAME]", dataTableAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dataTableAccountAdmin.Rows[0]["LastName"].ToString());
+                                Template = Template.Replace("[PARTICIPANTEMAIL]", dataTableAccountAdmin.Rows[0]["EmailID"].ToString());
 
-                               Subject = Subject.Replace("[PARTICIPANTNAME]", dtAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dtAccountAdmin.Rows[0]["LastName"].ToString());
-                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", dtAccountAdmin.Rows[0]["EmailID"].ToString());
-                                                                
-                            //    MailAddress maddr = new MailAddress("admin@i-comment360.com", "admin");
-                            //    SendEmail.Send(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath);
-                                SendEmail.Send(Subject, Template, candidateEmail,"");
+                                Subject = Subject.Replace("[PARTICIPANTNAME]", dataTableAccountAdmin.Rows[0]["FirstName"].ToString() + " " + dataTableAccountAdmin.Rows[0]["LastName"].ToString());
+                                Subject = Subject.Replace("[PARTICIPANTEMAIL]", dataTableAccountAdmin.Rows[0]["EmailID"].ToString());
+
+                                //    MailAddress maddr = new MailAddress("admin@i-comment360.com", "admin");
+                                //    SendEmail.Send(Subject, Template, dtResult.Rows[i]["CandidateEmail"].ToString(), maddr, emailimagepath);
+                                SendEmail.Send(Subject, Template, candidateEmail, "");
                             }
                             else
                             {
@@ -678,19 +717,18 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                                 Subject = Subject.Replace("[PARTICIPANTNAME]", "Participant");
                                 Subject = Subject.Replace("[PARTICIPANTEMAIL]", "");
 
-                                
+                                //Send Email
                                 //SendEmail.Send(Subject, Template, "ashishg1@damcogroup.com");
-                                SendEmail.Send(Subject, Template, candidateEmail,"");
+                                SendEmail.Send(Subject, Template, candidateEmail, "");
                             }
-                            
-                        } 
+                        }
                     }
                 }
             }
 
             lblMessage.Text = "Email sent successfully";
+
             ClearControls();
-            
         }
         catch (Exception ex)
         {
@@ -698,11 +736,17 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset email text control
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbcancel_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
             lblMessage.Text = "";
+            txtFaqText.InnerHtml = Server.HtmlDecode(txtFaqText.InnerHtml);
             //Response.Redirect("ProjectList.aspx", false);
         }
         catch (Exception ex)
@@ -711,6 +755,9 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset control value.
+    /// </summary>
     protected void ClearControls()
     {
         ddlProject.Items.Clear();
@@ -724,13 +771,14 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
         ddlEmailStart.Items.Clear();
         ddlEmailStart.Items.Insert(0, new ListItem("Select", "0"));
-        
+
         //lblMessage.Text = "";
         lblEmailSubject.Text = "";
         txtFaqText.Value = "";
 
         identity = this.Page.User.Identity as WADIdentity;
         string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
+
         if (identity.User.GroupID != Convert.ToInt32(participantRoleId))
         {
             odsCandidateStatus.SelectParameters.Clear();
@@ -742,7 +790,11 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
     #endregion
 
     #region Dropdown Function
-
+    /// <summary>
+    /// Bind project in an account and comapny details.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
@@ -765,15 +817,16 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
             Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            //Get company details in an account.
+            dataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //set company name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             ddlParticipant.Items.Clear();
             ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
@@ -794,17 +847,19 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
             Project_BAO project_BAO = new Project_BAO();
-            DataTable dtProject = new DataTable();
-            dtProject = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+            DataTable dataTableProject = new DataTable();
+            //Get project list in company.
+            dataTableProject = project_BAO.GetdtProjectList(Convert.ToString(companycode));
 
-            if (dtProject.Rows.Count > 0)
+            if (dataTableProject.Rows.Count > 0)
             {
-                ddlProject.DataSource = dtProject;
+                //Bind project dropdown in a company.
+                ddlProject.DataSource = dataTableProject;
                 ddlProject.DataValueField = "ProjectID";
                 ddlProject.DataTextField = "Title";
                 ddlProject.DataBind();
             }
-
+            //Clear program dropdown  when project is changed
             ddlProgramme.Items.Clear();
             ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -822,7 +877,8 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             //ManagePaging();
 
             EmailTemplate_BAO emailTemplate_BAO = new EmailTemplate_BAO();
-            DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(Convert.ToString(ddlAccountCode.SelectedValue));
+            //Get all tempalte in an account
+            DataTable dataTableEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(Convert.ToString(ddlAccountCode.SelectedValue));
 
             //DataRow[] resultsTemplate = dtEmailTemplate.Select("Title LIKE '%Invitation Template%'");
 
@@ -837,8 +893,8 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
             //if (dtmailtemp.Rows.Count > 0)
             //    emailId = Convert.ToInt32(dtmailtemp.Rows[0]["EmailTemplateID"]);
             ddlEmailStart.Items.Clear();
-
-            ddlEmailStart.DataSource = dtEmailTemplate;
+            //Bind email tempate drop down
+            ddlEmailStart.DataSource = dataTableEmailTemplate;
             ddlEmailStart.DataValueField = "EmailTemplateID";
             ddlEmailStart.DataTextField = "Title";
             ddlEmailStart.DataBind();
@@ -852,6 +908,9 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
             //emailtemplate_BEList = emailtemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlEmailStart.SelectedValue));
             //txtFaqText.Value = emailtemplate_BEList[0].EmailText.ToString();
+
+            //Rebind Template text.
+            ReBindEmailContent();
         }
         else
         {
@@ -859,7 +918,7 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
             ddlParticipant.Items.Clear();
             ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
-            
+
             ddlProject.Items.Clear();
             ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -874,30 +933,44 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Get all program in a project.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         Programme_BAO programme_BAO = new Programme_BAO();
 
         ddlProgramme.Items.Clear();
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+        DataTable dataTableProgramme = new DataTable();
+        //Get all program in a project .
+        dataTableProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
-        if (dtProgramme.Rows.Count > 0)
+        if (dataTableProgramme.Rows.Count > 0)
         {
-            ddlProgramme.DataSource = dtProgramme;
+            //Bind program in project.
+            ddlProgramme.DataSource = dataTableProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
             ddlProgramme.DataBind();
         }
-
+        //Rebind email template data.
+        ReBindEmailContent();
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
         //if (ddlProgramme.Items.Count > 1)
-            //ddlProgramme.Items[1].Selected = true;
+        //ddlProgramme.Items[1].Selected = true;
 
+        //Clear Participant dropdown.
         ddlParticipant.Items.Clear();
         ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
     }
 
+    /// <summary>
+    /// Bind Template data when participant value changes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlParticipant_SelectedIndexChanged(object sender, EventArgs e)
     {
         //AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
@@ -911,19 +984,27 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
         //    ManagePaging();
         //}
+        ReBindEmailContent();
     }
 
+    /// <summary>
+    /// Get all program in a project.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         AssignQstnParticipant_BAO participant_BAO = new AssignQstnParticipant_BAO();
 
         if (ddlProgramme.SelectedIndex > 0)
         {
-            DataTable dtParticipant = new DataTable();
+            DataTable dataTableParticipant = new DataTable();
 
             //if (identity.User.GroupID == 1)
             //{
-                dtParticipant = participant_BAO.GetdtAssignPartiList(ddlAccountCode.SelectedValue, ddlProgramme.SelectedValue);
+
+            //Get all Participant in a project .
+            dataTableParticipant = participant_BAO.GetdtAssignPartiList(ddlAccountCode.SelectedValue, ddlProgramme.SelectedValue);
             //}
             //else
             //{
@@ -932,12 +1013,12 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
 
             Project_BAO project_BAO = new Project_BAO();
 
-            if (dtParticipant.Rows.Count > 0)
+            if (dataTableParticipant.Rows.Count > 0)
             {
                 ddlParticipant.Items.Clear();
                 ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
-
-                ddlParticipant.DataSource = dtParticipant;
+                //Bind Participant in project.
+                ddlParticipant.DataSource = dataTableParticipant;
                 ddlParticipant.DataTextField = "UserName";
                 ddlParticipant.DataValueField = "UserID";
                 ddlParticipant.DataBind();
@@ -947,6 +1028,8 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
                 ddlParticipant.Items.Clear();
                 ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
             }
+            //Rebind email template data.
+            ReBindEmailContent();
         }
         else
         {
@@ -955,51 +1038,69 @@ public partial class Module_Admin_EmailCandidate : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind email text and subject by tempaltes id
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlEmailStart_SelectedIndexChanged(object sender, EventArgs e)
     {
-        emailtemplate_BEList = emailtemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlEmailStart.SelectedValue));
-        txtFaqText.Value = emailtemplate_BEList[0].EmailText.ToString();
-        string emailsubject = emailtemplate_BEList[0].Subject.ToString();
+        //Get email template details. 
+        emailtemplateList = emailtemplate_BAO.GetEmailTemplateByID(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlEmailStart.SelectedValue));
+        txtFaqText.Value = Server.HtmlDecode(emailtemplateList[0].EmailText.ToString());
+        string emailsubject = emailtemplateList[0].Subject.ToString();
         //emailsubject = emailsubject.Replace("[PARTICIPANTNAME]", "Participant");
         //emailsubject = emailsubject.Replace("[PARTICIPANTEMAIL]", "");
-        lblEmailSubject.Text = emailsubject;
+        lblEmailSubject.Text = emailsubject;//Bind subject
 
-        ViewState["Template"] = emailtemplate_BEList[0].EmailText.ToString();
+        ViewState["Template"] = emailtemplateList[0].EmailText.ToString();
         ViewState["Subject"] = emailsubject;
-    
+        //Manage rid paging
         ManagePaging();
     }
 
     #endregion
 
+    /// <summary>
+    /// Create dnamic query
+    /// </summary>
+    /// <returns></returns>
     protected string GetCondition()
     {
-        string param="0";
+        string param = "0";
 
         if (Convert.ToInt32(ViewState["AccountID"]) > 0 && Convert.ToInt32(ViewState["TargetPersonID"]) > 0 && Convert.ToInt32(ViewState["ProgrammeID"]) > 0)
         {
-            string str = "";
+            string stringQuery = "";
 
             if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-                str = str + "" + ViewState["AccountID"] + " and ";
+                stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
             else
-                str = str + "" + identity.User.AccountID.ToString() + " and ";
+                stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
             if (ddlParticipant.SelectedIndex > 0)
-                str = str + "[TargetPersonID] = " + ViewState["TargetPersonID"] + " and ";
+                stringQuery = stringQuery + "[TargetPersonID] = " + ViewState["TargetPersonID"] + " and ";
 
             //if (ddlProject.SelectedIndex > 0)
             //    str = str + "dbo.AssignQuestionnaire.ProjecctID = " + ddlProject.SelectedValue + " and ";
 
             if (ddlProgramme.SelectedIndex > 0)
-                str = str + "dbo.Programme.ProgrammeID = " + ViewState["ProgrammeID"] + " and ";
+                stringQuery = stringQuery + "dbo.Programme.ProgrammeID = " + ViewState["ProgrammeID"] + " and ";
 
-            str = str + "dbo.AssignmentDetails.RelationShip != 'Self'    ";
+            stringQuery = stringQuery + "dbo.AssignmentDetails.RelationShip != 'Self'    ";
 
-            param = str.Substring(0, str.Length - 4);
+            param = stringQuery.Substring(0, stringQuery.Length - 4);
         }
 
         return param;
+    }
+
+    /// <summary>
+    /// Rebind Emailtepmalte data
+    /// </summary>
+    private void ReBindEmailContent()
+    {
+        txtFaqText.InnerHtml = Server.HtmlDecode(txtFaqText.InnerHtml);
     }
 }
 

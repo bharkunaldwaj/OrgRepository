@@ -9,22 +9,13 @@
 */
 
 using System;
-using System.Collections;
-using System.Configuration;
 using System.Data;
-using System.Linq;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 using System.Collections.Generic;
 using Administration_BE;
 using Administration_BAO;
 using System.Diagnostics;
-using System.Data.SqlClient;
 
 public partial class Module_Admin_GroupMaintenance : CodeBehindBase
 {
@@ -34,24 +25,21 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     string menuRights = "A,E,D,V,L1";
     //string sAccess = null;
 
-    private Group_BE Group_BE = null;
-    private Group_BAO Group_BAO = null;
-    private GroupRight_BE GroupRight_BE = null;
+    private Group_BE GroupBusinessEntity = null;
+    private Group_BAO GroupBusinessAccessObject = null;
+    private GroupRight_BE GroupRightBusinessEntity = null;
 
- //   private GroupRight_BE GroupRight_BE_check = null;
-    private GroupRight_BAO GroupRight_BAO = null;
-    private List<GroupRight_BE> GroupRight_BEList = null;
-    private List<GroupRight_BE> GroupRight_BEList_Check = null;
+    //   private GroupRight_BE GroupRight_BE_check = null;
+    private GroupRight_BAO GroupRightBusinessAccessObject = null;
+    private List<GroupRight_BE> GroupRightBusinessEntityList = null;
+    private List<GroupRight_BE> GroupRightBusinessEntityListCheck = null;
 
-    private MenuMaster_BE MenuMaster_BE = null;
-    private MenuMaster_BAO MenuMaster_BAO = null;
+    private MenuMaster_BE MenuMasterBusinessEntity = null;
+    private MenuMaster_BAO MenuMasterBusinessAccessObject = null;
 
-
-    string[] str=null;
-    string[] str1=null;
-    string[] str2=null;
-
-    
+    string[] str = null;
+    string[] str1 = null;
+    string[] str2 = null;
 
     CodeBehindBase codeBehindBase = new CodeBehindBase();
 
@@ -62,10 +50,8 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-
-      //  Label ll = (Label)this.Master.FindControl("Current_location");
-      // ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        //  Label ll = (Label)this.Master.FindControl("Current_location");
+        // ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         //HandleWriteLog("Start Group Maintenance", new StackTrace(true));
         if (!IsPostBack)
         {
@@ -85,18 +71,19 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 ////      bReturnToPrevious = true;
                 //  }
 
-                
 
+                //If querystrig  "Mode" contains "E" then it is in Edit mode and 
+                //if "R" then Read mode and hide show controls accordingly.
                 if (Request.QueryString["Mode"] != null)
                 {
-                    if (Request.QueryString["Mode"] == "E")
+                    if (Request.QueryString["Mode"] == "E")//Edit mode
                     {
                         imbSave.Visible = true;
                         imbCancel.Visible = true;
                         imbBack.Visible = false;
                         lblheader.Text = "Edit Group";
                     }
-                    else if (Request.QueryString["Mode"] == "R")
+                    else if (Request.QueryString["Mode"] == "R")//Read Mode.
                     {
                         imbSave.Visible = false;
                         imbCancel.Visible = false;
@@ -104,54 +91,53 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                         lblheader.Text = "View Group";
                     }
                 }
-
+                //Ig group id is not null
                 if (Request.QueryString["GroupID"] != null)
                 {
                     int groupID = Convert.ToInt32(Request.QueryString["GroupID"]);
 
-                    GroupRight_BE = new GroupRight_BE();
-                    GroupRight_BE.GroupID = groupID;
-                   
-                 
-                    List<GroupRight_BE> GroupRight_BEList = null;
-                    GroupRight_BAO = new GroupRight_BAO();
-                    GroupRight_BEList = GroupRight_BAO.GetGroupRight(GroupRight_BE);
+                    GroupRightBusinessEntity = new GroupRight_BE();
+                    GroupRightBusinessEntity.GroupID = groupID;
 
-                    if (GroupRight_BEList!= null)
+
+                    List<GroupRight_BE> GroupRightBusinessEntityList = null;
+                    GroupRightBusinessAccessObject = new GroupRight_BAO();
+                    //Get group rights
+                    GroupRightBusinessEntityList = GroupRightBusinessAccessObject.GetGroupRight(GroupRightBusinessEntity);
+
+                    if (GroupRightBusinessEntityList != null)
                     {
-                        txtGroupName.Text = GroupRight_BEList[0].FKGroup_BE.GroupName;
-                        txtDescription.Text = GroupRight_BEList[0].FKGroup_BE.Description;
+                        txtGroupName.Text = GroupRightBusinessEntityList[0].FKGroup_BE.GroupName;
+                        txtDescription.Text = GroupRightBusinessEntityList[0].FKGroup_BE.Description;
                         //txtWelcomeText.Text = GroupRight_BEList[0].FKGroup_BE.WelcomeText;
                         //txtNewsText.Text = GroupRight_BEList[0].FKGroup_BE.NewsText;
-                        chkIsActive.Checked = GroupRight_BEList[0].FKGroup_BE.IsActive == true ? true : false;
+                        chkIsActive.Checked = GroupRightBusinessEntityList[0].FKGroup_BE.IsActive == true ? true : false;
 
                         //Creating TreeView
 
-                        CreateTreeView(GroupRight_BEList,"F");
-                     //   GroupRight_BEList = null;
-                        CreateTreeView(GroupRight_BEList, "S");
-                        CreateTreeView(GroupRight_BEList, "P");
+                        CreateTreeView(GroupRightBusinessEntityList, "F");//create Tree for Feedback 360.
+                        //   GroupRight_BEList = null;
+                        CreateTreeView(GroupRightBusinessEntityList, "S");//create Tree for Survey.
+                        CreateTreeView(GroupRightBusinessEntityList, "P");//create Tree for Personality.
                     }
-
-                    
                 }
                 else
                 {
                     chkIsActive.Checked = true;
-                    List<GroupRight_BE> groupRight_BEList = null;
+                    List<GroupRight_BE> groupRightBusinessEntityList = null;
 
                     //Calling the createtreeview for Feedback
-                    CreateTreeView(groupRight_BEList,"F");
-                    //Calling the createtreeview for Survey
-                    groupRight_BEList = null;
-                    CreateTreeView(groupRight_BEList, "S");
-                    CreateTreeView(GroupRight_BEList, "P");
+                    CreateTreeView(groupRightBusinessEntityList, "F");
+                    //Calling the create tree view for Survey
+                    groupRightBusinessEntityList = null;
+                    CreateTreeView(groupRightBusinessEntityList, "S");
+                    CreateTreeView(GroupRightBusinessEntityList, "P");//create Tree for Personality.
                 }
                 txtGroupName.Focus();
             }
-            catch (Exception ex) 
-            { 
-                HandleException(ex); 
+            catch (Exception ex)
+            {
+                HandleException(ex);
             }
             finally
             {
@@ -171,13 +157,12 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     }
 
     /// <summary>
-    /// 
+    /// Save group details.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void imbSave_Click(object sender, EventArgs e)
     {
-
         //HandleWriteLog("Start", new StackTrace(true));
 
         //For storing the redirection status        
@@ -186,83 +171,80 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
 
         bool isGroupExist = false;
 
-        Group_BE = new Group_BE();
-        Group_BAO = new Group_BAO();
+        GroupBusinessEntity = new Group_BE();
+        GroupBusinessAccessObject = new Group_BAO();
 
         try
         {
             if (Request.QueryString["GroupID"] == null)
             {
-                Group_BE.GroupName = txtGroupName.Text.Trim() != "" ? GetString(txtGroupName.Text) : null;
+                GroupBusinessEntity.GroupName = txtGroupName.Text.Trim() != "" ? GetString(txtGroupName.Text) : null;
 
                 //to check whether entered group name already exist or not
-                isGroupExist = Group_BAO.IsGroupExist(Group_BE);
+                isGroupExist = GroupBusinessAccessObject.IsGroupExist(GroupBusinessEntity);
             }
 
             if (!isGroupExist)
             {
                 //Processing the treeview data
                 # region TreeView Data
-                
 
 
-                    //DataTable dt1= (DataTable)ViewState["LocalTable"];
-                    //DataTable dt2= (DataTable)ViewState["Survey_LocalTable"];
-                    //dt2.Merge(dt1);              
-                    //GroupRight_BEList= (List<GroupRight_BE>)dt2;
+
+                //DataTable dt1= (DataTable)ViewState["LocalTable"];
+                //DataTable dt2= (DataTable)ViewState["Survey_LocalTable"];
+                //dt2.Merge(dt1);              
+                //GroupRight_BEList= (List<GroupRight_BE>)dt2;
 
 
                 //string[] a3=null;
                 //string[] str1=null;
                 //string[] str2 = null;
-               // if(ViewState["LocalTable"]!=null)
+                // if(ViewState["LocalTable"]!=null)
 
 
-               // GroupRight_BEList = (List<GroupRight_BE>)ViewState["Get_ParentId"];
-
+                // GroupRight_BEList = (List<GroupRight_BE>)ViewState["Get_ParentId"];
 
                 DataTable get_pID;
 
-               GroupRight_BAO GR_bao = new GroupRight_BAO();
+                GroupRight_BAO GR_bao = new GroupRight_BAO();
                 get_pID = GR_bao.get_parentid();
 
-
-                GroupRight_BEList =(List<GroupRight_BE>) ViewState["LocalTable"];
-                for (int i = 0; i < GroupRight_BEList.Count;i++ )
+                //Get all group rights selected
+                GroupRightBusinessEntityList = (List<GroupRight_BE>)ViewState["LocalTable"];
+                for (int i = 0; i < GroupRightBusinessEntityList.Count; i++)
                 {
                     int rowcount = get_pID.Rows.Count;
-                    
+
                     for (int gg = 0; gg < rowcount; gg++)
                     {
-                        if (GroupRight_BEList[i].MenuID == Convert.ToInt32(get_pID.Rows[gg][0]))
+                        if (GroupRightBusinessEntityList[i].MenuID == Convert.ToInt32(get_pID.Rows[gg][0]))
                         {
-                            GroupRight_BEList.Remove(GroupRight_BEList[i]);
+                            GroupRightBusinessEntityList.Remove(GroupRightBusinessEntityList[i]);
                             break;
                         }
-                        
-                    }
-                         
 
-                        //     if (GroupRight_BEList[i].MenuID == 1 || GroupRight_BEList[i].MenuID == 2 || GroupRight_BEList[i].MenuID == 3 || GroupRight_BEList[i].MenuID == 4)
-                       
+                    }
+
+                    //     if (GroupRight_BEList[i].MenuID == 1 || GroupRight_BEList[i].MenuID == 2 || GroupRight_BEList[i].MenuID == 3 || GroupRight_BEList[i].MenuID == 4)
+
                 }
 
-                if(ViewState["Survey_LocalTable"] != null)
-                GroupRight_BEList.AddRange((List<GroupRight_BE>)ViewState["Survey_LocalTable"]);
+                if (ViewState["Survey_LocalTable"] != null)
+                    GroupRightBusinessEntityList.AddRange((List<GroupRight_BE>)ViewState["Survey_LocalTable"]);
 
 
                 if (ViewState["Personality_LocalTable"] != null)
-                    GroupRight_BEList.AddRange((List<GroupRight_BE>)ViewState["Personality_LocalTable"]);
+                    GroupRightBusinessEntityList.AddRange((List<GroupRight_BE>)ViewState["Personality_LocalTable"]);
 
-               // if(ViewState["Survey_LocalTable"]!=null)
-               // str2 = (String[])ViewState["Survey_LocalTable"];
-               // str1.CopyTo(a3,0);
-               // str2.CopyTo(a3,str1.Length);
+                // if(ViewState["Survey_LocalTable"]!=null)
+                // str2 = (String[])ViewState["Survey_LocalTable"];
+                // str1.CopyTo(a3,0);
+                // str2.CopyTo(a3,str1.Length);
                 //ViewState["sur_feedbk"]=a3;
-              //  GroupRight_BEList = (List<GroupRight_BE>)ViewState["sur_feedbk"];
+                //  GroupRight_BEList = (List<GroupRight_BE>)ViewState["sur_feedbk"];
 
                 //GroupRight_BEList= List<GroupRight_BE>)ViewState["LocalTable"] + (List<GroupRight_BE>)ViewState["Survey_LocalTable"]
-
 
                 ResetGroupRightBEList();
 
@@ -279,13 +261,11 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                     {
                         if (tnMainMenu.Checked == true)
                         {
-                            UpdateTable(tnMainMenu);
+                            UpdateTable(tnMainMenu);//Update database
                         }
                     }
                 }
 
-
-                
                 for (int k = 0; k < tvGroupRights_Survey.Nodes.Count; k++)
                 {
                     TreeNode tnMainMenu = new TreeNode();
@@ -299,7 +279,7 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                     {
                         if (tnMainMenu.Checked == true)
                         {
-                            UpdateTable(tnMainMenu);
+                            UpdateTable(tnMainMenu);//Update database
                         }
                     }
                 }
@@ -317,7 +297,7 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                     {
                         if (tnMainMenu.Checked == true)
                         {
-                            UpdateTable(tnMainMenu);
+                            UpdateTable(tnMainMenu);//Update database
                         }
                     }
                 }
@@ -338,7 +318,7 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 //    sBuilder.Append("<ul><li>'Group Name' contains one or many illegal characters. Please avoid using '!, #, $,%,^,&,*, ( , ), = ,+, [, ], {, }, :, ;, ’, ”, ?, /, <, >'</li>");
                 //}
 
-                Group_BE.GroupName = txtGroupName.Text.Trim() != "" ? GetString(txtGroupName.Text) : null;
+                GroupBusinessEntity.GroupName = txtGroupName.Text.Trim() != "" ? GetString(txtGroupName.Text) : null;
 
 
                 //if (LookUp.CheckName(txtWelcomeText.Text.Trim()))
@@ -349,10 +329,10 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 //{
                 //    sBuilder.Append("<li>'Welcome Text' contains one or many illegal characters. Please avoid using '!, #, $,%,^,&,*, ( , ), = ,+, [, ], {, }, :, ;, ’, ”, ?, /, <, >'</li>");
                 //}
-                Group_BE.Description = txtDescription.Text.Trim() != "" ? GetString(txtDescription.Text) : null;
-                Group_BE.WelcomeText = ""; //txtWelcomeText.Text.Trim() != "" ? GetString(txtWelcomeText.Text) : null;
-                Group_BE.NewsText = ""; // txtNewsText.Text.Trim() != "" ? GetString(txtNewsText.Text) : null;
-                Group_BE.IsActive = chkIsActive.Checked == true ? true : false;
+                GroupBusinessEntity.Description = txtDescription.Text.Trim() != "" ? GetString(txtDescription.Text) : null;
+                GroupBusinessEntity.WelcomeText = ""; //txtWelcomeText.Text.Trim() != "" ? GetString(txtWelcomeText.Text) : null;
+                GroupBusinessEntity.NewsText = ""; // txtNewsText.Text.Trim() != "" ? GetString(txtNewsText.Text) : null;
+                GroupBusinessEntity.IsActive = chkIsActive.Checked == true ? true : false;
 
                 //if (Request.QueryString["GroupID"] != null)
                 //{
@@ -365,31 +345,31 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 //    Group_BE.GroupID = 0;
                 //}
 
-                Group_BE.GroupID = Request.QueryString["GroupID"] == null ? 0 : Convert.ToInt32(Request.QueryString["GroupID"].Trim());
+                GroupBusinessEntity.GroupID = Request.QueryString["GroupID"] == null ? 0 : Convert.ToInt32(Request.QueryString["GroupID"].Trim());
 
                 if (sBuilder.ToString() == "")
                 {
                     pnlMsg.Visible = false;
                     lblMessage.Visible = false;
 
-                    if (Group_BE.GroupID == 0)
+                    if (GroupBusinessEntity.GroupID == 0)
                     {
-                        Group_BE.GroupID = Group_BAO.AddGroup(Group_BE);
+                        GroupBusinessEntity.GroupID = GroupBusinessAccessObject.AddGroup(GroupBusinessEntity);
                     }
                     else
                     {
-                        Group_BAO.UpdateGroup(Group_BE);
+                        GroupBusinessAccessObject.UpdateGroup(GroupBusinessEntity);
                     }
 
-                    foreach (GroupRight_BE GroupRight_BEItem in GroupRight_BEList)
+                    foreach (GroupRight_BE GroupRight_BEItem in GroupRightBusinessEntityList)
                     {
-                        GroupRight_BEItem.GroupID = Group_BE.GroupID;
+                        GroupRight_BEItem.GroupID = GroupBusinessEntity.GroupID;
                     }
 
-                    GroupRight_BAO = new GroupRight_BAO();
+                    GroupRightBusinessAccessObject = new GroupRight_BAO();
 
                     //string xx,xx1;
-              //      int i = 0;
+                    //      int i = 0;
                     //GroupRight_BEList_Check = GroupRight_BEList;
 
                     //foreach (GroupRight_BE bb in GroupRight_BEList)
@@ -407,8 +387,8 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                     //}
                     //GroupRight_BEList=GroupRight_BEList.Distinct().ToList();
 
-                    
-                    GroupRight_BAO.AddGroupRight(GroupRight_BEList);
+
+                    GroupRightBusinessAccessObject.AddGroupRight(GroupRightBusinessEntityList);
                 }
                 else
                 {
@@ -434,14 +414,14 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
         finally
         {
             //to release objects
-            if (Group_BE != null)
-                Group_BE = null;
-            if (Group_BAO != null)
-                Group_BAO = null;
-            if (GroupRight_BE != null)
-                GroupRight_BE = null;
-            if (GroupRight_BAO != null)
-                GroupRight_BAO = null;
+            if (GroupBusinessEntity != null)
+                GroupBusinessEntity = null;
+            if (GroupBusinessAccessObject != null)
+                GroupBusinessAccessObject = null;
+            if (GroupRightBusinessEntity != null)
+                GroupRightBusinessEntity = null;
+            if (GroupRightBusinessAccessObject != null)
+                GroupRightBusinessAccessObject = null;
         }
         //Redirecting to ViewGroups Page
         //if (bRedirect)
@@ -450,40 +430,38 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
         //For building menu as per user changes in rights
         //MasterPage masterPage = (MasterPage)Page.Master;
         //masterPage.BuildMenu();
-        
+
         Response.Redirect("GroupMaintenanceList.aspx", false);
 
         //HandleWriteLog("End", new StackTrace(true));
     }
 
     #region Private Functions
-
     /// <summary>
     /// Function to Create TreeView for User
     /// </summary>
-    private void CreateTreeView(List<GroupRight_BE> p_groupRight_BEList,string FType)
+    private void CreateTreeView(List<GroupRight_BE> groupRightBusinessEntityList, string projectType)
     {
-
         HandleWriteLog("Start", new StackTrace(true));
 
         //Gathering TreeView Data 
         //GroupMaintenanceBL Group_BAO = new GroupMaintenanceBL();
-        Group_BAO = new Group_BAO();
+        GroupBusinessAccessObject = new Group_BAO();
 
-        Group_BE = new Group_BE();
-        MenuMaster_BAO = new MenuMaster_BAO();
-        MenuMaster_BE = new MenuMaster_BE();
+        GroupBusinessEntity = new Group_BE();
+        MenuMasterBusinessAccessObject = new MenuMaster_BAO();
+        MenuMasterBusinessEntity = new MenuMaster_BE();
 
         try
         {
-            MenuMaster_BE.ADEVFlag = FType;
-            List<MenuMaster_BE> menuMaster_BEList = MenuMaster_BAO.GetMenuMaster(MenuMaster_BE);
-          //  ViewState["Get_ParentId"] = menuMaster_BEList;
-            if (menuMaster_BEList != null)
+            MenuMasterBusinessEntity.ADEVFlag = projectType;
+            List<MenuMaster_BE> menuMasterBusinessEntityList = MenuMasterBusinessAccessObject.GetMenuMaster(MenuMasterBusinessEntity);
+            //  ViewState["Get_ParentId"] = menuMaster_BEList;
+            if (menuMasterBusinessEntityList != null)
             {
 
-                GroupRight_BEList = new List<GroupRight_BE>();
-                List<MenuMaster_BE> parentMenuMaster_BEList = new List<MenuMaster_BE>();
+                GroupRightBusinessEntityList = new List<GroupRight_BE>();
+                List<MenuMaster_BE> parentMenuMasterBusinessEntityList = new List<MenuMaster_BE>();
 
                 //var items = from item in MenuMaster_BEList
                 //            where item.ParentID==0
@@ -494,51 +472,50 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 //{ 
 
                 //}
-                
-                parentMenuMaster_BEList = GetMenuParent(menuMaster_BEList);
-                
-                foreach (MenuMaster_BE menuMaster_BEItem in parentMenuMaster_BEList)
+
+                parentMenuMasterBusinessEntityList = GetMenuParent(menuMasterBusinessEntityList);
+
+                foreach (MenuMaster_BE menuMasterBusinessEntityItem in parentMenuMasterBusinessEntityList)
                 {
                     //Adding a New Row in the Local Table With Parent ID 0 (Root Nodes)
-                    NewRow(Convert.ToInt32(menuMaster_BEItem.MenuID.ToString()), null, 0);
-                    menuMaster_BEItem.ADEVFlag = FType;
+                    NewRow(Convert.ToInt32(menuMasterBusinessEntityItem.MenuID.ToString()), null, 0);
+                    menuMasterBusinessEntityItem.ADEVFlag = projectType;
                     //Adding RootNodes to the TreeView
-                    int rootID = Convert.ToInt32(menuMaster_BEItem.MenuID.ToString());
+                    int rootID = Convert.ToInt32(menuMasterBusinessEntityItem.MenuID.ToString());
                     TreeNode tnRoot = new TreeNode();
-                    tnRoot.Text = menuMaster_BEItem.Name.ToString();
-                    tnRoot.Value = menuMaster_BEItem.MenuID.ToString();
+                    tnRoot.Text = menuMasterBusinessEntityItem.Name.ToString();
+                    tnRoot.Value = menuMasterBusinessEntityItem.MenuID.ToString();
                     tnRoot.SelectAction = TreeNodeSelectAction.None;
                     tnRoot.Target = "_blank";
                     tnRoot.ShowCheckBox = true;
 
                     //Calling Fuction to Add the Child Nodes
-                    List<MenuMaster_BE> menuMaster_BEListItem = new List<MenuMaster_BE>();
-                    menuMaster_BEListItem.Add(menuMaster_BEItem);
-                    GetChildNodes(rootID, tnRoot, menuMaster_BEListItem, p_groupRight_BEList);
-                    if (FType == "F")
+                    List<MenuMaster_BE> menuMasterBusinessEntityListItem = new List<MenuMaster_BE>();
+                    menuMasterBusinessEntityListItem.Add(menuMasterBusinessEntityItem);
+                    GetChildNodes(rootID, tnRoot, menuMasterBusinessEntityListItem, groupRightBusinessEntityList);
+                    if (projectType == "F")
                         tvGroupRights_Feedback.Nodes.Add(tnRoot);
-                    else if(FType == "S")
+                    else if (projectType == "S")
                         tvGroupRights_Survey.Nodes.Add(tnRoot);
-                    else if (FType == "P")
+                    else if (projectType == "P")
                         tvGroupRights_Personality.Nodes.Add(tnRoot);
                     //tvGroupRights_Feedback.ExpandAll();
 
                     //Put tick mark on the root if all/any of the children are checked
-                    
+
                     TickRoot(tnRoot);
-                    
                 }
             }
-         //   ViewState["LocalTable"] =  dtMenu;//Keeping the DataTable in the ViewState for future use
-            if (FType == "F")
-                ViewState["LocalTable"] = GroupRight_BEList;
-            else if (FType == "S")
+            //   ViewState["LocalTable"] =  dtMenu;//Keeping the DataTable in the ViewState for future use
+            if (projectType == "F")
+                ViewState["LocalTable"] = GroupRightBusinessEntityList;
+            else if (projectType == "S")
             {
-                ViewState["Survey_LocalTable"] = GroupRight_BEList;
+                ViewState["Survey_LocalTable"] = GroupRightBusinessEntityList;
             }
-            else if (FType == "P")
+            else if (projectType == "P")
             {
-                ViewState["Personality_LocalTable"] = GroupRight_BEList;
+                ViewState["Personality_LocalTable"] = GroupRightBusinessEntityList;
             }
         }
         catch (Exception ex)
@@ -548,10 +525,10 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
         }
         finally
         {
-            Group_BE = null;
-            Group_BAO = null;
-            GroupRight_BE = null;
-            GroupRight_BAO = null;
+            GroupBusinessEntity = null;
+            GroupBusinessAccessObject = null;
+            GroupRightBusinessEntity = null;
+            GroupRightBusinessAccessObject = null;
         }
         HandleWriteLog("End", new StackTrace(true));
     }
@@ -559,57 +536,60 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     /// <summary>
     /// To get the Parent Menus
     /// </summary>
-    /// <param name="p_MenuMaster_BE"></param>
+    /// <param name="listMenuMaster"></param>
     /// <returns></returns>
-    public List<MenuMaster_BE> GetMenuParent(List<MenuMaster_BE> p_MenuMaster_BE)
+    public List<MenuMaster_BE> GetMenuParent(List<MenuMaster_BE> listMenuMaster)
     {
-
         HandleWriteLog("Start", new StackTrace(true));
 
-        List<MenuMaster_BE> MenuMaster_BEList = new List<MenuMaster_BE>();
+        List<MenuMaster_BE> MenuMasterBusinessEntityList = new List<MenuMaster_BE>();
 
-        for (int counter = 0; counter < p_MenuMaster_BE.Count; counter++)
+        for (int counter = 0; counter < listMenuMaster.Count; counter++)
         {
-            if (p_MenuMaster_BE[counter].ParentID == null || p_MenuMaster_BE[counter].ParentID == 0)
+            if (listMenuMaster[counter].ParentID == null || listMenuMaster[counter].ParentID == 0)
             {
-                MenuMaster_BEList.Add(p_MenuMaster_BE[counter]);
+                MenuMasterBusinessEntityList.Add(listMenuMaster[counter]);
             }
         }
-        HandleWriteLog("End", new StackTrace(true));
-        return MenuMaster_BEList;
 
+        HandleWriteLog("End", new StackTrace(true));
+        return MenuMasterBusinessEntityList;
     }
 
     /// <summary>
     /// To get the child Menus
     /// </summary>
-    /// <param name="p_MenuMaster_BE"></param>
+    /// <param name="ListMenuMasterBusinessEntity"></param>
     /// <returns></returns>
-    public List<MenuMaster_BE> GetMenuChild(List<MenuMaster_BE> p_MenuMaster_BE, int p_parentID)
+    public List<MenuMaster_BE> GetMenuChild(List<MenuMaster_BE> ListMenuMasterBusinessEntity, int parentID)
     {
 
         HandleWriteLog("Start", new StackTrace(true));
 
         //List<MenuMaster_BE> MenuMaster_BEList = new List<MenuMaster_BE>();
-        MenuMaster_BE = new MenuMaster_BE();
-        MenuMaster_BE.ADEVFlag = p_MenuMaster_BE[0].ADEVFlag;
-        List<MenuMaster_BE> menuMaster_BEList = MenuMaster_BAO.GetMenuMaster(MenuMaster_BE);
-        List<MenuMaster_BE> menuMasterChild_BEList = new List<MenuMaster_BE>();
-        for (int counter = 0; counter < menuMaster_BEList.Count; counter++)
+        MenuMasterBusinessEntity = new MenuMaster_BE();
+        MenuMasterBusinessEntity.ADEVFlag = ListMenuMasterBusinessEntity[0].ADEVFlag;
+        //Get menu details
+        List<MenuMaster_BE> menuMasterBusinessEntityList = MenuMasterBusinessAccessObject.GetMenuMaster(MenuMasterBusinessEntity);
+        List<MenuMaster_BE> menuMasterChildBusinessEntityList = new List<MenuMaster_BE>();
+
+        for (int counter = 0; counter < menuMasterBusinessEntityList.Count; counter++)
         {
-            if (menuMaster_BEList[counter].ParentID == p_parentID)
+            if (menuMasterBusinessEntityList[counter].ParentID == parentID)
             {
-                menuMasterChild_BEList.Add(menuMaster_BEList[counter]);
+                menuMasterChildBusinessEntityList.Add(menuMasterBusinessEntityList[counter]);
             }
         }
+
         HandleWriteLog("End", new StackTrace(true));
-        return menuMasterChild_BEList;
+
+        return menuMasterChildBusinessEntityList;
     }
 
     /// <summary>
     /// Function To Insert a new Row into the Local DataTable
     /// </summary>
-    private void NewRow(int p_ID, string p_accessRight, int p_parentID)
+    private void NewRow(int menuID, string accessRight, int parentID)
     {
         HandleWriteLog("Start", new StackTrace(true));
         try
@@ -620,12 +600,12 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
             //drNewRow["ParentID"] = p_parentID;
             //dtMenu.Rows.Add(drNewRow);
 
-           GroupRight_BE = new GroupRight_BE();
-            GroupRight_BE.MenuID = p_ID;
+            GroupRightBusinessEntity = new GroupRight_BE();
+            GroupRightBusinessEntity.MenuID = menuID;
             //GroupRight_BE.AccessRights = p_accessRight;
-            GroupRight_BE.AccessRights = string.Empty;
+            GroupRightBusinessEntity.AccessRights = string.Empty;
 
-            GroupRight_BEList.Add(GroupRight_BE);
+            GroupRightBusinessEntityList.Add(GroupRightBusinessEntity);
 
         }
         catch (Exception ex)
@@ -673,14 +653,14 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
             //function to write error log entry in the database
             HandleException(ex);
         }
-
     }
 
     /// <summary>
     /// Function to retrive the clildnode/s and Insert them into the existing tree.
     /// i.e. Under the parent node supplied
     /// </summary>
-    private void GetChildNodes(int p_rootID, TreeNode p_tnMainNode, List<MenuMaster_BE> p_menuMaster_BE, List<GroupRight_BE> p_groupRight_BEList)
+    private void GetChildNodes(int p_rootID, TreeNode treeMainNode, List<MenuMaster_BE> listMenuMaster,
+        List<GroupRight_BE> groupRight_BEList)
     {
         HandleWriteLog("Start", new StackTrace(true));
         try
@@ -688,30 +668,30 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
             //DataRow[] drChildMenu = null;
             //drChildMenu = dsMenu.Tables[0].Select(" ParentID=" + p_rootID);
 
-            List<MenuMaster_BE> MenuMaster_BEList = new List<MenuMaster_BE>();
-            MenuMaster_BEList = GetMenuChild(p_menuMaster_BE, p_rootID);
+            List<MenuMaster_BE> MenuMasterBusinessEntityList = new List<MenuMaster_BE>();
+            MenuMasterBusinessEntityList = GetMenuChild(listMenuMaster, p_rootID);
 
-            foreach (MenuMaster_BE MenuMaster_BEItem in MenuMaster_BEList)
+            foreach (MenuMaster_BE MenuMasterBusinessEntityItem in MenuMasterBusinessEntityList)
             {
                 //Adding a New Row in the Local Table With Parent ID 0 (Root Nodes)
-                NewRow(Convert.ToInt32(MenuMaster_BEItem.MenuID.ToString()), null, p_rootID);
+                NewRow(Convert.ToInt32(MenuMasterBusinessEntityItem.MenuID.ToString()), null, p_rootID);
 
                 TreeNode tnChildMenu = new TreeNode();
-                tnChildMenu.Text = MenuMaster_BEItem.Name.ToString();
-                tnChildMenu.Value = MenuMaster_BEItem.MenuID.ToString();
+                tnChildMenu.Text = MenuMasterBusinessEntityItem.Name.ToString();
+                tnChildMenu.Value = MenuMasterBusinessEntityItem.MenuID.ToString();
                 tnChildMenu.SelectAction = TreeNodeSelectAction.None;
                 tnChildMenu.Target = "_blank";
-                
+
                 //BindADEV(Convert.ToInt32(MenuMaster_BEItem.MenuID.ToString()), tnChildMenu, p_groupRight_BEList);
 
                 //tnChildMenu.Checked=MenuMaster_BEItem.ADEVFlag
 
                 //GetChildNodes(Convert.ToInt32(MenuMaster_BEItem.MenuID), tnChildMenu, p_menuMaster_BE, p_groupRight_BEList);
 
-                if (MenuMaster_BEItem.ADEVFlag != null && MenuMaster_BEItem.ADEVFlag.ToString() != " ")//If true add ADEV attributes bellow the node
+                if (MenuMasterBusinessEntityItem.ADEVFlag != null && MenuMasterBusinessEntityItem.ADEVFlag.ToString() != " ")//If true add ADEV attributes bellow the node
                 //if ((MenuMaster_BE.ADEVFlag.ToString()) == "True")//If true add ADEV attributes bellow the node
                 {
-                    BindADEV(Convert.ToInt32(MenuMaster_BEItem.MenuID.ToString()), tnChildMenu, p_groupRight_BEList);
+                    BindADEV(Convert.ToInt32(MenuMasterBusinessEntityItem.MenuID.ToString()), tnChildMenu, groupRight_BEList);
                 }
                 //else
                 //{    //if (dtRightList != null && dtRightList.Rows.Count > 0)
@@ -720,7 +700,7 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
                 //    }
                 //}
                 //Adding the node to the main menu
-                p_tnMainNode.ChildNodes.Add(tnChildMenu);
+                treeMainNode.ChildNodes.Add(tnChildMenu);
             }
             HandleWriteLog("End", new StackTrace(true));
         }
@@ -729,26 +709,25 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
             //function to write error log entry in the database
             HandleException(ex);
         }
-
     }
 
     /// <summary>
     /// Adding ADEV Nodes to the Leaf Nodes supplied
     /// </summary>
-    private void BindADEV(int p_rootID, TreeNode p_tnMainNode, List<GroupRight_BE> p_groupRightBEList)
+    private void BindADEV(int rootID, TreeNode treeMainNode, List<GroupRight_BE> groupRightBEList)
     {
         HandleWriteLog("Start", new StackTrace(true));
         try
         {
             string Rights = "";
 
-            if (p_groupRightBEList != null && p_groupRightBEList.Count > 0)
+            if (groupRightBEList != null && groupRightBEList.Count > 0)
             {
-                Rights = GetMenuAccessRights(p_rootID, p_groupRightBEList);
+                Rights = GetMenuAccessRights(rootID, groupRightBEList);
             }
 
-            p_tnMainNode.Checked = Rights == "A" ? true : false;
-            
+            treeMainNode.Checked = Rights == "A" ? true : false;
+
             //List<FieldRight_BE> FieldRight_BEList = null;
             //FieldRight_BAO FeildRight_BAO = new FieldRight_BAO();
             //FieldRight_BEList = FeildRight_BAO.GetFieldRight();
@@ -782,19 +761,21 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     /// <summary>
     /// Function to get Menu Access Rights
     /// </summary>
-    /// <param name="p_menuID"></param>
-    /// <param name="p_groupRightBEList"></param>
-    private string GetMenuAccessRights(int p_menuID, List<GroupRight_BE> p_groupRightBEList)
+    /// <param name="menuID"></param>
+    /// <param name="groupRightBEList"></param>
+    private string GetMenuAccessRights(int menuID, List<GroupRight_BE> groupRightBEList)
     {
         HandleWriteLog("Start", new StackTrace(true));
         string Rights = string.Empty;
-        foreach (GroupRight_BE GroupRight_BEItem in p_groupRightBEList)
+
+        foreach (GroupRight_BE GroupRightBusinessEntityItem in groupRightBEList)
         {
-            if (GroupRight_BEItem.MenuID == Convert.ToInt32(p_menuID))
+            if (GroupRightBusinessEntityItem.MenuID == Convert.ToInt32(menuID))
             {
-                Rights = GroupRight_BEItem.AccessRights;
+                Rights = GroupRightBusinessEntityItem.AccessRights;
             }
         }
+
         HandleWriteLog("End", new StackTrace(true));
         return (Rights);
     }
@@ -803,18 +784,19 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     /// Traverse the tree for New Permission list set for the group
     /// Called after Clicking the Submit Button
     /// </summary>
-    private void GetChildPermission(TreeNode p_tnMainMenu)
+    private void GetChildPermission(TreeNode treeMainMenu)
     {
         HandleWriteLog("Start", new StackTrace(true));
-        for (int l = 0; l < p_tnMainMenu.ChildNodes.Count; l++)
+
+        for (int l = 0; l < treeMainMenu.ChildNodes.Count; l++)
         {
-            TreeNode tnChildMenu = p_tnMainMenu.ChildNodes[l];
+            TreeNode tnChildMenu = treeMainMenu.ChildNodes[l];
 
             if (tnChildMenu.Checked == true)
             {
                 UpdateTable(tnChildMenu);
             }
-            
+
             //if (tnChildMenu.ChildNodes.Count > 0)
             //{
             //    GetChildPermission(tnChildMenu);
@@ -835,21 +817,21 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     /// Updating the Local Table with the New Permission Details
     /// Called after clicking the Submit Button
     /// </summary>
-    private void UpdateTable(TreeNode p_tnChild)
+    private void UpdateTable(TreeNode treeChild)
     {
         HandleWriteLog("Start", new StackTrace(true));
         try
         {
-            foreach (GroupRight_BE GroupRight_BEItem in GroupRight_BEList)
+            foreach (GroupRight_BE GroupRightBusinessEntityItem in GroupRightBusinessEntityList)
             {
-                if (Convert.ToString(GroupRight_BEItem.MenuID).Trim().Equals(p_tnChild.Value.Trim()))
+                if (Convert.ToString(GroupRightBusinessEntityItem.MenuID).Trim().Equals(treeChild.Value.Trim()))
                 {
-                    if (GroupRight_BEItem.AccessRights != null)
+                    if (GroupRightBusinessEntityItem.AccessRights != null)
                     {
-                        GroupRight_BEItem.AccessRights = "A";
+                        GroupRightBusinessEntityItem.AccessRights = "A";
 
                         //function to set AEDV flag for the parents
-                        SetAEDVToParents(Convert.ToInt32(p_tnChild.Parent.Value.Trim()));
+                        SetAEDVToParents(Convert.ToInt32(treeChild.Parent.Value.Trim()));
 
                         break;
                     }
@@ -861,6 +843,7 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
             //function to write error log entry in the database
             HandleException(ex);
         }
+
         HandleWriteLog("End", new StackTrace(true));
     }
 
@@ -868,19 +851,19 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     /// Function to set the Parent's Value field to A@E@D@V for those who are checked
     /// </summary>
     /// <param name="ParentID"></param>
-    private void SetAEDVToParents(int p_parentID)
+    private void SetAEDVToParents(int parentID)
     {
         HandleWriteLog("Start", new StackTrace(true));
         try
         {
             //GroupRight_BEList = (List<GroupRight_BE>)ViewState["LocalTable"];
 
-            foreach (GroupRight_BE GroupRight_BEItem in GroupRight_BEList)
+            foreach (GroupRight_BE GroupRightBusinessEntityItem in GroupRightBusinessEntityList)
             {
-                if (Convert.ToString(GroupRight_BEItem.MenuID).Trim().Equals(p_parentID.ToString().Trim()))
+                if (Convert.ToString(GroupRightBusinessEntityItem.MenuID).Trim().Equals(parentID.ToString().Trim()))
                 {
-                    if(GroupRight_BEItem.AccessRights!=null && GroupRight_BEItem.AccessRights != "A")
-                    GroupRight_BEItem.AccessRights = "A";
+                    if (GroupRightBusinessEntityItem.AccessRights != null && GroupRightBusinessEntityItem.AccessRights != "A")
+                        GroupRightBusinessEntityItem.AccessRights = "A";
                 }
             }
         }
@@ -899,9 +882,10 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
     {
         try
         {
-            foreach (GroupRight_BE GroupRight_BE in GroupRight_BEList)
+            //Loop to all elements of tree and set it's defaultvalue.
+            foreach (GroupRight_BE GroupRightBusinessEntity in GroupRightBusinessEntityList)
             {
-                GroupRight_BE.AccessRights = string.Empty;
+                GroupRightBusinessEntity.AccessRights = string.Empty;
             }
         }
         catch (Exception ex)
@@ -912,23 +896,18 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Redirect to Group list page when click on previous page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbCancel_Click(object sender, ImageClickEventArgs e)
     {
         Response.Redirect("GroupMaintenanceList.aspx", false);
     }
+}
 
-
-   }
-
-
-
-
-
-
-
-
-
-
+#if CommentOut
 //class Matrix
 //{
 //    public GroupRight_BE g1;
@@ -951,3 +930,4 @@ public partial class Module_Admin_GroupMaintenance : CodeBehindBase
 //        return newMatrix;
 //    }
 //}
+#endif
