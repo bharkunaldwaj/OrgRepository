@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using System.Diagnostics;
 
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 using Admin_BE;
@@ -16,14 +10,14 @@ using DatabaseAccessUtilities;
 
 namespace Admin_DAO
 {
-    public class FeedbackAccount_DAO:DAO_Base
+    public class FeedbackAccount_DAO : DAO_Base
     {
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
         #region Private Variables
-        
+
         private int returnValue;
-        
+
         #endregion
 
         #region "Public Constructor"
@@ -31,77 +25,80 @@ namespace Admin_DAO
         /// <summary>
         /// Public Constructor
         /// </summary>
-        public FeedbackAccount_DAO() 
+        public FeedbackAccount_DAO()
         {
             //HandleWriteLog("Start", new StackTrace(true));
             //HandleWriteLog("End", new StackTrace(true));
         }
-        
+
         #endregion
 
         #region "Public Properties"
 
-        public List<FeedbackAccount_BE> account_BEList { get; set; }
-        
+        public List<FeedbackAccount_BE> accountBusinessEntityList { get; set; }
+
         #endregion
 
         # region CRUD Operation
-
-       
-
+        /// <summary>
+        /// Get Account List by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtAccountList(string accountID)
         {
-            DataTable dtAllAccount = new DataTable();
+            DataTable dataTableAllAccount = new DataTable();
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
-                
-                object[] param = new object[2] { Convert.ToInt32(accountID), "A" };
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                dtAllAccount = cDataSrc.ExecuteDataSet("UspAccountSelect", param, null).Tables[0];
+            object[] param = new object[2] { Convert.ToInt32(accountID), "A" };
 
-                //HandleWriteLogDAU("UspAccountSelect", param, new StackTrace(true));
-                //HandleWriteLog("End", new StackTrace(true));
+            dataTableAllAccount = cDataSrc.ExecuteDataSet("UspAccountSelect", param, null).Tables[0];
+
+            //HandleWriteLogDAU("UspAccountSelect", param, new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex) { HandleException(ex); }
-            return dtAllAccount;
+            return dataTableAllAccount;
         }
 
-        #endregion 
-
-        private void ShiftDataTableToBEList(DataTable dtAccount)
+        #endregion
+        /// <summary>
+        /// Shift account Data Table To BE List
+        /// </summary>
+        /// <param name="dataTableAccount"></param>
+        private void ShiftDataTableToBEList(DataTable dataTableAccount)
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            account_BEList = new List<FeedbackAccount_BE>();
+            accountBusinessEntityList = new List<FeedbackAccount_BE>();
 
-            for (int recordCounter = 0; recordCounter < dtAccount.Rows.Count; recordCounter++)
+            for (int recordCounter = 0; recordCounter < dataTableAccount.Rows.Count; recordCounter++)
             {
-                FeedbackAccount_BE account_BE = new FeedbackAccount_BE();
+                FeedbackAccount_BE accountBusinessEntity = new FeedbackAccount_BE();
 
-                account_BE.AccountID = Convert.ToInt32(dtAccount.Rows[recordCounter]["AccountID"].ToString());
-                account_BE.Code = dtAccount.Rows[recordCounter]["Code"].ToString();
-                account_BE.LoginID = dtAccount.Rows[recordCounter]["LoginID"].ToString();
-                account_BE.Password = dtAccount.Rows[recordCounter]["Password"].ToString();
-                account_BE.OrganisationName = dtAccount.Rows[recordCounter]["OrganisationName"].ToString();
-                account_BE.AccountTypeID = Convert.ToInt32(dtAccount.Rows[recordCounter]["AccountTypeID"].ToString());
-                account_BE.Description = dtAccount.Rows[recordCounter]["Description"].ToString();
-                account_BE.EmailID = dtAccount.Rows[recordCounter]["EmailID"].ToString();
-                account_BE.Website = dtAccount.Rows[recordCounter]["Website"].ToString();
-                account_BE.StatusID = Convert.ToInt32(dtAccount.Rows[recordCounter]["StatusID"].ToString());
-                account_BE.CompanyLogo = dtAccount.Rows[recordCounter]["CompanyLogo"].ToString();
-                account_BE.CopyRightLine = dtAccount.Rows[recordCounter]["CopyRightLine"].ToString();
-                account_BE.HeaderBGColor = dtAccount.Rows[recordCounter]["HeaderBGColor"].ToString();
-                account_BE.MenuBGColor = dtAccount.Rows[recordCounter]["MenuBGColor"].ToString();
-                account_BE.ModifyBy = Convert.ToInt32(dtAccount.Rows[recordCounter]["ModifyBy"].ToString());
-                account_BE.ModifyDate = Convert.ToDateTime(dtAccount.Rows[recordCounter]["ModifyDate"].ToString());
-                account_BE.IsActive = Convert.ToInt32(dtAccount.Rows[recordCounter]["IsActive"].ToString());
+                accountBusinessEntity.AccountID = Convert.ToInt32(dataTableAccount.Rows[recordCounter]["AccountID"].ToString());
+                accountBusinessEntity.Code = dataTableAccount.Rows[recordCounter]["Code"].ToString();
+                accountBusinessEntity.LoginID = dataTableAccount.Rows[recordCounter]["LoginID"].ToString();
+                accountBusinessEntity.Password = dataTableAccount.Rows[recordCounter]["Password"].ToString();
+                accountBusinessEntity.OrganisationName = dataTableAccount.Rows[recordCounter]["OrganisationName"].ToString();
+                accountBusinessEntity.AccountTypeID = Convert.ToInt32(dataTableAccount.Rows[recordCounter]["AccountTypeID"].ToString());
+                accountBusinessEntity.Description = dataTableAccount.Rows[recordCounter]["Description"].ToString();
+                accountBusinessEntity.EmailID = dataTableAccount.Rows[recordCounter]["EmailID"].ToString();
+                accountBusinessEntity.Website = dataTableAccount.Rows[recordCounter]["Website"].ToString();
+                accountBusinessEntity.StatusID = Convert.ToInt32(dataTableAccount.Rows[recordCounter]["StatusID"].ToString());
+                accountBusinessEntity.CompanyLogo = dataTableAccount.Rows[recordCounter]["CompanyLogo"].ToString();
+                accountBusinessEntity.CopyRightLine = dataTableAccount.Rows[recordCounter]["CopyRightLine"].ToString();
+                accountBusinessEntity.HeaderBGColor = dataTableAccount.Rows[recordCounter]["HeaderBGColor"].ToString();
+                accountBusinessEntity.MenuBGColor = dataTableAccount.Rows[recordCounter]["MenuBGColor"].ToString();
+                accountBusinessEntity.ModifyBy = Convert.ToInt32(dataTableAccount.Rows[recordCounter]["ModifyBy"].ToString());
+                accountBusinessEntity.ModifyDate = Convert.ToDateTime(dataTableAccount.Rows[recordCounter]["ModifyDate"].ToString());
+                accountBusinessEntity.IsActive = Convert.ToInt32(dataTableAccount.Rows[recordCounter]["IsActive"].ToString());
 
-                account_BEList.Add(account_BE);
+                accountBusinessEntityList.Add(accountBusinessEntity);
             }
 
             //HandleWriteLog("End", new StackTrace(true));
         }
-
-       
     }
 }

@@ -3,21 +3,13 @@
 // Date of Creation : Oct-05-2010
 #endregion
 
-
 using System;
 using System.Data;
 using System.Configuration;
-using System.Data.SqlClient;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web;
-using System.Security;
 
-using System.Reflection;
 using System.Diagnostics;
 
-using feedbackFramework_BE;
 using feedbackFramework_DAO;
 
 //using Questionnaire_BE;
@@ -53,18 +45,17 @@ namespace Admin_DAO
 
         #region "Public Properties"
 
-        public List<EmailTemplate_BE> emailtemplate_BEList { get; set; }
+        public List<EmailTemplate_BE> emailtemplateBusinessEntityList { get; set; }
 
         #endregion
 
         # region CRUD Operation
-
         /// <summary>
         /// Add email address
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int AddEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        public int AddEmailTemplate(EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
@@ -85,15 +76,16 @@ namespace Admin_DAO
 
                 // To support chiense / japnese language
                 CNameValueList param = new CNameValueList();
-                param.Add(new CNameValue("@AccountID", emailtemplate_BE.AccountID));
-                param.Add(new CNameValue("@Title", emailtemplate_BE.Title));
-                param.Add(new CNameValue("@Description", emailtemplate_BE.Description));
-                param.Add(new CNameValue("@Subject", emailtemplate_BE.Subject));
-                param.Add(new CNameValue("@EmailText", emailtemplate_BE.EmailText));
-                param.Add(new CNameValue("@EmailImage", emailtemplate_BE.EmailImage));
-                param.Add(new CNameValue("@ModifyBy", emailtemplate_BE.ModifyBy));
-                param.Add(new CNameValue("@ModifyDate", emailtemplate_BE.ModifyDate));
-                param.Add(new CNameValue("@IsActive", emailtemplate_BE.IsActive));
+                param.Add(new CNameValue("@EmailTemplateID", emailtemplateBusinessEntity.EmailTemplateID));
+                param.Add(new CNameValue("@AccountID", emailtemplateBusinessEntity.AccountID));
+                param.Add(new CNameValue("@Title", emailtemplateBusinessEntity.Title));
+                param.Add(new CNameValue("@Description", emailtemplateBusinessEntity.Description));
+                param.Add(new CNameValue("@Subject", emailtemplateBusinessEntity.Subject));
+                param.Add(new CNameValue("@EmailText", emailtemplateBusinessEntity.EmailText));
+                param.Add(new CNameValue("@EmailImage", emailtemplateBusinessEntity.EmailImage));
+                param.Add(new CNameValue("@ModifyBy", emailtemplateBusinessEntity.ModifyBy));
+                param.Add(new CNameValue("@ModifyDate", emailtemplateBusinessEntity.ModifyDate));
+                param.Add(new CNameValue("@IsActive", emailtemplateBusinessEntity.IsActive));
                 param.Add(new CNameValue("@Operation", "I"));
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspEmailTemplateManagement", param, null));
@@ -110,9 +102,9 @@ namespace Admin_DAO
         /// <summary>
         /// Update the email address
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        public int UpdateEmailTemplate(EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
@@ -134,16 +126,16 @@ namespace Admin_DAO
 
                 // To support chiense / japnese language 
                 CNameValueList param = new CNameValueList();
-                param.Add(new CNameValue("@EmailTemplateID", emailtemplate_BE.EmailTemplateID));
-                param.Add(new CNameValue("@AccountID", emailtemplate_BE.AccountID));
-                param.Add(new CNameValue("@Title", emailtemplate_BE.Title));
-                param.Add(new CNameValue("@Description", emailtemplate_BE.Description));
-                param.Add(new CNameValue("@Subject", emailtemplate_BE.Subject));
-                param.Add(new CNameValue("@EmailText", emailtemplate_BE.EmailText));
-                param.Add(new CNameValue("@EmailImage", emailtemplate_BE.EmailImage));
-                param.Add(new CNameValue("@ModifyBy", emailtemplate_BE.ModifyBy));
-                param.Add(new CNameValue("@ModifyDate", emailtemplate_BE.ModifyDate));
-                param.Add(new CNameValue("@IsActive", emailtemplate_BE.IsActive));
+                param.Add(new CNameValue("@EmailTemplateID", emailtemplateBusinessEntity.EmailTemplateID));
+                param.Add(new CNameValue("@AccountID", emailtemplateBusinessEntity.AccountID));
+                param.Add(new CNameValue("@Title", emailtemplateBusinessEntity.Title));
+                param.Add(new CNameValue("@Description", emailtemplateBusinessEntity.Description));
+                param.Add(new CNameValue("@Subject", emailtemplateBusinessEntity.Subject));
+                param.Add(new CNameValue("@EmailText", emailtemplateBusinessEntity.EmailText));
+                param.Add(new CNameValue("@EmailImage", emailtemplateBusinessEntity.EmailImage));
+                param.Add(new CNameValue("@ModifyBy", emailtemplateBusinessEntity.ModifyBy));
+                param.Add(new CNameValue("@ModifyDate", emailtemplateBusinessEntity.ModifyDate));
+                param.Add(new CNameValue("@IsActive", emailtemplateBusinessEntity.IsActive));
                 param.Add(new CNameValue("@Operation", "U"));
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspEmailTemplateManagement", param, null));
@@ -160,15 +152,15 @@ namespace Admin_DAO
         /// <summary>
         /// Delete the Email Template
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int DeleteEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        public int DeleteEmailTemplate(EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[11] {emailtemplate_BE.EmailTemplateID,
+                object[] param = new object[11] {emailtemplateBusinessEntity.EmailTemplateID,
                                                 null,
                                                 null,
                                                 null,
@@ -201,12 +193,12 @@ namespace Admin_DAO
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAlluser = new DataTable();
+                DataTable dataTableAlluser = new DataTable();
                 object[] param = new object[3] { emailID, accountID, "I" };
 
-                dtAlluser = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAlluser = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAlluser);
+                ShiftDataTableToBEList(dataTableAlluser);
                 returnValue = 1;
 
                 HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
@@ -225,16 +217,16 @@ namespace Admin_DAO
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                
+
                 //WADPrincipal identity;//= this.Page.User as WADPrincipal;
                 //identity = this.Page.User.Identity as WADIdentity;
-                
-                DataTable dtAlluser = new DataTable();
+
+                DataTable dataTableAlluser = new DataTable();
                 object[] param = new object[2] { null, "A" };
 
-                dtAlluser = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAlluser = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAlluser);
+                ShiftDataTableToBEList(dataTableAlluser);
                 returnValue = 1;
 
                 HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
@@ -250,41 +242,51 @@ namespace Admin_DAO
         /// <returns></returns>
         public DataTable GetdtEmailTemplateList(string accountID)
         {
-            DataTable dtAllEmailTemplate = new DataTable();
+            DataTable dataTableAllEmailTemplate = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                
-                object[] param = new object[3] { null,Convert.ToInt32(accountID), "A" };
-                
-                dtAllEmailTemplate = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
+
+                object[] param = new object[3] { null, Convert.ToInt32(accountID), "A" };
+
+                dataTableAllEmailTemplate = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllEmailTemplate;
+            return dataTableAllEmailTemplate;
         }
 
+        /// <summary>
+        /// Get Admin Email Template by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetAdminEmailTemplate(string accountID)
         {
-            DataTable dtAllEmailTemplate = new DataTable();
+            DataTable dataTableAllEmailTemplate = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { null, Convert.ToInt32(accountID), "F" };
 
-                dtAllEmailTemplate = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAllEmailTemplate = cDataSrc.ExecuteDataSet("UspEmailTemplateSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllEmailTemplate;
+            return dataTableAllEmailTemplate;
         }
 
-        public void InsertMailTemplateID(string id,int accountid)
+        /// <summary>
+        /// Insert Mail Template 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountid"></param>
+        public void InsertMailTemplateID(string id, int accountid)
         {
 
             try
@@ -293,26 +295,18 @@ namespace Admin_DAO
                 //foreach (string to in id.Split(';'))
                 //{
                 //    int i = Convert.ToInt32(to);
-
-              
-
-
                 object[] param = new object[3] { id, accountid, "C" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("UspEmailTemplateCopy", param, null));
 
                 cDataSrc = null;
 
-                    //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
-                    //HandleWriteLog("End", new StackTrace(true));
+                //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
+                //HandleWriteLog("End", new StackTrace(true));
                 //}
             }
             catch (Exception ex) { HandleException(ex); }
-          
-        
         }
-
-
         #endregion
 
         #region MISC Data Operations
@@ -320,28 +314,28 @@ namespace Admin_DAO
         /// Copy Date from the Data Table into the Business Entity of Email
         /// Templates
         /// </summary>
-        /// <param name="dtEmailTemplate"></param>
-        private void ShiftDataTableToBEList(DataTable dtEmailTemplate)
+        /// <param name="dataTableEmailTemplate"></param>
+        private void ShiftDataTableToBEList(DataTable dataTableEmailTemplate)
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            emailtemplate_BEList = new List<EmailTemplate_BE>();
+            emailtemplateBusinessEntityList = new List<EmailTemplate_BE>();
 
-            for (int recordCounter = 0; recordCounter < dtEmailTemplate.Rows.Count; recordCounter++)
+            for (int recordCounter = 0; recordCounter < dataTableEmailTemplate.Rows.Count; recordCounter++)
             {
                 EmailTemplate_BE emailtemplate_BE = new EmailTemplate_BE();
 
-                emailtemplate_BE.EmailTemplateID    = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["EmailTemplateID"].ToString());
-                emailtemplate_BE.AccountID          = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["AccountID"].ToString());
-                emailtemplate_BE.Title              = dtEmailTemplate.Rows[recordCounter]["Title"].ToString();
-                emailtemplate_BE.Description        = dtEmailTemplate.Rows[recordCounter]["Description"].ToString();
-                emailtemplate_BE.Subject            = dtEmailTemplate.Rows[recordCounter]["Subject"].ToString();
-                emailtemplate_BE.EmailText          = Convert.ToString(dtEmailTemplate.Rows[recordCounter]["EmailText"].ToString());
-                emailtemplate_BE.EmailImage         = dtEmailTemplate.Rows[recordCounter]["EmailImage"].ToString();
-                emailtemplate_BE.ModifyBy           = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["ModifyBy"].ToString());
-                emailtemplate_BE.ModifyDate         = Convert.ToDateTime(dtEmailTemplate.Rows[recordCounter]["ModifyDate"].ToString());
-                emailtemplate_BE.IsActive           = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["IsActive"].ToString());
+                emailtemplate_BE.EmailTemplateID = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["EmailTemplateID"].ToString());
+                emailtemplate_BE.AccountID = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["AccountID"].ToString());
+                emailtemplate_BE.Title = dataTableEmailTemplate.Rows[recordCounter]["Title"].ToString();
+                emailtemplate_BE.Description = dataTableEmailTemplate.Rows[recordCounter]["Description"].ToString();
+                emailtemplate_BE.Subject = dataTableEmailTemplate.Rows[recordCounter]["Subject"].ToString();
+                emailtemplate_BE.EmailText = Convert.ToString(dataTableEmailTemplate.Rows[recordCounter]["EmailText"].ToString());
+                emailtemplate_BE.EmailImage = dataTableEmailTemplate.Rows[recordCounter]["EmailImage"].ToString();
+                emailtemplate_BE.ModifyBy = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["ModifyBy"].ToString());
+                emailtemplate_BE.ModifyDate = Convert.ToDateTime(dataTableEmailTemplate.Rows[recordCounter]["ModifyDate"].ToString());
+                emailtemplate_BE.IsActive = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["IsActive"].ToString());
 
-                emailtemplate_BEList.Add(emailtemplate_BE);
+                emailtemplateBusinessEntityList.Add(emailtemplate_BE);
             }
 
             //HandleWriteLog("End", new StackTrace(true));
@@ -371,28 +365,6 @@ namespace Admin_DAO
         #endregion
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public class Survey_EmailTemplate_DAO : DAO_Base
     {
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
@@ -418,7 +390,7 @@ namespace Admin_DAO
 
         #region "Public Properties"
 
-        public List<Survey_EmailTemplate_BE> emailtemplate_BEList { get; set; }
+        public List<Survey_EmailTemplate_BE> emailtemplateBusinessEntityList { get; set; }
 
         #endregion
 
@@ -427,24 +399,24 @@ namespace Admin_DAO
         /// <summary>
         /// Add email address
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int AddEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        public int AddEmailTemplate(Survey_EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[11] {null,
-                                                emailtemplate_BE.AccountID,
-                                                emailtemplate_BE.Title,
-                                                emailtemplate_BE.Description,
-                                                emailtemplate_BE.Subject,
-                                                emailtemplate_BE.EmailText,
-                                                emailtemplate_BE.EmailImage,
-                                                emailtemplate_BE.ModifyBy,
-                                                emailtemplate_BE.ModifyDate,
-                                                emailtemplate_BE.IsActive,
+                                                emailtemplateBusinessEntity.AccountID,
+                                                emailtemplateBusinessEntity.Title,
+                                                emailtemplateBusinessEntity.Description,
+                                                emailtemplateBusinessEntity.Subject,
+                                                emailtemplateBusinessEntity.EmailText,
+                                                emailtemplateBusinessEntity.EmailImage,
+                                                emailtemplateBusinessEntity.ModifyBy,
+                                                emailtemplateBusinessEntity.ModifyDate,
+                                                emailtemplateBusinessEntity.IsActive,
                                                 "I" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("Survey_UspEmailTemplateManagement", param, null));
@@ -461,25 +433,25 @@ namespace Admin_DAO
         /// <summary>
         /// Update the email address
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int UpdateEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        public int UpdateEmailTemplate(Survey_EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[11] {
-                                                emailtemplate_BE.EmailTemplateID,
-                                                emailtemplate_BE.AccountID,
-                                                emailtemplate_BE.Title,
-                                                emailtemplate_BE.Description,
-                                                emailtemplate_BE.Subject,
-                                                emailtemplate_BE.EmailText,
-                                                emailtemplate_BE.EmailImage,
-                                                emailtemplate_BE.ModifyBy,
-                                                emailtemplate_BE.ModifyDate,
-                                                emailtemplate_BE.IsActive,
+                                                emailtemplateBusinessEntity.EmailTemplateID,
+                                                emailtemplateBusinessEntity.AccountID,
+                                                emailtemplateBusinessEntity.Title,
+                                                emailtemplateBusinessEntity.Description,
+                                                emailtemplateBusinessEntity.Subject,
+                                                emailtemplateBusinessEntity.EmailText,
+                                                emailtemplateBusinessEntity.EmailImage,
+                                                emailtemplateBusinessEntity.ModifyBy,
+                                                emailtemplateBusinessEntity.ModifyDate,
+                                                emailtemplateBusinessEntity.IsActive,
                                                 "U" };
 
                 returnValue = Convert.ToInt32(cDataSrc.ExecuteScalar("Survey_UspEmailTemplateManagement", param, null));
@@ -496,15 +468,15 @@ namespace Admin_DAO
         /// <summary>
         /// Delete the Email Template
         /// </summary>
-        /// <param name="emailtemplate_BE"></param>
+        /// <param name="emailtemplateBusinessEntity"></param>
         /// <returns></returns>
-        public int DeleteEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        public int DeleteEmailTemplate(Survey_EmailTemplate_BE emailtemplateBusinessEntity)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                object[] param = new object[11] {emailtemplate_BE.EmailTemplateID,
+                object[] param = new object[11] {emailtemplateBusinessEntity.EmailTemplateID,
                                                 null,
                                                 null,
                                                 null,
@@ -537,12 +509,12 @@ namespace Admin_DAO
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
-                DataTable dtAlluser = new DataTable();
+                DataTable dataTableAlluser = new DataTable();
                 object[] param = new object[3] { emailID, accountID, "I" };
 
-                dtAlluser = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAlluser = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAlluser);
+                ShiftDataTableToBEList(dataTableAlluser);
                 returnValue = 1;
 
                 HandleWriteLogDAU("Survey_UspEmailTemplateSelect", param, new StackTrace(true));
@@ -565,12 +537,12 @@ namespace Admin_DAO
                 //WADPrincipal identity;//= this.Page.User as WADPrincipal;
                 //identity = this.Page.User.Identity as WADIdentity;
 
-                DataTable dtAlluser = new DataTable();
+                DataTable dataTableAlluser = new DataTable();
                 object[] param = new object[2] { null, "A" };
 
-                dtAlluser = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAlluser = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
 
-                ShiftDataTableToBEList(dtAlluser);
+                ShiftDataTableToBEList(dataTableAlluser);
                 returnValue = 1;
 
                 HandleWriteLogDAU("Survey_UspEmailTemplateSelect", param, new StackTrace(true));
@@ -586,52 +558,58 @@ namespace Admin_DAO
         /// <returns></returns>
         public DataTable GetdtEmailTemplateList(string accountID)
         {
-            DataTable dtAllEmailTemplate = new DataTable();
+            DataTable dataTableAllEmailTemplate = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { null, Convert.ToInt32(accountID), "A" };
 
-                dtAllEmailTemplate = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAllEmailTemplate = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllEmailTemplate;
+            return dataTableAllEmailTemplate;
         }
 
+        /// <summary>
+        /// Get Admin Email Template by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetAdminEmailTemplate(string accountID)
         {
-            DataTable dtAllEmailTemplate = new DataTable();
+            DataTable dataTableAllEmailTemplate = new DataTable();
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
                 object[] param = new object[3] { null, Convert.ToInt32(accountID), "F" };
 
-                dtAllEmailTemplate = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
+                dataTableAllEmailTemplate = cDataSrc.ExecuteDataSet("Survey_UspEmailTemplateSelect", param, null).Tables[0];
 
                 //HandleWriteLogDAU("UspEmailTemplateSelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
-            return dtAllEmailTemplate;
+            return dataTableAllEmailTemplate;
         }
 
+        /// <summary>
+        /// Insert Mail Template 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="accountid"></param>
         public void InsertMailTemplateID(string id, int accountid)
         {
-
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
                 //foreach (string to in id.Split(';'))
                 //{
                 //    int i = Convert.ToInt32(to);
-
-
-
 
                 object[] param = new object[3] { id, accountid, "C" };
 
@@ -644,11 +622,7 @@ namespace Admin_DAO
                 //}
             }
             catch (Exception ex) { HandleException(ex); }
-
-
         }
-
-
         #endregion
 
         #region MISC Data Operations
@@ -656,28 +630,28 @@ namespace Admin_DAO
         /// Copy Date from the Data Table into the Business Entity of Email
         /// Templates
         /// </summary>
-        /// <param name="dtEmailTemplate"></param>
-        private void ShiftDataTableToBEList(DataTable dtEmailTemplate)
+        /// <param name="dataTableEmailTemplate"></param>
+        private void ShiftDataTableToBEList(DataTable dataTableEmailTemplate)
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            emailtemplate_BEList = new List<Survey_EmailTemplate_BE>();
+            emailtemplateBusinessEntityList = new List<Survey_EmailTemplate_BE>();
 
-            for (int recordCounter = 0; recordCounter < dtEmailTemplate.Rows.Count; recordCounter++)
+            for (int recordCounter = 0; recordCounter < dataTableEmailTemplate.Rows.Count; recordCounter++)
             {
                 Survey_EmailTemplate_BE emailtemplate_BE = new Survey_EmailTemplate_BE();
 
-                emailtemplate_BE.EmailTemplateID = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["EmailTemplateID"].ToString());
-                emailtemplate_BE.AccountID = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["AccountID"].ToString());
-                emailtemplate_BE.Title = dtEmailTemplate.Rows[recordCounter]["Title"].ToString();
-                emailtemplate_BE.Description = dtEmailTemplate.Rows[recordCounter]["Description"].ToString();
-                emailtemplate_BE.Subject = dtEmailTemplate.Rows[recordCounter]["Subject"].ToString();
-                emailtemplate_BE.EmailText = Convert.ToString(dtEmailTemplate.Rows[recordCounter]["EmailText"].ToString());
-                emailtemplate_BE.EmailImage = dtEmailTemplate.Rows[recordCounter]["EmailImage"].ToString();
-                emailtemplate_BE.ModifyBy = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["ModifyBy"].ToString());
-                emailtemplate_BE.ModifyDate = Convert.ToDateTime(dtEmailTemplate.Rows[recordCounter]["ModifyDate"].ToString());
-                emailtemplate_BE.IsActive = Convert.ToInt32(dtEmailTemplate.Rows[recordCounter]["IsActive"].ToString());
+                emailtemplate_BE.EmailTemplateID = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["EmailTemplateID"].ToString());
+                emailtemplate_BE.AccountID = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["AccountID"].ToString());
+                emailtemplate_BE.Title = dataTableEmailTemplate.Rows[recordCounter]["Title"].ToString();
+                emailtemplate_BE.Description = dataTableEmailTemplate.Rows[recordCounter]["Description"].ToString();
+                emailtemplate_BE.Subject = dataTableEmailTemplate.Rows[recordCounter]["Subject"].ToString();
+                emailtemplate_BE.EmailText = Convert.ToString(dataTableEmailTemplate.Rows[recordCounter]["EmailText"].ToString());
+                emailtemplate_BE.EmailImage = dataTableEmailTemplate.Rows[recordCounter]["EmailImage"].ToString();
+                emailtemplate_BE.ModifyBy = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["ModifyBy"].ToString());
+                emailtemplate_BE.ModifyDate = Convert.ToDateTime(dataTableEmailTemplate.Rows[recordCounter]["ModifyDate"].ToString());
+                emailtemplate_BE.IsActive = Convert.ToInt32(dataTableEmailTemplate.Rows[recordCounter]["IsActive"].ToString());
 
-                emailtemplate_BEList.Add(emailtemplate_BE);
+                emailtemplateBusinessEntityList.Add(emailtemplate_BE);
             }
 
             //HandleWriteLog("End", new StackTrace(true));
@@ -706,11 +680,5 @@ namespace Admin_DAO
         }
         #endregion
     }
-
-
-
-
-
-
 }
 #endregion
