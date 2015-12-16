@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -10,49 +7,52 @@ using System.Configuration;
 
 using Admin_BAO;
 using Questionnaire_BAO;
-using Questionnaire_BE;
 
 public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
 {
-    Questionnaire_BAO.Survey_Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
-    Questionnaire_BE.Survey_Questionnaire_BE questionnaire_BE = new Questionnaire_BE.Survey_Questionnaire_BE();
+    //Global variables
+    Survey_Questionnaire_BAO questionnaireBusinessAccessObject = new Survey_Questionnaire_BAO();
+    //Questionnaire_BE.Survey_Questionnaire_BE questionnaire_BE = new Questionnaire_BE.Survey_Questionnaire_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
 
     int questionnaireCount = 0;
     string pageNo = "";
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string expression1;
-    string Finalexpression;
+    DataTable dataTableCompanyName;
+    //DataTable dtAllAccount;
+    //string expression1;
+    //string Finalexpression;
     WADIdentity identity;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            Label llx = (Label)this.Master.FindControl("Current_location");
-            llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             //HandleWriteLog("Start", new StackTrace(true));
             identity = this.Page.User.Identity as WADIdentity;
+            //Initilize the questionnaire grid data source parameter with dynamic query.
             odsQuestionnaire.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsQuestionnaire.Select();
 
             grdvQuestionnaire.PageSize = pageSize;
             ManagePaging();
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
+
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get Account list by user account id and bind account dropdown.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
 
-            
-
+            //If user is a Super Admin then show account detail section else hide.
             if (identity.User.GroupID == 1)
             {
                 divAccount.Visible = true;
@@ -63,8 +63,6 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
             {
                 divAccount.Visible = false;
             }
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -72,19 +70,20 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Add client side event to gridview view controls.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvQuestionnaire_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[7].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this questionnaire?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[7].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this questionnaire?')) return false";
             }
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -92,15 +91,16 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Sort grid by click on headings.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvQuestionnaire_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             ManagePaging();
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -108,15 +108,16 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect it Questionnaire page when click on Add new.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             Response.Redirect("Questionnaire.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -125,15 +126,17 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Handle paging related events.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
-            questionnaireCount = questionnaire_BAO.GetQuestionnaireListCount(ddlAccountCode.SelectedValue);
+            questionnaireCount = questionnaireBusinessAccessObject.GetQuestionnaireListCount(ddlAccountCode.SelectedValue);
         else
-            questionnaireCount = questionnaire_BAO.GetQuestionnaireListCount(identity.User.AccountID.ToString());
+            questionnaireCount = questionnaireBusinessAccessObject.GetQuestionnaireListCount(identity.User.AccountID.ToString());
 
         plcPaging.Controls.Clear();
 
@@ -357,12 +360,20 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, questionnaireCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when view of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -377,54 +388,69 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Handle prvious and next button click of grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvQuestionnaire.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvQuestionnaire.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvQuestionnaire.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Handle gridview page index event to move to new page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvQuestionnaire.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            grdvQuestionnaire.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvQuestionnaire.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
-
     #endregion
 
+    /// <summary>
+    /// Bind Questionnaire grid when account selected index changes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
             Account_BAO account_BAO = new Account_BAO();
+            //Get company name with selected comapny id.
+            dataTableCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //Set comapny name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
+            //Reset Questionnaire objectdata source paramenter.
             odsQuestionnaire.SelectParameters.Clear();
             odsQuestionnaire.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
             odsQuestionnaire.Select();
@@ -434,7 +460,7 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
         else
         {
             lblcompanyname.Text = "";
-
+            //Reset Questionnaire objectdata source paramenter.
             odsQuestionnaire.SelectParameters.Clear();
             odsQuestionnaire.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsQuestionnaire.Select();
@@ -442,6 +468,4 @@ public partial class Module_Questionnaire_QuestionnaireList : CodeBehindBase
             ManagePaging();
         }
     }
-
-    
 }

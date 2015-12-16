@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -9,19 +6,15 @@ using System.Text;
 
 using Admin_BAO;
 using Questionnaire_BAO;
-using Questionnaire_BE;
-using System.Globalization;
 using System.Configuration;
 using System.Diagnostics;
-using DAF_BAO;
-using System.IO;
-using System.Collections;
 using DatabaseAccessUtilities;
 
 public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBase
 {
-    Survey_ExternalLink_BAO exlink_BAO = new Survey_ExternalLink_BAO();
-    Common_BAO common_BAO = new Common_BAO();
+    //Global variables.
+    Survey_ExternalLink_BAO externalLinkBusinessAccessObject = new Survey_ExternalLink_BAO();
+    Common_BAO commonBusinessAccessObject = new Common_BAO();
 
     WADIdentity identity;
 
@@ -31,38 +24,42 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
     int programmeCount = 0;
     string pageNo = "";
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-            Label llx = (Label)this.Master.FindControl("Current_location");
-            llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             //HandleWriteLog("Start", new StackTrace(true));
             identity = this.Page.User.Identity as WADIdentity;
             //odsProgramme.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             //odsProgramme.Select();
 
+            //set page default value.
             grdvExternalLink.PageSize = pageSize;
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
+
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get user account list by user account id and bind account drop down.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
 
             if (!IsPostBack)
             {
-                Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-                ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(identity.User.AccountID));
+                Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
+                //get all Project in an account and bind project drop down.
+                ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(identity.User.AccountID));
                 ddlproject.DataValueField = "ProjectID";
                 ddlproject.DataTextField = "Title";
                 ddlproject.DataBind();
 
+                //If user Group =1 then user is a super Admin and we show account details section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -78,9 +75,9 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
 
                 ViewState["ProjectID"] = "0";
                 ViewState["Programme"] = "";
-
+                //
                 BindExternalLinkGrid(true);
-
+                //Handle paging when page index changes.
                 ManagePaging();
             }
 
@@ -92,16 +89,16 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
         }
     }
 
-
+    /// <summary>
+    /// Sort link when click on header and mamage paging.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvExternalLink_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             ManagePaging();
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -109,15 +106,16 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Redirect to Add new External link.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             Response.Redirect("AddExternalLink.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -126,7 +124,9 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -357,12 +357,20 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, programmeCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -375,55 +383,76 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
             //grdvCategory.DataSourceID = odsCategory.ID;
             //grdvCategory.DataBind();
 
-           // ManagePaging();
+            // ManagePaging();
         }
 
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
-
-        grdvExternalLink.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        LinkButton linkButtonNext = (LinkButton)sender;
+        //Reset Gridview page index to new index.
+        grdvExternalLink.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvExternalLink.DataBind();
-
+        //Handle paging
         ManagePaging();
 
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
-        {
-            pageNo = txtGoto.Text;
-            plcPaging.Controls.Clear();
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            grdvExternalLink.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+        if (textBoxGoto.Text.Trim() != "")
+        {
+            pageNo = textBoxGoto.Text;
+            plcPaging.Controls.Clear();
+            //Set Gridview page index and bind grid.
+            grdvExternalLink.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvExternalLink.DataBind();
+            //Handle paging
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Bind External link grid
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         ViewState["ProjectID"] = ddlproject.SelectedValue;
 
         BindExternalLinkGrid(true);
-
+        //set page index to 0 and bind grid.
         grdvExternalLink.PageIndex = 0;
         grdvExternalLink.DataBind();
-
+        //Handle paging
         ManagePaging();
     }
 
+    /// <summary>
+    /// Reset controls with default value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ddlproject.SelectedValue = "0";
@@ -439,21 +468,27 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
         ManagePaging();
     }
 
+    /// <summary>
+    /// Bind project by account
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Survey_Project_BAO project_BAO = new Survey_Project_BAO();
+        Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
         ddlproject.Items.Clear();
         ddlproject.Items.Insert(0, new ListItem("Select", "S"));
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get account list by account id.
+            var dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            var dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
 
             //lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
 
@@ -463,8 +498,8 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
 
             //ManagePaging();
             ViewState["AccountID"] = ddlAccountCode.SelectedValue;
-
-            ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(ddlAccountCode.SelectedValue));
+            //Get all project in an account  by account id and bind project drop down.
+            ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(ddlAccountCode.SelectedValue));
             ddlproject.DataValueField = "ProjectID";
             ddlproject.DataTextField = "Title";
             ddlproject.DataBind();
@@ -478,8 +513,8 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
             //odsProgramme.Select();
 
             //ManagePaging();
-
-            ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(identity.User.AccountID));
+            //Get all project in an account by user account id and bind project drop down.
+            ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(identity.User.AccountID));
             ddlproject.DataValueField = "ProjectID";
             ddlproject.DataTextField = "Title";
             ddlproject.DataBind();
@@ -487,16 +522,15 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
     }
 
     /// <summary>
-    ///     lbtnEnable_Click
+    ///    Enable or disable link.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
     protected void lbtnEnable_Click(object sender, EventArgs e)
     {
-
-        LinkButton l = sender as LinkButton;
-        GridViewRow row = (GridViewRow)l.NamingContainer;
-        var uniqueId = l.CommandArgument;
+        LinkButton enableDisableLink = sender as LinkButton;
+        GridViewRow row = (GridViewRow)enableDisableLink.NamingContainer;
+        var uniqueId = enableDisableLink.CommandArgument;
         EnableDisableLink(true, uniqueId);
         BindExternalLinkGrid(true);
         //updPanel.Update();
@@ -510,64 +544,82 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
     protected void lbtnDisable_Click(object sender, EventArgs e)
     {
 
-        LinkButton l = sender as LinkButton;
-        GridViewRow row = (GridViewRow)l.NamingContainer;
-        var uniqueId = l.CommandArgument;
+        LinkButton enableDisableLink = sender as LinkButton;
+        GridViewRow row = (GridViewRow)enableDisableLink.NamingContainer;
+        var uniqueId = enableDisableLink.CommandArgument;
         EnableDisableLink(false, uniqueId);
         BindExternalLinkGrid(true);
         //updPanel.Update();
     }
 
+    /// <summary>
+    /// Enable disable links
+    /// </summary>
+    /// <param name="flag"></param>
+    /// <param name="uniqueId"></param>
     private void EnableDisableLink(bool flag, string uniqueId)
     {
-        CNameValueList lstcname = new CNameValueList();
-        lstcname.Add("@Operation", "UPDEXLINK");
-        lstcname.Add("@UniqueID", uniqueId);
-        lstcname.Add("@Status", flag);
+        CNameValueList listcname = new CNameValueList();
+        listcname.Add("@Operation", "UPDEXLINK");
+        listcname.Add("@UniqueID", uniqueId);
+        listcname.Add("@Status", flag);
 
-        Common_BAO objCommon_BAO = new Common_BAO();
-        objCommon_BAO.InsertAndUpdate("Survey_UspExternalLink", lstcname);
+        Common_BAO objCommonBusinessAccessObject = new Common_BAO();
+        // update link status.
+        objCommonBusinessAccessObject.InsertAndUpdate("Survey_UspExternalLink", listcname);
 
     }
-
-
-
     #endregion
 
-
+    /// <summary>
+    /// Bind company drop down
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-        var dt = company_BAO.GetdtCompanyList(GetCompanyCondition());
+        //Get company details
+        var dataTableCompany = company_BAO.GetdtCompanyList(GetCompanyCondition());
         // ddlCompany.Items.Clear();
         ddlCompany.Items.Clear();
         ddlCompany.Items.Insert(0, new ListItem("Select", "S"));
-        ddlCompany.DataSource = dt;
+        //Bind company dropdown
+        ddlCompany.DataSource = dataTableCompany;
         ddlCompany.DataValueField = "CompanyID";
         ddlCompany.DataTextField = "Title";
         ddlCompany.DataBind();
     }
 
+    /// <summary>
+    /// Generate Dynamic query.
+    /// </summary>
+    /// <returns></returns>
     public string GetCompanyCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         //if (Convert.ToInt32(ViewState["AccountID"]) > 0)
         //    str = str + "" + ViewState["AccountID"] + " and ";
         //else
         //    str = str + "" + identity.User.AccountID.ToString() + " and ";
 
-        if (ddlAccountCode.SelectedIndex > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+        if (int.Parse(ddlAccountCode.SelectedValue) > 0)
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
 
         if (ddlproject.SelectedIndex > 0)
-            str = str + "Survey_Project.[ProjectID] = " + ddlproject.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Project.[ProjectID] = " + ddlproject.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    /// Bind grid view 
+    /// </summary>
+    /// <param name="IsBind"></param>
+    /// <returns></returns>
     private int BindExternalLinkGrid(bool IsBind)
     {
         int count = 0;
@@ -576,30 +628,31 @@ public partial class Survey_Module_Questionnaire_ExternalLinkList : CodeBehindBa
         int projectId = 0;
         bool status;
 
-        CNameValueList lstcname = new CNameValueList();
-        lstcname.Add("@Operation", "GETEXLINK");
-       
-        if (Int32.TryParse(ddlAccountCode.SelectedValue, out accountId))
-            lstcname.Add("@AccountID", accountId);
-        if (Int32.TryParse(ddlCompany.SelectedValue, out companyId))
-            lstcname.Add("@CompanyID", companyId);
-        if (Int32.TryParse(ddlproject.SelectedValue, out projectId))
-            lstcname.Add("@ProjectID", projectId);
-        if (bool.TryParse(ddlStatus.SelectedValue, out status))
-            lstcname.Add("@Status", status);
+        CNameValueList listcname = new CNameValueList();
+        listcname.Add("@Operation", "GETEXLINK");
 
-        Common_BAO objCommon_BAO = new Common_BAO();
-        var dtExLink = objCommon_BAO.GetDataTable("Survey_UspExternalLink", lstcname);
+        if (Int32.TryParse(ddlAccountCode.SelectedValue, out accountId))//get account id
+            listcname.Add("@AccountID", accountId);
+        if (Int32.TryParse(ddlCompany.SelectedValue, out companyId))//get company id
+            listcname.Add("@CompanyID", companyId);
+        if (Int32.TryParse(ddlproject.SelectedValue, out projectId))//get project id
+            listcname.Add("@ProjectID", projectId);
+        if (bool.TryParse(ddlStatus.SelectedValue, out status))//get status id
+            listcname.Add("@Status", status);
 
+        Common_BAO objCommonBusinessAccessObject = new Common_BAO();
+        //Get External link details.
+        var dataTableExternalLink = objCommonBusinessAccessObject.GetDataTable("Survey_UspExternalLink", listcname);
 
-        if (dtExLink != null && IsBind)
+        if (dataTableExternalLink != null && IsBind)
         {
             if (IsBind)
             {
-                grdvExternalLink.DataSource = dtExLink;
+                //Bind grid with links
+                grdvExternalLink.DataSource = dataTableExternalLink;
                 grdvExternalLink.DataBind();
             }
-            count = dtExLink.Rows.Count;
+            count = dataTableExternalLink.Rows.Count;
         }
         return count;
     }

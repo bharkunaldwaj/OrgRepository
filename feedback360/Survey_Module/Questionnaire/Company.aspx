@@ -8,6 +8,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="cphMaster" runat="Server">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
+      <script type="text/javascript" src="../../ckeditorn/ckeditor.js"></script>
+     <script src="../../Layouts/Resources/js/Common.js" type="text/javascript"></script>
     <script type="text/javascript" src="../../Layouts/tinymce/jscripts/tiny_mce/tiny_mce.js"></script>
     <script type="text/javascript" src="../../Layouts/Resources/js/tinymice.js"></script>
     <script type="text/javascript">
@@ -434,9 +436,14 @@
                                             class="style3"></span>
                                     </td>
                                     <td width="85%">
-                                        <FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
+                                        <%--<FCKeditorV2:FCKeditor ID="txtFaqText" runat="server" BasePath="~/fckeditor/" Width="800px"
                                             ToolbarSet="Feedback">
-                                        </FCKeditorV2:FCKeditor>
+                                        </FCKeditorV2:FCKeditor>--%>
+                                         <div style="width: 100%;">
+                                            <textarea id="txtFaqText" runat="server" rows="10" cols="80" style="width: 90%;"
+                                                clientidmode="Static">
+                                        </textarea>
+                                        </div>
                                         <%--<asp:TextBox ID="txtFaqText" TextMode="MultiLine" SkinID="txtarea500" Rows="5" runat="server"></asp:TextBox>--%>
                                     </td>
                                 </tr>
@@ -488,4 +495,9 @@
         }
 
     </script>
+      <script type="text/javascript">
+         
+           BindEditor(document.getElementById('txtFaqText'));
+            
+        </script>
 </asp:Content>

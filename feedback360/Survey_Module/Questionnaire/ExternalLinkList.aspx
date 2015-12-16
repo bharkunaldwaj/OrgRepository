@@ -197,4 +197,14 @@
             <!-- grid list -->
         </div>
     </div>
+    <script type="text/javascript">
+        Sys.WebForms.PageRequestManager.getInstance()._origOnFormActiveElement = Sys.WebForms.PageRequestManager.getInstance()._onFormElementActive;
+        Sys.WebForms.PageRequestManager.getInstance()._onFormElementActive = function (element, offsetX, offsetY) {
+            if (element.tagName.toUpperCase() === 'INPUT' && element.type === 'image') {
+                offsetX = Math.floor(offsetX);
+                offsetY = Math.floor(offsetY);
+            }
+            this._origOnFormActiveElement(element, offsetX, offsetY);
+        };
+</script>
 </asp:Content>

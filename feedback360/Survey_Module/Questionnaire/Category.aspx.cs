@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using Admin_BAO;
 using System.Diagnostics;
-using DAF_BAO;
 using Questionnaire_BE;
 using Questionnaire_BAO;
 using System.Data;
@@ -15,20 +11,22 @@ using System.IO;
 
 public partial class Module_Questionnaire_Category : CodeBehindBase
 {
-    Survey_Category_BAO category_BAO = new Survey_Category_BAO();
-    Survey_Category_BE category_BE = new Survey_Category_BE();
-    List<Survey_Category_BE> category_BEList = new List<Survey_Category_BE>();
+    //Global variables.
+    Survey_Category_BAO categoryBusinessAccessObject = new Survey_Category_BAO();
+    //Survey_Category_BE category_BE = new Survey_Category_BE();
+    List<Survey_Category_BE> categoryBusinesEntityList = new List<Survey_Category_BE>();
 
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string expression1;
-    string Finalexpression;
+    DataTable dataTableCompanyName;
+    //DataTable dtAllAccount;
+    //string expression1;
+    //string Finalexpression;
     WADIdentity identity;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
@@ -36,31 +34,33 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
             {
                 identity = this.Page.User.Identity as WADIdentity;
                 int categoryID = Convert.ToInt32(Request.QueryString["CatId"]);
-                category_BEList = category_BAO.GetCategoryByID(Convert.ToInt32(identity.User.AccountID), categoryID);
+                //Get all category List by user account id and category id.
+                categoryBusinesEntityList = categoryBusinessAccessObject.GetCategoryByID(Convert.ToInt32(identity.User.AccountID), categoryID);
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Get Account list by user account id  and bind account dropdown.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
 
-                Questionnaire_BAO.Survey_Questionnaire_BAO questionnnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
-                ddlQuestionnaire.DataSource = questionnnaire_BAO.GetdtQuestionnaireList(identity.User.AccountID.ToString());
+                Survey_Questionnaire_BAO questionnnaireBusinessAccessObject = new Survey_Questionnaire_BAO();
+                //Get Questionnaire list and bind Questionnaire dropdown by user account Id.
+                ddlQuestionnaire.DataSource = questionnnaireBusinessAccessObject.GetdtQuestionnaireList(identity.User.AccountID.ToString());
                 ddlQuestionnaire.DataTextField = "QSTNName";
                 ddlQuestionnaire.DataValueField = "QuestionnaireID";
                 ddlQuestionnaire.DataBind();
 
-                if (category_BEList.Count > 0)
+                if (categoryBusinesEntityList.Count > 0)
                 {
-                    SetCategoryValue(category_BEList);
+                    //Bind controls by value.
+                    SetCategoryValue(categoryBusinesEntityList);
 
                     ddlAccountCode.SelectedValue = ddlAccountCode.SelectedValue;
                     ddlAccountCode_SelectedIndexChanged(sender, e);
                 }
 
-
-
-
+                //If user is a Super Admin then show account detail section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -75,15 +75,15 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
-
-                if (Request.QueryString["Mode"] == "E")
+                //If query string contains Mode="E" then Edit mode else view mode and hide show controls accordingly.
+                if (Request.QueryString["Mode"] == "E")//Edit Mode.
                 {
                     ibtnSave.Visible = true;
                     ibtnCancel.Visible = true;
                     imbBack.Visible = false;
                     lblheader.Text = "Edit Category";
                 }
-                else if (Request.QueryString["Mode"] == "R")
+                else if (Request.QueryString["Mode"] == "R")//View Mode.
                 {
                     ibtnSave.Visible = false;
                     ibtnCancel.Visible = false;
@@ -99,62 +99,65 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         }
     }
 
-    private void SetCategoryValue(List<Survey_Category_BE> category_BEList)
+    /// <summary>
+    /// Set value to controls
+    /// </summary>
+    /// <param name="categoryBusinesEntityList"></param>
+    private void SetCategoryValue(List<Survey_Category_BE> categoryBusinesEntityList)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
 
             identity = this.Page.User.Identity as WADIdentity;
-
+            //If user is a Super Admin then use account dropdown value else user account to get records.
             if (identity.User.GroupID == 1)
             {
-                ddlAccountCode.SelectedValue = category_BEList[0].AccountID.ToString();
-                string abc = category_BEList[0].AccountID.ToString();
-                ddlAccountCode.SelectedValue = abc;
+                ddlAccountCode.SelectedValue = categoryBusinesEntityList[0].AccountID.ToString();
+                string accountID = categoryBusinesEntityList[0].AccountID.ToString();
+                ddlAccountCode.SelectedValue = accountID;
 
                 if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
                 {
                     int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
-                    Account_BAO account1_BAO = new Account_BAO();
-                    dtCompanyName = account1_BAO.GetdtAccountList(Convert.ToString(companycode));
+                    Account_BAO account1BusinessAccessObject = new Account_BAO();
+                    dataTableCompanyName = account1BusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
                     //expression1 = "AccountID='" + companycode + "'";
                     //Finalexpression = expression1;
 
-                    DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-                    DataTable dtAccount = dtCompanyName.Clone();
+                    DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+                    DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-                    foreach (DataRow drAccount in resultsAccount)
+                    foreach (DataRow dataRowAccount in resultsAccount)
                     {
-                        dtAccount.ImportRow(drAccount);
+                        dataTableAccount.ImportRow(dataRowAccount);
                     }
-
-                    lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                    //bind comapny name.
+                    lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
                 }
                 else
                 {
                     lblcompanyname.Text = "";
                 }
-
-
             }
-            txtCategoryName.Text = category_BEList[0].Name;
-            txtCategoryTitle.Text = category_BEList[0].Title;
-            txtDescription.Text = category_BEList[0].Description;
-            ddlQuestionnaire.SelectedValue = category_BEList[0].Questionnaire.ToString();
-            txtSequence.Text = category_BEList[0].Sequence.ToString();
-            chkExcludeFromAnalysis.Checked = Convert.ToBoolean(category_BEList[0].ExcludeFromAnalysis);
+            //Set values to control.
+            txtCategoryName.Text = categoryBusinesEntityList[0].Name;
+            txtCategoryTitle.Text = categoryBusinesEntityList[0].Title;
+            txtDescription.Text = categoryBusinesEntityList[0].Description;
+            ddlQuestionnaire.SelectedValue = categoryBusinesEntityList[0].Questionnaire.ToString();
+            txtSequence.Text = categoryBusinesEntityList[0].Sequence.ToString();
+            chkExcludeFromAnalysis.Checked = Convert.ToBoolean(categoryBusinesEntityList[0].ExcludeFromAnalysis);
 
-            if (!string.IsNullOrEmpty(category_BEList[0].IntroPdfFileName))
+            if (!string.IsNullOrEmpty(categoryBusinesEntityList[0].IntroPdfFileName))
             {
-                Session["CategoryPdf"] = category_BEList[0].IntroPdfFileName;
+                Session["CategoryPdf"] = categoryBusinesEntityList[0].IntroPdfFileName;
             }
 
-            if (!string.IsNullOrEmpty(category_BEList[0].IntroImgFileName))
+            if (!string.IsNullOrEmpty(categoryBusinesEntityList[0].IntroImgFileName))
             {
-                hdnQuestImage.Value = category_BEList[0].IntroImgFileName;
-                Session["CategoryImage"] = category_BEList[0].IntroImgFileName;
-                imgQuestlogo.Src = "../../UploadDocs/" + category_BEList[0].IntroImgFileName;
+                hdnQuestImage.Value = categoryBusinesEntityList[0].IntroImgFileName;
+                Session["CategoryImage"] = categoryBusinesEntityList[0].IntroImgFileName;
+                imgQuestlogo.Src = "../../UploadDocs/" + categoryBusinesEntityList[0].IntroImgFileName;
             }
 
             else
@@ -167,58 +170,61 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         {
             HandleException(ex);
         }
-
     }
 
+    /// <summary>
+    /// Initilize properties and save to the data base. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
             HandleWriteLog("Start", new StackTrace(true));
-            Survey_Category_BE category_BE = new Survey_Category_BE();
-            Survey_Category_BAO category_BAO = new Survey_Category_BAO();
+            Survey_Category_BE categoryBusinesEntity = new Survey_Category_BE();
+            Survey_Category_BAO categoryBusinessAccessObject = new Survey_Category_BAO();
 
             identity = this.Page.User.Identity as WADIdentity;
-
+            //If user is a Super Admin then use account drop down value else user account .
             if (identity.User.GroupID == 1)
             {
-
-                category_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-
+                categoryBusinesEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
             }
             else
             {
-                category_BE.AccountID = identity.User.AccountID;
+                categoryBusinesEntity.AccountID = identity.User.AccountID;
             }
 
+            //Initilize properties.
+            categoryBusinesEntity.Name = GetString(txtCategoryName.Text);
+            categoryBusinesEntity.Title = GetString(txtCategoryTitle.Text);
+            categoryBusinesEntity.Description = GetString(txtDescription.Text);
+            categoryBusinesEntity.Sequence = Convert.ToInt32(GetString(txtSequence.Text));
+            categoryBusinesEntity.ExcludeFromAnalysis = chkExcludeFromAnalysis.Checked;
+            categoryBusinesEntity.Questionnaire = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
+            categoryBusinesEntity.ModifiedBy = 1;
+            categoryBusinesEntity.ModifiedDate = DateTime.Now;
+            categoryBusinesEntity.IsActive = 1;
 
-
-            category_BE.Name = GetString(txtCategoryName.Text);
-            category_BE.Title = GetString(txtCategoryTitle.Text);
-            category_BE.Description = GetString(txtDescription.Text);
-            category_BE.Sequence = Convert.ToInt32(GetString(txtSequence.Text));
-            category_BE.ExcludeFromAnalysis = chkExcludeFromAnalysis.Checked;
-            category_BE.Questionnaire = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
-            category_BE.ModifiedBy = 1;
-            category_BE.ModifiedDate = DateTime.Now;
-            category_BE.IsActive = 1;
-
-
+            //Upload category Image.
             if (introImageFileUpload.HasFile)
             {
                 string filename = System.IO.Path.GetFileName(introImageFileUpload.PostedFile.FileName);
                 //filename = FileUpload.FileName;
+                //Get File unique name.
                 string file = GetUniqueFilename(filename);
-
+                //Set file path.
                 string path = MapPath("~\\UploadDocs\\") + file;
                 introImageFileUpload.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                category_BE.IntroImgFileName = file;
+                //Read file from stream.
+                FileStream categoryFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader categoryBinaryReader = new BinaryReader(categoryFileStream);
+                Byte[] docbytes = categoryBinaryReader.ReadBytes((Int32)categoryFileStream.Length);
+                categoryBinaryReader.Close();
+                categoryFileStream.Close();
+                categoryBusinesEntity.IntroImgFileName = file;
             }
             else
             {
@@ -227,58 +233,57 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
 
 
                 if (!string.IsNullOrEmpty(Convert.ToString(Session["CategoryImage"])) && hdnQuestImage.Value != "")
-                    category_BE.IntroImgFileName = hdnQuestImage.Value;
+                    categoryBusinesEntity.IntroImgFileName = hdnQuestImage.Value;
                 else if (Request.QueryString["Mode"] == "E" && pdfFileUpload.FileName == "" && hdnQuestImage.Value != "")
-                    category_BE.IntroImgFileName = Convert.ToString(Session["CategoryImage"]);
+                    categoryBusinesEntity.IntroImgFileName = Convert.ToString(Session["CategoryImage"]);
                 else
-                    category_BE.IntroImgFileName = "";
-
-
+                    categoryBusinesEntity.IntroImgFileName = "";
             }
-
+            //Upload category Pdf file.
             if (pdfFileUpload.HasFile)
             {
                 string filename = System.IO.Path.GetFileName(pdfFileUpload.PostedFile.FileName);
                 //filename = FileUpload.FileName;
+                //Get File unique name.
                 string file = GetUniqueFilename(filename);
-
+                //Set file path.
                 string path = MapPath("~\\UploadDocs\\") + file;
                 pdfFileUpload.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                category_BE.IntroPdfFileName = file;
+                //Read file from stream.
+                FileStream categoryFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader categoryBinaryReader = new BinaryReader(categoryFileStream);
+                Byte[] docbytes = categoryBinaryReader.ReadBytes((Int32)categoryFileStream.Length);
+                categoryBinaryReader.Close();
+                categoryFileStream.Close();
+                categoryBusinesEntity.IntroPdfFileName = file;
             }
             else
             {
                 //if (!string.IsNullOrEmpty(Convert.ToString(Session["CategoryPdf"])))
                 //    category_BE.IntroPdfFileName = Convert.ToString(Session["CategoryPdf"]);
-
                 if (!string.IsNullOrEmpty(Convert.ToString(Session["CategoryPdf"])) && hdnRemoveIntroPdf.Value != "")
-                    category_BE.IntroPdfFileName = hdnRemoveIntroPdf.Value;
+                    categoryBusinesEntity.IntroPdfFileName = hdnRemoveIntroPdf.Value;
                 else if (Request.QueryString["Mode"] == "E" && pdfFileUpload.FileName == "" && hdnRemoveIntroPdf.Value != "")
-                    category_BE.IntroPdfFileName = Convert.ToString(Session["CategoryPdf"]);
+                    categoryBusinesEntity.IntroPdfFileName = Convert.ToString(Session["CategoryPdf"]);
                 else
-                    category_BE.IntroPdfFileName = "";
-
+                    categoryBusinesEntity.IntroPdfFileName = "";
             }
 
-
+            //If querey string contains mode="E" then update else Insert.
             if (Request.QueryString["Mode"] == "E")
             {
-                category_BE.CategoryID = Convert.ToInt32(Request.QueryString["CatId"]);
-                category_BAO.UpdateCategory(category_BE);
+                categoryBusinesEntity.CategoryID = Convert.ToInt32(Request.QueryString["CatId"]);
+                categoryBusinessAccessObject.UpdateCategory(categoryBusinesEntity);
                 lblMessage.Text = "Category updated successfully";
                 Response.Redirect("CategoryList.aspx", false);
             }
             else
             {
-                category_BAO.AddCategory(category_BE);
+                categoryBusinessAccessObject.AddCategory(categoryBusinesEntity);
                 lblMessage.Text = "Category saved successfully";
             }
+
             Session["CategoryPdf"] = null;
             Session["CategoryImage"] = null;
             txtCategoryName.Text = "";
@@ -295,6 +300,11 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to category list page when click on calcel.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnCancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -311,27 +321,34 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         }
     }
 
-
+    /// <summary>
+    /// Bind questionnaire dropdown by account.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Questionnaire_BAO.Survey_Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
+        Survey_Questionnaire_BAO questionnaireBusinessAccessObject = new Survey_Questionnaire_BAO();
         ddlQuestionnaire.Items.Clear();
         ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
         identity = this.Page.User.Identity as WADIdentity;
-
+        //If account dropdown is selected value >0
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get account details
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
+
             foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+                dataTableAccount.ImportRow(drAccount);
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
+            //Get QuestionnaireList by account Id and bind Questionnaire dropdown.
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataBind();
@@ -339,14 +356,19 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         else
         {
             lblcompanyname.Text = "";
-
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
+            //Get QuestionnaireList by user account Id and bind Questionnaire dropdown.
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataBind();
         }
     }
 
+    /// <summary>
+    /// Generate unique name for uploaded file.
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -354,12 +376,22 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
         // Thread.Sleep(1); // To really prevent collisions, but usually not needed 
         return uniquefilename;
     }
+
+    /// <summary>
+    /// Download category PDf.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void lnkPdf_Click(object sender, EventArgs e)
     {
+        //Set Folder path.
         string path = MapPath("~\\UploadDocs\\");
+        //Set file name.
         string filename = Convert.ToString(Session["CategoryPdf"]);
+        //Create full path.
         string FilePath = path + filename;
-        if (File.Exists(FilePath) && Session["CategoryPdf"] != null && Session["CategoryPdf"] != "" && hdnRemoveIntroPdf.Value!="")
+        //If file exist then download.
+        if (File.Exists(FilePath) && Session["CategoryPdf"] != null && Session["CategoryPdf"] != "" && hdnRemoveIntroPdf.Value != "")
         {
             Response.ClearContent();
             Response.ClearHeaders();
@@ -371,12 +403,10 @@ public partial class Module_Questionnaire_Category : CodeBehindBase
             Response.Flush();
             Response.Clear();
             Response.Close();
-
         }
         else
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "noPreview", "alert('No pdf file to preview.');", true);
         }
-
     }
 }

@@ -1,31 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using System.Configuration;
-using System.Diagnostics;
 using System.Data;
-using DAF_BAO;
 using Questionnaire_BE;
 using Questionnaire_BAO;
 using System.IO;
-using System.Collections;
 using Admin_BAO;
 using DatabaseAccessUtilities;
-using System.Data.OleDb;
 
 public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBase
 {
-    Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
+    Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
     WADIdentity identity;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
         if (!IsPostBack)
         {
@@ -35,6 +28,11 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         //fillAnalysis();
     }
 
+    /// <summary>
+    /// Save Previous score
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -51,34 +49,32 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
             lstcname.Add("@Score1Title", txtScore1Title.Text);
             lstcname.Add("@Score2Title", txtScore2Title.Text);
 
-            Common_BAO objCommon_BAO = new Common_BAO();
-            int previousScoreId = objCommon_BAO.InsertAndUpdate("Survey_UspPreviousScore", lstcname);
+            Common_BAO commonBusinessAccessObject = new Common_BAO();
+            //Insert Update Previous score
+            int previousScoreId = commonBusinessAccessObject.InsertAndUpdate("Survey_UspPreviousScore", lstcname);
 
+            //Get Previous score list
+            var listPreviousScore = GetPreviousScoreList(previousScoreId);
 
-            var lstpreviousScore = GetPreviousScoreList(previousScoreId);
+            CNameValueList listCategoryNames = new CNameValueList();
 
-            CNameValueList lstcnamesc = new CNameValueList();
-
-            foreach (var previousScore in lstpreviousScore)
+            foreach (var previousScore in listPreviousScore)
             {
-
-                lstcnamesc.Add("@Operation", "ADDPRVSCRDET");
-                lstcnamesc.Add("@CategoryID", previousScore.CategoryID);
-                lstcnamesc.Add("@AnalysisType", previousScore.AnalysisType);
-                lstcnamesc.Add("@PreviousScoreID", previousScore.PreviousScoreID);
-                lstcnamesc.Add("@QuestionID", previousScore.QuestionID);
-                lstcnamesc.Add("@Score1", previousScore.Score1);
-                lstcnamesc.Add("@Score2", previousScore.Score2);
-
-                objCommon_BAO.InsertAndUpdate("Survey_UspPreviousScore", lstcnamesc);
-                lstcnamesc.Clear();
+                listCategoryNames.Add("@Operation", "ADDPRVSCRDET");
+                listCategoryNames.Add("@CategoryID", previousScore.CategoryID);
+                listCategoryNames.Add("@AnalysisType", previousScore.AnalysisType);
+                listCategoryNames.Add("@PreviousScoreID", previousScore.PreviousScoreID);
+                listCategoryNames.Add("@QuestionID", previousScore.QuestionID);
+                listCategoryNames.Add("@Score1", previousScore.Score1);
+                listCategoryNames.Add("@Score2", previousScore.Score2);
+                //Insert Update Previous score
+                commonBusinessAccessObject.InsertAndUpdate("Survey_UspPreviousScore", listCategoryNames);
+                listCategoryNames.Clear();
             }
 
-           // Response.Redirect("~/Survey_Default.aspx", false);
+            // Response.Redirect("~/Survey_Default.aspx", false);
             ScriptManager.RegisterStartupScript(this.Page, this.Page.GetType(), Guid.NewGuid().ToString(), "alert('Successfully added');window.location.href='AddPreviousScore.aspx';", true);
             //lbl_save_message.Text = "Successfully added.";
-            
-
         }
         catch (Exception ex)
         {
@@ -86,6 +82,11 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Redirect to Survey default page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbcancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -98,21 +99,41 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Bind Project
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillProject(ddlAccountCode.SelectedValue);
     }
 
+    /// <summary>
+    /// Bind Company
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillCompany();
     }
 
+    /// <summary>
+    /// Bind Program
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlCompany_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillProgramme();
     }
 
+    /// <summary>
+    /// Fill Analysis type.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgrammeName_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillAnalysis();
@@ -127,6 +148,11 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
 
@@ -135,13 +161,15 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
     private void SetDTPicker(Control btn, string HtmlDate, string aspDate)//instance of button clicked
     {
         ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "test", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);
-
     }
 
+    /// <summary>
+    /// Bind company Dropdown
+    /// </summary>
     private void fillCompany()
     {
-        Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-        var dt = company_BAO.GetdtCompanyList(GetCondition());
+        Survey_Company_BAO companyBusinessAccessObject = new Survey_Company_BAO();
+        var dt = companyBusinessAccessObject.GetdtCompanyList(GetCondition());
         // ddlCompany.Items.Clear();
         ddlCompany.Items.Clear();
         ddlCompany.Items.Insert(0, new ListItem("Select", "0"));
@@ -151,45 +179,55 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         ddlCompany.DataBind();
     }
 
+    /// <summary>
+    /// Bind Account Dropdown
+    /// </summary>
     private void fillAccountCode()
     {
-        Account_BAO account_BAO = new Account_BAO();
-        ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+        Account_BAO accountBusinessAccessObject = new Account_BAO();
+        ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
         ddlAccountCode.DataValueField = "AccountID";
         ddlAccountCode.DataTextField = "Code";
         ddlAccountCode.DataBind();
-
     }
 
+    /// <summary>
+    /// Bind Project Dropdown
+    /// </summary>
     private void fillProject(string accountId)
     {
-        Survey_Project_BAO project_BAO = new Survey_Project_BAO();
+        Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
 
         ddlProject.Items.Clear();
         ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
-        ddlProject.DataSource = project_BAO.GetdtProjectList(accountId);
+        ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(accountId);
         ddlProject.DataValueField = "ProjectID";
         ddlProject.DataTextField = "Title";
         ddlProject.DataBind();
-
     }
 
+    /// <summary>
+    /// Bind Program Dropdown
+    /// </summary>
     private void fillProgramme()
     {
-        Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
+        Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
 
         string accountId = GetConditionProgramme();
 
         ddlProgrammeName.Items.Clear();
         ddlProgrammeName.Items.Insert(0, new ListItem("Select", "0"));
 
-        ddlProgrammeName.DataSource = programme_BAO.GetdtProgrammeListNew(accountId);
+        ddlProgrammeName.DataSource = programmeBusinessAccessObject.GetdtProgrammeListNew(accountId);
         ddlProgrammeName.DataValueField = "ProgrammeID";
         ddlProgrammeName.DataTextField = "ProgrammeName";
         ddlProgrammeName.DataBind();
     }
 
+    /// <summary>
+    /// Fill Analysis type.
+    /// </summary>
     private void fillAnalysis()
     {
         DataTable dtAnalysis1;
@@ -197,45 +235,50 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         DataTable dtAnalysis3;
 
         int programmeID = Convert.ToInt32(ddlProgrammeName.SelectedValue);
+
         if (programmeID > 0)
         {
-            dtAnalysis1 = programme_BAO.GetAnalysis1(programmeID);
+            dtAnalysis1 = programmeBusinessAccessObject.GetAnalysis1(programmeID);
 
             Repeater0.DataSource = dtAnalysis1;
             Repeater0.DataBind();
             Repeater0.Visible = true;
 
-            dtAnalysis2 = programme_BAO.GetAnalysis2(programmeID);
+            dtAnalysis2 = programmeBusinessAccessObject.GetAnalysis2(programmeID);
             Repeater1.DataSource = dtAnalysis2;
             Repeater1.DataBind();
             Repeater1.Visible = true;
 
-            dtAnalysis3 = programme_BAO.GetAnalysis3(programmeID);
+            dtAnalysis3 = programmeBusinessAccessObject.GetAnalysis3(programmeID);
             Repeater2.DataSource = dtAnalysis3;
             Repeater2.DataBind();
             Repeater2.Visible = true;
-
-
         }
         else
         {
 
-            DataTable blankdt = new DataTable();
-            Repeater0.DataSource = blankdt;
+            DataTable dataTable = new DataTable();
+            Repeater0.DataSource = dataTable;
             Repeater0.DataBind();
             Repeater0.Visible = false;
 
-            Repeater1.DataSource = blankdt;
+            Repeater1.DataSource = dataTable;
             Repeater1.DataBind();
             Repeater1.Visible = false;
 
-            Repeater2.DataSource = blankdt;
+            Repeater2.DataSource = dataTable;
             Repeater2.DataBind();
             Repeater2.Visible = false;
         }
+
         UpdatePanel1.Update();
     }
 
+    /// <summary>
+    /// Bind Analysis 1
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Repeater0_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rpItem = e.Item;
@@ -243,20 +286,26 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         //Label lblCatID = (Label)rpItem.FindControl("lblCategoryID");
         Repeater rptrQuestionPreviousScoresAn1 = (Repeater)rpItem.FindControl("rptrQuestionPreviousScoresAn1");
 
-        Label lblCategoryID = (Label)rpItem.FindControl("lblCategoryID");
+        Label labelCategoryID = (Label)rpItem.FindControl("lblCategoryID");
 
         int categoryId = 0;
-        if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-            categoryId = Convert.ToInt32(lblCategoryID.Text);
 
-        DataTable dtOldData = GetOldPreviousScoreList(categoryId);
+        if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+            categoryId = Convert.ToInt32(labelCategoryID.Text);
+
+        DataTable dataTableOldData = GetOldPreviousScoreList(categoryId);
 
         if (rptrQuestionPreviousScoresAn1 != null)
         {
-            fillQuestionnaire("1", rptrQuestionPreviousScoresAn1,dtOldData);
+            fillQuestionnaire("1", rptrQuestionPreviousScoresAn1, dataTableOldData);
         }
     }
 
+    /// <summary>
+    /// Bind Analysis 2
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Repeater1_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rpItem = e.Item;
@@ -264,23 +313,26 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         //Label lblCatID = (Label)rpItem.FindControl("lblCategoryID");
         Repeater rptrQuestionPreviousScoresAn2 = (Repeater)rpItem.FindControl("rptrQuestionPreviousScoresAn2");
 
-        Label lblCategoryID = (Label)rpItem.FindControl("lblCategoryID");
+        Label labelCategoryID = (Label)rpItem.FindControl("lblCategoryID");
 
         int categoryId = 0;
-        if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-            categoryId = Convert.ToInt32(lblCategoryID.Text);
+
+        if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+            categoryId = Convert.ToInt32(labelCategoryID.Text);
 
         DataTable dtOldData = GetOldPreviousScoreList(categoryId);
 
         if (rptrQuestionPreviousScoresAn2 != null)
         {
-            fillQuestionnaire("2", rptrQuestionPreviousScoresAn2,dtOldData);
-
+            fillQuestionnaire("2", rptrQuestionPreviousScoresAn2, dtOldData);
         }
-
-
     }
 
+    /// <summary>
+    /// Bind Analysis 3
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Repeater2_ItemDataBound(object sender, RepeaterItemEventArgs e)
     {
         RepeaterItem rpItem = e.Item;
@@ -288,27 +340,30 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         //Label lblCatID = (Label)rpItem.FindControl("lblCategoryID");
         Repeater rptrQuestionPreviousScoresAn3 = (Repeater)rpItem.FindControl("rptrQuestionPreviousScoresAn3");
 
-        Label lblCategoryID = (Label)rpItem.FindControl("lblCategoryID");
+        Label labelCategoryID = (Label)rpItem.FindControl("lblCategoryID");
 
         int categoryId = 0;
-        if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-            categoryId = Convert.ToInt32(lblCategoryID.Text);
+
+        if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+            categoryId = Convert.ToInt32(labelCategoryID.Text);
 
         DataTable dtOldData = GetOldPreviousScoreList(categoryId);
 
-
         if (rptrQuestionPreviousScoresAn3 != null)
         {
-            fillQuestionnaire("3", rptrQuestionPreviousScoresAn3,dtOldData);
-
+            fillQuestionnaire("3", rptrQuestionPreviousScoresAn3, dtOldData);
         }
-
     }
 
-    private void fillQuestionnaire(string analysisType, Repeater rptr, DataTable dtOldData)
+    /// <summary>
+    /// Bind Analysis according to type.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void fillQuestionnaire(string analysisType, Repeater rptr, DataTable dataTableOldData)
     {
-        DataTable dtTemplate = new DataTable();
-        Common_BAO objCommon_BAO = new Common_BAO();
+        DataTable dataTableTemplate = new DataTable();
+        Common_BAO objCommonBusinessAccessObject = new Common_BAO();
 
         CNameValueList objCnameList = new CNameValueList();
         objCnameList.Add("@Operation", "GETQUEST");
@@ -316,17 +371,18 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         objCnameList.Add("@AnalysisType", analysisType);
         objCnameList.Add("@PreviousScoreID", DBNull.Value);
 
-        dtTemplate = objCommon_BAO.GetDataTable("Survey_UspPreviousScore", objCnameList);
+        dataTableTemplate = objCommonBusinessAccessObject.GetDataTable("Survey_UspPreviousScore", objCnameList);
 
-        if (dtOldData != null && dtOldData.Rows.Count > 0)
+        if (dataTableOldData != null && dataTableOldData.Rows.Count > 0)
         {
-            foreach (DataRow item in dtTemplate.Rows)
+            foreach (DataRow item in dataTableTemplate.Rows)
             {
                 int questionid = 0;
+
                 if (item["QuestionID"] != null && !string.IsNullOrEmpty(Convert.ToString(item["QuestionID"])))
                     questionid = Convert.ToInt32(item["QuestionID"]);
-               
-                DataRow[] result = dtOldData.Select("QuestionID = " + questionid);
+
+                DataRow[] result = dataTableOldData.Select("QuestionID = " + questionid);
 
                 if (result.Length > 0)
                 {
@@ -341,33 +397,41 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
             }
         }
 
-        rptr.DataSource = dtTemplate;
+        rptr.DataSource = dataTableTemplate;
         rptr.DataBind();
     }
 
+    /// <summary>
+    /// Generate Dynamic query
+    /// </summary>
+    /// <returns></returns>
     public string GetConditionProgramme()
     {
-        string str = "";
+        string stringQuery = "";
 
         if (ddlAccountCode.SelectedIndex > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
         else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
         if (ddlProject.SelectedIndex > 0)
-            str = str + "[Survey_Project].[ProjectID] = " + ddlProject.SelectedValue + " and ";
+            stringQuery = stringQuery + "[Survey_Project].[ProjectID] = " + ddlProject.SelectedValue + " and ";
 
         if (ddlCompany.SelectedIndex > 0)
-            str = str + "Survey_Analysis_Sheet.[CompanyID] = " + ddlCompany.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Analysis_Sheet.[CompanyID] = " + ddlCompany.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    /// Generate Dynamic query
+    /// </summary>
+    /// <returns></returns>
     public string GetCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         //if (Convert.ToInt32(ViewState["AccountID"]) > 0)
         //    str = str + "" + ViewState["AccountID"] + " and ";
@@ -375,46 +439,53 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         //    str = str + "" + identity.User.AccountID.ToString() + " and ";
 
         if (ddlAccountCode.SelectedIndex > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
 
         if (ddlProject.SelectedIndex > 0)
-            str = str + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    /// Get Score list 
+    /// </summary>
+    /// <param name="previousScoreId"></param>
+    /// <returns></returns>
     private List<Survey_PrvScore_QstDetails_BE> GetPreviousScoreList(int previousScoreId)
     {
-
-        List<Survey_PrvScore_QstDetails_BE> previousScoreDetails_BEList = new List<Survey_PrvScore_QstDetails_BE>();
+        List<Survey_PrvScore_QstDetails_BE> previousScoreDetailsBusinesEntityList = new List<Survey_PrvScore_QstDetails_BE>();
 
         //for analysis-1 repeater
         foreach (RepeaterItem item in Repeater0.Items)
         {
             Repeater rptrQuestionPreviousScoresAn1 = (Repeater)item.FindControl("rptrQuestionPreviousScoresAn1");
-            Label lblCategoryID = (Label)item.FindControl("lblCategoryID");
+            Label labelCategoryID = (Label)item.FindControl("lblCategoryID");
 
             int categoryId = 0;
-            if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-                categoryId = Convert.ToInt32(lblCategoryID.Text);
+
+            if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+                categoryId = Convert.ToInt32(labelCategoryID.Text);
 
             foreach (RepeaterItem analysis in rptrQuestionPreviousScoresAn1.Items)
             {
-                Label lblQuestionnaireID = (Label)analysis.FindControl("lblQuestionnaireID");
-                TextBox txtScore1 = (TextBox)analysis.FindControl("txtScore1");
-                TextBox txtScore2 = (TextBox)analysis.FindControl("txtScore2");
+                Label labelQuestionnaireID = (Label)analysis.FindControl("lblQuestionnaireID");
+                TextBox textBoxScore1 = (TextBox)analysis.FindControl("txtScore1");
+                TextBox textBoxScore2 = (TextBox)analysis.FindControl("txtScore2");
 
                 Survey_PrvScore_QstDetails_BE previuosScoreDetails_BE = new Survey_PrvScore_QstDetails_BE();
                 previuosScoreDetails_BE.AnalysisType = "1";
                 previuosScoreDetails_BE.CategoryID = categoryId;
                 previuosScoreDetails_BE.PreviousScoreID = previousScoreId;
-                if (lblQuestionnaireID != null && !string.IsNullOrEmpty(lblQuestionnaireID.Text))
-                    previuosScoreDetails_BE.QuestionID = Convert.ToInt32(lblQuestionnaireID.Text);
-                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(txtScore1.Text) ? 0 : Convert.ToDecimal(txtScore1.Text);
-                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(txtScore2.Text) ? 0 : Convert.ToDecimal(txtScore2.Text);
-                previousScoreDetails_BEList.Add(previuosScoreDetails_BE);
+
+                if (labelQuestionnaireID != null && !string.IsNullOrEmpty(labelQuestionnaireID.Text))
+                    previuosScoreDetails_BE.QuestionID = Convert.ToInt32(labelQuestionnaireID.Text);
+
+                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(textBoxScore1.Text) ? 0 : Convert.ToDecimal(textBoxScore1.Text);
+                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(textBoxScore2.Text) ? 0 : Convert.ToDecimal(textBoxScore2.Text);
+                previousScoreDetailsBusinesEntityList.Add(previuosScoreDetails_BE);
             }
         }
 
@@ -422,27 +493,30 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         foreach (RepeaterItem item in Repeater1.Items)
         {
             Repeater rptrQuestionPreviousScoresAn2 = (Repeater)item.FindControl("rptrQuestionPreviousScoresAn2");
-            Label lblCategoryID = (Label)item.FindControl("lblCategoryID");
+            Label labelCategoryID = (Label)item.FindControl("lblCategoryID");
 
             int categoryId = 0;
-            if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-                categoryId = Convert.ToInt32(lblCategoryID.Text);
+
+            if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+                categoryId = Convert.ToInt32(labelCategoryID.Text);
 
             foreach (RepeaterItem analysis in rptrQuestionPreviousScoresAn2.Items)
             {
-                Label lblQuestionnaireID = (Label)analysis.FindControl("lblQuestionnaireID");
-                TextBox txtScore1 = (TextBox)analysis.FindControl("txtScore1");
-                TextBox txtScore2 = (TextBox)analysis.FindControl("txtScore2");
+                Label labelQuestionnaireID = (Label)analysis.FindControl("lblQuestionnaireID");
+                TextBox textBoxScore1 = (TextBox)analysis.FindControl("txtScore1");
+                TextBox textBoxScore2 = (TextBox)analysis.FindControl("txtScore2");
 
                 Survey_PrvScore_QstDetails_BE previuosScoreDetails_BE = new Survey_PrvScore_QstDetails_BE();
                 previuosScoreDetails_BE.AnalysisType = "2";
                 previuosScoreDetails_BE.CategoryID = categoryId;
                 previuosScoreDetails_BE.PreviousScoreID = previousScoreId;
-                if (lblQuestionnaireID != null && !string.IsNullOrEmpty(lblQuestionnaireID.Text))
-                    previuosScoreDetails_BE.QuestionID = Convert.ToInt32(lblQuestionnaireID.Text);
-                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(txtScore1.Text) ? 0 : Convert.ToDecimal(txtScore1.Text);
-                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(txtScore2.Text) ? 0 : Convert.ToDecimal(txtScore2.Text);
-                previousScoreDetails_BEList.Add(previuosScoreDetails_BE);
+
+                if (labelQuestionnaireID != null && !string.IsNullOrEmpty(labelQuestionnaireID.Text))
+                    previuosScoreDetails_BE.QuestionID = Convert.ToInt32(labelQuestionnaireID.Text);
+
+                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(textBoxScore1.Text) ? 0 : Convert.ToDecimal(textBoxScore1.Text);
+                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(textBoxScore2.Text) ? 0 : Convert.ToDecimal(textBoxScore2.Text);
+                previousScoreDetailsBusinesEntityList.Add(previuosScoreDetails_BE);
             }
         }
 
@@ -450,45 +524,57 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         foreach (RepeaterItem item in Repeater2.Items)
         {
             Repeater rptrQuestionPreviousScoresAn3 = (Repeater)item.FindControl("rptrQuestionPreviousScoresAn3");
-            Label lblCategoryID = (Label)item.FindControl("lblCategoryID");
+            Label labelCategoryID = (Label)item.FindControl("lblCategoryID");
 
             int categoryId = 0;
-            if (lblCategoryID != null && !string.IsNullOrEmpty(lblCategoryID.Text))
-                categoryId = Convert.ToInt32(lblCategoryID.Text);
+            if (labelCategoryID != null && !string.IsNullOrEmpty(labelCategoryID.Text))
+                categoryId = Convert.ToInt32(labelCategoryID.Text);
 
             foreach (RepeaterItem analysis in rptrQuestionPreviousScoresAn3.Items)
             {
                 Label lblQuestionnaireID = (Label)analysis.FindControl("lblQuestionnaireID");
-                TextBox txtScore1 = (TextBox)analysis.FindControl("txtScore1");
-                TextBox txtScore2 = (TextBox)analysis.FindControl("txtScore2");
+                TextBox textBoxScore1 = (TextBox)analysis.FindControl("txtScore1");
+                TextBox textBoxScore2 = (TextBox)analysis.FindControl("txtScore2");
 
                 Survey_PrvScore_QstDetails_BE previuosScoreDetails_BE = new Survey_PrvScore_QstDetails_BE();
                 previuosScoreDetails_BE.AnalysisType = "3";
                 previuosScoreDetails_BE.CategoryID = categoryId;
                 previuosScoreDetails_BE.PreviousScoreID = previousScoreId;
+
                 if (lblQuestionnaireID != null && !string.IsNullOrEmpty(lblQuestionnaireID.Text))
                     previuosScoreDetails_BE.QuestionID = Convert.ToInt32(lblQuestionnaireID.Text);
-                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(txtScore1.Text) ? 0 : Convert.ToDecimal(txtScore1.Text);
-                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(txtScore2.Text) ? 0 : Convert.ToDecimal(txtScore2.Text);
-                previousScoreDetails_BEList.Add(previuosScoreDetails_BE);
+
+                previuosScoreDetails_BE.Score1 = string.IsNullOrEmpty(textBoxScore1.Text) ? 0 : Convert.ToDecimal(textBoxScore1.Text);
+                previuosScoreDetails_BE.Score2 = string.IsNullOrEmpty(textBoxScore2.Text) ? 0 : Convert.ToDecimal(textBoxScore2.Text);
+                previousScoreDetailsBusinesEntityList.Add(previuosScoreDetails_BE);
             }
         }
 
-        return previousScoreDetails_BEList;
+        return previousScoreDetailsBusinesEntityList;
     }
 
+    /// <summary>
+    /// Fill Analysis 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbFindOld_Click(object sender, ImageClickEventArgs e)
     {
         fillAnalysis();
-
     }
 
+    /// <summary>
+    /// Get Old previous score
+    /// </summary>
+    /// <param name="categoryId"></param>
+    /// <returns></returns>
     private DataTable GetOldPreviousScoreList(int categoryId)
     {
-        DataTable dtTemplate = new DataTable();
-        Common_BAO objCommon_BAO = new Common_BAO();
+        DataTable dataTableTemplate = new DataTable();
+        Common_BAO commonBusinessAccessObject = new Common_BAO();
 
         CNameValueList objCnameList = new CNameValueList();
+
         objCnameList.Add("@Operation", "GETOLDPREV");
         objCnameList.Add("@AccountID", Convert.ToInt32(ddlAccountCode.SelectedValue));
         objCnameList.Add("@ProjectID", Convert.ToInt32(ddlProject.SelectedValue));
@@ -499,17 +585,19 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         objCnameList.Add("@Score2Title", txtScore2Title.Text.Trim());
         objCnameList.Add("@CategoryID", categoryId);
 
+        dataTableTemplate = commonBusinessAccessObject.GetDataTable("Survey_UspPreviousScore", objCnameList);
 
-        dtTemplate = objCommon_BAO.GetDataTable("Survey_UspPreviousScore", objCnameList);
-
-        return dtTemplate;
-
+        return dataTableTemplate;
     }
 
+    /// <summary>
+    /// Get Prevoius score setting
+    /// </summary>
+    /// <returns></returns>
     private DataTable GetPreviousScoreSettings()
     {
-        DataTable dtTemplate = new DataTable();
-        Common_BAO objCommon_BAO = new Common_BAO();
+        DataTable dataTableTemplate = new DataTable();
+        Common_BAO objCommonBusinessAccessObject = new Common_BAO();
 
         CNameValueList objCnameList = new CNameValueList();
         objCnameList.Add("@Operation", "GETPREVSCORE");
@@ -517,30 +605,47 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         objCnameList.Add("@ProjectID", Convert.ToInt32(ddlProject.SelectedValue));
         objCnameList.Add("@CompanyID", Convert.ToInt32(ddlCompany.SelectedValue));
         objCnameList.Add("@ProgrammeID", Convert.ToInt32(ddlProgrammeName.SelectedValue));
-    
 
-        dtTemplate = objCommon_BAO.GetDataTable("Survey_UspPreviousScore", objCnameList);
+        dataTableTemplate = objCommonBusinessAccessObject.GetDataTable("Survey_UspPreviousScore", objCnameList);
 
-        return dtTemplate;
-
+        return dataTableTemplate;
     }
 
+    /// <summary>
+    /// Fill Analysis
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void txtScore1Title_TextChanged(object sender, EventArgs e)
     {
         fillAnalysis();
     }
 
+    /// <summary>
+    /// Fill Analysis
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void txtScore2Title_TextChanged(object sender, EventArgs e)
     {
         fillAnalysis();
     }
 
+    /// <summary>
+    /// Fill Analysis
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void txtClientName0_TextChanged(object sender, EventArgs e)
     {
         fillAnalysis();
     }
 
-    // --> 1.0.0.1.2 [Upload Previous Score from Excel File]
+    /// <summary>
+    /// Upload Previous Score from Excel File
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imgBtnUploadScoreExcel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -568,10 +673,10 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                             string xml = string.Empty;
                             using (MemoryStream ms = new MemoryStream())
                             {
-                                using(TextWriter tw = new StreamWriter(ms))
+                                using (TextWriter tw = new StreamWriter(ms))
                                 {
                                     System.Xml.Serialization.XmlSerializer xmlSer = new System.Xml.Serialization.XmlSerializer(typeof(DataTable));
-                                    xmlSer.Serialize(tw,dtPreviousScore);
+                                    xmlSer.Serialize(tw, dtPreviousScore);
                                     xml = System.Text.Encoding.UTF8.GetString(ms.ToArray());
                                 }
                             }
@@ -580,7 +685,7 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                             {
                                 xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
                                 xml = xml.Remove(xml.IndexOf("<xs:schema"), xml.IndexOf("<DocumentElement>") - xml.IndexOf("<xs:schema"));
-                                xml = xml.Replace("diffgr:", "").Replace("msdata:","");
+                                xml = xml.Replace("diffgr:", "").Replace("msdata:", "");
                                 xml = xml.Replace("</diffgram>", "");
 
                                 Common_BAO objCommon_BAO = new Common_BAO();
@@ -594,7 +699,7 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                                     lstcnamesc.Add(new CNameValue("@TeamName", txtClientName0.Text.Trim()));
                                     lstcnamesc.Add(new CNameValue("@Score1Title", txtScore1Title.Text.Trim()));
                                     lstcnamesc.Add(new CNameValue("@Score2Title", txtScore2Title.Text.Trim()));
-                                    lstcnamesc.Add(new CNameValue("@PreviousScoreXML",xml));
+                                    lstcnamesc.Add(new CNameValue("@PreviousScoreXML", xml));
 
                                     int retVal = objCommon_BAO.InsertAndUpdate("Survey_UspUploadPreviousScoreByXML", lstcnamesc);
                                     if (retVal > 0)
@@ -617,7 +722,7 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                         }
                         else
                         {
-                            lbl_save_message.Text = "Please check your file data. "+ fileName;
+                            lbl_save_message.Text = "Please check your file data. " + fileName;
                         }
                         File.Delete(fileName);
                     }
@@ -638,6 +743,11 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Convert Excel to DataTable for previous score
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <returns></returns>
     private DataTable GetExcelForPreviousScore(string fileName)
     {
         Microsoft.Office.Interop.Excel.ApplicationClass app = new Microsoft.Office.Interop.Excel.ApplicationClass();
@@ -646,20 +756,21 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         int index = 0;
         object rowIndex = 2;
 
-        DataTable dtExcel = new DataTable();
-        dtExcel.Columns.Add("Analysis", typeof(string));
-        dtExcel.Columns.Add("Category", typeof(string));
-        dtExcel.Columns.Add("QuestionSequence", typeof(int));
-        dtExcel.Columns.Add("P1", typeof(int));
-        dtExcel.Columns.Add("P2", typeof(int));
+        DataTable dataTableExcel = new DataTable();
 
-        string projid = ddlProject.SelectedValue.ToString();
+        dataTableExcel.Columns.Add("Analysis", typeof(string));
+        dataTableExcel.Columns.Add("Category", typeof(string));
+        dataTableExcel.Columns.Add("QuestionSequence", typeof(int));
+        dataTableExcel.Columns.Add("P1", typeof(int));
+        dataTableExcel.Columns.Add("P2", typeof(int));
+
+        string projectId = ddlProject.SelectedValue.ToString();
         DataRow row;
         try
         {
             while (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2 != null)
             {
-                row = dtExcel.NewRow();
+                row = dataTableExcel.NewRow();
 
                 row[0] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2);
                 row[1] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2);
@@ -669,21 +780,26 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
 
                 index++;
                 rowIndex = 2 + index;
-                dtExcel.Rows.Add(row);
+                dataTableExcel.Rows.Add(row);
             }
         }
         catch
         {
-            dtExcel = null;
+            dataTableExcel = null;
         }
         finally
         {
             app.Workbooks.Close();
         }
 
-        return dtExcel;
+        return dataTableExcel;
     }
 
+    /// <summary>
+    /// Verify whether uploaded file is valid or not
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -747,6 +863,11 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         }
     }
 
+    /// <summary>
+    /// Get Unique Name for files
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -754,7 +875,12 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
         return uniquefilename;
     }
 
-    public System.Data.DataTable ReturnExcelDataTableMot(string FullFileNamePath)
+    /// <summary>
+    /// Econvert Excel to DataTable. 
+    /// </summary>
+    /// <param name="FullFileNamePath"></param>
+    /// <returns></returns>
+    public DataTable ReturnExcelDataTableMot(string FullFileNamePath)
     {
         DateTime dt3 = new DateTime();
 
@@ -767,13 +893,13 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
             int index = 0;
             object rowIndex = 2;
 
-            DataTable dtExcel = new DataTable();
+            DataTable dataTableExcel = new DataTable();
 
-            dtExcel.Columns.Add("Analysis1", typeof(string));
-            dtExcel.Columns.Add("Analysis2", typeof(string));
-            dtExcel.Columns.Add("Analysis3", typeof(string));
-            dtExcel.Columns.Add("Name", typeof(string));
-            dtExcel.Columns.Add("EmailAddress", typeof(string));
+            dataTableExcel.Columns.Add("Analysis1", typeof(string));
+            dataTableExcel.Columns.Add("Analysis2", typeof(string));
+            dataTableExcel.Columns.Add("Analysis3", typeof(string));
+            dataTableExcel.Columns.Add("Name", typeof(string));
+            dataTableExcel.Columns.Add("EmailAddress", typeof(string));
 
             DataRow row;
             try
@@ -781,14 +907,14 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
                 while (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2 != null)
                 {
                     //rowIndex = 2 + index;
-                    row = dtExcel.NewRow();
+                    row = dataTableExcel.NewRow();
                     DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
-                    string projid = ddlProject.SelectedValue.ToString();
-                    DataTable dtAllProject = new DataTable();
-                    object[] param1 = new object[3] { projid, "2", 'P' };
+                    string projectId = ddlProject.SelectedValue.ToString();
+                    DataTable dataTableAllProject = new DataTable();
+                    object[] param1 = new object[3] { projectId, "2", 'P' };
 
-                    dtAllProject = cDataSrc.ExecuteDataSet("Survey_UspProjectSelect", param1, null).Tables[0];
+                    dataTableAllProject = cDataSrc.ExecuteDataSet("Survey_UspProjectSelect", param1, null).Tables[0];
 
                     row[0] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2);
                     row[1] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2);
@@ -798,16 +924,17 @@ public partial class Survey_Module_Questionnaire_AddPreviousScore : CodeBehindBa
 
                     index++;
                     rowIndex = 2 + index;
-                    dtExcel.Rows.Add(row);
+                    dataTableExcel.Rows.Add(row);
                 }
             }
             catch
             {
                 lbl_save_message.Text = "Please check your file data.";
-                dtExcel = null;
+                dataTableExcel = null;
             }
+
             app.Workbooks.Close();
-            return dtExcel;
+            return dataTableExcel;
         }
         catch (Exception ex)
         {

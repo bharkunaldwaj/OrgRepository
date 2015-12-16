@@ -1,62 +1,63 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using System.Configuration;
 using System.Diagnostics;
 using System.Data;
-using DAF_BAO;
 using Questionnaire_BE;
 using Questionnaire_BAO;
 using System.IO;
-using System.Collections;
 using Admin_BAO;
 
 public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
 {
-    Survey_Company_BAO company_BAO = new Survey_Company_BAO();
+    //Global variable.
+    Survey_Company_BAO companyBusinessObject = new Survey_Company_BAO();
     //Survey_Company_BE company_BE = new Survey_Company_BE();
 
     WADIdentity identity;
 
     string filename;
     string file = null;
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string expression1;
-    string Finalexpression;
-    string expression2;
-    string Finalexpression2;
-
+    DataTable dataTableCompanyName;
+    //DataTable dtAllAccount;
+    //string expression1;
+    //string Finalexpression;
+    //string expression2;
+    //string Finalexpression2;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         identity = this.Page.User.Identity as WADIdentity;
 
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+
         try
         {
             if (!IsPostBack)
             {
-                List<Survey_Company_BE> company_BEList = new List<Survey_Company_BE>();
+                List<Survey_Company_BE> companyBusinessEntityList = new List<Survey_Company_BE>();
                 int companyID = Convert.ToInt32(Request.QueryString["CompId"]);
+
                 if (companyID > 0)
                 {
-                    company_BEList = company_BAO.GetCompanyByID(companyID);
+                    //Get all company list in an account.
+                    companyBusinessEntityList = companyBusinessObject.GetCompanyByID(companyID);
                     fillAccountCode();
 
-                    if (company_BEList.Any())
+                    if (companyBusinessEntityList.Any())
                     {
-                        fillEmailTemplate(Convert.ToString(company_BEList.FirstOrDefault().AccountID));
-                        fillProject(Convert.ToString(company_BEList.FirstOrDefault().AccountID));
-                        fillProjectManager(Convert.ToString(company_BEList.FirstOrDefault().AccountID));
-
-                        fillCompanyDetails(company_BEList.FirstOrDefault());
-
+                        //Bind finish email template by account id.
+                        fillEmailTemplate(Convert.ToString(companyBusinessEntityList.FirstOrDefault().AccountID));
+                        //Bind project dropdown by account id.
+                        fillProject(Convert.ToString(companyBusinessEntityList.FirstOrDefault().AccountID));
+                        //Bind manager dropdown by account id.
+                        fillProjectManager(Convert.ToString(companyBusinessEntityList.FirstOrDefault().AccountID));
+                        //Bind controls with company details.
+                        fillCompanyDetails(companyBusinessEntityList.FirstOrDefault());
                     }
                 }
                 else
@@ -66,7 +67,7 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
                     fillProject(Convert.ToString(identity.User.AccountID));
                     fillProjectManager(Convert.ToString(identity.User.AccountID));
                 }
-
+                //IF query string contains mode="E" then edit mode 
                 if (Request.QueryString["Mode"] == "E")
                 {
                     imbSave.Visible = true;
@@ -74,17 +75,18 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
                     imbBack.Visible = false;
                     lblheader.Text = "Edit Company";
                 }
-                else if (Request.QueryString["Mode"] == "R")
+                else if (Request.QueryString["Mode"] == "R") //IF query string contains mode="R" then view mode 
                 {
                     imbSave.Visible = false;
                     imbcancel.Visible = false;
                     imbBack.Visible = true;
                     lblheader.Text = "View Company";
                 }
-
+                //If user is a Super Admin then show account detail section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
+
                     if (Request.QueryString["Mode"] == null)
                     {
                         ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
@@ -104,55 +106,53 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
     }
 
     /// <summary>
-    /// to fill in case of edit
+    /// To fill controls in case of edit
     /// </summary>
-    /// <param name="comapnyBE"></param>
-    private void fillCompanyDetails(Survey_Company_BE comapnyBE)
+    /// <param name="companyBusinessEntity"></param>
+    private void fillCompanyDetails(Survey_Company_BE companyBusinessEntity)
     {
         try
         {
-            if (comapnyBE.AccountID != null)
-                ddlAccountCode.SelectedValue = Convert.ToString(comapnyBE.AccountID);
+            if (companyBusinessEntity.AccountID != null)
+                ddlAccountCode.SelectedValue = Convert.ToString(companyBusinessEntity.AccountID);
 
-            txtcompanyname.Text = comapnyBE.CompanyName;
+            txtcompanyname.Text = companyBusinessEntity.CompanyName;
 
-            if (comapnyBE.ProjectID != null)
-                ddlProject.SelectedValue = Convert.ToString(comapnyBE.ProjectID);
+            if (companyBusinessEntity.ProjectID != null)
+                ddlProject.SelectedValue = Convert.ToString(companyBusinessEntity.ProjectID);
 
-            txtTitle.Text = comapnyBE.Title;
+            txtTitle.Text = companyBusinessEntity.Title;
 
-            if (comapnyBE.ManagerID != null)
-                ddlProjectManager.SelectedValue = Convert.ToString(comapnyBE.ManagerID);
+            if (companyBusinessEntity.ManagerID != null)
+                ddlProjectManager.SelectedValue = Convert.ToString(companyBusinessEntity.ManagerID);
 
-            txtDescription.Text = comapnyBE.Description;
-            txtFaqText.Value = comapnyBE.FaqText;
+            txtDescription.Text = companyBusinessEntity.Description;
+            txtFaqText.Value = Server.HtmlDecode(companyBusinessEntity.FaqText);
 
-            if (comapnyBE.StatusID != null)
-                ddlStatus.SelectedValue = Convert.ToString(comapnyBE.StatusID);
+            if (companyBusinessEntity.StatusID != null)
+                ddlStatus.SelectedValue = Convert.ToString(companyBusinessEntity.StatusID);
 
-            Finish_emailID_Txtbox.Text = comapnyBE.Finish_EmailID;
+            Finish_emailID_Txtbox.Text = companyBusinessEntity.Finish_EmailID;
 
-            Finish_Email_Chkbox.Checked = comapnyBE.Finish_EmailID_Chkbox ?? false;
+            Finish_Email_Chkbox.Checked = companyBusinessEntity.Finish_EmailID_Chkbox ?? false;
 
-            if (comapnyBE.EmailTMPLStart != null)
-                ddlEmailStart.SelectedValue = Convert.ToString(comapnyBE.EmailTMPLStart);
+            if (companyBusinessEntity.EmailTMPLStart != null)
+                ddlEmailStart.SelectedValue = Convert.ToString(companyBusinessEntity.EmailTMPLStart);
 
-            if (comapnyBE.EmailTMPLReminder1 != null)
-                ddlEmailRemainder1.SelectedValue = Convert.ToString(comapnyBE.EmailTMPLReminder1);
+            if (companyBusinessEntity.EmailTMPLReminder1 != null)
+                ddlEmailRemainder1.SelectedValue = Convert.ToString(companyBusinessEntity.EmailTMPLReminder1);
 
-            if (comapnyBE.EmailTMPLReminder2 != null)
-                ddlEmailRemainder2.SelectedValue = Convert.ToString(comapnyBE.EmailTMPLReminder2);
+            if (companyBusinessEntity.EmailTMPLReminder2 != null)
+                ddlEmailRemainder2.SelectedValue = Convert.ToString(companyBusinessEntity.EmailTMPLReminder2);
 
-            if (comapnyBE.EmailTMPLReminder3 != null)
-                ddlEmailRemainder3.SelectedValue = Convert.ToString(comapnyBE.EmailTMPLReminder3);
+            if (companyBusinessEntity.EmailTMPLReminder3 != null)
+                ddlEmailRemainder3.SelectedValue = Convert.ToString(companyBusinessEntity.EmailTMPLReminder3);
 
-            if (comapnyBE.EmailFinishEmailTemplate != null)
-                ddlEmailTemplate.SelectedValue = Convert.ToString(comapnyBE.EmailFinishEmailTemplate);
+            if (companyBusinessEntity.EmailFinishEmailTemplate != null)
+                ddlEmailTemplate.SelectedValue = Convert.ToString(companyBusinessEntity.EmailFinishEmailTemplate);
 
-            hdnQuestimage.Value = comapnyBE.QuestLogo;
-            hdnReportimage.Value = comapnyBE.ReportLogo;
-
-
+            hdnQuestimage.Value = companyBusinessEntity.QuestLogo;
+            hdnReportimage.Value = companyBusinessEntity.ReportLogo;
         }
         catch (Exception ex)
         {
@@ -160,118 +160,122 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         }
     }
 
-
-
+    /// <summary>
+    /// Insert and update company details.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {
         Page.Validate();
+
         if (Page.IsValid)
         {
             try
             {
+                //Initilize propeties.
                 HandleWriteLog("Start", new StackTrace(true));
-                Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-                Survey_Company_BE company_BE = new Survey_Company_BE();
-                if (ddlAccountCode.SelectedValue != null)
-                    company_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
-                company_BE.CompanyName = txtcompanyname.Text;
+                Survey_Company_BAO companyBusinessObject = new Survey_Company_BAO();
+                Survey_Company_BE companyBusinessEntity = new Survey_Company_BE();
+
+                if (ddlAccountCode.SelectedValue != null)
+                    companyBusinessEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+
+                companyBusinessEntity.CompanyName = txtcompanyname.Text;
 
                 if (ddlProject.SelectedValue != null)
-                    company_BE.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
+                    companyBusinessEntity.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
 
-                company_BE.Title = txtTitle.Text;
+                companyBusinessEntity.Title = txtTitle.Text;
 
                 if (ddlProjectManager.SelectedValue != null)
-                    company_BE.ManagerID = Convert.ToInt32(ddlProjectManager.SelectedValue);
+                    companyBusinessEntity.ManagerID = Convert.ToInt32(ddlProjectManager.SelectedValue);
 
-                company_BE.Description = txtDescription.Text;
+                companyBusinessEntity.Description = txtDescription.Text;
 
                 if (ddlStatus.SelectedValue != null)
-                    company_BE.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
+                    companyBusinessEntity.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
 
-                company_BE.Finish_EmailID = Finish_emailID_Txtbox.Text;
-                company_BE.FaqText = txtFaqText.Value.Trim();
+                companyBusinessEntity.Finish_EmailID = Finish_emailID_Txtbox.Text;
+                companyBusinessEntity.FaqText = Server.HtmlDecode(txtFaqText.Value.Trim());
 
-                company_BE.Finish_EmailID_Chkbox = Finish_Email_Chkbox.Checked;
+                companyBusinessEntity.Finish_EmailID_Chkbox = Finish_Email_Chkbox.Checked;
 
                 if (ddlEmailStart.SelectedValue != null)
-                    company_BE.EmailTMPLStart = Convert.ToInt32(ddlEmailStart.SelectedValue);
+                    companyBusinessEntity.EmailTMPLStart = Convert.ToInt32(ddlEmailStart.SelectedValue);
 
                 if (ddlEmailRemainder1.SelectedValue != null)
-                    company_BE.EmailTMPLReminder1 = Convert.ToInt32(ddlEmailRemainder1.SelectedValue);
+                    companyBusinessEntity.EmailTMPLReminder1 = Convert.ToInt32(ddlEmailRemainder1.SelectedValue);
 
                 if (ddlEmailRemainder2.SelectedValue != null)
-                    company_BE.EmailTMPLReminder2 = Convert.ToInt32(ddlEmailRemainder2.SelectedValue);
+                    companyBusinessEntity.EmailTMPLReminder2 = Convert.ToInt32(ddlEmailRemainder2.SelectedValue);
 
                 if (ddlEmailRemainder3.SelectedValue != null)
-                    company_BE.EmailTMPLReminder3 = Convert.ToInt32(ddlEmailRemainder3.SelectedValue);
-
+                    companyBusinessEntity.EmailTMPLReminder3 = Convert.ToInt32(ddlEmailRemainder3.SelectedValue);
 
                 if (ddlEmailTemplate.SelectedValue != null)
-                    company_BE.EmailFinishEmailTemplate = Convert.ToInt32(ddlEmailTemplate.SelectedValue);
+                    companyBusinessEntity.EmailFinishEmailTemplate = Convert.ToInt32(ddlEmailTemplate.SelectedValue);
 
-
+                //If company logo is uploaded.
                 if (qstFileUpload.HasFile)
                 {
                     filename = System.IO.Path.GetFileName(qstFileUpload.PostedFile.FileName);
                     //filename = FileUpload.FileName;
-                    file = GetUniqueFilename(filename);
-
+                    file = GetUniqueFilename(filename);//Get unique name ,for file.
+                    //Get file path.
                     string path = MapPath("~\\UploadDocs\\") + file;
                     qstFileUpload.SaveAs(path);
                     string name = file;
+
                     FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
                     BinaryReader br1 = new BinaryReader(fs1);
                     Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                     br1.Close();
                     fs1.Close();
-                    company_BE.QuestLogo = file;
+                    companyBusinessEntity.QuestLogo = file;
                 }
                 else
                 {
-                    company_BE.QuestLogo = hdnQuestimage.Value;
+                    companyBusinessEntity.QuestLogo = hdnQuestimage.Value;
                 }
-
+                // uopload Report logo
                 if (reportFileUpload.HasFile)
                 {
                     filename = System.IO.Path.GetFileName(reportFileUpload.PostedFile.FileName);
                     //filename = FileUpload.FileName;
-                    file = GetUniqueFilename(filename);
-
+                    file = GetUniqueFilename(filename);//Get unique name ,for file.
+                    //Get file path.
                     string path = MapPath("~\\UploadDocs\\") + file;
                     reportFileUpload.SaveAs(path);
+
                     string name = file;
                     FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
                     BinaryReader br1 = new BinaryReader(fs1);
                     Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                     br1.Close();
                     fs1.Close();
-                    company_BE.ReportLogo = file;
+                    companyBusinessEntity.ReportLogo = file;
                 }
                 else
                 {
-                    company_BE.ReportLogo = hdnReportimage.Value;
+                    companyBusinessEntity.ReportLogo = hdnReportimage.Value;
                 }
 
+                companyBusinessEntity.ModifyBy = 1;
+                companyBusinessEntity.ModifyDate = DateTime.Now;
+                companyBusinessEntity.IsActive = 1;
 
-                company_BE.ModifyBy = 1;
-                company_BE.ModifyDate = DateTime.Now;
-                company_BE.IsActive = 1;
-
+                //IF query string Mode contains "E" then update else insert.
                 if (Request.QueryString["Mode"] == "E")
                 {
-                    company_BE.CompanyID = Convert.ToInt32(Request.QueryString["CompId"]);
+                    companyBusinessEntity.CompanyID = Convert.ToInt32(Request.QueryString["CompId"]);
                     //company_BAO.UpdateProject(company_BE);
                 }
 
-
-                company_BAO.AddCompany(company_BE);
-
+                companyBusinessObject.AddCompany(companyBusinessEntity);
 
                 Response.Redirect("CompanyList.aspx", false);
-                //HandleWriteLog("Start", new StackTrace(true));
-                //}
             }
             catch (Exception ex)
             {
@@ -280,15 +284,16 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to previous page 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbcancel_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             Response.Redirect("CompanyList.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -296,6 +301,11 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Check whether uploaded company logo is vaid or not.
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -303,6 +313,7 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         string[] AllowedExtensions = ConfigurationManager.AppSettings["Fileextension"].Split(',');
         bool isExtensionError = false;
         int MaxSizeAllowed = 5 * 1048576;// Size Allow only in mb
+
         if (uploadControl.HasFile)
         {
             bool isSizeError = false;
@@ -351,11 +362,13 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
             }
         }
         return isFileOk;
-
-
-
     }
 
+    /// <summary>
+    /// Unique name for uploaded file.
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -364,14 +377,18 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         return uniquefilename;
     }
 
-
+    /// <summary>
+    /// Bind project and comapny name on account selected index change.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         try
         {
-            Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
-            Survey_EmailTemplate_BAO emailTemplate_BAO = new Survey_EmailTemplate_BAO();
-
+            Survey_AccountUser_BAO accountUserBusinessObject = new Survey_AccountUser_BAO();
+            Survey_EmailTemplate_BAO emailTemplateBusinessObject = new Survey_EmailTemplate_BAO();
+            //Reset controls value to default.
             ddlProjectManager.Items.Clear();
             ddlProjectManager.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -396,29 +413,33 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
 
             if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
             {
+                Account_BAO accountBusinessObject = new Account_BAO();
 
-                Account_BAO account_BAO = new Account_BAO();
+                dataTableCompanyName = accountBusinessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+                DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+                DataTable dtAccount = dataTableCompanyName.Clone();
 
-                dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-                DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-                DataTable dtAccount = dtCompanyName.Clone();
                 foreach (DataRow drAccount in resultsAccount)
                     dtAccount.ImportRow(drAccount);
-
+                //set company name.
                 txtcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
+                //Bind project drop down.
                 fillProject(ddlAccountCode.SelectedValue);
+                //Bind manager drop down.
                 fillProjectManager(ddlAccountCode.SelectedValue);
-
+                //Bind finish email template drop down.
                 fillEmailTemplate(ddlAccountCode.SelectedValue);
+                //bind FAQ text.
+                ReBindFAQContent();
             }
             else
             {
                 txtcompanyname.Text = "";
-
+                //Bind project drop down.
                 fillProject(Convert.ToString(identity.User.AccountID));
+                //Bind manager drop down.
                 fillProjectManager(Convert.ToString(identity.User.AccountID));
-
+                //Bind finish email template drop down.
                 fillEmailTemplate(Convert.ToString(identity.User.AccountID));
             }
         }
@@ -427,63 +448,77 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// REdirect to previous page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
         Response.Redirect("CompanyList.aspx", false);
     }
 
-
     #region private functions
-
+    /// <summary>
+    /// Bind account drop down by user account id.
+    /// </summary>
     private void fillAccountCode()
     {
-        Account_BAO account_BAO = new Account_BAO();
-        ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+        Account_BAO accountBusinessObject = new Account_BAO();
+        ddlAccountCode.DataSource = accountBusinessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
         ddlAccountCode.DataValueField = "AccountID";
         ddlAccountCode.DataTextField = "Code";
         ddlAccountCode.DataBind();
-
     }
 
+    /// <summary>
+    /// Bind project drop down by user account id.
+    /// </summary>
     private void fillProject(string accountId)
     {
-        Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-        ddlProject.DataSource = project_BAO.GetdtProjectList(accountId);
+        Survey_Project_BAO projectBusinessObject = new Survey_Project_BAO();
+        ddlProject.DataSource = projectBusinessObject.GetdtProjectList(accountId);
         ddlProject.DataValueField = "ProjectID";
         ddlProject.DataTextField = "Title";
         ddlProject.DataBind();
-
     }
 
+    /// <summary>
+    /// Bind program manager drop down by user account id.
+    /// </summary>
     private void fillProjectManager(string accountId)
     {
-        Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
-        ddlProjectManager.DataSource = accountUser_BAO.GetdtAccountUserList(accountId);
+        Survey_AccountUser_BAO accountUserBusinessObject = new Survey_AccountUser_BAO();
+        ddlProjectManager.DataSource = accountUserBusinessObject.GetdtAccountUserList(accountId);
         ddlProjectManager.DataValueField = "UserID";
         ddlProjectManager.DataTextField = "UserName";
         ddlProjectManager.DataBind();
-
     }
 
+    /// <summary>
+    /// Bind finish email template drop down by user account id.
+    /// </summary>
     private void fillEmailTemplate(string accountId)
     {
-        Survey_EmailTemplate_BAO emailTemplate_BAO = new Survey_EmailTemplate_BAO();
-        DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(accountId);
+        Survey_EmailTemplate_BAO emailTemplateBusinessObject = new Survey_EmailTemplate_BAO();
+        DataTable dataTableEmailTemplate = emailTemplateBusinessObject.GetdtEmailTemplateList(accountId);
 
-        DataRow[] resultsTemplate = dtEmailTemplate.Select("Title LIKE '%Invitation Template%'");
+        DataRow[] resultsTemplate = dataTableEmailTemplate.Select("Title LIKE '%Invitation Template%'");
 
-        DataTable dtmailtemp = dtEmailTemplate.Clone();
+        DataTable dataTablEMailTemplateClone = dataTableEmailTemplate.Clone();
 
-        foreach (DataRow drMail in resultsTemplate)
+        foreach (DataRow dataRowMail in resultsTemplate)
         {
-            dtmailtemp.ImportRow(drMail);
+            dataTablEMailTemplateClone.ImportRow(dataRowMail);
         }
 
         int emailId = 0;
-        if (dtmailtemp.Rows.Count > 0)
-            emailId = Convert.ToInt32(dtmailtemp.Rows[0]["EmailTemplateID"]);
 
-        ddlEmailStart.DataSource = dtEmailTemplate;
+        if (dataTablEMailTemplateClone.Rows.Count > 0)
+            emailId = Convert.ToInt32(dataTablEMailTemplateClone.Rows[0]["EmailTemplateID"]);
+
+        //Bind participant email template template.
+        ddlEmailStart.DataSource = dataTableEmailTemplate;
         ddlEmailStart.DataValueField = "EmailTemplateID";
         ddlEmailStart.DataTextField = "Title";
         ddlEmailStart.DataBind();
@@ -492,28 +527,34 @@ public partial class Survey_Module_Questionnaire_Company : CodeBehindBase
         {
             ddlEmailStart.SelectedValue = Convert.ToString(emailId);
         }
-
-        ddlEmailRemainder1.DataSource = dtEmailTemplate;
+        //Bind reminder 1 template.
+        ddlEmailRemainder1.DataSource = dataTableEmailTemplate;
         ddlEmailRemainder1.DataValueField = "EmailTemplateID";
         ddlEmailRemainder1.DataTextField = "Title";
         ddlEmailRemainder1.DataBind();
-
-        ddlEmailRemainder2.DataSource = dtEmailTemplate;
+        //Bind reminder 2 template.
+        ddlEmailRemainder2.DataSource = dataTableEmailTemplate;
         ddlEmailRemainder2.DataValueField = "EmailTemplateID";
         ddlEmailRemainder2.DataTextField = "Title";
         ddlEmailRemainder2.DataBind();
-
-        ddlEmailRemainder3.DataSource = dtEmailTemplate;
+        //Bind reminder 3 template.
+        ddlEmailRemainder3.DataSource = dataTableEmailTemplate;
         ddlEmailRemainder3.DataValueField = "EmailTemplateID";
         ddlEmailRemainder3.DataTextField = "Title";
         ddlEmailRemainder3.DataBind();
-
-        ddlEmailTemplate.DataSource = dtEmailTemplate;
+        //Bind finish email  template.
+        ddlEmailTemplate.DataSource = dataTableEmailTemplate;
         ddlEmailTemplate.DataValueField = "EmailTemplateID";
         ddlEmailTemplate.DataTextField = "Title";
         ddlEmailTemplate.DataBind();
-        
     }
 
+    /// <summary>
+    /// Rebind FAQ text.
+    /// </summary>
+    private void ReBindFAQContent()
+    {
+        txtFaqText.InnerHtml = Server.HtmlDecode(txtFaqText.InnerHtml);
+    }
     #endregion private functions
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -9,107 +6,99 @@ using System.Text;
 
 using Admin_BAO;
 using Questionnaire_BAO;
-using Questionnaire_BE;
-using System.Globalization;
 using System.Configuration;
-using System.Diagnostics;
-using DAF_BAO;
-using System.IO;
-using System.Collections;
 
 public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
 {
-    Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-    Survey_Company_BE company_BE = new Survey_Company_BE();
+    Survey_Company_BAO companyBusinessObject = new Survey_Company_BAO();
+    //Survey_Company_BE company_BE = new Survey_Company_BE();
     WADIdentity identity;
-    
+    //Global variable.
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
 
     int projectCount = 0;
     string pageNo = "";
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string expression1;
-    string Finalexpression;
+    DataTable dataTableCompanyName;
+    DataTable dataTableAllAccount;
+    //string expression1;
+    //string Finalexpression;
 
     protected void Page_Load(object sender, EventArgs e)
     {
         //try
         //{
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
-            //HandleWriteLog("Start", new StackTrace(true));
-            identity = this.Page.User.Identity as WADIdentity;
-            
-            //odsProject.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
-            //odsProject.Select();
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        //HandleWriteLog("Start", new StackTrace(true));
+        identity = this.Page.User.Identity as WADIdentity;
 
-            grdvProject.PageSize = pageSize;
-            
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+        //odsProject.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
+        //odsProject.Select();
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
-            ddlAccountCode.DataValueField = "AccountID";
-            ddlAccountCode.DataTextField = "Code";
-            ddlAccountCode.DataBind();
+        grdvProject.PageSize = pageSize;
 
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-            if (!IsPostBack)
+        if (textBoxGoto != null)
+            textBoxGoto.Text = pageNo;
+
+        Account_BAO accountBusinessObject = new Account_BAO();
+        //Get Account details by user account id  to bind account dropdown.
+        ddlAccountCode.DataSource = accountBusinessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+        ddlAccountCode.DataValueField = "AccountID";
+        ddlAccountCode.DataTextField = "Code";
+        ddlAccountCode.DataBind();
+
+        if (!IsPostBack)
+        {
+            Survey_AccountUser_BAO accountUserBusinessObject = new Survey_AccountUser_BAO();
+            //Get Manager details by user account id  to bind Manaeger dropdown.
+            ddlManager.DataSource = accountUserBusinessObject.GetdtAccountUserList(identity.User.AccountID.ToString());
+            ddlManager.DataValueField = "UserID";
+            ddlManager.DataTextField = "UserName";
+            ddlManager.DataBind();
+
+            //If user is a Super Admin then show account detail section else hide.
+            if (identity.User.GroupID == 1)
             {
-                Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
-                ddlManager.DataSource = accountUser_BAO.GetdtAccountUserList(identity.User.AccountID.ToString());
-                ddlManager.DataValueField = "UserID";
-                ddlManager.DataTextField = "UserName";
-                ddlManager.DataBind();
-
-                
-
-                if (identity.User.GroupID == 1)
-                {
-                    divAccount.Visible = true;
-                    ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-                    ddlAccountCode_SelectedIndexChanged(sender, e);
-                }
-                else
-                {
-                    divAccount.Visible = false;
-                    ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-                    ddlAccountCode_SelectedIndexChanged(sender, e);
-                }
-
-                odsProject.SelectParameters.Clear();
-                odsProject.SelectParameters.Add("accountID", GetCondition());
-                odsProject.Select();
-
-                ManagePaging();
+                divAccount.Visible = true;
+                ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+                ddlAccountCode_SelectedIndexChanged(sender, e);
             }
-
-
-            //HandleWriteLog("Start", new StackTrace(true));
-        //}
-        //catch (Exception ex)
-        //{
-        //    HandleException(ex);
-        //}
+            else
+            {
+                divAccount.Visible = false;
+                ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+                ddlAccountCode_SelectedIndexChanged(sender, e);
+            }
+            //Set the Parameter for project object data source.
+            odsProject.SelectParameters.Clear();
+            odsProject.SelectParameters.Add("accountID", GetCondition());
+            odsProject.Select();
+            //Manageing pagain when grid bind.
+            ManagePaging();
+        }
     }
 
+    /// <summary>
+    ///  Its of no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvProject_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         //try
         //{
-            //HandleWriteLog("Start", new StackTrace(true));
+        //HandleWriteLog("Start", new StackTrace(true));
 
-            //if (e.Row.RowType == DataControlRowType.DataRow)
-            //{
-            //    LinkButton ibtn = (LinkButton)e.Row.Cells[7].Controls[0];
-            //    ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this project?')) return false";
-            //}
+        //if (e.Row.RowType == DataControlRowType.DataRow)
+        //{
+        //    LinkButton ibtn = (LinkButton)e.Row.Cells[7].Controls[0];
+        //    ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this project?')) return false";
+        //}
 
-            //HandleWriteLog("Start", new StackTrace(true));
+        //HandleWriteLog("Start", new StackTrace(true));
         //}
         //catch (Exception ex)
         //{
@@ -117,47 +106,39 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
         //}
     }
 
+    /// <summary>
+    /// Handle paging while Sorting grid by click on headings .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvProject_Sorting(object sender, GridViewSortEventArgs e)
     {
-        //try
-        //{
-            //HandleWriteLog("Start", new StackTrace(true));
-
-            ManagePaging();
-
-            //HandleWriteLog("Start", new StackTrace(true));
-        //}
-        //catch (Exception ex)
-        //{
-        //    HandleException(ex);
-        //}
+        ManagePaging();
     }
-    
+
+    /// <summary>
+    /// Redirect to comapny page when click on Add new.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
-        //try
-        //{
-            //HandleWriteLog("Start", new StackTrace(true));
-
-            Response.Redirect("Company.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
-        //}
-        //catch (Exception ex)
-        //{
-        //    HandleException(ex);
-        //}
+        Response.Redirect("Company.aspx", false);
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    ///  Handle paging related events when moving from grid view one page to another.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
-        var dt = company_BAO.GetdtCompanyList(GetCondition());
-        if (dt != null && dt.Rows.Count > 0)
+
+        var companydataTable = companyBusinessObject.GetdtCompanyList(GetCondition());
+
+        if (companydataTable != null && companydataTable.Rows.Count > 0)
         {
-            projectCount = dt.Rows.Count;
+            projectCount = companydataTable.Rows.Count;
         }
 
         plcPaging.Controls.Clear();
@@ -182,7 +163,6 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
             {
                 numberOfPages = 1;
             }
-
 
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
@@ -210,9 +190,7 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -245,7 +223,6 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -270,7 +247,6 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -290,7 +266,6 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;")); // Just to give some space 
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
-
 
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
@@ -381,12 +356,20 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, projectCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when view of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -401,34 +384,43 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Handle prvious and next button click of grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton LinkButtonNext = (LinkButton)sender;
 
-        grdvProject.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvProject.PageIndex = (int.Parse(LinkButtonNext.CommandArgument.ToString()) - 1);
         grdvProject.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Handle gridview page index event to move to new page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvProject.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            grdvProject.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvProject.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
@@ -445,127 +437,152 @@ public partial class Survey_Module_Questionnaire_CompanyList : CodeBehindBase
     #endregion
 
     #region Search Related Function
-    
-        protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
+    /// <summary>
+    /// Bind company grid with account id.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
+    {
+        odsProject.SelectParameters.Clear();
+        //Initilize project grid's object datasource by dynamic query.
+        odsProject.SelectParameters.Add("accountID", GetCondition());
+        odsProject.Select();
+        //Set page index to  0.
+        grdvProject.PageIndex = 0;
+        //Bind project grid.
+        grdvProject.DataBind();
+        //Manage pagaing.
+        ManagePaging();
+    }
+
+    /// <summary>
+    /// Reset control value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void imbReset_Click(object sender, ImageClickEventArgs e)
+    {
+        ddlstatus.SelectedValue = "0";
+        ddlManager.SelectedValue = "0";
+        txttitle.Text = "";
+
+        ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+        ddlAccountCode_SelectedIndexChanged(sender, e);
+
+        odsProject.SelectParameters.Clear();
+        odsProject.SelectParameters.Add("accountID", GetCondition());
+        odsProject.Select();
+
+        ManagePaging();
+    }
+
+    /// <summary>
+    /// Bind company grid when account selected index changes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Survey_AccountUser_BAO accountUserBusinessObject = new Survey_AccountUser_BAO();
+        ddlManager.Items.Clear();
+        ddlManager.Items.Insert(0, new ListItem("Select", "0"));
+
+        ddlProject.Items.Clear();
+        ddlProject.Items.Insert(0, new ListItem("Select", "0"));
+
+        if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            odsProject.SelectParameters.Clear();
-            odsProject.SelectParameters.Add("accountID", GetCondition());
-            odsProject.Select();
+            Account_BAO accountBusinessObject = new Account_BAO();
+            //Get company details by account id.
+            dataTableCompanyName = accountBusinessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
 
-            grdvProject.PageIndex = 0;
-            grdvProject.DataBind();
-            ManagePaging();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dtAccount = dataTableCompanyName.Clone();
+            foreach (DataRow drAccount in resultsAccount)
+                dtAccount.ImportRow(drAccount);
+
+            //lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            //odsProject.SelectParameters.Clear();
+            //odsProject.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
+            //odsProject.Select();
+
+            //ManagePaging();
+
+            //Get all Manager by account id and bind manager drop down.
+            ddlManager.DataSource = accountUserBusinessObject.GetdtAccountUserList(ddlAccountCode.SelectedValue);
+            ddlManager.DataValueField = "UserID";
+            ddlManager.DataTextField = "UserName";
+            ddlManager.DataBind();
+
+            ViewState["AccountID"] = ddlAccountCode.SelectedValue;
+            fillProject(ddlAccountCode.SelectedValue);
         }
-
-        protected void imbReset_Click(object sender, ImageClickEventArgs e)
+        else
         {
-            ddlstatus.SelectedValue = "0";
-            ddlManager.SelectedValue = "0";
-            txttitle.Text = "";
+            //lblcompanyname.Text = "";
 
-            ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-            ddlAccountCode_SelectedIndexChanged(sender, e);
+            //odsProject.SelectParameters.Clear();
+            //odsProject.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
+            //odsProject.Select();
 
-            odsProject.SelectParameters.Clear();
-            odsProject.SelectParameters.Add("accountID", GetCondition());
-            odsProject.Select();
+            //ManagePaging();
 
-            ManagePaging();
+            ddlManager.DataSource = accountUserBusinessObject.GetdtAccountUserList(identity.User.AccountID.ToString());
+            ddlManager.DataValueField = "UserID";
+            ddlManager.DataTextField = "UserName";
+            ddlManager.DataBind();
+
+            ViewState["AccountID"] = "0";
+
         }
+    }
 
-        protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
-            ddlManager.Items.Clear();
-            ddlManager.Items.Insert(0, new ListItem("Select", "0"));
+    /// <summary>
+    /// Generate dynamic query .
+    /// </summary>
+    /// <returns></returns>
+    public string GetCondition()
+    {
+        string stringQuery = "";
 
-            ddlProject.Items.Clear();
-            ddlProject.Items.Insert(0, new ListItem("Select", "0"));
+        if (Convert.ToInt32(ViewState["AccountID"]) > 0)
+            stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
+        else
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
-            if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
-            {
-                Account_BAO account_BAO = new Account_BAO();
+        if (ddlstatus.SelectedIndex > 0)
+            stringQuery = stringQuery + "Survey_MSTProjectStatus.[Name] = '" + ddlstatus.SelectedItem.Text.Trim() + "' and ";
 
-                dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-                
-                DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-                DataTable dtAccount = dtCompanyName.Clone();
-                foreach (DataRow drAccount in resultsAccount)
-                    dtAccount.ImportRow(drAccount);
+        if (ddlProject.SelectedIndex > 0)
+            stringQuery = stringQuery + "Survey_Project.[ProjectID] = '" + ddlProject.SelectedValue + "' and ";
 
-                //lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-                //odsProject.SelectParameters.Clear();
-                //odsProject.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
-                //odsProject.Select();
+        if (txttitle.Text.Trim() != string.Empty)
+            stringQuery = stringQuery + "Survey_Company.[Title] like '" + txttitle.Text.Trim() + "%' and ";
 
-                //ManagePaging();
+        if (ddlManager.SelectedIndex > 0)
+            stringQuery = stringQuery + "[User].[UserID] = " + ddlManager.SelectedValue + " and ";
 
-                ddlManager.DataSource = accountUser_BAO.GetdtAccountUserList(ddlAccountCode.SelectedValue);
-                ddlManager.DataValueField = "UserID";
-                ddlManager.DataTextField = "UserName";
-                ddlManager.DataBind();
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
-                ViewState["AccountID"] = ddlAccountCode.SelectedValue;
-                fillProject(ddlAccountCode.SelectedValue);
-            }
-            else
-            {
-                //lblcompanyname.Text = "";
-
-                //odsProject.SelectParameters.Clear();
-                //odsProject.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
-                //odsProject.Select();
-
-                //ManagePaging();
-
-                ddlManager.DataSource = accountUser_BAO.GetdtAccountUserList(identity.User.AccountID.ToString());
-                ddlManager.DataValueField = "UserID";
-                ddlManager.DataTextField = "UserName";
-                ddlManager.DataBind();
-
-                ViewState["AccountID"] = "0";
-
-            }
-        }
-
-        public string GetCondition()
-        {
-            string str = "";
-
-            if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-                str = str + "" + ViewState["AccountID"] + " and ";
-            else
-                str = str + "" + identity.User.AccountID.ToString() + " and ";
-
-            if (ddlstatus.SelectedIndex > 0)
-                str = str + "Survey_MSTProjectStatus.[Name] = '" + ddlstatus.SelectedItem.Text.Trim() + "' and ";
-
-            if (ddlProject.SelectedIndex > 0)
-                str = str + "Survey_Project.[ProjectID] = '" + ddlProject.SelectedValue + "' and ";
-
-            if (txttitle.Text.Trim() != string.Empty)
-                str = str + "Survey_Company.[Title] like '" + txttitle.Text.Trim() + "%' and ";
-
-            if (ddlManager.SelectedIndex > 0)
-                str = str + "[User].[UserID] = " + ddlManager.SelectedValue + " and ";
-            
-            string param = str.Substring(0, str.Length - 4);
-
-            return param;
-        }
+        return param;
+    }
 
 
     #endregion
 
+    /// <summary>
+    /// Bind project drop down by account id.
+    /// </summary>
+    /// <param name="accountId"></param>
+    private void fillProject(string accountId)
+    {
+        Survey_Project_BAO projectBusinessObject = new Survey_Project_BAO();
+        //Get all project in an account.
+        ddlProject.DataSource = projectBusinessObject.GetdtProjectList(accountId);
+        ddlProject.DataValueField = "ProjectID";
+        ddlProject.DataTextField = "Title";
+        ddlProject.DataBind();
 
-        private void fillProject(string accountId)
-        {
-            Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-            ddlProject.DataSource = project_BAO.GetdtProjectList(accountId);
-            ddlProject.DataValueField = "ProjectID";
-            ddlProject.DataTextField = "Title";
-            ddlProject.DataBind();
-
-        }
-    
+    }
 }

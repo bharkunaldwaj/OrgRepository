@@ -1,52 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using System.Configuration;
-using System.Diagnostics;
 using System.Data;
-using DAF_BAO;
-using Questionnaire_BE;
 using Questionnaire_BAO;
-using System.IO;
-using System.Collections;
 using Admin_BAO;
 using DatabaseAccessUtilities;
 
 public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBase
 {
-
-    Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
+    //Add External link.
+    Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
     WADIdentity identity;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
         if (!IsPostBack)
         {
             identity = this.Page.User.Identity as WADIdentity;
+            //Fill account details
             fillAccountCode();
+            //
             EditLink();
         }
         //fillAnalysis();
     }
 
+    /// <summary>
+    /// Bind controls
+    /// </summary>
     protected void EditLink()
     {
+        //If query string cotains id 
         if (Request.QueryString["Id"] != null)
         {
-
             ddlAccountCode.Enabled = false;
             ddlProject.Enabled = false;
             ddlCompany.Enabled = false;
             ddlProgrammeName.Enabled = false;
-            
-
 
             CNameValueList lstcname = new CNameValueList();
 
@@ -55,6 +49,7 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
             lstcname.Add("@UniqueID", new Guid(Request.QueryString["Id"].ToString()));
 
             Common_BAO objCommon_BAO = new Common_BAO();
+            //Get Exernal link details
             DataTable dtLink = objCommon_BAO.GetDataTable("Survey_UspExternalLink", lstcname);
 
             int AccountId = Convert.ToInt32(dtLink.Rows[0]["AccountID"]);
@@ -63,44 +58,43 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
             int ProgrammeId = Convert.ToInt32(dtLink.Rows[0]["ProgrammeId"]);
             int EmailTemplateId = Convert.ToInt32(dtLink.Rows[0]["EmailTemplateId"]);
 
-            if (ddlAccountCode.Items.FindByValue(AccountId.ToString())!=null)
+            if (ddlAccountCode.Items.FindByValue(AccountId.ToString()) != null)
             {
                 ddlAccountCode.SelectedIndex = -1;
-                ddlAccountCode.Items.FindByValue(AccountId.ToString()).Selected = true;
+                ddlAccountCode.Items.FindByValue(AccountId.ToString()).Selected = true;//Select account dropdown
 
                 fillProject(ddlAccountCode.SelectedValue);
                 fillEmailTemplate(ddlAccountCode.SelectedValue);
                 ddlProject.SelectedIndex = -1;
+
                 if (ddlEmailTemplate.Items.FindByValue(EmailTemplateId.ToString()) != null)
                 {
                     ddlEmailTemplate.SelectedIndex = -1;
-                    ddlEmailTemplate.Items.FindByValue(EmailTemplateId.ToString()).Selected = true;
+                    ddlEmailTemplate.Items.FindByValue(EmailTemplateId.ToString()).Selected = true;//Select template dropdown
                 }
-
 
                 if (ddlProject.Items.FindByValue(ProjecId.ToString()) != null)
                 {
                     ddlProject.SelectedIndex = -1;
-                    ddlProject.Items.FindByValue(ProjecId.ToString()).Selected = true;
+                    ddlProject.Items.FindByValue(ProjecId.ToString()).Selected = true;//Select project dropdown
                     fillCompany();
 
                     if (ddlCompany.Items.FindByValue(CompanyId.ToString()) != null)
                     {
                         ddlCompany.SelectedIndex = -1;
-                        ddlCompany.Items.FindByValue(CompanyId.ToString()).Selected = true;
+                        ddlCompany.Items.FindByValue(CompanyId.ToString()).Selected = true;//Select company dropdown
                         fillProgramme();
 
                         if (ddlProgrammeName.Items.FindByValue(ProgrammeId.ToString()) != null)
                         {
                             ddlProgrammeName.SelectedIndex = -1;
-                            ddlProgrammeName.Items.FindByValue(ProgrammeId.ToString()).Selected = true;
+                            ddlProgrammeName.Items.FindByValue(ProgrammeId.ToString()).Selected = true;//Select program dropdown
                         }
                     }
-
                 }
 
                 txtInstructions.Text = Convert.ToString(dtLink.Rows[0]["Instructions"]);
-                txtExternalLink.Text =  Convert.ToString(dtLink.Rows[0]["ExternalLink"]);
+                txtExternalLink.Text = Convert.ToString(dtLink.Rows[0]["ExternalLink"]);
 
                 string EmailTo = Convert.ToString(dtLink.Rows[0]["EmailTo"]);
 
@@ -117,14 +111,19 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
                     }
                 }
 
+                //Check or uncheck send email after complition checkbox
                 chkSendEmailAfterCompletion.Checked = Convert.ToBoolean(dtLink.Rows[0]["SendEmailOnCompletion"]) == true ? true : false;
+                //Check or uncheck send Send Report Participant checkbox
                 chkSendReportParticipant.Checked = Convert.ToBoolean(dtLink.Rows[0]["SendReportToParticipant"]) == true ? true : false;
-                
             }
-
         }
     }
 
+    /// <summary>
+    /// Save controls value to database.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -132,7 +131,7 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
             Guid uniqueId = new Guid();
             uniqueId = Guid.NewGuid();
             CNameValueList lstcname = new CNameValueList();
-           
+
             if (Request.QueryString["Id"] == null)
             {
                 lstcname.Add("@Operation", "ADDEXLINK");
@@ -145,6 +144,8 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
                 lstcname.Add("@UniqueID", new Guid(Request.QueryString["Id"].ToString()));
                 txtExternalLink.Text = Convert.ToString(ConfigurationManager.AppSettings["ExternalLinkURL"]) + "/Survey_Module/Register.aspx?LinkId=" + Request.QueryString["Id"].ToString();
             }
+
+            //Set Properties value
             lstcname.Add("@AccountID", Convert.ToInt32(ddlAccountCode.SelectedValue));
             lstcname.Add("@CompanyID", Convert.ToInt32(ddlCompany.SelectedValue));
             lstcname.Add("@ProgrammeID", Convert.ToInt32(ddlProgrammeName.SelectedValue));
@@ -155,13 +156,14 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
             lstcname.Add("@ExternalLink", txtExternalLink.Text);
             lstcname.Add("@CustomEmail", txtCustomEmail.Text);
             lstcname.Add("@IsActive", true);
-            
+
             lstcname.Add("@SendEmailOnCompletion", chkSendEmailAfterCompletion.Checked ? true : false);
             lstcname.Add("@Instructions", txtInstructions.Text);
             lstcname.Add("@SendReportToParticipant", chkSendReportParticipant.Checked ? true : false);
-            
-            Common_BAO objCommon_BAO = new Common_BAO();
-            objCommon_BAO.InsertAndUpdate("Survey_UspExternalLink", lstcname);
+
+            Common_BAO objCommonBusinessAccessObject = new Common_BAO();
+            //Insert update database.
+            objCommonBusinessAccessObject.InsertAndUpdate("Survey_UspExternalLink", lstcname);
             //if (chkSendEmailAfterCompletion.Checked)
             //{ 
             if (Request.QueryString["Id"] == null)
@@ -183,7 +185,11 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
         }
     }
 
-
+    /// <summary>
+    /// Redirect to previous page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbcancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -196,29 +202,52 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
         }
     }
 
+    /// <summary>
+    /// Bind project and tempalte dropdown
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillProject(ddlAccountCode.SelectedValue);
         fillEmailTemplate(ddlAccountCode.SelectedValue);
     }
 
+    /// <summary>
+    /// Bind company dropdown
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillCompany();
     }
 
+    /// <summary>
+    /// Bind program dropdown
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlCompany_SelectedIndexChanged(object sender, EventArgs e)
     {
         fillProgramme();
     }
 
+    /// <summary>
+    /// It is of no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgrammeName_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }
 
-
-
+    /// <summary>
+    /// It's of no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
 
@@ -230,97 +259,117 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
 
     }
 
+    /// <summary>
+    /// Bind company dropdown by dynamic query.
+    /// </summary>
     private void fillCompany()
     {
-        Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-        var dt = company_BAO.GetdtCompanyList(GetCondition());
+        Survey_Company_BAO companyBusinessAccessObject = new Survey_Company_BAO();
+        var dataTableCompany = companyBusinessAccessObject.GetdtCompanyList(GetCondition());
         // ddlCompany.Items.Clear();
         ddlCompany.Items.Clear();
         ddlCompany.Items.Insert(0, new ListItem("Select", "0"));
-        ddlCompany.DataSource = dt;
+        ddlCompany.DataSource = dataTableCompany;
         ddlCompany.DataValueField = "CompanyID";
         ddlCompany.DataTextField = "Title";
         ddlCompany.DataBind();
     }
 
-
+    /// <summary>
+    /// Bind account drop down and template dropdown
+    /// </summary>
     private void fillAccountCode()
     {
-        Account_BAO account_BAO = new Account_BAO();
-        ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+        Account_BAO accountBusinessAccessObject = new Account_BAO();
+        //Get all account list by user account id  Bind account drop down.
+        ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
         ddlAccountCode.DataValueField = "AccountID";
         ddlAccountCode.DataTextField = "Code";
         ddlAccountCode.DataBind();
         ddlAccountCode.SelectedIndex = 0;
+        //Fill template dropdownlist.
         fillEmailTemplate(ddlAccountCode.SelectedValue);
-
     }
 
+    /// <summary>
+    /// Bind project drop down by account id.
+    /// </summary>
     private void fillProject(string accountId)
     {
-        Survey_Project_BAO project_BAO = new Survey_Project_BAO();
+        Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
 
         ddlProject.Items.Clear();
         ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
-        ddlProject.DataSource = project_BAO.GetdtProjectList(accountId);
+        ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(accountId);
         ddlProject.DataValueField = "ProjectID";
         ddlProject.DataTextField = "Title";
         ddlProject.DataBind();
-
     }
 
-
+    /// <summary>
+    /// Bind program drop down by account id.
+    /// </summary>
     private void fillProgramme()
     {
-        Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
+        Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
 
         string accountId = GetConditionProgramme();
 
         ddlProgrammeName.Items.Clear();
         ddlProgrammeName.Items.Insert(0, new ListItem("Select", "0"));
 
-        ddlProgrammeName.DataSource = programme_BAO.GetdtProgrammeListNew(accountId);
+        ddlProgrammeName.DataSource = programmeBusinessAccessObject.GetdtProgrammeListNew(accountId);
         ddlProgrammeName.DataValueField = "ProgrammeID";
         ddlProgrammeName.DataTextField = "ProgrammeName";
         ddlProgrammeName.DataBind();
     }
 
+    /// <summary>
+    /// Bind template drop down in an account
+    /// </summary>
     private void fillEmailTemplate(string accountId)
     {
-        Survey_EmailTemplate_BAO emailTemplate_BAO = new Survey_EmailTemplate_BAO();
-        DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(accountId);
+        Survey_EmailTemplate_BAO emailTemplateBusinessAccessObject = new Survey_EmailTemplate_BAO();
+        DataTable dataTableEmailTemplate = emailTemplateBusinessAccessObject.GetdtEmailTemplateList(accountId);
 
-        ddlEmailTemplate.DataSource = dtEmailTemplate;
+        ddlEmailTemplate.DataSource = dataTableEmailTemplate;
         ddlEmailTemplate.DataValueField = "EmailTemplateID";
         ddlEmailTemplate.DataTextField = "Title";
         ddlEmailTemplate.DataBind();
-
     }
 
+    /// <summary>
+    /// Generate dynamic query.
+    /// </summary>
+    /// <returns></returns>
     public string GetConditionProgramme()
     {
-        string str = "";
+        string stringQuery = "";
 
         if (int.Parse(ddlAccountCode.SelectedValue) > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
         else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
         if (ddlProject.SelectedIndex > 0)
-            str = str + "[Survey_Project].[ProjectID] = " + ddlProject.SelectedValue + " and ";
+            stringQuery = stringQuery + "[Survey_Project].[ProjectID] = " + ddlProject.SelectedValue + " and ";
 
         if (ddlCompany.SelectedIndex > 0)
-            str = str + "Survey_Analysis_Sheet.[CompanyID] = " + ddlCompany.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Analysis_Sheet.[CompanyID] = " + ddlCompany.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    /// Generate dynamic query.
+    /// </summary>
+    /// <returns></returns>
     public string GetCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         //if (Convert.ToInt32(ViewState["AccountID"]) > 0)
         //    str = str + "" + ViewState["AccountID"] + " and ";
@@ -328,12 +377,12 @@ public partial class Survey_Module_Questionnaire_AddExternalLink : CodeBehindBas
         //    str = str + "" + identity.User.AccountID.ToString() + " and ";
 
         if (int.Parse(ddlAccountCode.SelectedValue) > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
 
         if (ddlProject.SelectedIndex > 0)
-            str = str + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }

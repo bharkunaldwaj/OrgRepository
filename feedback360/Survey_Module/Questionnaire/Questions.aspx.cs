@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using System.Diagnostics;
-using DAF_BAO;
 using System.Data;
 using Questionnaire_BE;
 using Questionnaire_BAO;
@@ -14,35 +10,34 @@ using Admin_BAO;
 
 public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
 {
-    Survey_Questions_BAO questions_BAO = new Survey_Questions_BAO();
-    Survey_Questions_BE questions_BE = new Survey_Questions_BE();
-    Survey_Category_BAO category_BAO = new Survey_Category_BAO();
-    List<Survey_Questions_BE> questions_BEList = new List<Survey_Questions_BE>();
+    //Global variables
+    Survey_Questions_BAO questionsBusinessAccessObject = new Survey_Questions_BAO();
+    //Survey_Questions_BE questionsBusinesEntity = new Survey_Questions_BE();
+    Survey_Category_BAO categoryBusinessAccessObject = new Survey_Category_BAO();
+    List<Survey_Questions_BE> questionsBusinesEntityList = new List<Survey_Questions_BE>();
 
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
+    DataTable dataTableCompanyName;
+    //DataTable dataTableAllAccount;
     string expression1;
     string Finalexpression;
     WADIdentity identity;
     static string testing;
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
         {
-            DataTable getrange = questions_BAO.getrange_data();
-            DropDownList1.DataSource = getrange;
+            DataTable dataTableRange = questionsBusinessAccessObject.getrange_data();
+            DropDownList1.DataSource = dataTableRange;
             DropDownList1.DataTextField = "Range_Name";
 
             DropDownList1.DataBind();
             DropDownList1.Items.Insert(0, new ListItem("Select", "0"));
-            
         }
         try
         {
-           Label llx = (Label)this.Master.FindControl("Current_location");
-            llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             //HandleWriteLog("Start", new StackTrace(true));
             if (!IsPostBack)
             {
@@ -54,25 +49,26 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
                 //ddlQuestionCategory.DataValueField = "CategoryID";
                 //ddlQuestionCategory.DataBind();
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                //Bind Account drop down
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
 
-
-                Questionnaire_BAO.Survey_Questionnaire_BAO questionnnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
-                ddlQuestionnaire.DataSource = questionnnaire_BAO.GetdtQuestionnaireList(identity.User.AccountID.ToString());
+                //Bind Questionnaire drop down
+                Survey_Questionnaire_BAO questionnnaireBusinessAccessObject = new Survey_Questionnaire_BAO();
+                ddlQuestionnaire.DataSource = questionnnaireBusinessAccessObject.GetdtQuestionnaireList(identity.User.AccountID.ToString());
                 ddlQuestionnaire.DataTextField = "QSTNName";
                 ddlQuestionnaire.DataValueField = "QuestionnaireID";
                 ddlQuestionnaire.DataBind();
 
                 int questionsID = Convert.ToInt32(Request.QueryString["quesId"]);
-                questions_BEList = questions_BAO.GetQuestionsByID(questionsID);
+                questionsBusinesEntityList = questionsBusinessAccessObject.GetQuestionsByID(questionsID);
 
-                if (questions_BEList.Count > 0)
+                if (questionsBusinesEntityList.Count > 0)
                 {
-                    SetQuestionsValue(questions_BEList);
+                    SetQuestionsValue(questionsBusinesEntityList);
 
                     ddlAccountCode.SelectedValue = ddlAccountCode.SelectedValue;
                     ddlAccountCode_SelectedIndexChanged(sender, e);
@@ -97,7 +93,7 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
                         DropDownList1.Visible = false;
                     }
                 }
-
+                //If Query String Mode ='E' then Edit else View
                 if (Request.QueryString["Mode"] == "E")
                 {
                     ibtnSave.Visible = true;
@@ -112,12 +108,11 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
                     imbBack.Visible = true;
                     lblheader.Text = "View Question";
                 }
-
-
-
+                //If users group id=1 then Admin then show account drop down else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
+
                     if (Request.QueryString["Mode"] == null)
                     {
                         ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
@@ -137,6 +132,10 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind Questionnaire and QuestionCategory drop down and other controls
+    /// </summary>
+    /// <param name="questions_BEList"></param>
     private void SetQuestionsValue(List<Survey_Questions_BE> questions_BEList)
     {
         try
@@ -148,38 +147,37 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
             {
                 ddlAccountCode.SelectedValue = questions_BEList[0].AccountID.ToString();
 
-
                 if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
                 {
-
                     int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
-                    Account_BAO account1_BAO = new Account_BAO();
+                    Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-                    dtCompanyName = account1_BAO.GetdtAccountList(Convert.ToString(companycode));
+                    dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
 
                     expression1 = "AccountID='" + companycode + "'";
 
                     Finalexpression = expression1;
 
-                    DataRow[] resultsAccount = dtCompanyName.Select(Finalexpression);
+                    DataRow[] resultsAccount = dataTableCompanyName.Select(Finalexpression);
 
-                    DataTable dtAccount = dtCompanyName.Clone();
+                    DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-                    foreach (DataRow drAccount in resultsAccount)
+                    foreach (DataRow dataRowAccount in resultsAccount)
                     {
-                        dtAccount.ImportRow(drAccount);
+                        dataTableAccount.ImportRow(dataRowAccount);
                     }
+                    //set company name
+                    lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
-                    lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                    Survey_Questionnaire_BAO questionnnaireBusinessAccessObject = new Survey_Questionnaire_BAO();
+                    DataTable dataTableResult = new DataTable();
 
-                    Questionnaire_BAO.Survey_Questionnaire_BAO questionnnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
-                    DataTable dtResult = new DataTable();
-                    dtResult = questionnnaire_BAO.GetdtQuestionnaireList(ddlAccountCode.SelectedValue);
+                    dataTableResult = questionnnaireBusinessAccessObject.GetdtQuestionnaireList(ddlAccountCode.SelectedValue);
 
-                    if (dtResult.Rows.Count > 0)
+                    if (dataTableResult.Rows.Count > 0)
                     {
-                        ddlQuestionnaire.DataSource = dtResult;
+                        ddlQuestionnaire.DataSource = dataTableResult;
                         ddlQuestionnaire.DataTextField = "QSTNName";
                         ddlQuestionnaire.DataValueField = "QuestionnaireID";
                         ddlQuestionnaire.DataBind();
@@ -189,10 +187,7 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
                 {
                     lblcompanyname.Text = "";
                 }
-
-
             }
-
 
             ddlQuestionType.SelectedValue = questions_BEList[0].QuestionTypeID.ToString();
             ddlQuestionnaire.SelectedValue = questions_BEList[0].QuestionnaireID.ToString();
@@ -203,9 +198,9 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
             DataTable categoryid = new DataTable();
 
             if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
-                categoryid = category_BAO.SelectCategory(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlQuestionnaire.SelectedValue));
+                categoryid = categoryBusinessAccessObject.SelectCategory(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlQuestionnaire.SelectedValue));
             else
-                categoryid = category_BAO.SelectCategory(Convert.ToInt32(identity.User.AccountID), Convert.ToInt32(ddlQuestionnaire.SelectedValue));
+                categoryid = categoryBusinessAccessObject.SelectCategory(Convert.ToInt32(identity.User.AccountID), Convert.ToInt32(ddlQuestionnaire.SelectedValue));
 
             if (categoryid.Rows.Count > 0)
             {
@@ -260,9 +255,13 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         {
             HandleException(ex);
         }
-
     }
 
+    /// <summary>
+    /// Save questions
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnSave_Click(object sender, ImageClickEventArgs e)
     {
         if (Page.IsValid)
@@ -276,49 +275,49 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
             //{
 
             //}
-            Survey_Questions_BE questions_BE = new Survey_Questions_BE();
-            Survey_Questions_BAO questions_BAO = new Survey_Questions_BAO();
+            Survey_Questions_BE questionsBusinesEntity = new Survey_Questions_BE();
+            Survey_Questions_BAO questionsBusinessAccessObject = new Survey_Questions_BAO();
 
             identity = this.Page.User.Identity as WADIdentity;
 
             if (identity.User.GroupID == 1)
             {
 
-                questions_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+                questionsBusinesEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
             }
             else
             {
-                questions_BE.AccountID = identity.User.AccountID;
+                questionsBusinesEntity.AccountID = identity.User.AccountID;
             }
 
             if (identity.User.GroupID == 1)
             {
 
-                questions_BE.CompanyID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+                questionsBusinesEntity.CompanyID = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
             }
             else
             {
-                questions_BE.CompanyID = identity.User.AccountID;
+                questionsBusinesEntity.CompanyID = identity.User.AccountID;
             }
 
-            questions_BE.QuestionTypeID = Convert.ToInt32(ddlQuestionType.SelectedValue);
-            questions_BE.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
-            questions_BE.CateogryID = Convert.ToInt32(ddlQuestionCategory.SelectedValue);
-           questions_BE.Sequence = Convert.ToInt32(GetString(txtSequence.Text));
-            questions_BE.Validation = Convert.ToInt32(ddlValidation.SelectedValue);
-            questions_BE.ValidationText = ddlValidation.SelectedItem.Text;
-            questions_BE.Title = ""; //txtTitle.Text;
-            questions_BE.Token = Convert.ToInt32(ddlTokens.SelectedValue);
-            questions_BE.TokenText = ddlTokens.SelectedItem.Text;
-            questions_BE.Description = txtQuestionText.Text;
+            questionsBusinesEntity.QuestionTypeID = Convert.ToInt32(ddlQuestionType.SelectedValue);
+            questionsBusinesEntity.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
+            questionsBusinesEntity.CateogryID = Convert.ToInt32(ddlQuestionCategory.SelectedValue);
+           questionsBusinesEntity.Sequence = Convert.ToInt32(GetString(txtSequence.Text));
+            questionsBusinesEntity.Validation = Convert.ToInt32(ddlValidation.SelectedValue);
+            questionsBusinesEntity.ValidationText = ddlValidation.SelectedItem.Text;
+            questionsBusinesEntity.Title = ""; //txtTitle.Text;
+            questionsBusinesEntity.Token = Convert.ToInt32(ddlTokens.SelectedValue);
+            questionsBusinesEntity.TokenText = ddlTokens.SelectedItem.Text;
+            questionsBusinesEntity.Description = txtQuestionText.Text;
            // questions_BE.DescriptionSelf = txtQuestionSelfText.Text;
-            questions_BE.Hint = txtUsageHint.Text;
+            questionsBusinesEntity.Hint = txtUsageHint.Text;
 
-            questions_BE.LengthMIN = (txtMinLength.Text == "" ? 0 : Convert.ToInt32(txtMinLength.Text));
-            questions_BE.LengthMAX = (txtMaxLength.Text == "" ? 0 : Convert.ToInt32(txtMaxLength.Text));
-            questions_BE.Multiline = chkmultiline.Checked;
+            questionsBusinesEntity.LengthMIN = (txtMinLength.Text == "" ? 0 : Convert.ToInt32(txtMinLength.Text));
+            questionsBusinesEntity.LengthMAX = (txtMaxLength.Text == "" ? 0 : Convert.ToInt32(txtMaxLength.Text));
+            questionsBusinesEntity.Multiline = chkmultiline.Checked;
 
             ////////questions_BE.LowerLabel = txtLowerLabel.Text;
             ////////questions_BE.UpperLabel = txtUpperLabel.Text;
@@ -327,23 +326,22 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
             ////////questions_BE.Increment = (txtIncrement.Text == "" ? 0 : Convert.ToInt32(txtIncrement.Text));
             ////////questions_BE.Reverse = chkReverse.Checked;
 
-            questions_BE.ModifyBy = 1;
-            questions_BE.ModifyDate = DateTime.Now;
-            questions_BE.IsActive = 1;
-            questions_BE.Range_Name = DropDownList1.SelectedValue.ToString();
+            questionsBusinesEntity.ModifyBy = 1;
+            questionsBusinesEntity.ModifyDate = DateTime.Now;
+            questionsBusinesEntity.IsActive = 1;
+            questionsBusinesEntity.Range_Name = DropDownList1.SelectedValue.ToString();
+
+                //If query string contains "E" then update else insert.
             if (Request.QueryString["Mode"] == "E")
             {
-                questions_BE.QuestionID = Convert.ToInt32(Request.QueryString["quesId"]);
+                questionsBusinesEntity.QuestionID = Convert.ToInt32(Request.QueryString["quesId"]);
                 
-                questions_BAO.UpdateQuestions(questions_BE);
+                questionsBusinessAccessObject.UpdateQuestions(questionsBusinesEntity);
             }
             else
             {
-                questions_BAO.AddQuestions(questions_BE);
+                questionsBusinessAccessObject.AddQuestions(questionsBusinesEntity);
             }
-
-
-
 
             ddlQuestionType.SelectedValue = "0";
             ddlQuestionCategory.SelectedValue = "0";
@@ -364,33 +362,38 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
        }
     }
 
+    /// <summary>
+    /// Redirect to QuestionList
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnCancel_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             Response.Redirect("QuestionList.aspx", false);
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
     }
+
+    /// <summary>
+    /// Hide show control according to question type.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlQuestionType_SelectedIndexChanged(object sender, EventArgs e)
     {
-
-            if (ddlQuestionType.SelectedIndex == 0)
+        if (ddlQuestionType.SelectedIndex == 0)
         {
             divFreeText.Visible = false;
             DropDownList1.Visible = false;
-            RequiredFieldValidator1.Enabled =false;
+            RequiredFieldValidator1.Enabled = false;
             //Lbtn_select_range.Visible = false;
             //Panel1.Visible = false;
         }
-
         else if (ddlQuestionType.SelectedIndex == 1)
         {
             divFreeText.Visible = true;
@@ -402,7 +405,7 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         else if (ddlQuestionType.SelectedIndex == 2)
         {
             divFreeText.Visible = false;
-            
+
             //DropDownList1.Items.IndexOf(new ListItem("-Select One-"),0);
             DropDownList1.Visible = true;
             RequiredFieldValidator1.Enabled = true;
@@ -410,23 +413,29 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind Questionnaire
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Questionnaire_BAO.Survey_Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Survey_Questionnaire_BAO();
+        Survey_Questionnaire_BAO questionnaire_BAO = new Survey_Questionnaire_BAO();
         ddlQuestionnaire.Items.Clear();
         ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
@@ -444,6 +453,11 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind Question Category
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlQuestionnaire_SelectedIndexChanged(object sender, EventArgs e)
     {
         int questionnaireid = 0;
@@ -453,7 +467,7 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         ddlQuestionCategory.Items.Insert(0, new ListItem("Select", "0"));
         questionnaireid = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
 
-        DataTable categoryid = category_BAO.SelectCategory(Convert.ToInt32(identity.User.AccountID), questionnaireid);
+        DataTable categoryid = categoryBusinessAccessObject.SelectCategory(Convert.ToInt32(identity.User.AccountID), questionnaireid);
 
         if (categoryid.Rows.Count > 0)
         {
@@ -462,8 +476,6 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
             ddlQuestionCategory.DataValueField = "CategoryID";
             ddlQuestionCategory.DataBind();
         }
-
-
     }
 
     public void Get_selected_Range(object sender, EventArgs e)
@@ -472,8 +484,8 @@ public partial class Survey_Module_Questionnaire_Questions : CodeBehindBase
         //int ii=grdvRange.SelectedRow.RowIndex;
         //GridViewRow row = grdvRange.SelectedRow;
         //Lbtn_select_range.Text = row.Cells[0].Text.ToString();
-
     }
+
     //protected void grdvRange_SelectedIndexChanging(object sender, GridViewSelectEventArgs e)
 
     //{

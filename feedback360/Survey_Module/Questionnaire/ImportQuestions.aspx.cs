@@ -24,7 +24,7 @@ using Admin_BAO;
 
 public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBase
 {
-
+    //Global variable
     int i;
     string SqlType = string.Empty;
     string filePath = string.Empty;
@@ -50,86 +50,89 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+
         if (!IsPostBack)
         {
-
             lblMessage.Text = "";
-           }
+        }
     }
 
+    /// <summary>
+    /// Import question details
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ImgUpload_click(object sender, ImageClickEventArgs e)
     {
         try
         {
             string constr = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"].ToString();
             SqlConnection scon = new SqlConnection(constr);
-
+            //if control has file
             if (FileUpload1.HasFile)
             {
+                //check if uploaded file is valid or not
                 if (this.IsFileValid(this.FileUpload1))
                 {
-
                     string filename = "";
                     string file = "";
 
                     //filename = FileUpload1.FileName;
-                    filename = System.IO.Path.GetFileName(FileUpload1.PostedFile.FileName);
-                    file = GetUniqueFilename(filename);
-                    Session["FinalName"] = file;
-
+                    filename = System.IO.Path.GetFileName(FileUpload1.PostedFile.FileName);//Get the file name.
+                    file = GetUniqueFilename(filename);//Get file unique name.
+                    Session["FinalName"] = file;//save file name in session.
+                    //set file path
                     filename = Server.MapPath("~") + "\\UploadDocs\\" + file;
-                    FileUpload1.SaveAs(filename);
+                    FileUpload1.SaveAs(filename);//save file to location.
 
                     //filename = FileUpload1.PostedFile.FileName;  
-                    
-                    DataTable dtProspective = new DataTable();
-                    dtProspective = ReturnExcelDataTableMot(filename);
+                    DataTable dataTableProspective = new DataTable();
+                    dataTableProspective = ReturnExcelDataTableMot(filename);//Read excel and convert it to datatable
 
-                    if (dtProspective != null && dtProspective.Rows.Count > 0)
+                    if (dataTableProspective != null && dataTableProspective.Rows.Count > 0)
                     {
-
+                        //Bulk insert value to database.
                         SqlBulkCopyOptions options = SqlBulkCopyOptions.KeepIdentity;
-                        SqlBulkCopy bcp = new SqlBulkCopy(scon, options, null);
+                        SqlBulkCopy bulkCopy = new SqlBulkCopy(scon, options, null);
 
-                        bcp.DestinationTableName = "[Survey_Question]";
-                        
-                        bcp.ColumnMappings.Add("AccountID", "AccountID");
-                        bcp.ColumnMappings.Add("CompanyID", "CompanyID");
-                        bcp.ColumnMappings.Add("QuestionnaireName", "QuestionnaireID");
-                        bcp.ColumnMappings.Add("QuestionType", "QuestionTypeID");
-                        bcp.ColumnMappings.Add("CategoryName", "CateogryID");
-                        bcp.ColumnMappings.Add("Sequence", "Sequence");
-                        bcp.ColumnMappings.Add("ValidationText", "ValidationText");
-                        bcp.ColumnMappings.Add("Validation", "Validation");
-                        bcp.ColumnMappings.Add("Title", "Title");
-                        bcp.ColumnMappings.Add("QuestionText", "Description");
-                       // bcp.ColumnMappings.Add("QuestionTextSelf", "DescriptionSelf");
-                        bcp.ColumnMappings.Add("QuestionHint", "Hint");
-                        bcp.ColumnMappings.Add("TokenText", "TokenText");
-                        bcp.ColumnMappings.Add("Token", "Token");
-                        bcp.ColumnMappings.Add("LengthMIN", "LengthMIN");
-                        bcp.ColumnMappings.Add("LengthMAX", "LengthMAX");
-                        bcp.ColumnMappings.Add("Multiline", "Multiline");
-                       // bcp.ColumnMappings.Add("LowerLabel", "LowerLabel");
+                        bulkCopy.DestinationTableName = "[Survey_Question]";
+
+                        bulkCopy.ColumnMappings.Add("AccountID", "AccountID");
+                        bulkCopy.ColumnMappings.Add("CompanyID", "CompanyID");
+                        bulkCopy.ColumnMappings.Add("QuestionnaireName", "QuestionnaireID");
+                        bulkCopy.ColumnMappings.Add("QuestionType", "QuestionTypeID");
+                        bulkCopy.ColumnMappings.Add("CategoryName", "CateogryID");
+                        bulkCopy.ColumnMappings.Add("Sequence", "Sequence");
+                        bulkCopy.ColumnMappings.Add("ValidationText", "ValidationText");
+                        bulkCopy.ColumnMappings.Add("Validation", "Validation");
+                        bulkCopy.ColumnMappings.Add("Title", "Title");
+                        bulkCopy.ColumnMappings.Add("QuestionText", "Description");
+                        // bcp.ColumnMappings.Add("QuestionTextSelf", "DescriptionSelf");
+                        bulkCopy.ColumnMappings.Add("QuestionHint", "Hint");
+                        bulkCopy.ColumnMappings.Add("TokenText", "TokenText");
+                        bulkCopy.ColumnMappings.Add("Token", "Token");
+                        bulkCopy.ColumnMappings.Add("LengthMIN", "LengthMIN");
+                        bulkCopy.ColumnMappings.Add("LengthMAX", "LengthMAX");
+                        bulkCopy.ColumnMappings.Add("Multiline", "Multiline");
+                        // bcp.ColumnMappings.Add("LowerLabel", "LowerLabel");
                         //bcp.ColumnMappings.Add("UpperLabel", "UpperLabel");
-                       // bcp.ColumnMappings.Add("LowerBound", "LowerBound");
-                      //  bcp.ColumnMappings.Add("UpperBound", "UpperBound");
-                     //   bcp.ColumnMappings.Add("Increment", "Increment");
-                      //  bcp.ColumnMappings.Add("Reverse", "Reverse");
-                        bcp.ColumnMappings.Add("ModifyBy", "ModifyBy");
-                        bcp.ColumnMappings.Add("ModifyDate", "ModifyDate");
-                        bcp.ColumnMappings.Add("IsActive", "IsActive");
-                       bcp.ColumnMappings.Add("Range_Name", "Range_Name");    
+                        // bcp.ColumnMappings.Add("LowerBound", "LowerBound");
+                        //  bcp.ColumnMappings.Add("UpperBound", "UpperBound");
+                        //   bcp.ColumnMappings.Add("Increment", "Increment");
+                        //  bcp.ColumnMappings.Add("Reverse", "Reverse");
+                        bulkCopy.ColumnMappings.Add("ModifyBy", "ModifyBy");
+                        bulkCopy.ColumnMappings.Add("ModifyDate", "ModifyDate");
+                        bulkCopy.ColumnMappings.Add("IsActive", "IsActive");
+                        bulkCopy.ColumnMappings.Add("Range_Name", "Range_Name");
                         scon.Open();
 
                         // write the data in the "dataTable"
-                        bcp.WriteToServer(dtProspective);
+                        bulkCopy.WriteToServer(dataTableProspective);
                         scon.Close();
                         File.Delete(filename);
                         lblMessage.Text = "File Uploaded Successfully";
-                       
                     }
                     else
                     {
@@ -139,7 +142,7 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                 else
                 {
                     lblMessage.Text = "Invalid file type";
-                   // Page.RegisterStartupScript("FileTyp", "<script language='JavaScript'>alert('Invalid file type');</script>");
+                    // Page.RegisterStartupScript("FileTyp", "<script language='JavaScript'>alert('Invalid file type');</script>");
                 }
             }
             else
@@ -153,6 +156,11 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
         }
     }
 
+    /// <summary>
+    /// Check if uploaeded excel is valied in extension and size
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -211,54 +219,58 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
 
                 }
             }
-            
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
 
-       return isFileOk;
+        return isFileOk;
     }
 
+    /// <summary>
+    /// Read excel and Convert excel to datatable
+    /// </summary>
+    /// <param name="FullFileNamePath"></param>
+    /// <returns></returns>
     public DataTable ReturnExcelDataTableMot(string FullFileNamePath)
     {
-        DataTable dtExcel = new DataTable();
+        DataTable dataTableExcel = new DataTable();
         string SheetName = string.Empty;
-     
+
         try
         {
             Microsoft.Office.Interop.Excel.ApplicationClass app = new Microsoft.Office.Interop.Excel.ApplicationClass();
             Microsoft.Office.Interop.Excel.Workbook workBook = app.Workbooks.Open(FullFileNamePath, 0, true, 5, "", "", true, Microsoft.Office.Interop.Excel.XlPlatform.xlWindows, "\t", false, false, 0, true, 1, 0);
             Microsoft.Office.Interop.Excel.Worksheet workSheet = (Microsoft.Office.Interop.Excel.Worksheet)workBook.ActiveSheet;
-
-            dtExcel.Columns.Add("AccountID", typeof(Int32));
-            dtExcel.Columns.Add("CompanyID", typeof(Int32));
-            dtExcel.Columns.Add("QuestionnaireName", typeof(Int32));
-            dtExcel.Columns.Add("QuestionType", typeof(Int32));
-            dtExcel.Columns.Add("CategoryName", typeof(Int32));
-            dtExcel.Columns.Add("Sequence", typeof(Int32));
-            dtExcel.Columns.Add("Validation", typeof(Int32));
-            dtExcel.Columns.Add("ValidationText", typeof(string));
-            dtExcel.Columns.Add("Title", typeof(string));
-            dtExcel.Columns.Add("QuestionText", typeof(string));
-           // dtExcel.Columns.Add("QuestionTextSelf", typeof(string));
-            dtExcel.Columns.Add("QuestionHint", typeof(string));
-            dtExcel.Columns.Add("Token", typeof(Int32));
-            dtExcel.Columns.Add("TokenText", typeof(string));
-            dtExcel.Columns.Add("LengthMIN", typeof(Int32));
-            dtExcel.Columns.Add("LengthMAX", typeof(Int32));
-            dtExcel.Columns.Add("Multiline", typeof(bool));
-           // dtExcel.Columns.Add("LowerLabel", typeof(string));
-           // dtExcel.Columns.Add("UpperLabel", typeof(string));
-           // dtExcel.Columns.Add("LowerBound", typeof(Int32));
-           // dtExcel.Columns.Add("UpperBound", typeof(Int32));
-          //  dtExcel.Columns.Add("Increment", typeof(Int32));
+            //define columns and its type
+            dataTableExcel.Columns.Add("AccountID", typeof(Int32));
+            dataTableExcel.Columns.Add("CompanyID", typeof(Int32));
+            dataTableExcel.Columns.Add("QuestionnaireName", typeof(Int32));
+            dataTableExcel.Columns.Add("QuestionType", typeof(Int32));
+            dataTableExcel.Columns.Add("CategoryName", typeof(Int32));
+            dataTableExcel.Columns.Add("Sequence", typeof(Int32));
+            dataTableExcel.Columns.Add("Validation", typeof(Int32));
+            dataTableExcel.Columns.Add("ValidationText", typeof(string));
+            dataTableExcel.Columns.Add("Title", typeof(string));
+            dataTableExcel.Columns.Add("QuestionText", typeof(string));
+            // dtExcel.Columns.Add("QuestionTextSelf", typeof(string));
+            dataTableExcel.Columns.Add("QuestionHint", typeof(string));
+            dataTableExcel.Columns.Add("Token", typeof(Int32));
+            dataTableExcel.Columns.Add("TokenText", typeof(string));
+            dataTableExcel.Columns.Add("LengthMIN", typeof(Int32));
+            dataTableExcel.Columns.Add("LengthMAX", typeof(Int32));
+            dataTableExcel.Columns.Add("Multiline", typeof(bool));
+            // dtExcel.Columns.Add("LowerLabel", typeof(string));
+            // dtExcel.Columns.Add("UpperLabel", typeof(string));
+            // dtExcel.Columns.Add("LowerBound", typeof(Int32));
+            // dtExcel.Columns.Add("UpperBound", typeof(Int32));
+            //  dtExcel.Columns.Add("Increment", typeof(Int32));
             //dtExcel.Columns.Add("Reverse", typeof(bool));
-            dtExcel.Columns.Add("ModifyBy", typeof(Int32));
-            dtExcel.Columns.Add("ModifyDate", typeof(DateTime));
-            dtExcel.Columns.Add("IsActive", typeof(Int32));
-            dtExcel.Columns.Add("Range_Name", typeof(string)); 
+            dataTableExcel.Columns.Add("ModifyBy", typeof(Int32));
+            dataTableExcel.Columns.Add("ModifyDate", typeof(DateTime));
+            dataTableExcel.Columns.Add("IsActive", typeof(Int32));
+            dataTableExcel.Columns.Add("Range_Name", typeof(string));
             DataRow row;
 
             try
@@ -267,13 +279,13 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                 int questionnaireId = 0;
                 int QuestionTypeId = 0;
                 int CategoryId = 0;
-                string validationType="";
+                string validationType = "";
                 string qstToken = "";
 
-                DataTable dtAllAccount = new DataTable();
-                DataTable dtAllQuestionnaire = new DataTable();
-                DataTable dtAllQuestionType = new DataTable();
-                DataTable dtAllCategory = new DataTable();
+                DataTable dataTableAllAccount = new DataTable();
+                DataTable dataTableAllQuestionnaire = new DataTable();
+                DataTable dataTableAllQuestionType = new DataTable();
+                DataTable dataTableAllCategory = new DataTable();
 
                 //int index = 0;
                 int rowIndex = 2;
@@ -281,42 +293,43 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                 while (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2 != null)
                 {
                     flag = 0;
-                    row = dtExcel.NewRow();
-                    
+                    row = dataTableExcel.NewRow();
+
                     DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
                     //SETTING ACCOUNT 
 
                     object[] param = new object[2] { null, 'A' };
-                    dtAllAccount = cDataSrc.ExecuteDataSet("UspAccountSelect", param, null).Tables[0];
+                    dataTableAllAccount = cDataSrc.ExecuteDataSet("UspAccountSelect", param, null).Tables[0];
 
-                    DataRow[] resultsAccount = dtAllAccount.Select("Code='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2).Trim() + "'");
-                    DataTable dtAccount = dtAllAccount.Clone();
+                    DataRow[] resultsAccount = dataTableAllAccount.Select("Code='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 1]).Value2).Trim() + "'");
+                    DataTable dataTableAccount = dataTableAllAccount.Clone();
 
-                    foreach (DataRow drAccount in resultsAccount)
-                        dtAccount.ImportRow(drAccount);
-                    if (dtAccount.Rows[0]["AccountID"] != null)
+                    foreach (DataRow dataRowAccount in resultsAccount)
+                        dataTableAccount.ImportRow(dataRowAccount);
+
+                    if (dataTableAccount.Rows[0]["AccountID"] != null)
                     {
-                        accountId = Convert.ToInt32(dtAccount.Rows[0]["AccountID"]);
+                        accountId = Convert.ToInt32(dataTableAccount.Rows[0]["AccountID"]);
                         row["CompanyID"] = accountId;
                         row["AccountID"] = accountId;
                     }
                     else
                         flag = 1;
                     //SETTING QUESTIONNAIRE                 
-                    
+
                     object[] paramQuestionnaire = new object[3] { null, accountId, "A" };
-                    dtAllQuestionnaire = cDataSrc.ExecuteDataSet("Survey_UspQuestionnaireSelect", paramQuestionnaire, null).Tables[0];
+                    dataTableAllQuestionnaire = cDataSrc.ExecuteDataSet("Survey_UspQuestionnaireSelect", paramQuestionnaire, null).Tables[0];
 
-                    DataRow[] resultsQuestionnaire = dtAllQuestionnaire.Select("QSTNName='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2).Trim() + "'");
-                    DataTable dtQuestionnaire = dtAllQuestionnaire.Clone();
+                    DataRow[] resultsQuestionnaire = dataTableAllQuestionnaire.Select("QSTNName='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 2]).Value2).Trim() + "'");
+                    DataTable dataTableQuestionnaire = dataTableAllQuestionnaire.Clone();
 
-                    foreach (DataRow drQuestionnaire in resultsQuestionnaire)
-                        dtQuestionnaire.ImportRow(drQuestionnaire);
+                    foreach (DataRow dataRowQuestionnaire in resultsQuestionnaire)
+                        dataTableQuestionnaire.ImportRow(dataRowQuestionnaire);
 
-                    if (dtQuestionnaire.Rows[0]["QuestionnaireID"] != null)
+                    if (dataTableQuestionnaire.Rows[0]["QuestionnaireID"] != null)
                     {
-                        questionnaireId = Convert.ToInt32(dtQuestionnaire.Rows[0]["QuestionnaireID"]);
+                        questionnaireId = Convert.ToInt32(dataTableQuestionnaire.Rows[0]["QuestionnaireID"]);
                         row["QuestionnaireName"] = questionnaireId;
                     }
                     else
@@ -325,44 +338,45 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                     //SETTING QUESTIONTYPE 
 
                     object[] paramQuestionType = new object[2] { null, 'A' };
-                    dtAllQuestionType = cDataSrc.ExecuteDataSet("Survey_UspQuestionTypeSelect", paramQuestionType, null).Tables[0];
+                    dataTableAllQuestionType = cDataSrc.ExecuteDataSet("Survey_UspQuestionTypeSelect", paramQuestionType, null).Tables[0];
 
-                    DataRow[] resultsQuestionType = dtAllQuestionType.Select("Name='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 3]).Value2).Trim() + "'");
-                    DataTable dtQuestionType = dtAllQuestionType.Clone();
+                    DataRow[] resultsQuestionType = dataTableAllQuestionType.Select("Name='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 3]).Value2).Trim() + "'");
+                    DataTable dataTableQuestionType = dataTableAllQuestionType.Clone();
 
                     foreach (DataRow drQuestionType in resultsQuestionType)
-                        dtQuestionType.ImportRow(drQuestionType);
+                        dataTableQuestionType.ImportRow(drQuestionType);
 
-                    if(dtQuestionType.Rows[0]["QuestionTypeID"]!=null)
+                    if (dataTableQuestionType.Rows[0]["QuestionTypeID"] != null)
                     {
-                    QuestionTypeId = Convert.ToInt32(dtQuestionType.Rows[0]["QuestionTypeID"]);
-                    row["QuestionType"] = QuestionTypeId;
+                        QuestionTypeId = Convert.ToInt32(dataTableQuestionType.Rows[0]["QuestionTypeID"]);
+                        row["QuestionType"] = QuestionTypeId;
                     }
                     else
                         flag = 1;
 
 
                     //SETTING QUESTION CATEGORY 
-                    
+
                     object[] paramCategory = new object[2] { questionnaireId, 'S' };
-                    dtAllCategory = cDataSrc.ExecuteDataSet("Survey_UspFeedbackQuestionSelect", paramCategory, null).Tables[0];
+                    dataTableAllCategory = cDataSrc.ExecuteDataSet("Survey_UspFeedbackQuestionSelect", paramCategory, null).Tables[0];
 
-                    DataRow[] resultsCategory = dtAllCategory.Select("CategoryName='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 4]).Value2).Trim() + "'");
-                    DataTable dtCategory = dtAllCategory.Clone();
+                    DataRow[] resultsCategory = dataTableAllCategory.Select("CategoryName='" + Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 4]).Value2).Trim() + "'");
+                    DataTable dataTableCategory = dataTableAllCategory.Clone();
 
-                    foreach (DataRow drCategory in resultsCategory)
-                        dtCategory.ImportRow(drCategory);
-                    if (dtCategory.Rows[0]["CategoryID"] != null)
+                    foreach (DataRow dataRowCategory in resultsCategory)
+                        dataTableCategory.ImportRow(dataRowCategory);
+
+                    if (dataTableCategory.Rows[0]["CategoryID"] != null)
                     {
-                        CategoryId = Convert.ToInt32(dtCategory.Rows[0]["CategoryID"]);
+                        CategoryId = Convert.ToInt32(dataTableCategory.Rows[0]["CategoryID"]);
                         row["CategoryName"] = CategoryId;
                     }
                     else
                         flag = 1;
 
                     //SETTING QUESTION SEQUENCE 
-                    if(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2 !=null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2!="")
-                    row["Sequence"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2);
+                    if (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2 != null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2 != "")
+                        row["Sequence"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 5]).Value2);
 
 
                     //SETTING QUESTION VALIDATION TYPE 
@@ -379,7 +393,7 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                     }
                     else
                         flag = 1;
-                    
+
                     //SETTING QUESTION VALIDATION TEXT 
                     row["ValidationText"] = validationType;
 
@@ -387,14 +401,13 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                     row["Title"] = "";
 
                     //SETTING QUESTION TEXT 
-                    if (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2 != null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2!="")
-                    row["QuestionText"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2);
+                    if (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2 != null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2 != "")
+                        row["QuestionText"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 7]).Value2);
                     else
                         flag = 1;
 
-
                     //SETTING QUESTION TEXT SELF 
-            //        row["QuestionTextSelf"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 8]).Value2);
+                    //        row["QuestionTextSelf"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 8]).Value2);
 
 
                     //SETTING QUESTION TEXT HINT 
@@ -409,7 +422,7 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                         row["Token"] = 2;
                     else if (qstToken == "First Name & Last Name")
                         row["Token"] = 3;
-                    else if(qstToken == "" || qstToken == null)
+                    else if (qstToken == "" || qstToken == null)
                         row["Token"] = 4;
 
                     //SETTING QUESTION TOKEN TEXT 
@@ -423,26 +436,26 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
 
                     //SETTING MULTILINE 
                     row["Multiline"] = Convert.ToBoolean(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 12]).Value2);
-                    if (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2 != null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2!="")
-                    row["Range_Name"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2);
+                    if (((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2 != null && ((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2 != "")
+                        row["Range_Name"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 13]).Value2);
                     else
                         flag = 1;
                     //SETTING LOWER LABEL 
-      //              row["LowerLabel"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 14]).Value2);
+                    //              row["LowerLabel"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 14]).Value2);
 
                     //SETTING UPPER LABEL 
-      //              row["UpperLabel"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 15]).Value2);
+                    //              row["UpperLabel"] = Convert.ToString(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 15]).Value2);
 
                     //SETTING LOWER BOUND 
-     //               row["LowerBound"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 16]).Value2);
+                    //               row["LowerBound"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 16]).Value2);
 
                     //SETTING UPPER BOUND 
-      //              row["UpperBound"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 17]).Value2);
+                    //              row["UpperBound"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 17]).Value2);
 
                     //SETTING INCREMENT 
-      //              row["Increment"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 18]).Value2);
+                    //              row["Increment"] = Convert.ToInt32(((Microsoft.Office.Interop.Excel.Range)workSheet.Cells[rowIndex, 18]).Value2);
 
-      //              row["Reverse"] = false;
+                    //              row["Reverse"] = false;
                     row["ModifyBy"] = 1;
                     row["ModifyDate"] = DateTime.Now;
                     row["IsActive"] = 1;
@@ -457,42 +470,52 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
                     //rowIndex = 2 + index;
                     rowIndex++;
 
-                    dtExcel.Rows.Add(row);
+                    dataTableExcel.Rows.Add(row);
                 }
             }
             catch
             {
                 lblMessage.Text = "Please check your file data.";
-                dtExcel = null;
+                dataTableExcel = null;
             }
+
             app.Workbooks.Close();
-           
         }
         catch (Exception ex)
         {
             HandleException(ex);
         }
-        return dtExcel;
+
+        return dataTableExcel;
     }
 
+    /// <summary>
+    /// Validate user if incorrect file format.
+    /// </summary>
+    /// <param name="filename"></param>
     private void errorMessage(string filename)
     {
-
         lblMessage.Text = "File cannot be uploaded. Please fill the Correct Field Value";
-
-
-
     }
 
+    /// <summary>
+    /// no use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void lnkError_Click(object sender, EventArgs e)
     {
         Response.ContentType = "text/plain";
         Response.AppendHeader("Content-Disposition", "attachment;filename=" + Session["FinalName"].ToString() + ".txt");
         Response.WriteFile(Server.MapPath("~") + "//UploadDocs//" + Session["FinalName"].ToString() + ".txt");
         Response.End();
-
     }
 
+    /// <summary>
+    /// Give unique name to image or file
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -500,8 +523,4 @@ public partial class Survey_Module_Questionnaire_ImportQuestions : CodeBehindBas
         // Thread.Sleep(1); // To really prevent collisions, but usually not needed 
         return uniquefilename;
     }
-
-
-
-
 }
