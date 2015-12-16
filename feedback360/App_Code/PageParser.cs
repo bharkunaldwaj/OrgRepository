@@ -9,30 +9,23 @@
 */
 
 using System;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Diagnostics;
-
-
 
 /// <summary>
 /// Summary description for PageParser
 /// </summary>
 public class PageParser
 {
-   
+
 
     #region "Public Constructor"
 
-    public PageParser() {
-		//
-		// TODO: Add constructor logic here
-		//
+    public PageParser()
+    {
+        //
+        // TODO: Add constructor logic here
+        //
     }
 
     #endregion
@@ -40,12 +33,12 @@ public class PageParser
     # region "Parse"
 
     /// <summary>
-    /// 
+    /// use to parse page.
     /// </summary>
     /// <param name="PageControl"></param>
     /// <param name="sRights"></param>
     /// <param name="ForGrid"></param>
-   
+
     public static void ParsePage(Control p_pageControl, string p_rights, bool p_forGrid)
     {
         try
@@ -67,7 +60,7 @@ public class PageParser
     }
 
     /// <summary>
-    /// 
+    /// use TO parse controls
     /// </summary>
     /// <param name="cParent"></param>
     /// <param name="sRights"></param>
@@ -91,7 +84,7 @@ public class PageParser
     }
 
     /// <summary>
-    /// 
+    /// use to find controls
     /// </summary>
     /// <param name="Root"></param>
     /// <param name="sRights"></param>

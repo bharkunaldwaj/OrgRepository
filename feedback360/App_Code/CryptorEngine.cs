@@ -8,6 +8,12 @@ namespace EnCryptDecrypt
 {
     public class CryptorEngine
     {
+        /// <summary>
+        /// Encrypt message
+        /// </summary>
+        /// <param name="Message"></param>
+        /// <param name="Passphrase"></param>
+        /// <returns></returns>
         public static string Encrypt(string Message, bool Passphrase)
         {
             byte[] Results;
@@ -51,6 +57,12 @@ namespace EnCryptDecrypt
             return Convert.ToBase64String(Results);
         }
 
+        /// <summary>
+        /// Decrypt message
+        /// </summary>
+        /// <param name="Message"></param>
+        /// <param name="Passphrase"></param>
+        /// <returns></returns>
         public static string Decrypt(string Message, bool Passphrase)
         {
             byte[] Results;

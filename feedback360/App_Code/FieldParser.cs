@@ -9,24 +9,21 @@
 */
 
 using System;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using System.Diagnostics;
 
 /// <summary>
 /// Summary description for FieldParser
 /// </summary>
-public class FieldParser {
+public class FieldParser
+{
     CodeBehindBase codeBehindBase = new CodeBehindBase();
 
     #region "Public Constructor"
 
-    public FieldParser() {
+    public FieldParser()
+    {
         //
         // TODO: Add constructor logic here
         //
@@ -43,13 +40,17 @@ public class FieldParser {
     /// <param name="Cc"></param>
     /// <param name="sRights"></param>
 
-    public static void ParseControls(Control p_ctrl, string p_rights) {
-        try {
-            switch (p_ctrl.ToString()) {
+    public static void ParseControls(Control p_ctrl, string p_rights)
+    {
+        try
+        {
+            switch (p_ctrl.ToString())
+            {
 
                 case "System.Web.UI.WebControls.Button":
                     if (((Button)p_ctrl).Attributes["Permission"] != null)
-                        if (!CheckPermission(((Button)p_ctrl).Attributes["Permission"].ToString(), p_rights)) {
+                        if (!CheckPermission(((Button)p_ctrl).Attributes["Permission"].ToString(), p_rights))
+                        {
                             ((Button)p_ctrl).Enabled = false;
                         }
 
@@ -57,7 +58,8 @@ public class FieldParser {
 
                 case "System.Web.UI.WebControls.TextBox":
                     if (((TextBox)p_ctrl).Attributes["Permission"] != null)
-                        if (!CheckPermission(((TextBox)p_ctrl).Attributes["Permission"].ToString(), p_rights)) {
+                        if (!CheckPermission(((TextBox)p_ctrl).Attributes["Permission"].ToString(), p_rights))
+                        {
                             ((TextBox)p_ctrl).Enabled = false;
                         }
                     break;
@@ -65,14 +67,19 @@ public class FieldParser {
                 case "System.Web.UI.WebControls.GridView":
 
                     GridView objectGrid = (GridView)p_ctrl;
-                    foreach (GridViewRow Row in objectGrid.Rows) {
+                    foreach (GridViewRow Row in objectGrid.Rows)
+                    {
 
                         foreach (Control pr in Row.Controls)
-                            foreach (Control childControlgrd in pr.Controls) {
-                                switch (childControlgrd.ToString()) {
+                            foreach (Control childControlgrd in pr.Controls)
+                            {
+                                switch (childControlgrd.ToString())
+                                {
                                     case "System.Web.UI.WebControls.LinkButton":
-                                        if (((LinkButton)childControlgrd).Attributes["Permission"] != null) {
-                                            if (!CheckPermission(((LinkButton)childControlgrd).Attributes["Permission"].ToString(), p_rights)) {
+                                        if (((LinkButton)childControlgrd).Attributes["Permission"] != null)
+                                        {
+                                            if (!CheckPermission(((LinkButton)childControlgrd).Attributes["Permission"].ToString(), p_rights))
+                                            {
                                                 ((LinkButton)childControlgrd).OnClientClick = "";
                                                 ((LinkButton)childControlgrd).Enabled = false;
                                             }
@@ -89,7 +96,8 @@ public class FieldParser {
 
                     //set Permission
                     if (((HtmlControl)p_ctrl).Attributes["Permission"] != null)
-                        if (!CheckPermission(((HtmlControl)p_ctrl).Attributes["Permission"].ToString(), p_rights)) {
+                        if (!CheckPermission(((HtmlControl)p_ctrl).Attributes["Permission"].ToString(), p_rights))
+                        {
                             ((HtmlControl)p_ctrl).Disabled = true;
                         }
                     //Parse child controls
@@ -98,7 +106,8 @@ public class FieldParser {
                     break;
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             CodeBehindBase codeBehindBase = new CodeBehindBase();
             codeBehindBase.HandleException(ex);
         }
@@ -155,14 +164,18 @@ public class FieldParser {
     /// <param name="cParent"></param>
     /// <param name="sRights"></param>
 
-    private static void ParseHierarchy(Control p_parent, string p_rights) {
-        try {
-            foreach (Control childControl in p_parent.Controls) {
+    private static void ParseHierarchy(Control p_parent, string p_rights)
+    {
+        try
+        {
+            foreach (Control childControl in p_parent.Controls)
+            {
                 //Parse and Act on Page Controls
                 ParseControls(childControl, p_rights);
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             CodeBehindBase codeBehindBase = new CodeBehindBase();
             codeBehindBase.HandleException(ex);
         }
@@ -177,26 +190,33 @@ public class FieldParser {
     /// <param name="sControlRights"></param>
     /// <param name="sRightList"></param>
     /// <returns></returns>
-    private static bool CheckPermission(string p_controlRights, string p_rightList) {
+    private static bool CheckPermission(string p_controlRights, string p_rightList)
+    {
         bool returnFlag = true;
-        try {
+        try
+        {
 
-            if (p_controlRights.Contains(",")) {
+            if (p_controlRights.Contains(","))
+            {
                 string[] sRightArray = p_controlRights.Split(',');
 
-                foreach (string str in sRightArray) {
-                    if (!p_rightList.Contains(str)) {
+                foreach (string str in sRightArray)
+                {
+                    if (!p_rightList.Contains(str))
+                    {
                         returnFlag = false;
                         break;
                     }
                 }
             }
-            else {
+            else
+            {
                 if (!p_rightList.Contains(p_controlRights))
                     returnFlag = false;
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             CodeBehindBase codeBehindBase = new CodeBehindBase();
             codeBehindBase.HandleException(ex);
         }

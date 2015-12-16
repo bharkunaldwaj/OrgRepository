@@ -9,18 +9,10 @@
 */
 
 using System;
-using System.Data;
-using System.Configuration;
-using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
 using System.Xml;
-using Miscellaneous;
 using System.Diagnostics;
 using System.IO;
 
@@ -29,6 +21,7 @@ using System.IO;
 /// </summary>
 public class CodeBehindBase : System.Web.UI.Page
 {
+    //Global variables
     WADIdentity identity;
     
     private FileStream FS;
@@ -112,6 +105,10 @@ public class CodeBehindBase : System.Web.UI.Page
         return vRet;
     }
 
+    /// <summary>
+    /// Check security
+    /// </summary>
+    /// <param name="e"></param>
     protected override void OnLoad(EventArgs e)
     {
 
@@ -138,6 +135,9 @@ public class CodeBehindBase : System.Web.UI.Page
         //CheckSecurity(true);
     }
 
+    /// <summary>
+    /// Get user identity
+    /// </summary>
     public void CurrentPrincipalThread()
     {
         try
@@ -151,6 +151,10 @@ public class CodeBehindBase : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// Handle excertion and write  Error to log file
+    /// </summary>
+    /// <param name="ex"></param>
     public void HandleException(Exception ex)
     {
         //ExceptionLogger.Write(ex.ToString());
@@ -182,6 +186,10 @@ public class CodeBehindBase : System.Web.UI.Page
       //  HttpContext.Current.Response.Redirect(errorPage, false);
    }
 
+    /// <summary>
+    /// Handle excertion and write  Error to log file
+    /// </summary>
+    /// <param name="ex"></param>
     public void HandleExceptionError(Exception ex)
    {
        //ExceptionLogger.Write(ex.ToString());
@@ -213,6 +221,9 @@ public class CodeBehindBase : System.Web.UI.Page
      //  HttpContext.Current.Response.Redirect(errorPage, false);
     }
 
+    /// <summary>
+    /// Expires session
+    /// </summary>
     public void LogOut()
     {
         try
@@ -229,6 +240,11 @@ public class CodeBehindBase : System.Web.UI.Page
         }
     }
 
+    /// <summary>
+    /// It dose nothing
+    /// </summary>
+    /// <param name="Log"></param>
+    /// <param name="stackTrace"></param>
     public void HandleWriteLog(string Log,StackTrace stackTrace)
     {
         try
