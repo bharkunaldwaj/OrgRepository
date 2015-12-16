@@ -1,61 +1,53 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using Admin_BAO;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 //using CodeBehindBase;
 public partial class Survey_Module_Question_range : CodeBehindBase
 {
-
+    //Global variables
     //Survey_Question_Range_BAO 
-    Questionnaire_BAO.Programme_BAO programme_BAO = new Questionnaire_BAO.Programme_BAO();
-    Questionnaire_BAO.Survey_Question_Range_BAO prog_bao = new Survey_Question_Range_BAO();
+    Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+    Survey_Question_Range_BAO questionRangeBusinessAccessObject = new Survey_Question_Range_BAO();
 
     // Questionnaire_BAO
-    Project_BE project_BE = new Project_BE();
-    public Programme_BE programme_range;
+    //Project_BE projectBusinesEntity = new Project_BE();
+    public Programme_BE programmeRangeBusinesEntity;
     WADIdentity identity;
-    DataTable dtCompanyName;
+    DataTable dataTableCompanyName;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-                if (Request.QueryString["Mode"] == "V")
+        //If  query string Mode="V" Then Edit else View then hide show controls accordingly. 
+        if (Request.QueryString["Mode"] == "V")
         {
             imbSubmit.Visible = false;
             txtTo.Visible = false;
             Label3.Visible = false;
-          hidespan.Visible=false;
+            hidespan.Visible = false;
             Session["Mode"] = "V";
-            int r_ID = Convert.ToInt32(Request.QueryString["RangeId"]);
-            Session["RangeID"] = r_ID;
+            //Get range id from query string.
+            int rangeId = Convert.ToInt32(Request.QueryString["RangeId"]);
+            Session["RangeID"] = rangeId;
 
-            Survey_Question_Range_BAO sur_edit_range = new Survey_Question_Range_BAO();
-            DataTable edit_range = sur_edit_range.get_range_detail(r_ID);
-            txtName.Text = edit_range.Rows[0][1].ToString();
-            txtTitle.Text = edit_range.Rows[0][2].ToString();
-            txtTo.Text = edit_range.Rows[0][3].ToString();
-            rptrCandidateList.DataSource = edit_range;
+            Survey_Question_Range_BAO editRangeBusinessAccessObject = new Survey_Question_Range_BAO();
+            //Get all question range by eange id.
+            DataTable dataTableRange = editRangeBusinessAccessObject.get_range_detail(rangeId);
+            //Then bind controls fron database value.
+            txtName.Text = dataTableRange.Rows[0][1].ToString();
+            txtTitle.Text = dataTableRange.Rows[0][2].ToString();
+            txtTo.Text = dataTableRange.Rows[0][3].ToString();
+            rptrCandidateList.DataSource = dataTableRange;
             rptrCandidateList.Visible = true;
-          //  imbAssign.Visible = false;
+            //  imbAssign.Visible = false;
             ImgBtn_Rset.Visible = false;
 
             //rptrCandidateList.DataMember = edit_range.Columns["Rating_Text"].ToString();
             //rptrCandidateList.
             rptrCandidateList.DataBind();
             // TextBox tb = rptrCandidateList.FindControl("Rating_TextBox") as TextBox;
-
-            //foreach (tb t in rptrCandidateList)
-            //{ 
-
-            //}
-
-            // tb.Enabled = false;
         }
         else
         {
@@ -64,10 +56,9 @@ public partial class Survey_Module_Question_range : CodeBehindBase
             ImgBtn_Rset.Visible = true;
             imbBack.Visible = false;
 
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
-
-            Label ll = (Label)this.Master.FindControl("Current_location");
-            ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             if (!IsPostBack)
             {
                 rptrCandidateList.Visible = false;
@@ -103,103 +94,97 @@ public partial class Survey_Module_Question_range : CodeBehindBase
 
                 ViewState["ProjectID"] = "0";
                 ViewState["Programme"] = "";
-
-
             }
-
             //HandleWriteLog("Start", new StackTrace(true));
             //////}
             //////catch (Exception ex)
             //////{
             ////// //   HandleException(ex);
             //////}
-
-
-
         }
     }
+
+    /// <summary>
+    /// Save the record in database.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbAssign_Click(object sender, ImageClickEventArgs e)
     {
         Page.Validate();
+
         if (Page.IsValid)
         {
             lblMessage.Text = "";
-            Question_Range_BE QR_BE = new Question_Range_BE();
-            QR_BE.RangeID =0;
-            QR_BE.name = "";
-            QR_BE.title = "";
-            QR_BE.r_upto = 0;
-            QR_BE.rating_text = "";
+            Question_Range_BE questionRangeBusinesEntity = new Question_Range_BE();
+            questionRangeBusinesEntity.RangeID = 0;
+            questionRangeBusinesEntity.name = "";
+            questionRangeBusinesEntity.title = "";
+            questionRangeBusinesEntity.r_upto = 0;
+            questionRangeBusinesEntity.rating_text = "";
 
-            TextBox rptr_score_ratings = null;
+            TextBox textBoxScoreRatings = null;
             string rangeList = "";
-
-
 
             int ff = 0;
             int ii = rptrCandidateList.Items.Count;
 
-
-
-
             foreach (RepeaterItem item in rptrCandidateList.Items)
             {
-                rptr_score_ratings = (TextBox)item.FindControl("Rating_TextBox");
+                textBoxScoreRatings = (TextBox)item.FindControl("Rating_TextBox");
 
 
-                if (rptr_score_ratings.Text == "")
-                    rptr_score_ratings.Text = "sorry";
+                if (textBoxScoreRatings.Text == "")
+                    textBoxScoreRatings.Text = "sorry";
 
 
-                rangeList = rangeList + rptr_score_ratings.Text + ",";
+                rangeList = rangeList + textBoxScoreRatings.Text + ",";
             }
-
+            //If query string Mode="V" edit then range id from session.
             if (Session["Mode"] == "V")
             {
-                QR_BE.RangeID = Convert.ToInt32(Session["RangeID"]);
+                questionRangeBusinesEntity.RangeID = Convert.ToInt32(Session["RangeID"]);
             }
             else
             {
-                QR_BE.RangeID = -1;
+                questionRangeBusinesEntity.RangeID = -1;//else default value as -1.
             }
-            QR_BE.name = txtName.Text;
-            QR_BE.title = txtTitle.Text;
-            QR_BE.r_upto = Convert.ToInt32(txtTo.Text);
-            QR_BE.rating_text = rangeList;
-            
+            questionRangeBusinesEntity.name = txtName.Text;
+            questionRangeBusinesEntity.title = txtTitle.Text;
+            questionRangeBusinesEntity.r_upto = Convert.ToInt32(txtTo.Text);
+            questionRangeBusinesEntity.rating_text = rangeList;
+
+            //if Mode is I then Inser question Range else update.
             if (Session["Mode"] == "I")
             {
-                int result = prog_bao.insert_range(QR_BE,"I");
+                int result = questionRangeBusinessAccessObject.insert_range(questionRangeBusinesEntity, "I");//Insert range.
             }
             else
             {
-                int result = prog_bao.insert_range(QR_BE,"V");
-            
+                int result = questionRangeBusinessAccessObject.insert_range(questionRangeBusinesEntity, "V");//UPdate Range.
+
             }
+
             rptrCandidateList.Visible = false;
             txtName.Text = txtTitle.Text = txtTo.Text = "";
             // }
             //   if (ff == ii)
-           // Response.Redirect(@"\feedback360\Survey_Module\Question_rangeList.aspx");
+            // Response.Redirect(@"\feedback360\Survey_Module\Question_rangeList.aspx");
             Response.Redirect("Question_rangeList.aspx");
-
-
-
-
         }
     }
-        //}
-            //catch (Exception ex)
-            //{
-            //   // HandleException(ex);
-            //}
-        
+      
+    /// <summary>
+    /// Bind range repeator.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
-
         int x = 0;
-        x= chk_rangeName_Availability();
-        if (x >= 1 && Session["Mode"] != "V")
+        x= CheckRangeNameAvailability();
+
+        if (x >= 1 && Session["Mode"] != "V")//Mode view
         {
             Label4.Visible = true;
             Label4.Text = "This Range Name is already taken.";
@@ -208,45 +193,50 @@ public partial class Survey_Module_Question_range : CodeBehindBase
         {
             Label4.Visible = false;
             rptrCandidateList.Visible = true;
+
             if (txtTo.Text.Trim() != "")
                 BindCandidateList(Convert.ToInt32(txtTo.Text.Trim()));
         }
-
-
-
-
     }
 
-
-
-    public int chk_rangeName_Availability()
+    /// <summary>
+    /// Check that entered range name exiet or not.
+    /// </summary>
+    /// <returns></returns>
+    public int CheckRangeNameAvailability()
     {
-        int x = prog_bao.chk_rng_Availability(txtName.Text);
+        int x = questionRangeBusinessAccessObject.chk_rng_Availability(txtName.Text);
         return x;
     }
 
-
+    /// <summary>
+    /// Bind range grid with default blank columns.
+    /// </summary>
+    /// <param name="candidateCount"></param>
     private void BindCandidateList(int candidateCount)
     {
         try
         {
-            DataTable dtCandidate = new DataTable();
-            dtCandidate.Columns.Add("Rating_Text");
+            DataTable dataTableCandidate = new DataTable();
+            dataTableCandidate.Columns.Add("Rating_Text");
 
             for (int count = 0; count < candidateCount; count++)
-                dtCandidate.Rows.Add("");
+                dataTableCandidate.Rows.Add("");
 
-            rptrCandidateList.DataSource = dtCandidate;
+            rptrCandidateList.DataSource = dataTableCandidate;
             rptrCandidateList.DataBind();
-
-
-
         }
         catch (Exception ex)
         {
             //  HandleException(ex);
         }
     }
+
+    /// <summary>
+    /// Its of No use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         //Project_BAO project_BAO = new Project_BAO();
@@ -294,8 +284,11 @@ public partial class Survey_Module_Question_range : CodeBehindBase
         //}
     }
 
-
-
+    /// <summary>
+    /// Reset controls value to default.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ImgBtn_Rset_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -309,6 +302,12 @@ public partial class Survey_Module_Question_range : CodeBehindBase
 
         }
     }
+
+    /// <summary>
+    /// Redirect to previous page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
         Response.Redirect("Question_rangeList.aspx");

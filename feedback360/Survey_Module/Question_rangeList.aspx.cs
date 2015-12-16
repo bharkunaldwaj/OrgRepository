@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
 using System.Text;
 using System.Configuration;
 
-using Admin_BAO;
 using Questionnaire_BAO;
-using Questionnaire_BE;
 
 public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
 {
-    Survey_Question_Range_BAO S_Q_Range_BAO;
+    //Global variables
+    Survey_Question_Range_BAO questionRangeBusinessAccessObject;
     WADIdentity identity;
     string pageNo = "";
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -33,36 +28,37 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
-      //  identity = this.Page.User.Identity as WADIdentity;
+
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        //  identity = this.Page.User.Identity as WADIdentity;
         ManagePaging();
-}
+    }
 
-
-
+    /// <summary>
+    /// Redirect to Question range page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         Response.Redirect("Question_range.aspx");
     }
 
-
-
-
+    /// <summary>
+    /// Add client side event to rang list controls.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvRangeList_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
-            //HandleWriteLog("Start", new StackTrace(true));
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[5].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this question range?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[5].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this question range?')) return false";
             }
-
-            //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
         {
@@ -70,62 +66,48 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
-
-
-
-
+    /// <summary>
+    /// Initilize delete parameter for Rangelist gridview and delete selected row.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvRangeList_RowCommand(object sender, GridViewCommandEventArgs e)
     {
-        if(e.CommandName == "Delete")
+        if (e.CommandName == "Delete")
         {
             int index = Convert.ToInt32(e.CommandArgument);
             // Retrieve the row that contains the button clicked 
             // by the user from the Rows collection.
 
             GridViewRow row = (GridViewRow)grdvRangeList.Rows[index];
-            Label Range_Id = (Label)row.FindControl("Range_Id");
-            
-            
-            odsProject.DeleteParameters.Clear();
-            odsProject.DeleteParameters.Add("Range_Id", Range_Id.Text);
+            Label rangeId = (Label)row.FindControl("Range_Id");
 
-           // odsProject.Delete();
+            // Initilize delete parameter for Rangelist gridview object datasource
+            odsProject.DeleteParameters.Clear();
+            odsProject.DeleteParameters.Add("Range_Id", rangeId.Text);
+            // odsProject.Delete();
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    ///  Handle paging related events when moving from grid view one page to another.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
-        S_Q_Range_BAO = new Survey_Question_Range_BAO();
-      RangeCount = S_Q_Range_BAO.RangeCount();
-       
+        questionRangeBusinessAccessObject = new Survey_Question_Range_BAO();
+        RangeCount = questionRangeBusinessAccessObject.RangeCount();
 
         plcPaging.Controls.Clear();
 
         if (RangeCount > 0)
         {
-
             // Variable declaration
             int numberOfPages;
             int numberOfRecords = RangeCount;
             int currentPage = (grdvRangeList.PageIndex);
-            StringBuilder strSummary = new StringBuilder();
-
+            StringBuilder stringSummary = new StringBuilder();
 
             // If number of records is more then the page size (specified in global variable)
             // Just to check either gridview have enough records to implement paging
@@ -139,14 +121,13 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
                 numberOfPages = 1;
             }
 
-
             // Creating a small summary for records.
-            strSummary.Append("Displaying <b>");
+            stringSummary.Append("Displaying <b>");
 
             // Creating X f X Records
             int floor = (currentPage * pageSize) + 1;
-            strSummary.Append(floor.ToString());
-            strSummary.Append("</b>-<b>");
+            stringSummary.Append(floor.ToString());
+            stringSummary.Append("</b>-<b>");
             int ceil = ((currentPage * pageSize) + pageSize);
 
             //let say you have 26 records and you specified 10 page size, 
@@ -154,21 +135,19 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
             // So this check will see if the ceil value is increasing the number of records. Consider numberOfRecords
             if (ceil > numberOfRecords)
             {
-                strSummary.Append(numberOfRecords.ToString());
+                stringSummary.Append(numberOfRecords.ToString());
             }
             else
             {
-                strSummary.Append(ceil.ToString());
+                stringSummary.Append(ceil.ToString());
             }
 
             // Displaying Total number of records Creating X of X of About X records.
-            strSummary.Append("</b> of <b>");
-            strSummary.Append(numberOfRecords.ToString());
-            strSummary.Append("</b> records</br>");
-
+            stringSummary.Append("</b> of <b>");
+            stringSummary.Append(numberOfRecords.ToString());
+            stringSummary.Append("</b> records</br>");
 
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -201,7 +180,6 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -225,7 +203,6 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
             objLbPrevious.CommandName = "pgChange";
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
-
 
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
@@ -337,12 +314,20 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, RangeCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when view of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -360,53 +345,53 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Handle previous and next button click of grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvRangeList.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvRangeList.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvRangeList.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Handle gridview page index event to move to new page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvRangeList.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            grdvRangeList.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvRangeList.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
 
-
-
-
-
-
-
-
-
-
-    
     protected void grdvRangeList_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
 
-           // ManagePaging();
+            // ManagePaging();
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -415,6 +400,4 @@ public partial class Survey_Module_Questionnaire_QuestionList : CodeBehindBase
             HandleException(ex);
         }
     }
-
-    
 }
