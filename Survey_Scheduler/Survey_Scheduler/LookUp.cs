@@ -14,9 +14,10 @@ namespace Survey_Scheduler
 {
     public static class Survey_LookUp
     {
-
-
-
+        /// <summary>
+        /// Get details for reminder
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder_start()
         {
             SqlConnection oConn = null;
@@ -37,27 +38,10 @@ namespace Survey_Scheduler
                 oConn = null;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        /// <summary>
+        /// Get Reminder 1 details
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder1()
         {
             SqlConnection oConn = null;
@@ -78,7 +62,10 @@ namespace Survey_Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Reminder 2 details
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder2()
         {
             SqlConnection oConn = null;
@@ -99,7 +86,10 @@ namespace Survey_Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Get Reminder 3 details
+        /// </summary>
+        /// <returns></returns>
         public static DataTable FetchDataForReminder3()
         {
             SqlConnection oConn = null;
@@ -120,10 +110,10 @@ namespace Survey_Scheduler
                 oConn = null;
             }
         }
-
-        
-       
-
+        /// <summary>
+        /// Insert Reminder details
+        /// </summary>
+        /// <returns></returns>
         public static int InsertReminderData(int Type, int AccountId, string AccountName, int ParticipantId, string ParticipantName,  int ProjectId, string ProjectName, int ProgrammeId, string ProgrammeName, DateTime EmailDate, bool EmailStatus)
         {
             SqlConnection oConn = null;
@@ -158,7 +148,10 @@ namespace Survey_Scheduler
                 oConn = null;
             }
         }
-
+        /// <summary>
+        /// Use to handle exception
+        /// </summary>
+        /// <param name="ex"></param>
         public static void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
