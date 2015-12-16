@@ -2,30 +2,16 @@
 using System.Data;
 using System.Configuration;
 using System.Collections;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Drawing.Text;
 using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
-using System.Linq;
 using System.Web.UI.DataVisualization.Charting;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.ComponentModel;
-using System.Web.SessionState;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Net;
-
 
 public partial class Module_Reports_ViewList : CodeBehindBase
 {
@@ -40,51 +26,52 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     string defaultFileName = string.Empty;
     Warning[] warnings;
     WADIdentity identity;
-    Project_BAO project_BAO = new Project_BAO();
-    Programme_BAO programme_BAO = new Programme_BAO();
-    AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-    AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
-    ReportManagement_BAO reportManagement_BAO = new ReportManagement_BAO();
-    ReportManagement_BE reportManagement_BE = new ReportManagement_BE();
-    AssignQstnParticipant_BAO assignQstnParticipant_BAO = new AssignQstnParticipant_BAO();
 
-    DataTable dtCompanyName;
-    DataTable dtGroupList;
-    DataTable dtSelfName;
-    DataTable dtReportsID;
-    string strGroupList;
-    string strFrontPage;
-    string strReportIntroduction;
-    string strConclusionPage;
-    string strRadarChart;
-    string strDetailedQst;
-    string strCategoryQstlist;
-    string strCategoryBarChart;
-    string strFullProjGrp;
-    string strSelfNameGrp;
-    string strProgrammeGrp;
-    string strReportName;
+    Project_BAO projectBusinessAccessObject = new Project_BAO();
+    Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+    AccountUser_BAO accountUserBusinessAccessObject = new AccountUser_BAO();
+    AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
+    ReportManagement_BAO reportManagementBusinessAccessObject = new ReportManagement_BAO();
+    ReportManagement_BE reportManagementBusinessEntity = new ReportManagement_BE();
+    AssignQstnParticipant_BAO assignQstnParticipantBusinessAccessObject = new AssignQstnParticipant_BAO();
+
+    DataTable dataTableCompanyName;
+    DataTable dataTableGroupList;
+    DataTable dataTableSelfName;
+    DataTable dataTableReportsID;
+
+    string stringGroupList;
+    string stringFrontPage;
+    string stringReportIntroduction;
+    string stringConclusionPage;
+    string stringRadarChart;
+    string stringDetailedQst;
+    string stringCategoryQstlist;
+    string stringCategoryBarChart;
+    string stringFullProjectGrp;
+    string stringSelfNameGrp;
+    string stringProgrammeGrp;
+    string stringReportName;
     string targetradarname = string.Empty;
     string targetradarPreviousScore = string.Empty;
     string targetradarBenchmark = string.Empty;
-    string strConHighLowRange;
-    string strReportType = string.Empty;
-    string strPreScoreVisibility = string.Empty;
-    string strStaticBarLabelVisibility = string.Empty;
-    string strBenchMarkGrpVisibility = string.Empty;
-    string strBenchMarkVisibility = string.Empty;
-    string strBenchConclusionPageVisibility = string.Empty;
+    string stringConHighLowRange;
+    string stringReportType = string.Empty;
+    string stringPreScoreVisibility = string.Empty;
+    string stringStaticBarLabelVisibility = string.Empty;
+    string stringBenchMarkGrpVisibility = string.Empty;
+    string stringBenchMarkVisibility = string.Empty;
+    string stringBenchConclusionPageVisibility = string.Empty;
 
-
-    string strTargetPersonID;
-    string strProjectID;
-    string strAccountID;
-    string strProgrammeID;
-    string strAdmin;
+    string stringTargetPersonID;
+    string stringProjectID;
+    string stringAccountID;
+    string stringProgrammeID;
+    string stringAdmin;
     int rptCandidateCount = 0;
 
-    Category_BAO category_BAO = new Category_BAO();
-    Category_BE category_BE = new Category_BE();
+    Category_BAO categoryBusinessAccessObject = new Category_BAO();
+    Category_BE categoryBusinessEntity = new Category_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -98,12 +85,12 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     //string participantName;
     #endregion
 
-    protected System.Web.UI.WebControls.Label Label1;
-    protected System.Web.UI.WebControls.Label Label2;
-    protected System.Web.UI.WebControls.Label Label3;
-    protected System.Web.UI.WebControls.DropDownList ExplodedPointList;
-    protected System.Web.UI.WebControls.Label Label4;
-    protected System.Web.UI.WebControls.DropDownList HoleSizeList;
+    protected Label Label1;
+    protected Label Label2;
+    protected Label Label3;
+    protected DropDownList ExplodedPointList;
+    protected Label Label4;
+    protected DropDownList HoleSizeList;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -120,15 +107,15 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
 
 
-       Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
 
         try
         {
             System.GC.Collect();
 
             identity = this.Page.User.Identity as WADIdentity;
-
+            //set the page size for grid.
             grdvParticipantList.PageSize = 50;
             ManagePaging();
 
@@ -140,7 +127,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
-
+                //If user is super Admin then bind reminder grid with account id=1 else user account id.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -152,21 +139,24 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Bind account drop down by user account id.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
                 ddlAccountCode.SelectedValue = "0";
 
-                Project_BAO project_BAO = new Project_BAO();
+                Project_BAO projectBusinessAccessObject = new Project_BAO();
 
                 string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
                 string managerRoleId = ConfigurationManager.AppSettings["ManagerRoleID"].ToString();
 
+                //If user group is Participant
                 if (identity.User.GroupID == Convert.ToInt32(participantRoleId))
                 {
-                    ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                    //Bind project by user account id.
+                    ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataBind();
@@ -174,29 +164,35 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     ViewState["strAdmin"] = "N";
                     grdvParticipantList.AllowSorting = false;
 
-                    AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-                    DataTable dtParticipantInfo = new DataTable();
-                    dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+                    AssignQuestionnaire_BAO assignQuestionnaireBusinessAccessObject = new AssignQuestionnaire_BAO();
+                    DataTable dataTableParticipantInformation = new DataTable();
+                    //Get all participant in a project .
+                    dataTableParticipantInformation = assignQuestionnaireBusinessAccessObject.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
 
-                    if (dtParticipantInfo.Rows.Count>0)
-                    ddlProject.SelectedValue = dtParticipantInfo.Rows[0]["ProjecctID"].ToString();
+                    if (dataTableParticipantInformation.Rows.Count>0)
+                    ddlProject.SelectedValue = dataTableParticipantInformation.Rows[0]["ProjecctID"].ToString();
 
-                    DataTable dtProgramme = new DataTable();
-                    dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+                    DataTable dataTableProgramme = new DataTable();
+                    //Get all program in a project and program drop down list.
+                    dataTableProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
-                    if (dtProgramme.Rows.Count > 0)
+                    if (dataTableProgramme.Rows.Count > 0)
                     {
-                        ddlProgramme.DataSource = dtProgramme;
+                        //Bind program drop down list.
+                        ddlProgramme.DataSource = dataTableProgramme;
                         ddlProgramme.DataTextField = "ProgrammeName";
                         ddlProgramme.DataValueField = "ProgrammeID";
                         ddlProgramme.DataBind();
-                        if (dtParticipantInfo.Rows.Count>0)
-                        ddlProgramme.SelectedValue = dtParticipantInfo.Rows[0]["ProgrammeID"].ToString();
+
+                        if (dataTableParticipantInformation.Rows.Count>0)
+                        ddlProgramme.SelectedValue = dataTableParticipantInformation.Rows[0]["ProgrammeID"].ToString();
                     }
 
+                    //If user group is Participant then project andprogram drop down is disable.
                     ddlProject.Enabled = false;
                     ddlProgramme.Enabled = false;
 
+                    //Clear object datasource for report grid and set parameters.
                     odsReport.SelectParameters.Clear();
                     odsReport.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
                     odsReport.SelectParameters.Add("projectID", ddlProject.SelectedValue);
@@ -209,17 +205,18 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
                     plcPaging.Controls.Clear();
                 }
-                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))
+                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))//If its group is Manager
                 {
-                    ViewState["strAdmin"] = "N";
+                    ViewState["strAdmin"] = "N"; //user is not Admin
                     grdvParticipantList.AllowSorting = false;
 
-                    DataTable dtManagerProject = new DataTable();
-                    dtManagerProject = project_BAO.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
+                    DataTable dataTableManagerProject = new DataTable();
+                    //Get all project in a Manager and bind project dropdown.
+                    dataTableManagerProject = projectBusinessAccessObject.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
 
-                    if (dtManagerProject.Rows.Count > 0)
-                    {
-                        ddlProject.DataSource = dtManagerProject;
+                    if (dataTableManagerProject.Rows.Count > 0)
+                    {//bind project dropdown
+                        ddlProject.DataSource = dataTableManagerProject;
                         ddlProject.DataValueField = "ProjectID";
                         ddlProject.DataTextField = "Title";
                         ddlProject.DataBind();
@@ -227,9 +224,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                         //ddlProject.SelectedValue = dtManagerProject.Rows[0]["ProjectID"].ToString();
                     }
 
-                    DataTable dtManagerProgramme = new DataTable();
-                    dtManagerProgramme = project_BAO.GetManagerProgramme(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
-
+                    DataTable dataTableManagerProgramme = new DataTable();
+                    dataTableManagerProgramme = projectBusinessAccessObject.GetManagerProgramme(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
+                    //Clear object datasource for report grid and set parameters.
                     odsReport.SelectParameters.Clear();
                     odsReport.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
                     odsReport.SelectParameters.Add("projectID", ddlProject.SelectedValue);
@@ -241,19 +238,20 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 }
                 else
                 {
-                    ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                    //Bind project by user account id.
+                    ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataBind();
 
-                    ViewState["strAdmin"] = "Y";
+                    ViewState["strAdmin"] = "Y";//user is  Admin
                     grdvParticipantList.AllowSorting = true;
-
+                    //Clear object datasource for report grid and set parameters.
                     odsReport.SelectParameters.Clear();
                     odsReport.SelectParameters.Add("accountID", null);
                     odsReport.SelectParameters.Add("projectID", null);
                     odsReport.SelectParameters.Add("programmeID", null);
-                    odsReport.SelectParameters.Add("admin", strAdmin);
+                    odsReport.SelectParameters.Add("admin", stringAdmin);
                     odsReport.Select();
                 }
             }
@@ -265,192 +263,206 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     }
     
     #region Radar Chart Method
-
+    /// <summary>
+    /// Generate Radar chart
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void Radar(string strTargetPersonID, string strGroupList)
     {
         Chart1.Series.Clear();
         string Series1 = string.Empty;
         string Series2 = string.Empty;
-        DataTable dtSelfData = reportManagement_BAO.GetRadarChartData(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
-        DataTable dtFullProjectData = reportManagement_BAO.GetRadarChartData(Convert.ToInt32(strTargetPersonID), strGroupList, "F");
+        //Get Radar chart data for self assement.
+        DataTable dataTableSelfData = reportManagementBusinessAccessObject.GetRadarChartData(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
+        //Get Radar chart data for full project group.
+        DataTable dataTableFullProjectData = reportManagementBusinessAccessObject.GetRadarChartData(Convert.ToInt32(strTargetPersonID), strGroupList, "F");
 
-        string[] xValues = new string[dtSelfData.Rows.Count];
-        double[] yValues = new double[dtSelfData.Rows.Count];
-        for (int i = 0; i < dtSelfData.Rows.Count; i++)
+        string[] xValues = new string[dataTableSelfData.Rows.Count];
+        double[] yValues = new double[dataTableSelfData.Rows.Count];
+        for (int i = 0; i < dataTableSelfData.Rows.Count; i++)
         {
-            xValues[i] = dtSelfData.Rows[i]["CategoryName"].ToString();
-            yValues[i] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+            xValues[i] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+            yValues[i] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
         }
 
-        string[] xValues1 = new string[dtFullProjectData.Rows.Count];
-        double[] yValues1 = new double[dtFullProjectData.Rows.Count];
-        for (int i = 0; i < dtFullProjectData.Rows.Count; i++)
+        string[] xValues1 = new string[dataTableFullProjectData.Rows.Count];
+        double[] yValues1 = new double[dataTableFullProjectData.Rows.Count];
+        for (int i = 0; i < dataTableFullProjectData.Rows.Count; i++)
         {
-            xValues1[i] = dtFullProjectData.Rows[i]["CategoryName"].ToString();
-            yValues1[i] = Convert.ToDouble(dtFullProjectData.Rows[i]["Average"].ToString());
+            xValues1[i] = dataTableFullProjectData.Rows[i]["CategoryName"].ToString();
+            yValues1[i] = Convert.ToDouble(dataTableFullProjectData.Rows[i]["Average"].ToString());
         }
 
         //Can Set Y-Axis Scale from here.
         Chart1.ChartAreas["ChartArea1"].AxisY.Minimum = 3;
-        if (dtSelfData.Rows.Count > 0)
-            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtSelfData.Rows[0]["UpperBound"].ToString());
+        if (dataTableSelfData.Rows.Count > 0)
+            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableSelfData.Rows[0]["UpperBound"].ToString());
         else
         {
-            if (dtFullProjectData.Rows.Count > 0)
-                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtFullProjectData.Rows[0]["UpperBound"].ToString());
+            if (dataTableFullProjectData.Rows.Count > 0)
+                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableFullProjectData.Rows[0]["UpperBound"].ToString());
             else
                 Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = 10; // Default value.
         }
 
         //Adding Series in RadarChart 
-        if (dtSelfData.Rows.Count > 0)
-            Series1 = dtSelfData.Rows[0]["RelationShip"].ToString();
-        if (dtFullProjectData.Rows.Count > 0)
-            Series2 = dtFullProjectData.Rows[0]["RelationShip"].ToString();
+        if (dataTableSelfData.Rows.Count > 0)
+            Series1 = dataTableSelfData.Rows[0]["RelationShip"].ToString();
+        if (dataTableFullProjectData.Rows.Count > 0)
+            Series2 = dataTableFullProjectData.Rows[0]["RelationShip"].ToString();
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series.Add(Series1);
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series.Add(Series2);
 
         // Defining Series Type
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].ChartType = SeriesChartType.Radar;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].ChartType = SeriesChartType.Radar;
 
 
         //Change Color Of Graph
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].Color = System.Drawing.Color.FromArgb(220, 65, 140, 240);
             Chart1.Series[Series1].BackGradientStyle = GradientStyle.DiagonalRight;
         }
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
         {
             Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(220, 252, 180, 65);
             Chart1.Series[Series2].BackGradientStyle = GradientStyle.DiagonalRight;
         }
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderColor = System.Drawing.Color.Black;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderColor = System.Drawing.Color.Black;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderDashStyle = ChartDashStyle.Solid;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderDashStyle = ChartDashStyle.Solid;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderWidth = 1;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderWidth = 1;
 
         // Populate series data
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].Points.DataBindXY(xValues, yValues);
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].Points.DataBindXY(xValues1, yValues1);
 
         // Set radar chart style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["RadarDrawingStyle"] = "Area";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["RadarDrawingStyle"] = "Area";
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series1].BorderWidth = 1;
         }
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
         {
             Chart1.Series[Series2].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series2].BorderWidth = 1;
         }
 
         // Set circular area drawing style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["AreaDrawingStyle"] = "Polygon";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["AreaDrawingStyle"] = "Polygon";
 
         // Set labels style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["CircularLabelsStyle"] = "Horizontal";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["CircularLabelsStyle"] = "Horizontal";
         //Chart1.SaveImage(@"c:\Images\RadarChart.jpg");
 
         targetradarname = Server.MapPath("~\\UploadDocs\\") + "RadarChart" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".jpg";
-        if (dtFullProjectData.Rows.Count > 0 || dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0 || dataTableFullProjectData.Rows.Count > 0)
             Chart1.SaveImage(@targetradarname);
 
         //dtSelfData.Dispose();
         //Chart1.Dispose();             
     }
 
+    /// <summary>
+    /// This shows the scores of the colleagues of the participant
+    /// compare scores given for the participant with the average of all scores given for this project.
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void RadarPreviousScore(string strTargetPersonID, string strGroupList)
     {
         Chart1.Series.Clear();
         string Series1 = string.Empty;
         string Series2 = string.Empty;
-        DataTable dtSelfData = reportManagement_BAO.GetRadarChartPreviousScoreData(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
-        DataTable dtFullPreviousData = reportManagement_BAO.GetRadarChartPreviousScoreData(Convert.ToInt32(strTargetPersonID), strGroupList, "P");
+       //Get previous scores of the self assement.
+        DataTable dataTableSelfData = reportManagementBusinessAccessObject.GetRadarChartPreviousScoreData(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
+        //Get previous scores of the colleagues of the participant 
+        DataTable dataTableFullPreviousData = reportManagementBusinessAccessObject.GetRadarChartPreviousScoreData(Convert.ToInt32(strTargetPersonID), strGroupList, "P");
 
-        string[] xValues = new string[dtSelfData.Rows.Count];
-        double[] yValues = new double[dtSelfData.Rows.Count];
-        for (int i = 0; i < dtSelfData.Rows.Count; i++)
+        string[] xValues = new string[dataTableSelfData.Rows.Count];
+        double[] yValues = new double[dataTableSelfData.Rows.Count];
+        for (int i = 0; i < dataTableSelfData.Rows.Count; i++)
         {
-            xValues[i] = dtSelfData.Rows[i]["CategoryName"].ToString();
-            yValues[i] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+            xValues[i] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+            yValues[i] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
         }
 
-        string[] xValues1 = new string[dtFullPreviousData.Rows.Count];
-        double[] yValues1 = new double[dtFullPreviousData.Rows.Count];
-        for (int i = 0; i < dtFullPreviousData.Rows.Count; i++)
+        string[] xValues1 = new string[dataTableFullPreviousData.Rows.Count];
+        double[] yValues1 = new double[dataTableFullPreviousData.Rows.Count];
+        for (int i = 0; i < dataTableFullPreviousData.Rows.Count; i++)
         {
-            xValues1[i] = dtFullPreviousData.Rows[i]["CategoryName"].ToString();
-            yValues1[i] = Convert.ToDouble(dtFullPreviousData.Rows[i]["Average"].ToString());
+            xValues1[i] = dataTableFullPreviousData.Rows[i]["CategoryName"].ToString();
+            yValues1[i] = Convert.ToDouble(dataTableFullPreviousData.Rows[i]["Average"].ToString());
         }
 
         //Can Set Y-Axis Scale from here.
         Chart1.ChartAreas["ChartArea1"].AxisY.Minimum = 3;
-        if (dtSelfData.Rows.Count > 0)
-            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtSelfData.Rows[0]["UpperBound"].ToString());
+        if (dataTableSelfData.Rows.Count > 0)
+            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableSelfData.Rows[0]["UpperBound"].ToString());
         else
         {
-            if (dtFullPreviousData.Rows.Count > 0)
-                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtFullPreviousData.Rows[0]["UpperBound"].ToString());
+            if (dataTableFullPreviousData.Rows.Count > 0)
+                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableFullPreviousData.Rows[0]["UpperBound"].ToString());
             else
                 Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = 10; // Default value.
         }
 
         //Adding Series in RadarChart 
-        if (dtSelfData.Rows.Count > 0)
-            Series1 = dtSelfData.Rows[0]["RelationShip"].ToString();
-        if (dtFullPreviousData.Rows.Count > 0)
-            Series2 = dtFullPreviousData.Rows[0]["RelationShip"].ToString();
+        if (dataTableSelfData.Rows.Count > 0)
+            Series1 = dataTableSelfData.Rows[0]["RelationShip"].ToString();
+        if (dataTableFullPreviousData.Rows.Count > 0)
+            Series2 = dataTableFullPreviousData.Rows[0]["RelationShip"].ToString();
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series.Add(Series1);
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series.Add(Series2);
 
         // Defining Series Type
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].ChartType = SeriesChartType.Radar;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].ChartType = SeriesChartType.Radar;
 
         //Change Color Of Graph
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].Color = System.Drawing.Color.FromArgb(220, 65, 140, 240);
             Chart1.Series[Series1].BackGradientStyle = GradientStyle.DiagonalRight;
         }
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
         {
             Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(240, 128, 128);
             Chart1.Series[Series2].BackGradientStyle = GradientStyle.DiagonalRight;
@@ -459,279 +471,293 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(220, 252, 180, 65);
 
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderColor = System.Drawing.Color.Black;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderColor = System.Drawing.Color.Black;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderDashStyle = ChartDashStyle.Solid;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderDashStyle = ChartDashStyle.Solid;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderWidth = 1;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderWidth = 1;
 
         // Populate series data
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].Points.DataBindXY(xValues, yValues);
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].Points.DataBindXY(xValues1, yValues1);
 
         // Set radar chart style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["RadarDrawingStyle"] = "Area";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["RadarDrawingStyle"] = "Area";
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series1].BorderWidth = 1;
         }
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
         {
             Chart1.Series[Series2].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series2].BorderWidth = 1;
         }
 
         // Set circular area drawing style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["AreaDrawingStyle"] = "Polygon";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["AreaDrawingStyle"] = "Polygon";
 
         // Set labels style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["CircularLabelsStyle"] = "Horizontal";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["CircularLabelsStyle"] = "Horizontal";
         //Chart1.SaveImage(@"c:\Images\RadarChart.jpg");
 
         targetradarPreviousScore = Server.MapPath("~\\UploadDocs\\") + "RadarChartPreviousScore" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".jpg";
-        if (dtFullPreviousData.Rows.Count > 0 || dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0 || dataTableFullPreviousData.Rows.Count > 0)
             Chart1.SaveImage(@targetradarPreviousScore);
     }
 
+    /// <summary>
+    /// Radar chart data for self and full project group
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void RadarCPL(string strTargetPersonID, string strGroupList)
     {
         Chart1.Series.Clear();
         string Series1 = string.Empty;
         string Series2 = string.Empty;
-        DataTable dtSelfData = reportManagement_BAO.GetRadarChartDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
-        DataTable dtFullProjectData = reportManagement_BAO.GetRadarChartDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "F");
+        //Get radar chart data for self assement
+        DataTable dataTableSelfData = reportManagementBusinessAccessObject.GetRadarChartDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
+        //Get radar chart data for full project group
+        DataTable dataTableFullProjectData = reportManagementBusinessAccessObject.GetRadarChartDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "F");
 
-        string[] xValues = new string[dtSelfData.Rows.Count];
-        double[] yValues = new double[dtSelfData.Rows.Count];
-        for (int i = 0; i < dtSelfData.Rows.Count; i++)
+        string[] xValues = new string[dataTableSelfData.Rows.Count];
+        double[] yValues = new double[dataTableSelfData.Rows.Count];
+        for (int i = 0; i < dataTableSelfData.Rows.Count; i++)
         {
-            if (i == dtSelfData.Rows.Count - 1)
+            if (i == dataTableSelfData.Rows.Count - 1)
             {
-                xValues[0] = dtSelfData.Rows[i]["CategoryName"].ToString();
-                yValues[0] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+                xValues[0] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+                yValues[0] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
             }
             else
             {
-                xValues[i + 1] = dtSelfData.Rows[i]["CategoryName"].ToString();
-                yValues[i + 1] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+                xValues[i + 1] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+                yValues[i + 1] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
             }
         }
 
-        string[] xValues1 = new string[dtFullProjectData.Rows.Count];
-        double[] yValues1 = new double[dtFullProjectData.Rows.Count];
-        for (int i = 0; i < dtFullProjectData.Rows.Count; i++)
+        string[] xValues1 = new string[dataTableFullProjectData.Rows.Count];
+        double[] yValues1 = new double[dataTableFullProjectData.Rows.Count];
+        for (int i = 0; i < dataTableFullProjectData.Rows.Count; i++)
         {
-            if (i == dtFullProjectData.Rows.Count - 1)
+            if (i == dataTableFullProjectData.Rows.Count - 1)
             {
-                xValues1[0] = dtFullProjectData.Rows[i]["CategoryName"].ToString();
-                yValues1[0] = Convert.ToDouble(dtFullProjectData.Rows[i]["Average"].ToString());
+                xValues1[0] = dataTableFullProjectData.Rows[i]["CategoryName"].ToString();
+                yValues1[0] = Convert.ToDouble(dataTableFullProjectData.Rows[i]["Average"].ToString());
             }
             else
             {
-                xValues1[i + 1] = dtFullProjectData.Rows[i]["CategoryName"].ToString();
-                yValues1[i + 1] = Convert.ToDouble(dtFullProjectData.Rows[i]["Average"].ToString());
+                xValues1[i + 1] = dataTableFullProjectData.Rows[i]["CategoryName"].ToString();
+                yValues1[i + 1] = Convert.ToDouble(dataTableFullProjectData.Rows[i]["Average"].ToString());
             }
         }
 
         //Can Set Y-Axis Scale from here.
         Chart1.ChartAreas["ChartArea1"].AxisY.Minimum = 3;
-        if (dtSelfData.Rows.Count > 0)
-            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtSelfData.Rows[0]["UpperBound"].ToString());
+        if (dataTableSelfData.Rows.Count > 0)
+            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableSelfData.Rows[0]["UpperBound"].ToString());
         else
         {
-            if (dtFullProjectData.Rows.Count > 0)
-                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtFullProjectData.Rows[0]["UpperBound"].ToString());
+            if (dataTableFullProjectData.Rows.Count > 0)
+                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableFullProjectData.Rows[0]["UpperBound"].ToString());
             else
                 Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = 10; // Default value.
         }
 
         //Adding Series in RadarChart 
-        if (dtSelfData.Rows.Count > 0)
-            Series1 = dtSelfData.Rows[0]["RelationShip"].ToString();
-        if (dtFullProjectData.Rows.Count > 0)
-            Series2 = dtFullProjectData.Rows[0]["RelationShip"].ToString();
+        if (dataTableSelfData.Rows.Count > 0)
+            Series1 = dataTableSelfData.Rows[0]["RelationShip"].ToString();
+        if (dataTableFullProjectData.Rows.Count > 0)
+            Series2 = dataTableFullProjectData.Rows[0]["RelationShip"].ToString();
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series.Add(Series1);
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series.Add(Series2);
 
         // Defining Series Type
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].ChartType = SeriesChartType.Radar;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].ChartType = SeriesChartType.Radar;
 
 
         //Change Color Of Graph
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].Color = System.Drawing.Color.FromArgb(220, 65, 140, 240);
             Chart1.Series[Series1].BackGradientStyle = GradientStyle.DiagonalRight;
         }
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
         {
             Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(220, 252, 180, 65);
             Chart1.Series[Series2].BackGradientStyle = GradientStyle.DiagonalRight;
         }
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderColor = System.Drawing.Color.Black;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderColor = System.Drawing.Color.Black;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderDashStyle = ChartDashStyle.Solid;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderDashStyle = ChartDashStyle.Solid;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderWidth = 1;
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].BorderWidth = 1;
 
         // Populate series data
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].Points.DataBindXY(xValues, yValues);
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2].Points.DataBindXY(xValues1, yValues1);
 
         // Set radar chart style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["RadarDrawingStyle"] = "Area";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["RadarDrawingStyle"] = "Area";
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series1].BorderWidth = 1;
         }
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
         {
             Chart1.Series[Series2].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series2].BorderWidth = 1;
         }
 
         // Set circular area drawing style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["AreaDrawingStyle"] = "Polygon";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["AreaDrawingStyle"] = "Polygon";
 
         // Set labels style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["CircularLabelsStyle"] = "Horizontal";
-        if (dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0)
             Chart1.Series[Series2]["CircularLabelsStyle"] = "Horizontal";
         //Chart1.SaveImage(@"c:\Images\RadarChart.jpg");
 
         targetradarname = Server.MapPath("~\\UploadDocs\\") + "RadarChart" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".jpg";
-        if (dtFullProjectData.Rows.Count > 0 || dtFullProjectData.Rows.Count > 0)
+        if (dataTableFullProjectData.Rows.Count > 0 || dataTableFullProjectData.Rows.Count > 0)
             Chart1.SaveImage(@targetradarname);
 
         //dtSelfData.Dispose();
         //Chart1.Dispose();             
     }
 
+    /// <summary>
+    /// Get previous score for radar chart 
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void RadarPreviousScoreCPL(string strTargetPersonID, string strGroupList)
     {
         Chart1.Series.Clear();
         string Series1 = string.Empty;
         string Series2 = string.Empty;
-        DataTable dtSelfData = reportManagement_BAO.GetRadarChartPreviousScoreDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
-        DataTable dtFullPreviousData = reportManagement_BAO.GetRadarChartPreviousScoreDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "P");
+        //Get radar chart previous score data for self
+        DataTable dataTableSelfData = reportManagementBusinessAccessObject.GetRadarChartPreviousScoreDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "S");
+        //Get radar chart previous score data 
+        DataTable dataTableFullPreviousData = reportManagementBusinessAccessObject.GetRadarChartPreviousScoreDataCPL(Convert.ToInt32(strTargetPersonID), strGroupList, "P");
 
-        string[] xValues = new string[dtSelfData.Rows.Count];
-        double[] yValues = new double[dtSelfData.Rows.Count];
-        for (int i = 0; i < dtSelfData.Rows.Count; i++)
+        string[] xValues = new string[dataTableSelfData.Rows.Count];
+        double[] yValues = new double[dataTableSelfData.Rows.Count];
+        for (int i = 0; i < dataTableSelfData.Rows.Count; i++)
         {
-            if (i == dtSelfData.Rows.Count - 1)
+            if (i == dataTableSelfData.Rows.Count - 1)
             {
-                xValues[0] = dtSelfData.Rows[i]["CategoryName"].ToString();
-                yValues[0] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+                xValues[0] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+                yValues[0] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
             }
             else
             {
-                xValues[i + 1] = dtSelfData.Rows[i]["CategoryName"].ToString();
-                yValues[i + 1] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+                xValues[i + 1] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+                yValues[i + 1] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
             }
         }
 
-        string[] xValues1 = new string[dtFullPreviousData.Rows.Count];
-        double[] yValues1 = new double[dtFullPreviousData.Rows.Count];
-        for (int i = 0; i < dtFullPreviousData.Rows.Count; i++)
+        string[] xValues1 = new string[dataTableFullPreviousData.Rows.Count];
+        double[] yValues1 = new double[dataTableFullPreviousData.Rows.Count];
+        for (int i = 0; i < dataTableFullPreviousData.Rows.Count; i++)
         {
-            if (i == dtFullPreviousData.Rows.Count - 1)
+            if (i == dataTableFullPreviousData.Rows.Count - 1)
             {
-                xValues1[0] = dtFullPreviousData.Rows[i]["CategoryName"].ToString();
-                yValues1[0] = Convert.ToDouble(dtFullPreviousData.Rows[i]["Average"].ToString());
+                xValues1[0] = dataTableFullPreviousData.Rows[i]["CategoryName"].ToString();
+                yValues1[0] = Convert.ToDouble(dataTableFullPreviousData.Rows[i]["Average"].ToString());
             }
             else
             {
-                xValues1[i + 1] = dtFullPreviousData.Rows[i]["CategoryName"].ToString();
-                yValues1[i + 1] = Convert.ToDouble(dtFullPreviousData.Rows[i]["Average"].ToString());
+                xValues1[i + 1] = dataTableFullPreviousData.Rows[i]["CategoryName"].ToString();
+                yValues1[i + 1] = Convert.ToDouble(dataTableFullPreviousData.Rows[i]["Average"].ToString());
             }
         }
 
         //Can Set Y-Axis Scale from here.
         Chart1.ChartAreas["ChartArea1"].AxisY.Minimum = 3;
-        if (dtSelfData.Rows.Count > 0)
-            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtSelfData.Rows[0]["UpperBound"].ToString());
+        if (dataTableSelfData.Rows.Count > 0)
+            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableSelfData.Rows[0]["UpperBound"].ToString());
         else
         {
-            if (dtFullPreviousData.Rows.Count > 0)
-                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtFullPreviousData.Rows[0]["UpperBound"].ToString());
+            if (dataTableFullPreviousData.Rows.Count > 0)
+                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableFullPreviousData.Rows[0]["UpperBound"].ToString());
             else
                 Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = 10; // Default value.
         }
 
         //Adding Series in RadarChart 
-        if (dtSelfData.Rows.Count > 0)
-            Series1 = dtSelfData.Rows[0]["RelationShip"].ToString();
-        if (dtFullPreviousData.Rows.Count > 0)
-            Series2 = dtFullPreviousData.Rows[0]["RelationShip"].ToString();
+        if (dataTableSelfData.Rows.Count > 0)
+            Series1 = dataTableSelfData.Rows[0]["RelationShip"].ToString();
+        if (dataTableFullPreviousData.Rows.Count > 0)
+            Series2 = dataTableFullPreviousData.Rows[0]["RelationShip"].ToString();
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series.Add(Series1);
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series.Add(Series2);
 
         // Defining Series Type
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].ChartType = SeriesChartType.Radar;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].ChartType = SeriesChartType.Radar;
 
         //Change Color Of Graph
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].Color = System.Drawing.Color.FromArgb(220, 65, 140, 240);
             Chart1.Series[Series1].BackGradientStyle = GradientStyle.DiagonalRight;
         }
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
         {
             Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(240, 128, 128);
             Chart1.Series[Series2].BackGradientStyle = GradientStyle.DiagonalRight;
@@ -740,122 +766,128 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(220, 252, 180, 65);
 
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderColor = System.Drawing.Color.Black;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderColor = System.Drawing.Color.Black;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderDashStyle = ChartDashStyle.Solid;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderDashStyle = ChartDashStyle.Solid;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderWidth = 1;
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].BorderWidth = 1;
 
         // Populate series data
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].Points.DataBindXY(xValues, yValues);
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2].Points.DataBindXY(xValues1, yValues1);
 
         // Set radar chart style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["RadarDrawingStyle"] = "Area";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["RadarDrawingStyle"] = "Area";
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series1].BorderWidth = 1;
         }
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
         {
             Chart1.Series[Series2].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series2].BorderWidth = 1;
         }
 
         // Set circular area drawing style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["AreaDrawingStyle"] = "Polygon";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["AreaDrawingStyle"] = "Polygon";
 
         // Set labels style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["CircularLabelsStyle"] = "Horizontal";
-        if (dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0)
             Chart1.Series[Series2]["CircularLabelsStyle"] = "Horizontal";
         //Chart1.SaveImage(@"c:\Images\RadarChart.jpg");
 
         targetradarPreviousScore = Server.MapPath("~\\UploadDocs\\") + "RadarChartPreviousScore" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".jpg";
-        if (dtFullPreviousData.Rows.Count > 0 || dtFullPreviousData.Rows.Count > 0)
+        if (dataTableFullPreviousData.Rows.Count > 0 || dataTableFullPreviousData.Rows.Count > 0)
             Chart1.SaveImage(@targetradarPreviousScore);
     }
 
+    /// <summary>
+    /// Get Radar chart benchmark data for self and full project group.
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
     public void RadarBenchMark(string strTargetPersonID)
     {
         Chart1.Series.Clear();
         string Series1 = string.Empty;
         string Series2 = string.Empty;
-        DataTable dtSelfData = reportManagement_BAO.GetRadarChartBenchMark(Convert.ToInt32(strTargetPersonID), "S");
-        DataTable dtBenchMarkData = reportManagement_BAO.GetRadarChartBenchMark(Convert.ToInt32(strTargetPersonID), "P");
+        //Radar chart benchmark data for self.
+        DataTable dataTableSelfData = reportManagementBusinessAccessObject.GetRadarChartBenchMark(Convert.ToInt32(strTargetPersonID), "S");
+        //Radar chart benchmark data for previous project.
+        DataTable dataTableBenchMarkData = reportManagementBusinessAccessObject.GetRadarChartBenchMark(Convert.ToInt32(strTargetPersonID), "P");
 
-        string[] xValues = new string[dtSelfData.Rows.Count];
-        double[] yValues = new double[dtSelfData.Rows.Count];
-        for (int i = 0; i < dtSelfData.Rows.Count; i++)
+        string[] xValues = new string[dataTableSelfData.Rows.Count];
+        double[] yValues = new double[dataTableSelfData.Rows.Count];
+        for (int i = 0; i < dataTableSelfData.Rows.Count; i++)
         {
-            xValues[i] = dtSelfData.Rows[i]["CategoryName"].ToString();
-            yValues[i] = Convert.ToDouble(dtSelfData.Rows[i]["Average"].ToString());
+            xValues[i] = dataTableSelfData.Rows[i]["CategoryName"].ToString();
+            yValues[i] = Convert.ToDouble(dataTableSelfData.Rows[i]["Average"].ToString());
         }
 
-        string[] xValues1 = new string[dtBenchMarkData.Rows.Count];
-        double[] yValues1 = new double[dtBenchMarkData.Rows.Count];
-        for (int i = 0; i < dtBenchMarkData.Rows.Count; i++)
+        string[] xValues1 = new string[dataTableBenchMarkData.Rows.Count];
+        double[] yValues1 = new double[dataTableBenchMarkData.Rows.Count];
+        for (int i = 0; i < dataTableBenchMarkData.Rows.Count; i++)
         {
-            xValues1[i] = dtBenchMarkData.Rows[i]["CategoryName"].ToString();
-            yValues1[i] = Convert.ToDouble(dtBenchMarkData.Rows[i]["Average"].ToString());
+            xValues1[i] = dataTableBenchMarkData.Rows[i]["CategoryName"].ToString();
+            yValues1[i] = Convert.ToDouble(dataTableBenchMarkData.Rows[i]["Average"].ToString());
         }
 
         //Can Set Y-Axis Scale from here.
         Chart1.ChartAreas["ChartArea1"].AxisY.Minimum = 3;
-        if (dtSelfData.Rows.Count > 0)
-            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtSelfData.Rows[0]["UpperBound"].ToString());
+        if (dataTableSelfData.Rows.Count > 0)
+            Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableSelfData.Rows[0]["UpperBound"].ToString());
         else
         {
-            if (dtBenchMarkData.Rows.Count > 0)
-                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dtBenchMarkData.Rows[0]["UpperBound"].ToString());
+            if (dataTableBenchMarkData.Rows.Count > 0)
+                Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = Convert.ToInt32(dataTableBenchMarkData.Rows[0]["UpperBound"].ToString());
             else
                 Chart1.ChartAreas["ChartArea1"].AxisY.Maximum = 10; // Default value.
         }
 
         //Adding Series in RadarChart 
-        if (dtSelfData.Rows.Count > 0)
-            Series1 = dtSelfData.Rows[0]["RelationShip"].ToString();
-        if (dtBenchMarkData.Rows.Count > 0)
-            Series2 = dtBenchMarkData.Rows[0]["RelationShip"].ToString();
+        if (dataTableSelfData.Rows.Count > 0)
+            Series1 = dataTableSelfData.Rows[0]["RelationShip"].ToString();
+        if (dataTableBenchMarkData.Rows.Count > 0)
+            Series2 = dataTableBenchMarkData.Rows[0]["RelationShip"].ToString();
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series.Add(Series1);
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series.Add(Series2);
 
         // Defining Series Type
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].ChartType = SeriesChartType.Radar;
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2].ChartType = SeriesChartType.Radar;
 
         //Change Color Of Graph
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].Color = System.Drawing.Color.FromArgb(220, 65, 140, 240);
             Chart1.Series[Series1].BackGradientStyle = GradientStyle.DiagonalRight;
         }
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
         {
             Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(193, 255, 193); //(240, 128, 128);
             Chart1.Series[Series2].BackGradientStyle = GradientStyle.DiagonalRight;
@@ -864,59 +896,59 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //Chart1.Series[Series2].Color = System.Drawing.Color.FromArgb(220, 252, 180, 65);
 
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderColor = System.Drawing.Color.Black;
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2].BorderColor = System.Drawing.Color.Black;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderDashStyle = ChartDashStyle.Solid;
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2].BorderDashStyle = ChartDashStyle.Solid;
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].BorderWidth = 1;
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2].BorderWidth = 1;
 
         // Populate series data
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1].Points.DataBindXY(xValues, yValues);
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2].Points.DataBindXY(xValues1, yValues1);
 
         // Set radar chart style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["RadarDrawingStyle"] = "Area";
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2]["RadarDrawingStyle"] = "Area";
 
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
         {
             Chart1.Series[Series1].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series1].BorderWidth = 1;
         }
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
         {
             Chart1.Series[Series2].BorderColor = Color.FromArgb(100, 100, 100);
             Chart1.Series[Series2].BorderWidth = 1;
         }
 
         // Set circular area drawing style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["AreaDrawingStyle"] = "Polygon";
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2]["AreaDrawingStyle"] = "Polygon";
 
         // Set labels style
-        if (dtSelfData.Rows.Count > 0)
+        if (dataTableSelfData.Rows.Count > 0)
             Chart1.Series[Series1]["CircularLabelsStyle"] = "Horizontal";
-        if (dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0)
             Chart1.Series[Series2]["CircularLabelsStyle"] = "Horizontal";
         //Chart1.SaveImage(@"c:\Images\RadarChart.jpg");
 
         targetradarBenchmark = Server.MapPath("~\\UploadDocs\\") + "RadarChartBenchMark" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss") + ".jpg";
-        if (dtBenchMarkData.Rows.Count > 0 || dtBenchMarkData.Rows.Count > 0)
+        if (dataTableBenchMarkData.Rows.Count > 0 || dataTableBenchMarkData.Rows.Count > 0)
             Chart1.SaveImage(@targetradarBenchmark);
     }
    
@@ -939,52 +971,69 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     }
     #endregion
-    
     #endregion
 
     #region Image Button Function
+    /// <summary>
+    /// Fill grid with participant details .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         FillGridData();
         ManagePaging();
     }
 
+    /// <summary>
+    /// Reset control with default value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ResetControls();
     }
-
     #endregion   
 
     #region dropdown event
+    /// <summary>
+    /// Fill project an company details by account .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         ResetControls();
+
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get account conapmy details.
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            //set company name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
 
             if (ddlAccountCode.SelectedIndex > 0)
             {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+                //Get all project in a Account.
+                DataTable dataTableProjectList = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
-                if (dtprojectlist.Rows.Count > 0)
+                if (dataTableProjectList.Rows.Count > 0)
                 {
                     ddlProject.Items.Clear();
                     ddlProject.Items.Insert(0, new ListItem("Select", "0"));
-
-                    ddlProject.DataSource = dtprojectlist;
+                    //Bind project dropdown
+                    ddlProject.DataSource = dataTableProjectList;
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataBind();
@@ -1002,16 +1051,23 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Fill Program in a project .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Programme_BAO programme_BAO = new Programme_BAO();
+        Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
 
         ddlProgramme.Items.Clear();
         DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+        //Get all program in a project.
+        dtProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
         if (dtProgramme.Rows.Count > 0)
         {
+            //Bind program drop down.
             ddlProgramme.DataSource = dtProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
@@ -1019,6 +1075,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
 
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+
         if (ddlProgramme.Items.Count > 1)
             ddlProgramme.Items[1].Selected = true;
 
@@ -1027,37 +1084,48 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
     }
 
+    /// <summary>
+    /// save program value to viewstate.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
     }
-
     #endregion
 
     #region ReportMethods
-
+    /// <summary>
+    /// Set details of Account ,Project and program of participant.
+    /// </summary>
+    /// <param name="targetid"></param>
     protected void GetDetailFromTargetPersonID(string targetid)
     {
-        strTargetPersonID = targetid;
+        stringTargetPersonID = targetid;
         ViewState["strTargetPersonID"] = targetid;
-        DataTable dtuserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(Convert.ToInt32(strTargetPersonID));
-        if (dtuserlist != null && dtuserlist.Rows.Count > 0)
+        //Get all questionnaire in a participant.
+        DataTable dataTableUserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(Convert.ToInt32(stringTargetPersonID));
+
+        if (dataTableUserlist != null && dataTableUserlist.Rows.Count > 0)
         {
-            int projectid = Convert.ToInt32(dtuserlist.Rows[0]["ProjectID"]);
-            strProjectID = dtuserlist.Rows[0]["ProjectID"].ToString();
-            ViewState["strProjectID"] = dtuserlist.Rows[0]["ProjectID"].ToString();
+            int projectid = Convert.ToInt32(dataTableUserlist.Rows[0]["ProjectID"]);
+            stringProjectID = dataTableUserlist.Rows[0]["ProjectID"].ToString();
+            ViewState["strProjectID"] = dataTableUserlist.Rows[0]["ProjectID"].ToString();
             
-            DataTable project = project_BAO.GetdataProjectByID(projectid);
+            DataTable project = projectBusinessAccessObject.GetdataProjectByID(projectid);
+
             if (project != null && project.Rows.Count > 0)
             {
-                strAccountID = project.Rows[0]["AccountID"].ToString();
+                stringAccountID = project.Rows[0]["AccountID"].ToString();
                 ViewState["strAccountID"] = project.Rows[0]["AccountID"].ToString();
             }
 
-            DataTable programme = reportManagement_BAO.GetdataProjectByID(projectid);
+            DataTable programme = reportManagementBusinessAccessObject.GetdataProjectByID(projectid);
+
             if (programme != null && programme.Rows.Count > 0)
             {
-                strProgrammeID = programme.Rows[0]["ProgrammeID"].ToString();
+                stringProgrammeID = programme.Rows[0]["ProgrammeID"].ToString();
                 ViewState["strProgrammeID"] = programme.Rows[0]["ProgrammeID"].ToString();
             }
         }
@@ -1065,136 +1133,150 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         {   
             ViewState["strProjectID"] = Convert.ToString(ViewState["prjid"]);
 
-            strAccountID = Convert.ToString(ViewState["accid"]);
-            ViewState["strAccountID"] = strAccountID;
+            stringAccountID = Convert.ToString(ViewState["accid"]);
+            ViewState["strAccountID"] = stringAccountID;
 
             int projectid = Convert.ToInt32(ViewState["prjid"]);
-            DataTable programme = reportManagement_BAO.GetdataProjectByID(projectid);
+
+            DataTable programme = reportManagementBusinessAccessObject.GetdataProjectByID(projectid);
+
             if (programme != null && programme.Rows.Count > 0)
             {
-                strProgrammeID = programme.Rows[0]["ProgrammeID"].ToString();
+                stringProgrammeID = programme.Rows[0]["ProgrammeID"].ToString();
                 ViewState["strProgrammeID"] = programme.Rows[0]["ProgrammeID"].ToString();
             }
         }
 
         /*For Self Name by Using Target Person ID & Account ID*/
-        dtSelfName = accountUser_BAO.GetdtAccountUserByID(Convert.ToInt32(strAccountID), Convert.ToInt32(strTargetPersonID));
-        if (dtSelfName != null && dtSelfName.Rows.Count > 0)
+        dataTableSelfName = accountUserBusinessAccessObject.GetdtAccountUserByID(Convert.ToInt32(stringAccountID), Convert.ToInt32(stringTargetPersonID));
+
+        if (dataTableSelfName != null && dataTableSelfName.Rows.Count > 0)
         {            
-            strReportName = dtSelfName.Rows[0]["FirstName"].ToString() + dtSelfName.Rows[0]["LastName"].ToString() + '_' + DateTime.Now.ToString("ddMMyyHHmmss");
+            stringReportName = dataTableSelfName.Rows[0]["FirstName"].ToString() + dataTableSelfName.Rows[0]["LastName"].ToString() + '_' + DateTime.Now.ToString("ddMMyyHHmmss");
             //ViewState["strReportName"] = dtSelfName.Rows[0]["FirstName"].ToString() + dtSelfName.Rows[0]["LastName"].ToString() + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss");
         }
     }
         
+    /// <summary>
+    /// Initilize parameter for report controls.
+    /// </summary>
+    /// <param name="projectid"></param>
     protected void ControlToParameter(string projectid)
     {
         if (projectid != null)
         {
-            DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
-            if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+            DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
+            if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
             {
                 // This parameter will Decide: which type of Report will Call                
-                if (dtreportsetting.Rows[0]["ReportType"].ToString() != string.Empty)
-                    strReportType = dtreportsetting.Rows[0]["ReportType"].ToString();
+                if (dataTableReportsetting.Rows[0]["ReportType"].ToString() != string.Empty)
+                    stringReportType = dataTableReportsetting.Rows[0]["ReportType"].ToString();
 
-                if (dtreportsetting.Rows[0]["CoverPage"].ToString() != string.Empty)
-                    strFrontPage = dtreportsetting.Rows[0]["CoverPage"].ToString();
+                if (dataTableReportsetting.Rows[0]["CoverPage"].ToString() != string.Empty)
+                    stringFrontPage = dataTableReportsetting.Rows[0]["CoverPage"].ToString();
 
-                if (dtreportsetting.Rows[0]["ReportIntroduction"].ToString() != string.Empty)
-                    strReportIntroduction = dtreportsetting.Rows[0]["ReportIntroduction"].ToString();
+                if (dataTableReportsetting.Rows[0]["ReportIntroduction"].ToString() != string.Empty)
+                    stringReportIntroduction = dataTableReportsetting.Rows[0]["ReportIntroduction"].ToString();
 
-                if (dtreportsetting.Rows[0]["Conclusionpage"].ToString() != string.Empty)
-                    strConclusionPage = dtreportsetting.Rows[0]["Conclusionpage"].ToString();
+                if (dataTableReportsetting.Rows[0]["Conclusionpage"].ToString() != string.Empty)
+                    stringConclusionPage = dataTableReportsetting.Rows[0]["Conclusionpage"].ToString();
 
-                if (dtreportsetting.Rows[0]["RadarChart"].ToString() != string.Empty)
-                    strRadarChart = dtreportsetting.Rows[0]["RadarChart"].ToString();
+                if (dataTableReportsetting.Rows[0]["RadarChart"].ToString() != string.Empty)
+                    stringRadarChart = dataTableReportsetting.Rows[0]["RadarChart"].ToString();
 
-                if (dtreportsetting.Rows[0]["QstTextResponses"].ToString() != string.Empty)
-                    strDetailedQst = dtreportsetting.Rows[0]["QstTextResponses"].ToString();
+                if (dataTableReportsetting.Rows[0]["QstTextResponses"].ToString() != string.Empty)
+                    stringDetailedQst = dataTableReportsetting.Rows[0]["QstTextResponses"].ToString();
 
-                if (dtreportsetting.Rows[0]["CatQstList"].ToString() != string.Empty)
-                    strCategoryQstlist = dtreportsetting.Rows[0]["CatQstList"].ToString();
+                if (dataTableReportsetting.Rows[0]["CatQstList"].ToString() != string.Empty)
+                    stringCategoryQstlist = dataTableReportsetting.Rows[0]["CatQstList"].ToString();
 
-                if (dtreportsetting.Rows[0]["CatDataChart"].ToString() != string.Empty)
-                    strCategoryBarChart = dtreportsetting.Rows[0]["CatDataChart"].ToString();
+                if (dataTableReportsetting.Rows[0]["CatDataChart"].ToString() != string.Empty)
+                    stringCategoryBarChart = dataTableReportsetting.Rows[0]["CatDataChart"].ToString();
 
-                if (dtreportsetting.Rows[0]["CandidateSelfStatus"].ToString() != string.Empty)
-                    strSelfNameGrp = dtreportsetting.Rows[0]["CandidateSelfStatus"].ToString();
+                if (dataTableReportsetting.Rows[0]["CandidateSelfStatus"].ToString() != string.Empty)
+                    stringSelfNameGrp = dataTableReportsetting.Rows[0]["CandidateSelfStatus"].ToString();
 
-                if (dtreportsetting.Rows[0]["FullProjectGrp"].ToString() != string.Empty)
-                    strFullProjGrp = dtreportsetting.Rows[0]["FullProjectGrp"].ToString();
+                if (dataTableReportsetting.Rows[0]["FullProjectGrp"].ToString() != string.Empty)
+                    stringFullProjectGrp = dataTableReportsetting.Rows[0]["FullProjectGrp"].ToString();
 
-                if (dtreportsetting.Rows[0]["ProgrammeGrp"].ToString() != string.Empty)
-                    strProgrammeGrp = dtreportsetting.Rows[0]["ProgrammeGrp"].ToString();
+                if (dataTableReportsetting.Rows[0]["ProgrammeGrp"].ToString() != string.Empty)
+                    stringProgrammeGrp = dataTableReportsetting.Rows[0]["ProgrammeGrp"].ToString();
 
-                if (dtreportsetting.Rows[0]["ProjectRelationGrp"].ToString() != string.Empty)
-                    strGroupList = dtreportsetting.Rows[0]["ProjectRelationGrp"].ToString();
+                if (dataTableReportsetting.Rows[0]["ProjectRelationGrp"].ToString() != string.Empty)
+                    stringGroupList = dataTableReportsetting.Rows[0]["ProjectRelationGrp"].ToString();
 
-                if (dtreportsetting.Rows[0]["ConclusionHighLowRange"].ToString() != string.Empty)
-                    strConHighLowRange = dtreportsetting.Rows[0]["ConclusionHighLowRange"].ToString();
+                if (dataTableReportsetting.Rows[0]["ConclusionHighLowRange"].ToString() != string.Empty)
+                    stringConHighLowRange = dataTableReportsetting.Rows[0]["ConclusionHighLowRange"].ToString();
 
-                if (dtreportsetting.Rows[0]["PreviousScoreVisible"].ToString() != string.Empty)
-                    strPreScoreVisibility = dtreportsetting.Rows[0]["PreviousScoreVisible"].ToString();
+                if (dataTableReportsetting.Rows[0]["PreviousScoreVisible"].ToString() != string.Empty)
+                    stringPreScoreVisibility = dataTableReportsetting.Rows[0]["PreviousScoreVisible"].ToString();
 
 
-                if (dtreportsetting.Rows[0]["BenchMarkGrpVisible"].ToString() != string.Empty)
-                    strBenchMarkGrpVisibility = dtreportsetting.Rows[0]["BenchMarkGrpVisible"].ToString();
+                if (dataTableReportsetting.Rows[0]["BenchMarkGrpVisible"].ToString() != string.Empty)
+                    stringBenchMarkGrpVisibility = dataTableReportsetting.Rows[0]["BenchMarkGrpVisible"].ToString();
 
-                if (dtreportsetting.Rows[0]["BenchMarkScoreVisible"].ToString() != string.Empty)
-                    strBenchMarkVisibility = dtreportsetting.Rows[0]["BenchMarkScoreVisible"].ToString();
+                if (dataTableReportsetting.Rows[0]["BenchMarkScoreVisible"].ToString() != string.Empty)
+                    stringBenchMarkVisibility = dataTableReportsetting.Rows[0]["BenchMarkScoreVisible"].ToString();
 
-                if (dtreportsetting.Rows[0]["BenchConclusionpage"].ToString() != string.Empty)
-                    strBenchConclusionPageVisibility = dtreportsetting.Rows[0]["BenchConclusionpage"].ToString();
+                if (dataTableReportsetting.Rows[0]["BenchConclusionpage"].ToString() != string.Empty)
+                    stringBenchConclusionPageVisibility = dataTableReportsetting.Rows[0]["BenchConclusionpage"].ToString();
                 
             }
         }
     }
 
+    /// <summary>
+    /// Export pdf report.
+    /// </summary>
+    /// <param name="dirName"></param>
     protected void btnExport(string dirName)
     {
         try
         {
           //  Microsoft.Reporting.WebForms.ReportViewer rview = new Microsoft.Reporting.WebForms.ReportViewer();
+            //Set report server path.
             rview.ServerReport.ReportServerUrl = new Uri(ConfigurationManager.AppSettings["ReportServerUrl"].ToString());
             string[] streamids;
             Microsoft.Reporting.WebForms.Warning[] warnings;
             string root = string.Empty;
+            //set report folder path.
             root = Server.MapPath("~") + "\\ReportGenerate\\";
 
             /* Function : For Filling Paramters From Controls */
-            ControlToParameter(strProjectID);
+            ControlToParameter(stringProjectID);
 
             if (ddlAccountCode.SelectedValue != string.Empty)
-                strStaticBarLabelVisibility = ddlAccountCode.SelectedItem.ToString();
+                stringStaticBarLabelVisibility = ddlAccountCode.SelectedItem.ToString();
             else
-                strStaticBarLabelVisibility = "";
+                stringStaticBarLabelVisibility = "";
 
             //If strReportType = 1 Then FeedbackReport will Call
             //If strReportType = 2 Then FeedbackReportClient1 will Call (In this Report We are Showing only Range & Text Type Question).
-            if (strReportType == "1")
+            if (stringReportType == "1") //If strReportType = 1 Then FeedbackReport will Call
             {
-                DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(strProjectID));
-                if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+                DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(stringProjectID));
+                if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
                 {
                     /*
                      * Drawing Radarchat By MSCHartControl then Exporting Image(.png) in ReportGenerate
                      * & Making Entry in Table with Radarchatname
                      * & Calling in RDL (RadarImage)
                      */
-                    if (dtreportsetting.Rows[0]["RadarChart"].ToString() == "1")
-                        Radar(strTargetPersonID, strGroupList);
+                    if (dataTableReportsetting.Rows[0]["RadarChart"].ToString() == "1")
+                        Radar(stringTargetPersonID, stringGroupList);
                     else
                         targetradarname = Server.MapPath("~\\UploadDocs\\") + "RadarChartNoImage" + ".jpg";
 
                     //Previous ScoreRadar Chart.
-                    if (dtreportsetting.Rows[0]["PreviousScoreVisible"].ToString() == "1")
-                        RadarPreviousScore(strTargetPersonID, strGroupList);
+                    if (dataTableReportsetting.Rows[0]["PreviousScoreVisible"].ToString() == "1")
+                        RadarPreviousScore(stringTargetPersonID, stringGroupList);
                     else
                         targetradarPreviousScore = Server.MapPath("~\\UploadDocs\\") + "RadarChartNoImage" + ".jpg";
 
                     //BenchMark Radar Chart.
-                    if (dtreportsetting.Rows[0]["BenchMarkScoreVisible"].ToString() == "1")
-                        RadarBenchMark(strTargetPersonID);
+                    if (dataTableReportsetting.Rows[0]["BenchMarkScoreVisible"].ToString() == "1")
+                        RadarBenchMark(stringTargetPersonID);
                     else
                         targetradarBenchmark = Server.MapPath("~\\UploadDocs\\") + "RadarChartNoImage" + ".jpg";
                 }
@@ -1212,33 +1294,34 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/FeedbackReport";
                 }
 
+                //Initilize report Parameter for pdf report.
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", strTargetPersonID));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("RadarChartVisibility", strRadarChart));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", strGroupList));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", strDetailedQst));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", strSelfNameGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", strFullProjGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", stringTargetPersonID));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("RadarChartVisibility", stringRadarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", stringGroupList));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", stringDetailedQst));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", stringCategoryQstlist));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", stringCategoryBarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", stringSelfNameGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", stringFullProjectGrp));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetRadarName", targetradarname));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", strConHighLowRange));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", stringConHighLowRange));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetRadarNamePrevious", targetradarPreviousScore));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PreScoreVisibility", strPreScoreVisibility));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", strStaticBarLabelVisibility));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchMarkGrpVisibility", strBenchMarkGrpVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PreScoreVisibility", stringPreScoreVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", stringStaticBarLabelVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchMarkGrpVisibility", stringBenchMarkGrpVisibility));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetRadarNameBenchmark", targetradarBenchmark));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchMarkVisibility", strBenchMarkVisibility));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchConclusionVisibility", strBenchConclusionPageVisibility));
-
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchMarkVisibility", stringBenchMarkVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BenchConclusionVisibility", stringBenchConclusionPageVisibility));
+                //set parameter to report viewer.
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "2")
+            else if (stringReportType == "2")//For report 2 FeedbackReportClient1 is called.
             {
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReportClient1";
                 //rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
@@ -1249,10 +1332,10 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
                 // In that case no need to send hardcord values as Parameter & Comments/Remove all harcord parameters.
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", strTargetPersonID));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", stringTargetPersonID));
                 //paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));            
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", "1"));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", strGroupList));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", stringGroupList));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", "1"));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", "1"));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", "1"));
@@ -1265,80 +1348,90 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 //paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", strSelfNameGrp));
                 //paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", strFullProjGrp));            
                 //paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
+
+                //set parameter for report viewer.
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "3")
+            else if (stringReportType == "3")//For report 3 report FeedbackReportClient2 is called.
             {
                  //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReportClient2";
               //  rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
 
                 //New Changes 
                 //Changed by Amit Singh
-                DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(strProjectID));
-                if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+                DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(stringProjectID));
+                if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
                 {
                    // if (dtreportsetting.Rows[0]["RadarChart"].ToString() == "1")
-                        RadarCPL(strTargetPersonID, strGroupList);
+                    /*
+                    * Drawing Radarchat By MSCHartControl then Exporting Image(.png) in ReportGenerate
+                    * & Making Entry in Table with Radarchatname
+                    * & Calling in RDL (RadarImage)
+                    */
+                        RadarCPL(stringTargetPersonID, stringGroupList);
                    // else
                       //  targetradarname = Server.MapPath("~\\UploadDocs\\") + "RadarChartNoImage" + ".jpg";
 
                     //Previous ScoreRadar Chart.
-                    if (dtreportsetting.Rows[0]["PreviousScoreVisible"].ToString() == "1")
-                        RadarPreviousScoreCPL(strTargetPersonID, strGroupList);
+                    if (dataTableReportsetting.Rows[0]["PreviousScoreVisible"].ToString() == "1")
+                        RadarPreviousScoreCPL(stringTargetPersonID, stringGroupList);
                     else
                         targetradarPreviousScore = "RadarChartNoImage";
 
                 }
 
+                //Set report path.
                 string strReportPathPrefix = ConfigurationManager.AppSettings["ReportPathPreFix"].ToString();
                 rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/FeedbackReportClient2";
 
                 //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
                 // In that case no need to send hardcord values as Parameter & Comments/Remove all harcord parameters.
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", strTargetPersonID));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", strFullProjGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", strConHighLowRange));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", stringTargetPersonID));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", stringFullProjectGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", stringConHighLowRange));
                 //paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PreScoreVisibility", strPreScoreVisibility));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetRadarName", targetradarname));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetRadarNamePrevious", targetradarPreviousScore));
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "4") // Old Mutual Report
+            else if (stringReportType == "4") // Old Mutual Report
             {
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/CurFeedbackReport";
                // rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
 
+                //set report path.
                 string strReportPathPrefix = ConfigurationManager.AppSettings["ReportPathPreFix"].ToString();
                 rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/CurFeedbackReport";
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", strTargetPersonID));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", strGroupList));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", strDetailedQst));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", strSelfNameGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", strFullProjGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", strConHighLowRange));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", strStaticBarLabelVisibility));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PreScoreVisibility", strPreScoreVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("TargetPersonID", stringTargetPersonID));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("GroupList", stringGroupList));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", stringDetailedQst));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", stringCategoryQstlist));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", stringCategoryBarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("SelfNameGrpVisibility", stringSelfNameGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FullProjGrpVisibility", stringFullProjectGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ParamConclusionHLRange", stringConHighLowRange));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", stringStaticBarLabelVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PreScoreVisibility", stringPreScoreVisibility));
                 rview.ServerReport.SetParameters(paramList);
             }         
 
 //            rview.Visible = false;
+            //Send parameter to report server.
             byte[] bytes = rview.ServerReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamids, out warnings);
             //string PDF_path = root + dirName + "\\" + strReportName + ".pdf";
-            string PDF_path = root + strReportName + ".pdf";
+            string PDF_path = root + stringReportName + ".pdf";
             FileStream objFs = new FileStream(PDF_path, System.IO.FileMode.Create);
             objFs.Write(bytes, 0, bytes.Length);
             objFs.Close();
@@ -1358,7 +1451,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region GridView
-
+    /// <summary>
+    /// Bind values to grid view rows
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
@@ -1370,72 +1467,77 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 if (e.Row.RowType != DataControlRowType.EmptyDataRow)
                     e.Row.Cells[5].Visible = false;
             }
-            
 
             selfStatus = "";
+
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                //Find gridview control.
                 HiddenField hdnUserID = (HiddenField)e.Row.FindControl("hdnUserID");
-                Label lblCandidateCount = (Label)e.Row.FindControl("lblCandidateCount");
-                Label lblCompleted = (Label)e.Row.FindControl("lblCompleted");
-                Label lblSelfAssessment = (Label)e.Row.FindControl("lblSelfAssessment");
+                Label labelCandidateCount = (Label)e.Row.FindControl("lblCandidateCount");
+                Label labelCompleted = (Label)e.Row.FindControl("lblCompleted");
+                Label labelSelfAssessment = (Label)e.Row.FindControl("lblSelfAssessment");
                 
                 //Get report management data 
-                DataTable dtParticipantInfo=new DataTable();
-                dtParticipantInfo = assignQstnParticipant_BAO.GetParticipantReportInfo(Convert.ToInt32(hdnUserID.Value));
+                DataTable dataTableParticipantInformation = new DataTable();
+
+                dataTableParticipantInformation = assignQstnParticipantBusinessAccessObject.GetParticipantReportInfo(Convert.ToInt32(hdnUserID.Value));
+
                 rptCandidateCount = 0;
 
-                if (dtParticipantInfo.Rows.Count > 0)
+                if (dataTableParticipantInformation.Rows.Count > 0)
                 {
-                    if (dtParticipantInfo.Rows[0]["SubmitCount"].ToString() == "")
-                        dtParticipantInfo.Rows[0]["SubmitCount"] = "0";
-
-                    rptCandidateCount = Convert.ToInt32(dtParticipantInfo.Rows[0]["SubmitCount"].ToString());
+                    if (dataTableParticipantInformation.Rows[0]["SubmitCount"].ToString() == "")
+                        dataTableParticipantInformation.Rows[0]["SubmitCount"] = "0";
+                    // Set Number of colleague in a participant.
+                    rptCandidateCount = Convert.ToInt32(dataTableParticipantInformation.Rows[0]["SubmitCount"].ToString());
                 }
                 else
                 {
                     rptCandidateCount = 0;
                 }
 
-                if (lblCandidateCount != null)
-                    lblCandidateCount.Text = assignQstnParticipant_BAO.GetCandidatesCount(Convert.ToInt32(hdnUserID.Value)).ToString();
+                //set Number of candidate completed survey.
+                if (labelCandidateCount != null)
+                    labelCandidateCount.Text = assignQstnParticipantBusinessAccessObject.GetCandidatesCount(Convert.ToInt32(hdnUserID.Value)).ToString();
 
-                if (lblCompleted != null)
-                    lblCompleted.Text = assignQstnParticipant_BAO.GetSubmissionCount(Convert.ToInt32(hdnUserID.Value)).ToString();
+                if (labelCompleted != null)
+                    labelCompleted.Text = assignQstnParticipantBusinessAccessObject.GetSubmissionCount(Convert.ToInt32(hdnUserID.Value)).ToString();
 
-                if (lblSelfAssessment != null)
+                //If survey inclueds self assement the nset self assement value as yes or no.
+                if (labelSelfAssessment != null)
                 {
-                    selfStatus=assignQstnParticipant_BAO.GetSelfAssessment(Convert.ToInt32(hdnUserID.Value)).ToString();
+                    selfStatus=assignQstnParticipantBusinessAccessObject.GetSelfAssessment(Convert.ToInt32(hdnUserID.Value)).ToString();
                     if (selfStatus == "1")
-                        lblSelfAssessment.Text = "Yes";
+                        labelSelfAssessment.Text = "Yes";
                     else
-                        lblSelfAssessment.Text = "No";
+                        labelSelfAssessment.Text = "No";
                 }
-
+                //Get the report type 
                 if ((Request.QueryString["Type"] != null && Request.QueryString["Type"].ToString() == "1") || (Request.QueryString["Type"] == null))
                 {
-                    ImageButton ibtnReport = (ImageButton)e.Row.FindControl("ibtnReport");
-                    filename = assignQstnParticipant_BAO.GetReportFileName(Convert.ToInt32(hdnUserID.Value));
+                    ImageButton imagebuttonReport = (ImageButton)e.Row.FindControl("ibtnReport");
+                    filename = assignQstnParticipantBusinessAccessObject.GetReportFileName(Convert.ToInt32(hdnUserID.Value));
 
                     if (filename != "")
-                        ibtnReport.Visible = true;
+                        imagebuttonReport.Visible = true;
                     else
-                        ibtnReport.Visible = false;
+                        imagebuttonReport.Visible = false;
 
                     ImageButton ibtnEdit = (ImageButton)e.Row.FindControl("imgEdit");
-                    if (Convert.ToInt32(lblCompleted.Text) == rptCandidateCount)
+                    if (Convert.ToInt32(labelCompleted.Text) == rptCandidateCount)
                         ibtnEdit.Visible = false;
                     else
                     {
                         ibtnEdit.Visible = true;
-                        ibtnReport.Visible = false;
+                        imagebuttonReport.Visible = false;
                     }
                 }
    
                 //string fpath = "http://localhost:2258/feedback360/reportgenerate/DrupalCMS.pdf";
                 //ibtnReport.OnClientClick = "javascript:window.open ('" + fpath + "', 'mywindow','status=1,toolbar=1,location=0,menubar=0,resizable=0,scrollbars=0,height=100,width=100');";
 
-                dtParticipantInfo.Dispose();
+                dataTableParticipantInformation.Dispose();
             }
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -1446,6 +1548,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// No use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
@@ -1462,33 +1569,40 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Add Event for download of pdfreport.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_RowCommand(object sender, GridViewCommandEventArgs e)
     {
         if (e.CommandName == "Edit")
         {
-            string fName = assignQstnParticipant_BAO.GetReportFileName(Convert.ToInt32(e.CommandArgument)).ToString();
+            string fileName = assignQstnParticipantBusinessAccessObject.GetReportFileName(Convert.ToInt32(e.CommandArgument)).ToString();
 
             string participantid = Convert.ToString(e.CommandArgument);
+            //Get participant Account details.
             GetDetailFromTargetPersonID(participantid);
 
+            //Retrieve initilize values for participant.
             if (Convert.ToString(ViewState["strTargetPersonID"]) != string.Empty)
-                strTargetPersonID = Convert.ToString(ViewState["strTargetPersonID"]);
+                stringTargetPersonID = Convert.ToString(ViewState["strTargetPersonID"]);
             if (Convert.ToString(ViewState["strAccountID"]) != string.Empty)
-                strAccountID = Convert.ToString(ViewState["strAccountID"]);
+                stringAccountID = Convert.ToString(ViewState["strAccountID"]);
             if (Convert.ToString(ViewState["strProjectID"]) != string.Empty)
-                strProjectID = Convert.ToString(ViewState["strProjectID"]);
+                stringProjectID = Convert.ToString(ViewState["strProjectID"]);
             //if (Convert.ToString(ViewState["strReportName"]) != string.Empty)
             //    strReportName = Convert.ToString(ViewState["strReportName"]);
             if (Convert.ToString(ViewState["strProgrammeID"]) != string.Empty)
-                strProgrammeID = Convert.ToString(ViewState["strProgrammeID"]);
+                stringProgrammeID = Convert.ToString(ViewState["strProgrammeID"]);
 
-            if (strTargetPersonID != null && strAccountID != null && strProjectID != null && strReportName != null)
+            if (stringTargetPersonID != null && stringAccountID != null && stringProjectID != null && stringReportName != null)
             {
                 btnExport(""); 
                 try
                 {
                     string root = Server.MapPath("~") + "\\ReportGenerate\\";
-                    string openpdf = root + strReportName + ".pdf";
+                    string openpdf = root + stringReportName + ".pdf";
                     //Response.Write(openpdf);
                     //Response.Redirect("../../ReportGenerate/" + strReportName + ".pdf");
 
@@ -1502,7 +1616,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     
                     Response.Flush();
                     Response.Close();*/
-                    Response.Redirect("download.aspx?filename=" + strReportName);
+                    Response.Redirect("download.aspx?filename=" + stringReportName);
                     
 
                     ////This Code Will Delete RadarImage & Pdf After save
@@ -1521,12 +1635,12 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
         else if (e.CommandName == "Report")
         {
-            string fName = assignQstnParticipant_BAO.GetReportFileName(Convert.ToInt32(e.CommandArgument)).ToString();
+            string reportFileName = assignQstnParticipantBusinessAccessObject.GetReportFileName(Convert.ToInt32(e.CommandArgument)).ToString();
 
-            if (fName != "")
+            if (reportFileName != "")
             {
                 string root = Server.MapPath("~") + "\\ReportGenerate\\";
-                string openpdf = root + fName;
+                string openpdf = root + reportFileName;
                 //Response.Write(openpdf);
                 Response.ClearContent();
                 Response.ClearHeaders();
@@ -1541,11 +1655,21 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
 
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_RowEditing(object sender, GridViewEditEventArgs e)
     {
 
@@ -1553,6 +1677,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// It is of no use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {        
         try
@@ -1562,8 +1691,8 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             string root = Server.MapPath("~") + "\\ReportGenerate\\";
             string newDir = ddlAccountCode.SelectedItem.Text + "_" + DateTime.Now.ToString("ddMMyyyy_HHmmss");
 
-            DirectoryInfo drInfo = new DirectoryInfo(root);
-            drInfo.CreateSubdirectory(newDir);
+            DirectoryInfo directoryrInformation = new DirectoryInfo(root);
+            directoryrInformation.CreateSubdirectory(newDir);
             
             foreach (GridViewRow row in grdvParticipantList.Rows)
             {
@@ -1576,15 +1705,15 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     GetDetailFromTargetPersonID(participantid);
 
                     if (Convert.ToString(ViewState["strTargetPersonID"]) != string.Empty)
-                        strTargetPersonID = Convert.ToString(ViewState["strTargetPersonID"]);
+                        stringTargetPersonID = Convert.ToString(ViewState["strTargetPersonID"]);
                     if (Convert.ToString(ViewState["strAccountID"]) != string.Empty)
-                        strAccountID = Convert.ToString(ViewState["strAccountID"]);
+                        stringAccountID = Convert.ToString(ViewState["strAccountID"]);
                     if (Convert.ToString(ViewState["strProjectID"]) != string.Empty)
-                        strProjectID = Convert.ToString(ViewState["strProjectID"]);
+                        stringProjectID = Convert.ToString(ViewState["strProjectID"]);
                     if (Convert.ToString(ViewState["strProgrammeID"]) != string.Empty)
-                        strProgrammeID = Convert.ToString(ViewState["strProgrammeID"]);
+                        stringProgrammeID = Convert.ToString(ViewState["strProgrammeID"]);
 
-                    if (strTargetPersonID != null && strAccountID != null && strProjectID != null && strReportName != null)
+                    if (stringTargetPersonID != null && stringAccountID != null && stringProjectID != null && stringReportName != null)
                     {
 
                         btnExport(newDir);
@@ -1599,6 +1728,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
             //This Code Will Delete All PDF
             ArrayList fils = new ArrayList();
+
             foreach (string file in Directory.GetFiles(sPath)) // add each file in directory
             {
                 if (Path.GetExtension(file) == ".pdf")
@@ -1618,7 +1748,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// No use.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -1844,12 +1976,20 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //}
     }
 
+    /// <summary>
+    /// Save the view state of the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, reportCount };
     }
 
+    /// <summary>
+    /// Reload the viewsate when view sate of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -1863,11 +2003,16 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Gridview Paging Next previous button event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
         LinkButton objlb = (LinkButton)sender;
-
+        //Reset Page index to new index.
         grdvParticipantList.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
         grdvParticipantList.DataBind();
 
@@ -1875,6 +2020,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Handel record search in gridview by page number.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
         TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
@@ -1882,27 +2032,30 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         {
             pageNo = txtGoto.Text;
             plcPaging.Controls.Clear();
-
+            //Reset Page index to new index.
             grdvParticipantList.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
             grdvParticipantList.DataBind();
+            //Handel pageing in Gridview.
             ManagePaging();
 
             txtGoto.Text = pageNo;
         }
     }
-
     #endregion    
 
     #region Grid Method
-
+    /// <summary>
+    /// Initilize object data source for grid.
+    /// </summary>
     public void FillGridData()
     {
         odsReport.SelectParameters.Clear();
         string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
         string managerRoleId = ConfigurationManager.AppSettings["ManagerRoleID"].ToString();
 
-        if (identity.User.GroupID == Convert.ToInt32(participantRoleId))
+        if (identity.User.GroupID == Convert.ToInt32(participantRoleId))//If user group is participant.
         {
+            //Initilize object datasource for grid.
             odsReport.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsReport.SelectParameters.Add("projectID", ddlProject.SelectedValue);
             odsReport.SelectParameters.Add("programmeID", ddlProgramme.SelectedValue);
@@ -1913,8 +2066,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             odsReport.FilterParameters.Clear();
             plcPaging.Controls.Clear();
         }
-        else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))
+        else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))//If user group is Manager.
         {
+            //Initilize object datasource for grid.
             odsReport.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             odsReport.SelectParameters.Add("projectID", ddlProject.SelectedValue);
             odsReport.SelectParameters.Add("programmeID", ddlProgramme.SelectedValue);
@@ -1923,6 +2077,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
         else
         {
+            //If user group is Admin ,Initilize object datasource for grid with stored values.
             odsReport.SelectParameters.Add("accountID", Convert.ToString(ViewState["accid"]));
             odsReport.SelectParameters.Add("projectID", Convert.ToString(ViewState["prjid"]));
             odsReport.SelectParameters.Add("programmeID", Convert.ToString(ViewState["prgid"]));
@@ -1932,6 +2087,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     }       
 
+    /// <summary>
+    /// Reset controls value to default.
+    /// </summary>
     protected void ResetControls()
     {
         try
@@ -1940,7 +2098,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
             if (identity.User.GroupID != Convert.ToInt32(participantRoleId))
             {
+                //Clear object data source for report grid.
                 odsReport.SelectParameters.Clear();
+                //Reset object data source for report grid.
                 odsReport.SelectParameters.Add("accountID", null);
                 odsReport.SelectParameters.Add("projectID", null);
                 odsReport.SelectParameters.Add("programmeID", null);
@@ -1960,22 +2120,31 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region ZipCode
-
+    /// <summary>
+    /// Create a Zip file for download.
+    /// </summary>
+    /// <param name="inputFolderPath"></param>
+    /// <param name="outputPathAndFile"></param>
+    /// <param name="password"></param>
     public static void ZipFiles(string inputFolderPath, string outputPathAndFile, string password)
     {
-        ArrayList ar = GenerateFileList(inputFolderPath); // generate file list
+        ArrayList arrayFileList = GenerateFileList(inputFolderPath); // generate file list
         int TrimLength = (Directory.GetParent(inputFolderPath)).ToString().Length;
         // find number of chars to remove     // from orginal file path
         TrimLength += 1; //remove '\'
         FileStream ostream;
         byte[] obuffer;
         string outPath = inputFolderPath + @"\" + outputPathAndFile;
+
         ZipOutputStream oZipStream = new ZipOutputStream(File.Create(outPath)); // create zip stream
+
         if (password != null && password != String.Empty)
             oZipStream.Password = password;
+
         oZipStream.SetLevel(9); // maximum compression
         ZipEntry oZipEntry;
-        foreach (string Fil in ar) // for each file, generate a zipentry
+
+        foreach (string Fil in arrayFileList) // for each file, generate a zipentry
         {
             oZipEntry = new ZipEntry(Fil.Remove(0, TrimLength));
             oZipStream.PutNextEntry(oZipEntry);
@@ -1988,15 +2157,22 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 oZipStream.Write(obuffer, 0, obuffer.Length);
                 ostream.Close();
             }
-        }        
+        } 
+       
         oZipStream.Finish();
         oZipStream.Close();
     }
 
+    /// <summary>
+    /// Add pdf files to directory and return file list in a directory.
+    /// </summary>
+    /// <param name="Dir"></param>
+    /// <returns></returns>
     private static ArrayList GenerateFileList(string Dir)
     {
         ArrayList fils = new ArrayList();
         bool Empty = true;
+
         foreach (string file in Directory.GetFiles(Dir)) // add each file in directory
         {
             if (Path.GetExtension(file) == ".pdf" )//|| Path.GetExtension(file) == ".xml")
@@ -2025,14 +2201,24 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         return fils; // return file list
     }
 
+    /// <summary>
+    /// Unzip the  zip file
+    /// </summary>
+    /// <param name="zipPathAndFile"></param>
+    /// <param name="outputFolder"></param>
+    /// <param name="password"></param>
+    /// <param name="deleteZipFile"></param>
     public static void UnZipFiles(string zipPathAndFile, string outputFolder, string password, bool deleteZipFile)
     {
-        ZipInputStream s = new ZipInputStream(File.OpenRead(zipPathAndFile));
+        ZipInputStream zipStream = new ZipInputStream(File.OpenRead(zipPathAndFile));
+
         if (password != null && password != String.Empty)
-            s.Password = password;
+            zipStream.Password = password;
+
         ZipEntry theEntry;
         string tmpEntry = String.Empty;
-        while ((theEntry = s.GetNextEntry()) != null)
+
+        while ((theEntry = zipStream.GetNextEntry()) != null)
         {
             string directoryName = outputFolder;
             string fileName = Path.GetFileName(theEntry.Name);
@@ -2041,20 +2227,25 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             {
                 Directory.CreateDirectory(directoryName);
             }
+
             if (fileName != String.Empty)
             {
                 if (theEntry.Name.IndexOf(".ini") < 0)
                 {
                     string fullPath = directoryName + "\\" + theEntry.Name;
                     fullPath = fullPath.Replace("\\ ", "\\");
+
                     string fullDirPath = Path.GetDirectoryName(fullPath);
+
                     if (!Directory.Exists(fullDirPath)) Directory.CreateDirectory(fullDirPath);
                     FileStream streamWriter = File.Create(fullPath);
+
                     int size = 2048;
                     byte[] data = new byte[2048];
+
                     while (true)
                     {
-                        size = s.Read(data, 0, data.Length);
+                        size = zipStream.Read(data, 0, data.Length);
                         if (size > 0)
                         {
                             streamWriter.Write(data, 0, size);
@@ -2068,13 +2259,19 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 }
             }
         }
-        s.Close();
-        if (deleteZipFile)
-            File.Delete(zipPathAndFile);
-    }
 
+        zipStream.Close();
+
+        if (deleteZipFile)
+            File.Delete(zipPathAndFile);//Delete file
+    }
     #endregion
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvParticipantList_SelectedIndexChanged(object sender, EventArgs e)
     {
 

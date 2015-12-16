@@ -1,28 +1,19 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Drawing.Text;
 using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
 using System.Text.RegularExpressions;
 
 public partial class Module_Reports_ReportManagement : CodeBehindBase
 {
     #region Global Variable
-
+    //Global Variables
     string LogFilePath = string.Empty;
     string mimeType;
     string encoding;
@@ -32,18 +23,17 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     string defaultFileName = string.Empty;
     Warning[] warnings;
     WADIdentity identity;
-    Project_BAO project_BAO = new Project_BAO();
-    Programme_BAO programme_BAO = new Programme_BAO();
-    AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
+    Project_BAO projectBusinessAccessObject = new Project_BAO();
+    Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+    AccountUser_BAO accountUserBusinessAccessObject = new AccountUser_BAO();
     AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
-    ReportManagement_BAO reportManagement_BAO = new ReportManagement_BAO();
-    ReportManagement_BE reportManagement_BE = new ReportManagement_BE();
+    ReportManagement_BAO reportManagementBusinessAccessObject = new ReportManagement_BAO();
+    ReportManagement_BE reportManagementBusinessEntity = new ReportManagement_BE();
 
-
-    DataTable dtCompanyName;
-    DataTable dtGroupList;
-    DataTable dtSelfName;
-    DataTable dtReportsID;
+    DataTable dataTableCompanyName;
+    DataTable dataTableGroupList;
+    DataTable dataTableSelfName;
+    DataTable dataTableReportsID;
     string strGroupList;
     string strFrontPage;
     string strConclusionPage;
@@ -67,16 +57,16 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         //strTargetPersonID = "304";//"298";
         //strAccountID = "29";
         //strProjectID = "178";               
         identity = this.Page.User.Identity as WADIdentity;
+
         if (!IsPostBack)
         {
-
-
+            //If user is Super Admin then show account section else hide.
             if (identity.User.GroupID == 1)
             {
                 divAccount.Visible = true;
@@ -88,8 +78,9 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 divAccount.Visible = false;
             }
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get all account list in a user account and bind account drop down.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
@@ -97,15 +88,18 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
 
             //if (identity.User.GroupID == 1)
             //{
-            Project_BAO project_BAO = new Project_BAO();
-            ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+            Project_BAO projectBusinessAccessObject = new Project_BAO();
+            //Get all project in an user account.
+            ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
             ddlProject.DataValueField = "ProjectID";
             ddlProject.DataTextField = "Title";
             ddlProject.DataBind();
             //}            
             //GroupCheckBoxListBind();
         }
+
         lblSelfNameGrp.Text = "Self";
+
         if (ddlProject.SelectedItem.Text.Trim() != "Select")
         {
             //reportselection.Visible = true;
@@ -120,7 +114,11 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     }
 
     #region Image Button Function
-
+    /// <summary>
+    /// Save data to database.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         if (IsFileValid(fuplTopImage) && IsFileValid(this.fuplMiddleImage) && IsFileValid(this.fuplBottomImage) && IsFileValid(this.FileUploadRightImage))
@@ -132,244 +130,247 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             string frontPageLogo2 = "";
             string frontPageLogo3 = "";
             string FrontPageLogo4 = "";
-
-            DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
-
+            //Get all project setting in a project.
+            DataTable dtreportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
+            //set the page logo.
             if (dtreportsetting.Rows.Count > 0)
                 lastLogo = dtreportsetting.Rows[0]["PageLogo"].ToString();
-
+            //set the front logo 2.
             if (dtreportsetting.Rows.Count > 0)
                 frontPageLogo2 = dtreportsetting.Rows[0]["FrontPageLogo2"].ToString();
-
+            //set the front logo 3.
             if (dtreportsetting.Rows.Count > 0)
                 frontPageLogo3 = dtreportsetting.Rows[0]["FrontPageLogo3"].ToString();
-
+            //set the front logo 4.
             if (dtreportsetting.Rows.Count > 0)
                 FrontPageLogo4 = dtreportsetting.Rows[0]["FrontPageLogo4"].ToString();
 
-
-
-            int c = reportManagement_BAO.DeleteProjectSettingReport(Convert.ToInt32(ddlProject.SelectedValue));
+            int result = reportManagementBusinessAccessObject.DeleteProjectSettingReport(Convert.ToInt32(ddlProject.SelectedValue));
 
             /*
-             * New Insertion Strart 
+             * New Insertion Strart ,set controls value.
              */
-            reportManagement_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            reportManagement_BE.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
+            reportManagementBusinessEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            reportManagementBusinessEntity.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
 
-            reportManagement_BE.ReportType = ddlReportType.SelectedValue;
-            reportManagement_BE.PageHeading1 = txtPageHeading1.Text.Trim();
-            reportManagement_BE.PageHeading2 = txtPageHeading2.Text.Trim();
-            reportManagement_BE.PageHeading3 = txtPageHeading3.Text.Trim();
-            reportManagement_BE.PageHeadingColor = txtPageHeadingColor.Text.Trim();
-            reportManagement_BE.PageHeadingCopyright = txtPageCopyright.Text.Trim();
-            reportManagement_BE.PageHeadingIntro = txtPageIntroduction.Value.Trim();
-            reportManagement_BE.PageHeadingConclusion = Server.HtmlDecode(txtPageConclusion.Value.Trim());
-            reportManagement_BE.ConclusionHeading = Server.HtmlDecode(txtConclusionHeading.Text.Trim());
+            reportManagementBusinessEntity.ReportType = ddlReportType.SelectedValue;
+            reportManagementBusinessEntity.PageHeading1 = txtPageHeading1.Text.Trim();
+            reportManagementBusinessEntity.PageHeading2 = txtPageHeading2.Text.Trim();
+            reportManagementBusinessEntity.PageHeading3 = txtPageHeading3.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingColor = txtPageHeadingColor.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingCopyright = txtPageCopyright.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingIntro = txtPageIntroduction.Value.Trim();
+            reportManagementBusinessEntity.PageHeadingConclusion = Server.HtmlDecode(txtPageConclusion.Value.Trim());
+            reportManagementBusinessEntity.ConclusionHeading = Server.HtmlDecode(txtConclusionHeading.Text.Trim());
 
             //If Admin does't specify the value for Scroes Range then "2" will be insert Default
             if (txtConHighLowRange.Text.Trim() != string.Empty)
-                reportManagement_BE.ConclusionHighLowRange = txtConHighLowRange.Text.Trim();
+                reportManagementBusinessEntity.ConclusionHighLowRange = txtConHighLowRange.Text.Trim();
             else
-                reportManagement_BE.ConclusionHighLowRange = "2";
+                reportManagementBusinessEntity.ConclusionHighLowRange = "2";
 
+            //Hide show report control setting , if checked then 1 else 0 will be inserted.
             if (chkCoverPage.Checked == true)
-                reportManagement_BE.CoverPage = "1";
+                reportManagementBusinessEntity.CoverPage = "1";
             else
-                reportManagement_BE.CoverPage = "0";
+                reportManagementBusinessEntity.CoverPage = "0";
 
             if (chkReportIntro.Checked == true)
-                reportManagement_BE.ReportIntroduction = "1";
+                reportManagementBusinessEntity.ReportIntroduction = "1";
             else
-                reportManagement_BE.ReportIntroduction = "0";
+                reportManagementBusinessEntity.ReportIntroduction = "0";
 
             if (chkBenchConclusionPage.Checked == true)
-                reportManagement_BE.BenchConclusionpage = "1";
+                reportManagementBusinessEntity.BenchConclusionpage = "1";
             else
-                reportManagement_BE.BenchConclusionpage = "0";
+                reportManagementBusinessEntity.BenchConclusionpage = "0";
 
 
             if (chkConclusion.Checked == true)
-                reportManagement_BE.Conclusionpage = "1";
+                reportManagementBusinessEntity.Conclusionpage = "1";
             else
-                reportManagement_BE.Conclusionpage = "0";
+                reportManagementBusinessEntity.Conclusionpage = "0";
 
             if (chkPreviousScore.Checked == true)
-                reportManagement_BE.PreviousScoreVisible = "1";
+                reportManagementBusinessEntity.PreviousScoreVisible = "1";
             else
-                reportManagement_BE.PreviousScoreVisible = "0";
+                reportManagementBusinessEntity.PreviousScoreVisible = "0";
 
             if (chkBenchMark.Checked == true)
-                reportManagement_BE.BenchMarkScoreVisible = "1";
+                reportManagementBusinessEntity.BenchMarkScoreVisible = "1";
             else
-                reportManagement_BE.BenchMarkScoreVisible = "0";
+                reportManagementBusinessEntity.BenchMarkScoreVisible = "0";
 
             if (chkBenchMarkGrp.Checked == true)
-                reportManagement_BE.BenchMarkGrpVisible = "1";
+                reportManagementBusinessEntity.BenchMarkGrpVisible = "1";
             else
-                reportManagement_BE.BenchMarkGrpVisible = "0";
+                reportManagementBusinessEntity.BenchMarkGrpVisible = "0";
 
 
             if (chkRadarChart.Checked == true)
-                reportManagement_BE.RadarChart = "1";
+                reportManagementBusinessEntity.RadarChart = "1";
             else
-                reportManagement_BE.RadarChart = "0";
+                reportManagementBusinessEntity.RadarChart = "0";
 
             if (chkCatQstText.Checked == true)
-                reportManagement_BE.QstTextResponses = "1";
+                reportManagementBusinessEntity.QstTextResponses = "1";
             else
-                reportManagement_BE.QstTextResponses = "0";
+                reportManagementBusinessEntity.QstTextResponses = "0";
 
             if (chkCatQstlist.Checked == true)
-                reportManagement_BE.CatQstList = "1";
+                reportManagementBusinessEntity.CatQstList = "1";
             else
-                reportManagement_BE.CatQstList = "0";
+                reportManagementBusinessEntity.CatQstList = "0";
 
             if (chkCatQstChart.Checked == true)
-                reportManagement_BE.CatDataChart = "1";
+                reportManagementBusinessEntity.CatDataChart = "1";
             else
-                reportManagement_BE.CatDataChart = "0";
+                reportManagementBusinessEntity.CatDataChart = "0";
 
             if (chkSelfNameGrp.Checked == true)
-                reportManagement_BE.CandidateSelfStatus = "1";
+                reportManagementBusinessEntity.CandidateSelfStatus = "1";
             else
-                reportManagement_BE.CandidateSelfStatus = "0";
+                reportManagementBusinessEntity.CandidateSelfStatus = "0";
 
             RetrieveCheckBoxValue();
 
             if (chkFullPrjGrp.Checked == true)
-                reportManagement_BE.FullProjectGrp = "1";
+                reportManagementBusinessEntity.FullProjectGrp = "1";
             else
-                reportManagement_BE.FullProjectGrp = "0";
+                reportManagementBusinessEntity.FullProjectGrp = "0";
 
             if (chkProgrammeGrp.Checked == true)
-                reportManagement_BE.ProgrammeGrp = "1";
+                reportManagementBusinessEntity.ProgrammeGrp = "1";
             else
-                reportManagement_BE.ProgrammeGrp = "0";
+                reportManagementBusinessEntity.ProgrammeGrp = "0";
 
             if (chkPreviousScore.Checked == true)
-                reportManagement_BE.PreviousScoreVisible = "1";
+                reportManagementBusinessEntity.PreviousScoreVisible = "1";
             else
-                reportManagement_BE.PreviousScoreVisible = "0";
+                reportManagementBusinessEntity.PreviousScoreVisible = "0";
 
+            //Upload top image.
             if (fuplTopImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplTopImage.PostedFile.FileName);
-
+                //Get unique file name.
                 file = GetUniqueFilename(filename);
-
+                //Set file folder path 
                 string path = MapPath("~\\UploadDocs\\") + file;
                 fuplTopImage.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.PageLogo = file;
+                FileStream topImageFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader topImageBinaryReader = new BinaryReader(topImageFileStream);
+                Byte[] docbytes = topImageBinaryReader.ReadBytes((Int32)topImageFileStream.Length);
+                topImageBinaryReader.Close();
+                topImageFileStream.Close();
+                reportManagementBusinessEntity.PageLogo = file;
             }
             else
             {
                 if (lastLogo != "" && hdnTopImage.Value != "")
-                    reportManagement_BE.PageLogo = lastLogo;
+                    reportManagementBusinessEntity.PageLogo = lastLogo;
                 else if (Request.QueryString["Mode"] == "E" && fuplTopImage.FileName == "" && hdnTopImage.Value != "")
-                    reportManagement_BE.PageLogo = Convert.ToString(Session["FileName"]);
+                    reportManagementBusinessEntity.PageLogo = Convert.ToString(Session["FileName"]);
                 else
-                    reportManagement_BE.PageLogo = "";
+                    reportManagementBusinessEntity.PageLogo = "";
             }
 
+            //Upload middle image.
             if (fuplMiddleImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplMiddleImage.PostedFile.FileName);
-
+                //Get unique file name.
                 file = GetUniqueFilename(filename);
-
+                //Set file folder path 
                 string path = MapPath("~\\UploadDocs\\") + file;
                 fuplMiddleImage.SaveAs(path);
+
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.FrontPageLogo2 = file;
+                FileStream middleImageFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader middleImageBinaryReader = new BinaryReader(middleImageFileStream);
+                Byte[] docbytes = middleImageBinaryReader.ReadBytes((Int32)middleImageFileStream.Length);
+                middleImageBinaryReader.Close();
+                middleImageFileStream.Close();
+                reportManagementBusinessEntity.FrontPageLogo2 = file;
             }
             else
             {
                 if (frontPageLogo2 != "" && hdnMiddleImage.Value != "")
-                    reportManagement_BE.FrontPageLogo2 = frontPageLogo2;
+                    reportManagementBusinessEntity.FrontPageLogo2 = frontPageLogo2;
                 else if (Request.QueryString["Mode"] == "E" && fuplMiddleImage.FileName == "" && hdnMiddleImage.Value != "")
-                    reportManagement_BE.FrontPageLogo2 = Convert.ToString(Session["FrontPageLogo2"]);
+                    reportManagementBusinessEntity.FrontPageLogo2 = Convert.ToString(Session["FrontPageLogo2"]);
                 else
-                    reportManagement_BE.FrontPageLogo2 = "";
+                    reportManagementBusinessEntity.FrontPageLogo2 = "";
             }
-
+            //Upload bottom image.
             if (fuplBottomImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(fuplBottomImage.PostedFile.FileName);
-
+                //Get unique file name.
                 file = GetUniqueFilename(filename);
-
+                //Set file folder path. 
                 string path = MapPath("~\\UploadDocs\\") + file;
                 fuplBottomImage.SaveAs(path);
+
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.FrontPageLogo3 = file;
+                FileStream bottomImageFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader bottomImageBinaryStream = new BinaryReader(bottomImageFileStream);
+                Byte[] docbytes = bottomImageBinaryStream.ReadBytes((Int32)bottomImageFileStream.Length);
+                bottomImageBinaryStream.Close();
+                bottomImageFileStream.Close();
+                reportManagementBusinessEntity.FrontPageLogo3 = file;
             }
             else
             {
                 if (frontPageLogo3 != "" && hdnBottomImage.Value != "")
-                    reportManagement_BE.FrontPageLogo3 = frontPageLogo3;
+                    reportManagementBusinessEntity.FrontPageLogo3 = frontPageLogo3;
                 else if (Request.QueryString["Mode"] == "E" && fuplBottomImage.FileName == "" && hdnBottomImage.Value != "")
-                    reportManagement_BE.FrontPageLogo3 = Convert.ToString(Session["FrontPageLogo3"]);
+                    reportManagementBusinessEntity.FrontPageLogo3 = Convert.ToString(Session["FrontPageLogo3"]);
                 else
-                    reportManagement_BE.FrontPageLogo3 = "";
+                    reportManagementBusinessEntity.FrontPageLogo3 = "";
             }
 
+            //Upload right image.
             if (FileUploadRightImage.HasFile)
             {
                 filename = System.IO.Path.GetFileName(FileUploadRightImage.PostedFile.FileName);
-
+                //Get unique file name.
                 file = GetUniqueFilename(filename);
-
+                //Set file folder path. 
                 string path = MapPath("~\\UploadDocs\\") + file;
                 FileUploadRightImage.SaveAs(path);
+
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.FrontPageLogo4 = file;
+                FileStream rightImageFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader rightImageBinaryStream = new BinaryReader(rightImageFileStream);
+                Byte[] docbytes = rightImageBinaryStream.ReadBytes((Int32)rightImageFileStream.Length);
+                rightImageBinaryStream.Close();
+                rightImageFileStream.Close();
+                reportManagementBusinessEntity.FrontPageLogo4 = file;
             }
             else
             {
                 if (FrontPageLogo4 != "" && hdnRightImage.Value != "")
-                    reportManagement_BE.FrontPageLogo4 = FrontPageLogo4;
+                    reportManagementBusinessEntity.FrontPageLogo4 = FrontPageLogo4;
                 else if (Request.QueryString["Mode"] == "E" && FileUploadRightImage.FileName == "" && hdnRightImage.Value != "")
-                    reportManagement_BE.FrontPageLogo4 = Convert.ToString(Session["FrontPageLogo4"]);
+                    reportManagementBusinessEntity.FrontPageLogo4 = Convert.ToString(Session["FrontPageLogo4"]);
                 else
-                    reportManagement_BE.FrontPageLogo4 = "";
+                    reportManagementBusinessEntity.FrontPageLogo4 = "";
             }
 
-
-
-
-
-            int i = reportManagement_BAO.AddProjectSettingReport(reportManagement_BE);
+            int i = reportManagementBusinessAccessObject.AddProjectSettingReport(reportManagementBusinessEntity);
 
             if (sender == null && e == null)
             {
-                DataTable dtreportsetting2 = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
+                DataTable dtreportsetting2 = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
                 String ProjectReportSettingID = dtreportsetting2.Rows[0]["ProjectReportSettingID"].ToString();
+                //Save preview details.
                 SavePreview(ProjectReportSettingID.ToString());
             }
             else
             {
+                //Clear controls and bind with default value.
                 ClearAllConrols();
 
                 lblMessage.Text = "Report settings saved successfully";
@@ -377,11 +378,17 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Reset controls value to default value.
+    /// </summary>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ClearAllConrols();
     }
 
+    /// <summary>
+    /// Reset controls value to default value.
+    /// </summary>
     protected void ClearAllConrols()
     {
         ddlProject.SelectedValue = "0";
@@ -429,6 +436,11 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     #endregion
 
     #region dropdown event
+    /// <summary>
+    /// Reset controls with default value and bind project drop down on account basis.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlProject.SelectedValue = "0";
@@ -474,25 +486,28 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get company details by account id.
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
 
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
             foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                dataTableAccount.ImportRow(drAccount);
+            //Set comapny name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
 
             if (ddlAccountCode.SelectedIndex > 0)
             {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+                //Get all project in current account.
+                DataTable dtprojectlist = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
                 if (dtprojectlist.Rows.Count > 0)
                 {
+                    //Bind project dropdown list.
                     ddlProject.Items.Clear();
                     ddlProject.Items.Insert(0, new ListItem("Select", "0"));
                     ddlProject.DataSource = dtprojectlist;
@@ -509,6 +524,11 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Get all report setting and bind controls.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         chkCoverPage.Checked = false;
@@ -527,6 +547,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         chkFullPrjGrp.Checked = false;
         chkProgrammeGrp.Checked = false;
         chkGroupList.Visible = true;
+
         for (int i = 0; i < chkGroupList.Items.Count; i++)
         {
             if (chkGroupList.Items[i].Selected)
@@ -534,6 +555,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 chkGroupList.Items[i].Selected = false;
             }
         }
+
         lblMessage.Text = " ";
         ddlReportType.SelectedValue = "0";
         txtPageHeading1.Text = string.Empty;
@@ -563,12 +585,13 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
      */
     protected void ControlHideShow(string projectid)
     {
-        DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
-        if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+        DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
+        if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
         {
             //TODO: Here will Check If the Report is Report3(in db 3 will be there for report3) then
             // Only will Change the controls Visiblity show/hide.
-            if (dtreportsetting.Rows[0]["ReportType"].ToString() == "3")
+            if (dataTableReportsetting.Rows[0]["ReportType"].ToString() == "3")
             {
 
                 radarchart.Visible = false;
@@ -604,6 +627,11 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
+    /// <summary>
+    ///  This Function will Hide/Show the ReportsSettings.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlReportType_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlReportType.SelectedValue != "3")
@@ -646,19 +674,22 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     #endregion
 
     #region Check Box Methods
-
+    /// <summary>
+    /// Bind group list check box.
+    /// </summary>
     protected void GroupCheckBoxListBind()
     {
-        dtGroupList = project_BAO.GetProjectRelationship(Convert.ToInt32(strProjectID));
+        //Get group list check box.
+        dataTableGroupList = projectBusinessAccessObject.GetProjectRelationship(Convert.ToInt32(strProjectID));
 
-        if (dtGroupList.Rows.Count > 0)
+        if (dataTableGroupList.Rows.Count > 0)
         {
-            chkGroupList.DataSource = dtGroupList;
+            chkGroupList.DataSource = dataTableGroupList;
             //chkGroupList.DataTextField = "";
             chkGroupList.DataValueField = "Value";
             chkGroupList.DataBind();
 
-            lblavailable.Text = Convert.ToString(dtGroupList.Rows.Count + 3) + " available selections.";
+            lblavailable.Text = Convert.ToString(dataTableGroupList.Rows.Count + 3) + " available selections.";
         }
         else
         {
@@ -666,6 +697,9 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Get comma seperated group value.
+    /// </summary>
     protected void RetrieveCheckBoxValue()
     {
         strGroupList = "";
@@ -678,9 +712,14 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
         //strGroupList = "'" + strGroupList + "'";
 
-        reportManagement_BE.ProjectRelationGrp = strGroupList;
+        reportManagementBusinessEntity.ProjectRelationGrp = strGroupList;
     }
 
+    /// <summary>
+    /// Check if uploaded file is valid or not .
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -688,6 +727,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         string[] AllowedExtensions = ConfigurationManager.AppSettings["Fileextension"].Split(',');
         bool isExtensionError = false;
         int MaxSizeAllowed = 5 * 1048576;// Size Allow only in mb
+
         if (uploadControl.HasFile)
         {
             bool isSizeError = false;
@@ -741,6 +781,11 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Get unique name for files.
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -749,26 +794,35 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         return uniquefilename;
     }
 
+    /// <summary>
+    /// Bind report setting with database report value.
+    /// </summary>
+    /// <param name="projectid"></param>
     protected void SaveSettingShow(string projectid)
     {
-        DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+        DataTable dtreportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
         if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
         {
+           //Set report type
             if (dtreportsetting.Rows[0]["ReportType"].ToString() != String.Empty)
                 ddlReportType.SelectedValue = dtreportsetting.Rows[0]["ReportType"].ToString();
             else
                 ddlReportType.SelectedValue = "0";
 
+            //set page headings 1 .
             if (dtreportsetting.Rows[0]["PageHeading1"].ToString() != String.Empty)
                 txtPageHeading1.Text = dtreportsetting.Rows[0]["PageHeading1"].ToString();
             else
                 txtPageHeading1.Text = "";
 
+            //set page headings 2 .
             if (dtreportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
                 txtPageHeading2.Text = dtreportsetting.Rows[0]["PageHeading2"].ToString();
             else
                 txtPageHeading2.Text = "";
 
+            //set page headings 3 .
             if (dtreportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
                 txtPageHeading3.Text = dtreportsetting.Rows[0]["PageHeading3"].ToString();
             else
@@ -779,6 +833,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             else
                 txtPageHeadingColor.Text = "";
 
+            //set conclusion headings.
             if (dtreportsetting.Rows[0]["ConclusionHeading"].ToString() != String.Empty)
                 txtConclusionHeading.Text = dtreportsetting.Rows[0]["ConclusionHeading"].ToString();
             else
@@ -809,7 +864,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             }
             else
                 hdnImgMiddleImage.Value = "";
-
+            //Set middle image path.
             if (hdnImgMiddleImage.Value != "")
                 ImgMiddleImage.Src = "../../UploadDocs/" + hdnImgMiddleImage.Value;
             else
@@ -827,7 +882,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
 
 
 
-
+            //Set bottom image path.
             if (hdnImgBottomImage.Value != "")
                 ImgBottomImage.Src = "../../UploadDocs/" + hdnImgBottomImage.Value;
             else
@@ -843,7 +898,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             else
                 hdnImgRightImage.Value = "";
 
-
+            //Set right image path.
             if (hdnImgRightImage.Value != "")
                 ImgRightImage.Src = "../../UploadDocs/" + hdnImgRightImage.Value;
             else
@@ -951,6 +1006,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             else
                 chkBenchMarkGrp.Checked = false;
 
+            //Bind report section 
             string[] group = Regex.Split(dtreportsetting.Rows[0]["ProjectRelationGrp"].ToString(), ",");
             if (group.Length > 1)
             {
@@ -986,6 +1042,12 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     //    //else
     //    //    chkReportIntro.Checked = false;
     //}
+
+    /// <summary>
+    /// Show hide category list.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCategoryIntro_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCategoryIntro.Checked == true)
@@ -999,6 +1061,12 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             chkCatQstChart.Checked = false;
         }
     }
+
+    /// <summary>
+    /// Show hide cateory intoduction.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCatQstlist_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCatQstlist.Checked == true)
@@ -1011,6 +1079,12 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 chkCategoryIntro.Checked = true;
         }
     }
+
+    /// <summary>
+    /// Show hide cateory intoduction.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCatQstChart_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCatQstChart.Checked == true)
@@ -1025,10 +1099,21 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     }
 
     #endregion
+
+    /// <summary>
+    /// Preview the pdf structure.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void LinkPreview_Click(object sender, EventArgs e)
     {
         imbSubmit_Click(null, null);
     }
+
+    /// <summary>
+    /// Save report preview data.
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
     private void SavePreview(String strTargetPersonID)
     {
         string strReportType = ddlReportType.SelectedValue;
@@ -1066,7 +1151,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectReportSettingID", strTargetPersonID));
-
+                //set parameter to report server.
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
@@ -1114,6 +1199,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectReportSettingID", strTargetPersonID));
                 rview.ServerReport.SetParameters(paramList);
             }
+
             rview.Visible = false;
             byte[] bytes = rview.ServerReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamids, out warnings);
             //string PDF_path = root + dirName + "\\" + strReportName + ".pdf";
@@ -1146,8 +1232,6 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
             catch (Exception ex)
             { }
 
-
-
             bytes = null;
             System.GC.Collect();
             rview.Dispose();
@@ -1158,6 +1242,9 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Rebind introducton and conclusion template.
+    /// </summary>
     private void ReBindTemplateContent()
     {
         txtPageIntroduction.InnerHtml = Server.HtmlDecode(txtPageIntroduction.InnerHtml);

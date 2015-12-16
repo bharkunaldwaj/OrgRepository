@@ -1,69 +1,57 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Drawing.Text;
 using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
-using System.Linq;
 
 public partial class Module_Reports_ExportData : CodeBehindBase
 {
-    
-    #region Globalvariable
 
-    string LogFilePath = string.Empty;
-    string mimeType;
-    string encoding;
-    string fileNameExtension;
-    string extension, deviceInfo, outputFileName = "";
-    string[] streams;
-    string defaultFileName = string.Empty;
+    #region Globalvariable
+    //string LogFilePath = string.Empty;
+    //string mimeType;
+    //string encoding;
+    //string fileNameExtension;
+    //string extension, deviceInfo, outputFileName = "";
+    //string[] streams;
+    //string defaultFileName = string.Empty;
     Warning[] warnings;
     WADIdentity identity;
-    Project_BAO project_BAO = new Project_BAO();
-    Programme_BAO programme_BAO = new Programme_BAO();
-    AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
+    Project_BAO projectBusinessAccessObject = new Project_BAO();
+    Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+    AccountUser_BAO accountUserBusinessAccessObject = new AccountUser_BAO();
     AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
-    ReportManagement_BAO reportManagement_BAO = new ReportManagement_BAO();
-    ReportManagement_BE reportManagement_BE = new ReportManagement_BE();
+    ReportManagement_BAO reportManagementBusinessAccessObject = new ReportManagement_BAO();
+    ReportManagement_BE reportManagementBusinessEntity = new ReportManagement_BE();
 
 
     DataTable dtCompanyName;
-    DataTable dtGroupList;
-    DataTable dtSelfName;
-    DataTable dtReportsID;
-    string strGroupList;
-    string strFrontPage;
-    string strConclusionPage;
-    string strRadarChart;
-    string strDetailedQst;
-    string strCategoryQstlist;
-    string strCategoryBarChart;
-    string strFullProjGrp;
-    string strSelfNameGrp;
+    //DataTable dtGroupList;
+    //DataTable dtSelfName;
+    //DataTable dtReportsID;
+    //string strGroupList;
+    //string strFrontPage;
+    //string strConclusionPage;
+    //string strRadarChart;
+    //string strDetailedQst;
+    //string strCategoryQstlist;
+    //string strCategoryBarChart;
+    //string strFullProjGrp;
+    //string strSelfNameGrp;
     string strReportName;
 
-    string strTargetPersonID;
-    string strProjectID;
-    string strAccountID;
-    string strProgrammeID;
-    string strAdmin;
+    //string strTargetPersonID;
+    //string strProjectID;
+    //string strAccountID;
+    //string strProgrammeID;
+    //string strAdmin;
 
-    Category_BAO category_BAO = new Category_BAO();
-    Category_BE category_BE = new Category_BE();
+    Category_BAO categoryBusinessAccessObject = new Category_BAO();
+    Category_BE categoryBusinessEntity = new Category_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -76,8 +64,9 @@ public partial class Module_Reports_ExportData : CodeBehindBase
     protected void Page_Load(object sender, EventArgs e)
     {
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label lableCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        lableCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
@@ -91,7 +80,7 @@ public partial class Module_Reports_ExportData : CodeBehindBase
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
-
+                //If user is super admin then show account drop down else hide
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -103,20 +92,20 @@ public partial class Module_Reports_ExportData : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //bind account drop down by user account id.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
                 ddlAccountCode.SelectedValue = "0";
 
-
-                Project_BAO project_BAO = new Project_BAO();
-                ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                Project_BAO projectBusinessAccessObject = new Project_BAO();
+                //Bind project in user account id.
+                ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                 ddlProject.DataValueField = "ProjectID";
                 ddlProject.DataTextField = "Title";
                 ddlProject.DataBind();
-
             }
         }
         catch (Exception ex)
@@ -127,8 +116,9 @@ public partial class Module_Reports_ExportData : CodeBehindBase
 
     #region ReportMethods
 
- 
-
+    /// <summary>
+    /// Export date by categoy and questions.
+    /// </summary>
     protected void btnExport()
     {
         Microsoft.Reporting.WebForms.ReportViewer rview = new Microsoft.Reporting.WebForms.ReportViewer();
@@ -137,25 +127,26 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         Microsoft.Reporting.WebForms.Warning[] warnings;
         string root = string.Empty;
 
-
+        //set Document path
         root = Server.MapPath("~") + "\\ReportGenerate\\";
         string strReportPathPrefix = ConfigurationManager.AppSettings["ReportPathPreFix"].ToString();
 
+        //To export by category
         if (ddlExportType.SelectedValue == "C")
         {
             rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/FeedbackReportbyCategory";
-            strReportName = "FeedbackReportbyCategory" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss"); 
+            strReportName = "FeedbackReportbyCategory" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss");
         }
-        else if (ddlExportType.SelectedValue == "Q")
+        else if (ddlExportType.SelectedValue == "Q") //To export by question
         {
             rview.ServerReport.ReportPath = "/" + strReportPathPrefix + "/FeedbackReportbyQuestion";
-            strReportName = "FeedbackReportbyQuestion" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss"); 
+            strReportName = "FeedbackReportbyQuestion" + '_' + DateTime.Now.ToString("ddMMyyyy-HHmmss");
         }
-                
+
         System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
         paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("AccountID", Convert.ToString(ddlAccountCode.SelectedValue)));
         paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectID", Convert.ToString(ddlProject.SelectedValue)));
-        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeID", Convert.ToString(ddlProgramme.SelectedValue)));                      
+        paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeID", Convert.ToString(ddlProgramme.SelectedValue)));
         rview.ServerReport.SetParameters(paramList);
 
         rview.Visible = false;
@@ -166,17 +157,16 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         //objFs.Close();
         //objFs.Dispose();
 
-        
         string mimeType;
         string encoding;
         string extension;
         byte[] bytes = rview.ServerReport.Render("EXCEL", null, out mimeType, out encoding, out extension, out streamids, out warnings);
-
+        //download document
         Response.Clear();
         Response.AppendHeader("Content-Type", "application/octet-stream");
         Response.AppendHeader("Content-disposition", "attachment; filename=DataByCategory.xls");
         Response.BinaryWrite(bytes);
-        Response.End();   
+        Response.End();
     }
 
     //protected void OpenReport()
@@ -206,28 +196,35 @@ public partial class Module_Reports_ExportData : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Bind project in an account
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         ResetControls();
+
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
+            //Set account id
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
-
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get account details
+            dtCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
 
             DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataTable dataTableAccount = dtCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //set company name
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
 
             if (ddlAccountCode.SelectedIndex > 0)
-            {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+            {//get project list by comany code and bind project dropdown
+                DataTable dtprojectlist = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
                 if (dtprojectlist.Rows.Count > 0)
                 {
@@ -252,18 +249,24 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind all program in a project
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlExportType.SelectedValue = "0";
-        Programme_BAO programme_BAO = new Programme_BAO();
+        Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
 
         ddlProgramme.Items.Clear();
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+        DataTable dataTableProgramme = new DataTable();
+        //get all program in a project and bind program dropdown
+        dataTableProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
-        if (dtProgramme.Rows.Count > 0)
-        {
-            ddlProgramme.DataSource = dtProgramme;
+        if (dataTableProgramme.Rows.Count > 0)
+        {// bind program droopdown
+            ddlProgramme.DataSource = dataTableProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
             ddlProgramme.DataBind();
@@ -278,22 +281,34 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         //ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
     }
 
+    /// <summary>
+    /// Export  category and question data
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbExport_Click(object sender, ImageClickEventArgs e)
     {
         btnExport();
     }
 
+    /// <summary>
+    /// Reset controls value
+    /// </summary>
     protected void ResetControls()
-    {        
+    {
         ddlProject.SelectedValue = "0";
         ddlProgramme.SelectedValue = "0";
         ddlExportType.SelectedValue = "0";
     }
 
+    /// <summary>
+    /// Handle program  index change event.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
         ddlExportType.SelectedValue = "0";
     }
-
 }
