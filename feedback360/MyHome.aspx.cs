@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 public partial class MyHome : System.Web.UI.Page
 {
     public string sessionx;
+    /// <summary>
+    /// Use to Initilize session data for Personlity.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void Page_Load(object sender, EventArgs e)
     {
         if (HttpContext.Current.Session["SessionData"] != null)

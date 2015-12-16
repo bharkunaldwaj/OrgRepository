@@ -1,31 +1,21 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Xml.Linq;
-using System.Diagnostics;
-using System.Text;
-using Miscellaneous;
 
 using Administration_BAO;
 using Administration_BE;
-
 
 public partial class Login : CodeBehindBase
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        //Set focus to Account textbox.
         if (!IsPostBack)
             txtAccountCode.Focus();
-    }    
+    }
 
     protected override void OnInit(EventArgs e)
     {
@@ -35,30 +25,32 @@ public partial class Login : CodeBehindBase
         {
             if (!string.IsNullOrEmpty(Page.ClientQueryString))
             {
+                //Check if contains return url
                 if (!Page.ClientQueryString.Contains("ReturnUrl="))
                 {
-                    string[] strQS = EnCryptDecrypt.CryptorEngine.Decrypt(HttpUtility.UrlDecode(Page.ClientQueryString), true).Split(',');
+                    //Decrypt the URL
+                    string[] strQueryString = EnCryptDecrypt.CryptorEngine.Decrypt(HttpUtility.UrlDecode(Page.ClientQueryString),
+                        true).Split(',');
 
-                    if (strQS.Length == 3)
+                    if (strQueryString.Length == 3)
                     {
-                        string strUName = string.Empty;
-                        string strUPass = string.Empty;
-                        string strUAcc = string.Empty;
+                        string strUserName = string.Empty;
+                        string strUserPassword = string.Empty;
+                        string strUserAccount = string.Empty;
 
-                        foreach (var item in strQS)
+                        foreach (var item in strQueryString)
                         {
                             string[] strKeyValue = item.Split('=');
 
                             if (strKeyValue[0].ToLower() == "username")
-                                strUName = strKeyValue[1].Trim();
+                                strUserName = strKeyValue[1].Trim();
                             else if (strKeyValue[0].ToLower() == "password")
-                                strUPass = strKeyValue[1].Trim();
+                                strUserPassword = strKeyValue[1].Trim();
                             else if (strKeyValue[0].ToLower() == "accountcode")
-                                strUAcc = strKeyValue[1].Trim();
+                                strUserAccount = strKeyValue[1].Trim();
                         }
 
-                        UserLogin(strUName, strUPass, strUAcc);
-
+                        UserLogin(strUserName, strUserPassword, strUserAccount);
                     }
                 }
             }
@@ -66,10 +58,14 @@ public partial class Login : CodeBehindBase
         catch (Exception ex)
         {
             HandleException(ex);
-        }       
+        }
+    }
 
-    } 
-
+    /// <summary>
+    /// Check login details 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnLogin_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -82,6 +78,12 @@ public partial class Login : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Validate lofin details
+    /// </summary>
+    /// <param name="loginName"></param>
+    /// <param name="password"></param>
+    /// <param name="accountCode"></param>
     private void UserLogin(string loginName, string password, string accountCode)
     {
         //string loginName = string.Empty;
@@ -107,49 +109,56 @@ public partial class Login : CodeBehindBase
     /// </summary>
     /// <param name="p_loginName"></param>
     /// <param name="p_password"></param>
-    private void ValidateUser(string loginName, string password, string accountCode) {
-        User_BAO user_BAO = new User_BAO();
+    private void ValidateUser(string loginName, string password, string accountCode)
+    {
+        User_BAO userBusinessAccessObject = new User_BAO();
         //GroupRight_BAO groupRight_BAO = new GroupRight_BAO();
 
-        User_BE user_BE = new User_BE();
+        User_BE userBusinessEntity = new User_BE();
         //GroupRight_BE groupRight_BE = new GroupRight_BE();
 
-
-        try {
+        try
+        {
             //p_password = PasswordGenerator.EnryptString(p_password);
+            //Initilize properties
+            userBusinessEntity.LoginID = loginName;
+            userBusinessEntity.Password = password;
+            userBusinessEntity.AccountCode = accountCode;
 
-            user_BE.LoginID = loginName;
-            user_BE.Password = password;
-            user_BE.AccountCode = accountCode;
-
-            List<User_BE> user_BEList = user_BAO.GetUser(user_BE);
-            user_BAO = null;
+            List<User_BE> userBusinessEntityList = userBusinessAccessObject.GetUser(userBusinessEntity);
+            userBusinessAccessObject = null;
 
             //if (user_BEList[0] == null) {
-            if(user_BEList.Count == 0){
+            if (userBusinessEntityList.Count == 0)
+            {
                 //lblMessage.Visible = true;
-                lblMessage.Text = "Please check the login credentials";                
+                lblMessage.Text = "Please check the login credentials";
                 return;
             }
-            else {
-                GenerateTicket(loginName, user_BEList[0]);
-                if (user_BEList[0].GroupID.ToString() == ConfigurationManager.AppSettings["ParticipantRoleID"].ToString())
+            else
+            {
+                //Initilize session
+                GenerateTicket(loginName, userBusinessEntityList[0]);
+                //If participant then redirect to Questionnaire page.
+                if (userBusinessEntityList[0].GroupID.ToString() == ConfigurationManager.AppSettings["ParticipantRoleID"].ToString())
                 {
-                    Response.Redirect("Module/Questionnaire/AssignQuestionnaire.aspx", false);                    
+                    Response.Redirect("Module/Questionnaire/AssignQuestionnaire.aspx", false);
                 }
                 else
                 {
+                    //Redirect to login
                     string pageUrl = FormsAuthentication.GetRedirectUrl(loginName, false);
 
                     if (pageUrl.Contains("Error.aspx"))
                     {
-                        pageUrl =  "Default.aspx";
+                        pageUrl = "Default.aspx";
                     }
                     Response.Redirect(pageUrl, false);
                 }
             }
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
             HandleException(ex);
         }
     }
@@ -159,7 +168,7 @@ public partial class Login : CodeBehindBase
     /// </summary>
     /// <param name="userName"></param>
     /// <param name="p_user_BE"></param>
-    private void GenerateTicket(string p_userName, User_BE p_userBE)
+    private void GenerateTicket(string userName, User_BE userBusinessEntity)
     {
 
         // Get the timeout value from web.config.
@@ -169,25 +178,35 @@ public partial class Login : CodeBehindBase
         // We make this cookie ourselves because we want control over the user data section.
         FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(
             1,
-            p_userName,
+            userName,
             DateTime.Now,
             DateTime.Now + timeOut,
             false,
-            p_userBE.LoginID.ToString() + "$" + p_userBE.Password.ToString() + "$" + p_userBE.AccountCode.ToString() + "$" + p_userBE.GroupID.ToString());
-            //p_userBE.UserID.ToString() + "$" + p_userBE.GroupID.ToString());
+            userBusinessEntity.LoginID.ToString() + "$" + userBusinessEntity.Password.ToString() + "$" + userBusinessEntity.AccountCode.ToString() + "$" +
+            userBusinessEntity.GroupID.ToString());
+        //p_userBE.UserID.ToString() + "$" + p_userBE.GroupID.ToString());
 
-        HttpContext.Current.Session["accountCode"] = p_userBE.AccountCode.ToString();
-        HttpContext.Current.Session["GroupID"] = p_userBE.GroupID.ToString();
-        HttpContext.Current.Session["AccountID"] = p_userBE.AccountID;
-        HttpContext.Current.Session["UserID"] = p_userBE.UserID;
-        String sessionx = "1=" + HttpContext.Current.Session["accountCode"] + "-" + HttpContext.Current.Session["GroupID"] + "-" + HttpContext.Current.Session["AccountID"] + "-" + HttpContext.Current.Session["UserID"];
+        //Set session data.
+        HttpContext.Current.Session["accountCode"] = userBusinessEntity.AccountCode.ToString();
+        HttpContext.Current.Session["GroupID"] = userBusinessEntity.GroupID.ToString();
+        HttpContext.Current.Session["AccountID"] = userBusinessEntity.AccountID;
+        HttpContext.Current.Session["UserID"] = userBusinessEntity.UserID;
+
+        String sessionx = "1=" + HttpContext.Current.Session["accountCode"] + "-" +
+            HttpContext.Current.Session["GroupID"] + "-" + HttpContext.Current.Session["AccountID"] + "-" +
+            HttpContext.Current.Session["UserID"];
+
         sessionx = EnCryptDecrypt.CryptorEngine.Encrypt(sessionx, true);
-        sessionx = Guid.NewGuid().ToString();
-        HttpContext.Current.Session["SessionData"] = sessionx;
-        p_userBE.SessionData = sessionx;
 
-        User_BAO b = new User_BAO();
-        b.UpdateUserSession(p_userBE);
+        sessionx = Guid.NewGuid().ToString();
+
+        HttpContext.Current.Session["SessionData"] = sessionx;
+
+        userBusinessEntity.SessionData = sessionx;
+
+        User_BAO userBusinessAccessObject = new User_BAO();
+
+        userBusinessAccessObject.UpdateUserSession(userBusinessEntity);
 
         string cookieVal = FormsAuthentication.Encrypt(ticket);
         HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName);
@@ -198,9 +217,5 @@ public partial class Login : CodeBehindBase
 
         // Add the cookie to the response.
         Response.Cookies.Add(cookie);
-
     }
-
-
-    
 }
