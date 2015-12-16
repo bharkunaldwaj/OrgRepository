@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using System.Diagnostics;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -14,7 +10,6 @@ using Admin_BE;
 using Admin_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Admin_BAO
 {
@@ -27,8 +22,12 @@ namespace Admin_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// Add Email Template
+        /// </summary>
+        /// <param name="emailTemplateBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddEmailTemplate(EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -41,8 +40,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.AddEmailTemplate(emailtemplate_BE);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.AddEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -60,7 +59,10 @@ namespace Admin_BAO
             return addCategory;
         }
 
-        public int UpdateEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// update Email Template
+        /// </summary>
+        public int UpdateEmailTemplate(EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -73,8 +75,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.UpdateEmailTemplate(emailtemplate_BE);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.UpdateEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -92,7 +94,10 @@ namespace Admin_BAO
             return addCategory;
         }
 
-        public int DeleteEmailTemplate(EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// Delete Email Template
+        /// </summary>
+        public int DeleteEmailTemplate(EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -105,8 +110,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.DeleteEmailTemplate(emailtemplate_BE);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.DeleteEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -124,18 +129,21 @@ namespace Admin_BAO
             return addCategory;
         }
 
+        /// <summary>
+        /// Get Email Template by tempalte id
+        /// </summary>
         public List<EmailTemplate_BE> GetEmailTemplateByID(int accountID, int EmailTemplateID)
         {
-            List<EmailTemplate_BE> EmailTemplate_BEList = null;
+            List<EmailTemplate_BE> EmailTemplateBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                emailtemplate_DAO.GetEmailTemplateByID(accountID,  EmailTemplateID);
+                EmailTemplate_DAO emailTemplateBusinessAccessObject = new EmailTemplate_DAO();
+                emailTemplateBusinessAccessObject.GetEmailTemplateByID(accountID, EmailTemplateID);
 
-                EmailTemplate_BEList = emailtemplate_DAO.emailtemplate_BEList;
+                EmailTemplateBusinessEntityList = emailTemplateBusinessAccessObject.emailtemplateBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -143,27 +151,25 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return EmailTemplate_BEList;
+            return EmailTemplateBusinessEntityList;
         }
 
-
-
-     
-
-
-
+        /// <summary>
+        /// Get Email Tempalte List.
+        /// </summary>
+        /// <returns></returns>
         public List<EmailTemplate_BE> GetEmailTemplateList()
         {
-            List<EmailTemplate_BE> category_BEList = null;
+            List<EmailTemplate_BE> categoryBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
                 //emailtemplate_DAO.GetdtEmailTemplateList();
 
-                category_BEList = emailtemplate_DAO.emailtemplate_BEList;
+                categoryBusinessEntityList = emailTemplateDataAccessObject.emailtemplateBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -171,19 +177,23 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Email Tempalte List.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtEmailTemplateList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                dtCategory = emailtemplate_DAO.GetdtEmailTemplateList(accountID);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                dataTableCategory = emailTemplateDataAccessObject.GetdtEmailTemplateList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -192,19 +202,23 @@ namespace Admin_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
+        /// <summary>
+        /// Get Admin Email Tempalte List.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetAdminEmailTemplate(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                dtCategory = emailtemplate_DAO.GetAdminEmailTemplate(accountID);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                dataTableCategory = emailTemplateDataAccessObject.GetAdminEmailTemplate(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -213,7 +227,7 @@ namespace Admin_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
         //public DataTable GetdtEmailTemplateList()
@@ -237,6 +251,10 @@ namespace Admin_BAO
         //    return dtCategory;
         //}
 
+        /// <summary>
+        /// Get Email Tempalte List count by account id.
+        /// </summary>
+        /// <returns></returns>
         public int GetEmailTemplateListCount(string accountID)
         {
             int categoryCount = 0;
@@ -245,8 +263,8 @@ namespace Admin_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                categoryCount = emailtemplate_DAO.GetEmailTemplateListCount(accountID);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                categoryCount = emailTemplateDataAccessObject.GetEmailTemplateListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -258,17 +276,20 @@ namespace Admin_BAO
             return categoryCount;
         }
 
-
+        /// <summary>
+        /// Insert Email Tempalte .
+        /// </summary>
+        /// <returns></returns>
         public void InsertMailTemplateID(string Id, int accountid)
         {
-           
+
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                EmailTemplate_DAO emailtemplate_DAO = new EmailTemplate_DAO();
-                emailtemplate_DAO.InsertMailTemplateID(Id,accountid);
+                EmailTemplate_DAO emailTemplateDataAccessObject = new EmailTemplate_DAO();
+                emailTemplateDataAccessObject.InsertMailTemplateID(Id, accountid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -277,34 +298,10 @@ namespace Admin_BAO
                 HandleException(ex);
             }
 
-           
+
         }
-
-
-
-
         #endregion
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public class Survey_EmailTemplate_BAO : Base_BAO
@@ -316,8 +313,12 @@ namespace Admin_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// Add Email Template
+        /// </summary>
+        /// <param name="emailTemplateBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddEmailTemplate(Survey_EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -330,8 +331,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.AddEmailTemplate(emailtemplate_BE);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.AddEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -348,8 +349,10 @@ namespace Admin_BAO
             }
             return addCategory;
         }
-
-        public int UpdateEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// update Email Template
+        /// </summary>
+        public int UpdateEmailTemplate(Survey_EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -362,8 +365,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.UpdateEmailTemplate(emailtemplate_BE);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.UpdateEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -380,8 +383,10 @@ namespace Admin_BAO
             }
             return addCategory;
         }
-
-        public int DeleteEmailTemplate(Survey_EmailTemplate_BE emailtemplate_BE)
+        /// <summary>
+        /// Delete Email Template
+        /// </summary>
+        public int DeleteEmailTemplate(Survey_EmailTemplate_BE emailTemplateBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -394,8 +399,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                addCategory = emailtemplate_DAO.DeleteEmailTemplate(emailtemplate_BE);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                addCategory = emailTemplateDataAccessObject.DeleteEmailTemplate(emailTemplateBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -412,19 +417,21 @@ namespace Admin_BAO
             }
             return addCategory;
         }
-
+        /// <summary>
+        /// Get Email Template by tempalte id
+        /// </summary>
         public List<Survey_EmailTemplate_BE> GetEmailTemplateByID(int accountID, int EmailTemplateID)
         {
-            List<Survey_EmailTemplate_BE> EmailTemplate_BEList = null;
+            List<Survey_EmailTemplate_BE> EmailTemplateBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                emailtemplate_DAO.GetEmailTemplateByID(accountID, EmailTemplateID);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                emailTemplateDataAccessObject.GetEmailTemplateByID(accountID, EmailTemplateID);
 
-                EmailTemplate_BEList = emailtemplate_DAO.emailtemplate_BEList;
+                EmailTemplateBusinessEntityList = emailTemplateDataAccessObject.emailtemplateBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -432,27 +439,24 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return EmailTemplate_BEList;
+            return EmailTemplateBusinessEntityList;
         }
-
-
-
-
-
-
-
+        /// <summary>
+        /// Get Email Tempalte List.
+        /// </summary>
+        /// <returns></returns>
         public List<Survey_EmailTemplate_BE> GetEmailTemplateList()
         {
-            List<Survey_EmailTemplate_BE> category_BEList = null;
+            List<Survey_EmailTemplate_BE> categoryBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
                 //emailtemplate_DAO.GetdtEmailTemplateList();
 
-                category_BEList = emailtemplate_DAO.emailtemplate_BEList;
+                categoryBusinessEntityList = emailTemplateDataAccessObject.emailtemplateBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -460,19 +464,22 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
-
+        /// <summary>
+        /// Get Email Tempalte List by account id.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtEmailTemplateList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                dtCategory = emailtemplate_DAO.GetdtEmailTemplateList(accountID);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                dataTableCategory = emailTemplateDataAccessObject.GetdtEmailTemplateList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -481,19 +488,22 @@ namespace Admin_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
-
+        /// <summary>
+        /// Get Admin Email Tempalte List.
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetAdminEmailTemplate(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                dtCategory = emailtemplate_DAO.GetAdminEmailTemplate(accountID);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                dataTableCategory = emailTemplateDataAccessObject.GetAdminEmailTemplate(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -502,7 +512,7 @@ namespace Admin_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
         //public DataTable GetdtEmailTemplateList()
@@ -526,6 +536,10 @@ namespace Admin_BAO
         //    return dtCategory;
         //}
 
+        /// <summary>
+        /// Get Email Tempalte List count by account id.
+        /// </summary>
+        /// <returns></returns>
         public int GetEmailTemplateListCount(string accountID)
         {
             int categoryCount = 0;
@@ -534,8 +548,8 @@ namespace Admin_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                categoryCount = emailtemplate_DAO.GetEmailTemplateListCount(accountID);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                categoryCount = emailTemplateDataAccessObject.GetEmailTemplateListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -546,8 +560,10 @@ namespace Admin_BAO
 
             return categoryCount;
         }
-
-
+        /// <summary>
+        /// Insert Email Tempalte .
+        /// </summary>
+        /// <returns></returns>
         public void InsertMailTemplateID(string Id, int accountid)
         {
 
@@ -556,8 +572,8 @@ namespace Admin_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_EmailTemplate_DAO emailtemplate_DAO = new Survey_EmailTemplate_DAO();
-                emailtemplate_DAO.InsertMailTemplateID(Id, accountid);
+                Survey_EmailTemplate_DAO emailTemplateDataAccessObject = new Survey_EmailTemplate_DAO();
+                emailTemplateDataAccessObject.InsertMailTemplateID(Id, accountid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -568,18 +584,6 @@ namespace Admin_BAO
 
 
         }
-
-
-
-
         #endregion
     }
-
-
-
-
-
-
-
-
 }

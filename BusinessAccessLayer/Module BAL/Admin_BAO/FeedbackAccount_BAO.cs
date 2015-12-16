@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
-
+﻿
 using DAF_BAO;
-using DatabaseAccessUtilities;
-using Admin_BE;
 using Admin_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Admin_BAO
 {
@@ -23,17 +15,21 @@ namespace Admin_BAO
         #endregion
 
         #region CRUD Operations
-
+        /// <summary>
+        /// Get Account List by account id
+        /// </summary>
+        /// <param name="accountID">Account id.</param>
+        /// <returns></returns>
         public DataTable GetdtAccountList(string accountID)
         {
-            DataTable dtAccount = null;
+            DataTable dataTableAccount = null;
 
             //try
             //{
                 //HandleWriteLog("Start", new StackTrace(true));
 
-            FeedbackAccount_DAO account_DAO = new FeedbackAccount_DAO();
-            dtAccount = account_DAO.GetdtAccountList(accountID);
+            FeedbackAccount_DAO accountDataAccessObject = new FeedbackAccount_DAO();
+            dataTableAccount = accountDataAccessObject.GetdtAccountList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             //}
@@ -42,9 +38,8 @@ namespace Admin_BAO
             //    HandleException(ex);
             //}
 
-            return dtAccount;
+            return dataTableAccount;
         }
-
         #endregion
 
     }

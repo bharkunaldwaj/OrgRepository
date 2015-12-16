@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -10,11 +7,10 @@ using Admin_BE;
 using Admin_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Admin_BAO
 {
-    public class Account_BAO:Base_BAO
+    public class Account_BAO : Base_BAO
     {
         #region Private Member Variable
 
@@ -23,8 +19,11 @@ namespace Admin_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddAccount(Account_BE account_BE)
+        /// <summary>
+        /// Add account details
+        /// </summary>
+        /// <returns></returns>
+        public int AddAccount(Account_BE accountBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -37,8 +36,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Account_DAO account_DAO = new Account_DAO();
-                addAccount = account_DAO.AddAccount(account_BE);
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                addAccount = accountDataAccessObject.AddAccount(accountBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -56,7 +55,11 @@ namespace Admin_BAO
             return addAccount;
         }
 
-        public int UpdateAccount(Account_BE account_BE)
+        /// <summary>
+        /// update account details
+        /// </summary>
+        /// <returns></returns>
+        public int UpdateAccount(Account_BE accountBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -69,8 +72,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Account_DAO account_DAO = new Account_DAO();
-                addAccount = account_DAO.UpdateAccount(account_BE);
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                addAccount = accountDataAccessObject.UpdateAccount(accountBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -88,7 +91,11 @@ namespace Admin_BAO
             return addAccount;
         }
 
-        public int DeleteAccount(Account_BE account_BE)
+        /// <summary>
+        /// Delete account details
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteAccount(Account_BE accountBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -101,8 +108,8 @@ namespace Admin_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Account_DAO account_DAO = new Account_DAO();
-                addAccount = account_DAO.DeleteAccount(account_BE);
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                addAccount = accountDataAccessObject.DeleteAccount(accountBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -120,18 +127,22 @@ namespace Admin_BAO
             return addAccount;
         }
 
+        /// <summary>
+        /// Get Account details By Account ID
+        /// </summary>
+        /// <returns></returns>
         public List<Account_BE> GetAccountByID(int accountID)
         {
-            List<Account_BE> account_BEList = null;
+            List<Account_BE> accountBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Account_DAO account_DAO = new Account_DAO();
-                account_DAO.GetAccountByID(accountID);
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                accountDataAccessObject.GetAccountByID(accountID);
 
-                account_BEList = account_DAO.account_BEList;
+                accountBusinessEntityList = accountDataAccessObject.accountBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -139,21 +150,25 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return account_BEList;
+            return accountBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Account list 
+        /// </summary>
+        /// <returns></returns>
         public List<Account_BE> GetAccountList()
         {
-            List<Account_BE> account_BEList = null;
+            List<Account_BE> accountBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Account_DAO account_DAO = new Account_DAO();
-                account_DAO.GetAccountList();
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                accountDataAccessObject.GetAccountList();
 
-                account_BEList = account_DAO.account_BEList;
+                accountBusinessEntityList = accountDataAccessObject.accountBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -161,30 +176,38 @@ namespace Admin_BAO
             {
                 HandleException(ex);
             }
-            return account_BEList;
+            return accountBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Account list By Account ID
+        /// </summary>
+        /// <returns></returns>
         public DataTable GetdtAccountList(string accountID)
         {
-            DataTable dtAccount = null;
+            DataTable dataTableAccount = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-               Account_DAO account_DAO = new Account_DAO();
-                dtAccount = account_DAO.GetdtAccountList(accountID);
+            Account_DAO accountDataAccessObject = new Account_DAO();
+            dataTableAccount = accountDataAccessObject.GetdtAccountList(accountID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
 
-            return dtAccount;
+            return dataTableAccount;
         }
 
+        /// <summary>
+        /// Get Account list count By Account ID
+        /// </summary>
+        /// <returns></returns>
         public int GetAccountListCount(string accountID)
         {
             int accountCount = 0;
@@ -193,8 +216,8 @@ namespace Admin_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Account_DAO account_DAO = new Account_DAO();
-                accountCount = account_DAO.GetAccountListCount(accountID);
+                Account_DAO accountDataAccessObject = new Account_DAO();
+                accountCount = accountDataAccessObject.GetAccountListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -205,8 +228,6 @@ namespace Admin_BAO
 
             return accountCount;
         }
-
         #endregion
-
     }
 }
