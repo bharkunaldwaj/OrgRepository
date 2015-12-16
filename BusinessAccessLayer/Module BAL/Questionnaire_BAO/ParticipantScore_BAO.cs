@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -9,7 +6,6 @@ using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
@@ -22,8 +18,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddParticipantScore(ParticipantScore_BE participantScore_BE)
+        /// <summary>
+        /// Insert Participant Score
+        /// </summary>
+        /// <param name="participantScoreBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddParticipantScore(ParticipantScore_BE participantScoreBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -35,8 +35,8 @@ namespace Questionnaire_BAO
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
 
-                ParticipantScore_DAO participantScore_DAO = new ParticipantScore_DAO();
-                addParticipantScore = participantScore_DAO.AddParticipantScore(participantScore_BE, dbTransaction);
+                ParticipantScore_DAO participantScoreDataAccessObject = new ParticipantScore_DAO();
+                addParticipantScore = participantScoreDataAccessObject.AddParticipantScore(participantScoreBusinessEntity, dbTransaction);
                 
                 dbTransaction.Commit();
                 conn.Close();
@@ -53,42 +53,50 @@ namespace Questionnaire_BAO
 
             return addParticipantScore;
         }
-
         #endregion
 
-        public DataTable GetCategoryScore1(ParticipantScore_BE participantScore_BE)
+        /// <summary>
+        /// Get Category Score1
+        /// </summary>
+        /// <param name="participantScoreBusinessEntity"></param>
+        /// <returns></returns>
+        public DataTable GetCategoryScore1(ParticipantScore_BE participantScoreBusinessEntity)
         {
-            DataTable dtCategoryScore = null;
+            DataTable dataTableCategoryScore = null;
 
             try
             {
-                ParticipantScore_DAO participantScore_DAO = new ParticipantScore_DAO();
-                dtCategoryScore = participantScore_DAO.GetCategoryScore1(participantScore_BE);
+                ParticipantScore_DAO participantScoreDataAccessObject = new ParticipantScore_DAO();
+                dataTableCategoryScore = participantScoreDataAccessObject.GetCategoryScore1(participantScoreBusinessEntity);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtCategoryScore;
+            return dataTableCategoryScore;
         }
 
-        public DataTable GetCategoryScore2(ParticipantScore_BE participantScore_BE)
+        /// <summary>
+        /// Get Category Score2
+        /// </summary>
+        /// <param name="participantScoreBusinessEntity"></param>
+        /// <returns></returns>
+        public DataTable GetCategoryScore2(ParticipantScore_BE participantScoreBusinessEntity)
         {
-            DataTable dtCategoryScore = null;
+            DataTable dataTableCategoryScore = null;
 
             try
             {
-                ParticipantScore_DAO participantScore_DAO = new ParticipantScore_DAO();
-                dtCategoryScore = participantScore_DAO.GetCategoryScore2(participantScore_BE);
+                ParticipantScore_DAO participantScoreDataAccessObject = new ParticipantScore_DAO();
+                dataTableCategoryScore = participantScoreDataAccessObject.GetCategoryScore2(participantScoreBusinessEntity);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtCategoryScore;
+            return dataTableCategoryScore;
         }
-
     }
 }

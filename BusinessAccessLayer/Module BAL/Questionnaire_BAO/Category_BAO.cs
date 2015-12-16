@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -10,7 +7,6 @@ using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
@@ -23,8 +19,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddCategory(Category_BE category_BE)
+        /// <summary>
+        /// Insert category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddCategory(Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -37,8 +37,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Category_DAO category_DAO = new Category_DAO();
-                addCategory = category_DAO.AddCategory(category_BE);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                addCategory = categoryDataAccessObject.AddCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -56,7 +56,12 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
-        public int UpdateCategory(Category_BE category_BE)
+        /// <summary>
+        /// update Category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateCategory(Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -69,8 +74,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Category_DAO category_DAO = new Category_DAO();
-                addCategory = category_DAO.UpdateCategory(category_BE);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                addCategory = categoryDataAccessObject.UpdateCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -88,7 +93,12 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
-        public int DeleteCategory(Category_BE category_BE)
+        /// <summary>
+        /// Delete Category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteCategory(Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -101,8 +111,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Category_DAO category_DAO = new Category_DAO();
-                addCategory = category_DAO.DeleteCategory(category_BE);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                addCategory = categoryDataAccessObject.DeleteCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -120,9 +130,15 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
+        /// <summary>
+        /// Get Category by Category id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="categoryID">Category id</param>
+        /// <returns></returns>
         public List<Category_BE> GetCategoryByID(int accountID, int categoryID)
         {
-            List<Category_BE> category_BEList = null;
+            List<Category_BE> categoryBusinessEntityList = null;
 
             try
             {
@@ -131,7 +147,7 @@ namespace Questionnaire_BAO
                 Category_DAO category_DAO = new Category_DAO();
                 category_DAO.GetCategoryByID(accountID, categoryID);
 
-                category_BEList = category_DAO.category_BEList;
+                categoryBusinessEntityList = category_DAO.category_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -139,21 +155,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Category List
+        /// </summary>
+        /// <returns></returns>
         public List<Category_BE> GetCategoryList()
         {
-            List<Category_BE> category_BEList = null;
+            List<Category_BE> categoryBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO category_DAO = new Category_DAO();
-                category_DAO.GetCategoryList();
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                categoryDataAccessObject.GetCategoryList();
 
-                category_BEList = category_DAO.category_BEList;
+                categoryBusinessEntityList = categoryDataAccessObject.category_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -161,19 +181,24 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Category List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtCategoryList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO category_DAO = new Category_DAO();
-                dtCategory = category_DAO.GetdtCategoryList(accountID);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                dataTableCategory = categoryDataAccessObject.GetdtCategoryList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -182,19 +207,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
+        /// <summary>
+        /// Get Category List by accountID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtnewCategoryList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO category_DAO = new Category_DAO();
-                dtCategory = category_DAO.GetdtnewCategoryList(accountID);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                dataTableCategory = categoryDataAccessObject.GetdtnewCategoryList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -203,9 +233,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
+        /// <summary>
+        /// Get Category List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetCategoryListCount(string accountID)
         {
             int categoryCount = 0;
@@ -214,8 +249,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO category_DAO = new Category_DAO();
-                categoryCount = category_DAO.GetCategoryListCount(accountID);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                categoryCount = categoryDataAccessObject.GetCategoryListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -227,6 +262,12 @@ namespace Questionnaire_BAO
             return categoryCount;
         }
 
+        /// <summary>
+        /// Select Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -235,8 +276,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO Category_DAO = new Category_DAO();
-                categoryid = Category_DAO.getcategory(accountID, Questionnaireid);
+                Category_DAO CategoryDataAccessObject = new Category_DAO();
+                categoryid = CategoryDataAccessObject.getcategory(accountID, Questionnaireid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -248,6 +289,12 @@ namespace Questionnaire_BAO
             return categoryid;
         }
 
+        /// <summary>
+        /// Select Questionnaire Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectQuestionnaireCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -256,8 +303,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO Category_DAO = new Category_DAO();
-                categoryid = Category_DAO.SelectQuestionnaireCategory(accountID, Questionnaireid);
+                Category_DAO CategoryDataAccessObject = new Category_DAO();
+                categoryid = CategoryDataAccessObject.SelectQuestionnaireCategory(accountID, Questionnaireid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -270,15 +317,20 @@ namespace Questionnaire_BAO
         }
 
         #endregion
-
+        /// <summary>
+        /// Resequence Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="increment">sequence number</param>
         public void ResequenceCategory(int accountID, int questionnaireID, int increment)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Category_DAO category_DAO = new Category_DAO();
-                category_DAO.ResequenceCategory(accountID, questionnaireID, increment);
+                Category_DAO categoryDataAccessObject = new Category_DAO();
+                categoryDataAccessObject.ResequenceCategory(accountID, questionnaireID, increment);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -287,30 +339,7 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
         }
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public class Survey_Category_BAO : Base_BAO
     {
@@ -321,8 +350,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddCategory(Survey_Category_BE category_BE)
+        /// <summary>
+        /// Insert category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddCategory(Survey_Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -335,8 +368,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                addCategory = category_DAO.AddCategory(category_BE);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                addCategory = categoryDataAccessObject.AddCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -354,7 +387,12 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
-        public int UpdateCategory(Survey_Category_BE category_BE)
+        /// <summary>
+        /// Update category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateCategory(Survey_Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -367,8 +405,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                addCategory = category_DAO.UpdateCategory(category_BE);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                addCategory = categoryDataAccessObject.UpdateCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -386,7 +424,12 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
-        public int DeleteCategory(Survey_Category_BE category_BE)
+        /// <summary>
+        /// Delete category
+        /// </summary>
+        /// <param name="categoryBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteCategory(Survey_Category_BE categoryBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -399,8 +442,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                addCategory = category_DAO.DeleteCategory(category_BE);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                addCategory = categoryDataAccessObject.DeleteCategory(categoryBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -418,18 +461,24 @@ namespace Questionnaire_BAO
             return addCategory;
         }
 
+        /// <summary>
+        /// Get category by id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="categoryID">category ID</param>
+        /// <returns></returns>
         public List<Survey_Category_BE> GetCategoryByID(int accountID, int categoryID)
         {
-            List<Survey_Category_BE> category_BEList = null;
+            List<Survey_Category_BE> categoryBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                category_DAO.GetCategoryByID(accountID, categoryID);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                categoryDataAccessObject.GetCategoryByID(accountID, categoryID);
 
-                category_BEList = category_DAO.category_BEList;
+                categoryBusinessEntityList = categoryDataAccessObject.category_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -437,21 +486,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Category List
+        /// </summary>
+        /// <returns></returns>
         public List<Survey_Category_BE> GetCategoryList()
         {
-            List<Survey_Category_BE> category_BEList = null;
+            List<Survey_Category_BE> categoryBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                category_DAO.GetCategoryList();
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                categoryDataAccessObject.GetCategoryList();
 
-                category_BEList = category_DAO.category_BEList;
+                categoryBusinessEntityList = categoryDataAccessObject.category_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -459,19 +512,24 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return category_BEList;
+            return categoryBusinessEntityList;
         }
 
+        /// <summary> 
+        /// Get Category List by account id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtCategoryList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                dtCategory = category_DAO.GetdtCategoryList(accountID);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                dataTableCategory = categoryDataAccessObject.GetdtCategoryList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -480,19 +538,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
+        /// <summary> 
+        /// Get Category List by account id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtnewCategoryList(string accountID)
         {
-            DataTable dtCategory = null;
+            DataTable dataTableCategory = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                dtCategory = category_DAO.GetdtnewCategoryList(accountID);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                dataTableCategory = categoryDataAccessObject.GetdtnewCategoryList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -501,9 +564,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCategory;
+            return dataTableCategory;
         }
 
+        /// <summary> 
+        /// Get Category List count by account id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetCategoryListCount(string accountID)
         {
             int categoryCount = 0;
@@ -512,8 +580,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                categoryCount = category_DAO.GetCategoryListCount(accountID);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                categoryCount = categoryDataAccessObject.GetCategoryListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -525,6 +593,12 @@ namespace Questionnaire_BAO
             return categoryCount;
         }
 
+        /// <summary>
+        /// Get Category 
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -533,8 +607,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO Category_DAO = new Survey_Category_DAO();
-                categoryid = Category_DAO.getcategory(accountID, Questionnaireid);
+                Survey_Category_DAO CategoryDataAccessObject = new Survey_Category_DAO();
+                categoryid = CategoryDataAccessObject.getcategory(accountID, Questionnaireid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -546,6 +620,12 @@ namespace Questionnaire_BAO
             return categoryid;
         }
 
+        /// <summary>
+        /// Select Questionnaire Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="Questionnaireid">Questionnaire id</param>
+        /// <returns></returns>
         public DataTable SelectQuestionnaireCategory(int accountID, int Questionnaireid)
         {
             DataTable categoryid = null;
@@ -554,8 +634,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO Category_DAO = new Survey_Category_DAO();
-                categoryid = Category_DAO.SelectQuestionnaireCategory(accountID, Questionnaireid);
+                Survey_Category_DAO CategoryDataAccessObject = new Survey_Category_DAO();
+                categoryid = CategoryDataAccessObject.SelectQuestionnaireCategory(accountID, Questionnaireid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -568,15 +648,20 @@ namespace Questionnaire_BAO
         }
 
         #endregion
-
+        /// <summary>
+        /// Resequence Category
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="increment">sequence number</param>
         public void ResequenceCategory(int accountID, int questionnaireID, int increment)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Category_DAO category_DAO = new Survey_Category_DAO();
-                category_DAO.ResequenceCategory(accountID, questionnaireID, increment);
+                Survey_Category_DAO categoryDataAccessObject = new Survey_Category_DAO();
+                categoryDataAccessObject.ResequenceCategory(accountID, questionnaireID, increment);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -587,5 +672,4 @@ namespace Questionnaire_BAO
         }
 
     }
-    
 }

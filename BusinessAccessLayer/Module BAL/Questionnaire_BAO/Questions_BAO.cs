@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 using DAF_BAO;
 using DatabaseAccessUtilities;
 using Questionnaire_BE;
 using Questionnaire_DAO;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
     public class Questions_BAO : Base_BAO
     {
-
         #region "Private Member Variable"
 
         private int addQuestions;
@@ -22,25 +17,29 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-
+        /// <summary>
+        /// Get range details
+        /// </summary>
+        /// <returns></returns>
         public DataTable getrange_data()
         {
-            Questions_DAO q_dao=null;
+            Questions_DAO QuestionsDataAccessObject = null;
             try
             {
-                q_dao = new Questions_DAO();
-                return q_dao.getrange_data();
+                QuestionsDataAccessObject = new Questions_DAO();
+                return QuestionsDataAccessObject.getrange_data();
             }
             catch
             { }
-            return q_dao.getrange_data();
+            return QuestionsDataAccessObject.getrange_data();
         }
 
-
-
-
-        public int AddQuestions(Questions_BE questions_BE)
+        /// <summary>
+        /// Insert Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestions(Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -53,8 +52,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questions_DAO questions_DAO = new Questions_DAO();
-                addQuestions = questions_DAO.AddQuestions(questions_BE);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                addQuestions = questionsDataAccessObject.AddQuestions(questionsBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -72,7 +71,12 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
-        public int UpdateQuestions(Questions_BE questions_BE)
+        /// <summary>
+        /// update Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateQuestions(Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -85,8 +89,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questions_DAO questions_DAO = new Questions_DAO();
-                addQuestions = questions_DAO.UpdateQuestions(questions_BE);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                addQuestions = questionsDataAccessObject.UpdateQuestions(questionsBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -104,7 +108,12 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
-        public int DeleteQuestions(Questions_BE questions_BE)
+        /// <summary>
+        /// Delete Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteQuestions(Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -117,8 +126,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questions_DAO questions_DAO = new Questions_DAO();
-                addQuestions = questions_DAO.DeleteQuestions(questions_BE);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                addQuestions = questionsDataAccessObject.DeleteQuestions(questionsBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -136,18 +145,23 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
+        /// <summary>
+        /// Get Questions by id
+        /// </summary>
+        /// <param name="questionsID">questions ID</param>
+        /// <returns></returns>
         public List<Questions_BE> GetQuestionsByID(int questionsID)
         {
-            List<Questions_BE> questions_BEList = null;
+            List<Questions_BE> questionsBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO questions_DAO = new Questions_DAO();
-                questions_DAO.GetQuestionsByID(questionsID);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                questionsDataAccessObject.GetQuestionsByID(questionsID);
 
-                questions_BEList = questions_DAO.questions_BEList;
+                questionsBusinessEntityList = questionsDataAccessObject.questions_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -155,21 +169,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questions_BEList;
+            return questionsBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questions list
+        /// </summary>
+        /// <returns></returns>
         public List<Questions_BE> GetQuestionsList()
         {
-            List<Questions_BE> questions_BEList = null;
+            List<Questions_BE> questionsBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO questions_DAO = new Questions_DAO();
-                questions_DAO.GetQuestionsList();
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                questionsDataAccessObject.GetQuestionsList();
 
-                questions_BEList = questions_DAO.questions_BEList;
+                questionsBusinessEntityList = questionsDataAccessObject.questions_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -177,19 +195,24 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questions_BEList;
+            return questionsBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questions list by account id
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtQuestionsList(string accountID)
         {
-            DataTable dtQuestions = null;
+            DataTable dataTableQuestions = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO questions_DAO = new Questions_DAO();
-                dtQuestions = questions_DAO.GetdtQuestionsList(accountID);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                dataTableQuestions = questionsDataAccessObject.GetdtQuestionsList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -198,21 +221,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtQuestions;
+            return dataTableQuestions;
         }
 
-
-
+        /// <summary>
+        /// Get Questions List
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtQuestionsListnew(string accountID)
         {
-            DataTable dtQuestions = null;
+            DataTable DataTableQuestions = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO questions_DAO = new Questions_DAO();
-                dtQuestions = questions_DAO.GetdtQuestionsListnew(accountID);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                DataTableQuestions = questionsDataAccessObject.GetdtQuestionsListnew(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -221,11 +247,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtQuestions;
+            return DataTableQuestions;
         }
 
-
-
+        /// <summary>
+        /// Get Questions List Count
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetQuestionsListCount(string accountID)
         {
             int questionsCount = 0;
@@ -234,8 +263,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO questions_DAO = new Questions_DAO();
-                questionsCount = questions_DAO.GetQuestionsListCount(accountID);
+                Questions_DAO questionsDataAccessObject = new Questions_DAO();
+                questionsCount = questionsDataAccessObject.GetQuestionsListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -246,19 +275,22 @@ namespace Questionnaire_BAO
 
             return questionsCount;
         }
-
-       
-
         #endregion
 
+        /// <summary>
+        /// Re sequence Question
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="increment">increment</param>
         public void ResequenceQuestion(int accountID, int questionnaireID, int increment)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questions_DAO question_DAO = new Questions_DAO();
-                question_DAO.ResequenceQuestion(accountID, questionnaireID, increment);
+                Questions_DAO questionDataAccessObject = new Questions_DAO();
+                questionDataAccessObject.ResequenceQuestion(accountID, questionnaireID, increment);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -268,14 +300,6 @@ namespace Questionnaire_BAO
             }
         }
     }
-
-
-
-
-
-
-
-
 
 
     public class Survey_Questions_BAO : Base_BAO
@@ -289,24 +313,29 @@ namespace Questionnaire_BAO
 
         #region CRUD Operations
 
-
+        /// <summary>
+        /// Get Range details
+        /// </summary>
+        /// <returns></returns>
         public DataTable getrange_data()
         {
-            Survey_Questions_DAO q_dao = null;
+            Survey_Questions_DAO questionDataAccess = null;
             //try
             //{
-                q_dao = new Survey_Questions_DAO();
-                return q_dao.getrange_data();
+            questionDataAccess = new Survey_Questions_DAO();
+            return questionDataAccess.getrange_data();
             //}
             //catch
             //{ }
             //return q_dao.getrange_data();
         }
 
-
-
-
-        public int AddQuestions(Survey_Questions_BE questions_BE)
+        /// <summary>
+        /// Insert Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestions(Survey_Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -314,17 +343,17 @@ namespace Questionnaire_BAO
 
             ////try
             ////{
-                sqlClient = CDataSrc.Default as CSqlClient;
-                conn = sqlClient.Connection();
-                dbTransaction = conn.BeginTransaction();
+            sqlClient = CDataSrc.Default as CSqlClient;
+            conn = sqlClient.Connection();
+            dbTransaction = conn.BeginTransaction();
 
-                //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                addQuestions = questions_DAO.AddQuestions(questions_BE);
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            addQuestions = questionsDataAccessObject.AddQuestions(questionsBusinessEntity);
+            //HandleWriteLog("End", new StackTrace(true));
 
-                dbTransaction.Commit();
-                conn.Close();
+            dbTransaction.Commit();
+            conn.Close();
             ////}
             ////catch (Exception ex)
             ////{
@@ -338,7 +367,12 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
-        public int UpdateQuestions(Survey_Questions_BE questions_BE)
+        /// <summary>
+        /// Update Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateQuestions(Survey_Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -351,8 +385,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                addQuestions = questions_DAO.UpdateQuestions(questions_BE);
+                Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+                addQuestions = questionsDataAccessObject.UpdateQuestions(questionsBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -370,7 +404,12 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
-        public int DeleteQuestions(Survey_Questions_BE questions_BE)
+        /// <summary>
+        /// delete Questions
+        /// </summary>
+        /// <param name="questionsBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteQuestions(Survey_Questions_BE questionsBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -378,17 +417,17 @@ namespace Questionnaire_BAO
 
             //try
             //{
-                sqlClient = CDataSrc.Default as CSqlClient;
-                conn = sqlClient.Connection();
-                dbTransaction = conn.BeginTransaction();
+            sqlClient = CDataSrc.Default as CSqlClient;
+            conn = sqlClient.Connection();
+            dbTransaction = conn.BeginTransaction();
 
-                //HandleWriteLog("Start", new StackTrace(true));
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                addQuestions = questions_DAO.DeleteQuestions(questions_BE);
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            addQuestions = questionsDataAccessObject.DeleteQuestions(questionsBusinessEntity);
+            //HandleWriteLog("End", new StackTrace(true));
 
-                dbTransaction.Commit();
-                conn.Close();
+            dbTransaction.Commit();
+            conn.Close();
             //}
             //catch (Exception ex)
             //{
@@ -402,108 +441,128 @@ namespace Questionnaire_BAO
             return addQuestions;
         }
 
+        /// <summary>
+        /// Get Questions by Questions id
+        /// </summary>
+        /// <param name="questionsID"></param>
+        /// <returns></returns>
         public List<Survey_Questions_BE> GetQuestionsByID(int questionsID)
         {
-            List<Survey_Questions_BE> questions_BEList = null;
+            List<Survey_Questions_BE> questionsBusinessEntityList = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                questions_DAO.GetQuestionsByID(questionsID);
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            questionsDataAccessObject.GetQuestionsByID(questionsID);
 
-                questions_BEList = questions_DAO.questions_BEList;
+            questionsBusinessEntityList = questionsDataAccessObject.questions_BEList;
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
-            return questions_BEList;
+            return questionsBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questions list 
+        /// </summary>
+        /// <returns></returns>
         public List<Survey_Questions_BE> GetQuestionsList()
         {
-            List<Survey_Questions_BE> questions_BEList = null;
+            List<Survey_Questions_BE> questionsBusinessEntityList = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                questions_DAO.GetQuestionsList();
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            questionsDataAccessObject.GetQuestionsList();
 
-                questions_BEList = questions_DAO.questions_BEList;
+            questionsBusinessEntityList = questionsDataAccessObject.questions_BEList;
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
-            return questions_BEList;
+            return questionsBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questions list by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtQuestionsList(string accountID)
         {
-            DataTable dtQuestions = null;
+            DataTable dataTableQuestions = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                dtQuestions = questions_DAO.GetdtQuestionsList(accountID);
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            dataTableQuestions = questionsDataAccessObject.GetdtQuestionsList(accountID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
 
-            return dtQuestions;
+            return dataTableQuestions;
         }
 
-
-
+        /// <summary>
+        /// Get Questions list  by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtQuestionsListnew(string accountID)
         {
-            DataTable dtQuestions = null;
+            DataTable dataTableQuestions = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                dtQuestions = questions_DAO.GetdtQuestionsListnew(accountID);
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            dataTableQuestions = questionsDataAccessObject.GetdtQuestionsListnew(accountID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
 
-            return dtQuestions;
+            return dataTableQuestions;
         }
 
-
-
+        /// <summary>
+        /// Get Questions list count by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetQuestionsListCount(string accountID)
         {
             int questionsCount = 0;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO questions_DAO = new Survey_Questions_DAO();
-                questionsCount = questions_DAO.GetQuestionsListCount(accountID);
+            Survey_Questions_DAO questionsDataAccessObject = new Survey_Questions_DAO();
+            questionsCount = questionsDataAccessObject.GetQuestionsListCount(accountID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
@@ -512,21 +571,24 @@ namespace Questionnaire_BAO
 
             return questionsCount;
         }
-
-
-
         #endregion
 
+        /// <summary>
+        /// Resequence Questions
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="increment">sequence number</param>
         public void ResequenceQuestion(int accountID, int questionnaireID, int increment)
         {
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Questions_DAO question_DAO = new Survey_Questions_DAO();
-                question_DAO.ResequenceQuestion(accountID, questionnaireID, increment);
+            Survey_Questions_DAO questionDataAccessObject = new Survey_Questions_DAO();
+            questionDataAccessObject.ResequenceQuestion(accountID, questionnaireID, increment);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
@@ -534,11 +596,4 @@ namespace Questionnaire_BAO
             //}
         }
     }
-
-
-
-
-
-
-
 }

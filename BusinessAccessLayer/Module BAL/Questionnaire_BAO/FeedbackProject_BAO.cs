@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Diagnostics;
 
 using DAF_BAO;
-using DatabaseAccessUtilities;
 using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
-namespace Questionnaire_BAO {
-    public class FeedbackProject_BAO : Base_BAO {
+namespace Questionnaire_BAO
+{
+    public class FeedbackProject_BAO : Base_BAO
+    {
         #region "Private Member Variable"
 
         private int addProject;
@@ -21,54 +18,60 @@ namespace Questionnaire_BAO {
 
         #endregion
 
-        
+        /// <summary>
+        /// Get Project By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <returns></returns>
+        public List<FeedbackProject_BE> GetProjectByID(int accountID, int projectID)
+        {
+            List<FeedbackProject_BE> projectBusinessEntityList = null;
 
-
-        public List<FeedbackProject_BE> GetProjectByID(int accountID, int projectID) {
-            List<FeedbackProject_BE> project_BEList = null;
-
-            try {
+            try
+            {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                FeedbackProject_DAO project_DAO = new FeedbackProject_DAO();
-                project_DAO.GetProjectByID(accountID, projectID);
+                FeedbackProject_DAO projectDataAccessObject = new FeedbackProject_DAO();
+                projectDataAccessObject.GetProjectByID(accountID, projectID);
 
-                project_BEList = project_DAO.project_BEList;
+                projectBusinessEntityList = projectDataAccessObject.project_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return project_BEList;
+            return projectBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Project List by account id.
+        /// </summary>
+        /// <param name="accountID">account id</param>
+        /// <returns></returns>
+        public DataTable GetdtProjectList(string accountID)
+        {
+            DataTable dataTableProject = null;
 
-
-        public DataTable GetdtProjectList(string accountID) {
-            DataTable dtProject = null;
-
-            try {
+            try
+            {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                FeedbackProject_DAO project_DAO = new FeedbackProject_DAO();
-                dtProject = project_DAO.GetdtProjectList(accountID);
+                FeedbackProject_DAO projectDataAccessObject = new FeedbackProject_DAO();
+                dataTableProject = projectDataAccessObject.GetdtProjectList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
 
-            return dtProject;
+            return dataTableProject;
         }
-
-
-
     }
-
-
-
 }
 
 

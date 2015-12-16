@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
-using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 using System.Configuration;
 namespace Questionnaire_BAO
 {
@@ -18,16 +13,22 @@ namespace Questionnaire_BAO
     {
         DatabaseAccessUtilities.CDataSrc cDataSrc = new CSqlClient(ConfigurationSettings.AppSettings["ConnectionString"].ToString());
 
+        /// <summary>
+        /// Use to get DataTable by passing procedure name
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="objCnameList"></param>
+        /// <returns></returns>
         public DataTable GetDataTable(string procedureName,CNameValueList objCnameList)
         {
-            DataTable dt = null;
+            DataTable dataTableResult = null;
 
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                Common_DAO objCommon_DAO = new Common_DAO();
-                dt = objCommon_DAO.GetDataTable(procedureName,objCnameList);
+                Common_DAO CommonDataAccessObject = new Common_DAO();
+                dataTableResult = CommonDataAccessObject.GetDataTable(procedureName,objCnameList);
 
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -36,19 +37,25 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dt;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Use to insert record by passing procedure name and list of details
+        /// </summary>
+        /// <param name="procedureName"></param>
+        /// <param name="objCnameList"></param>
+        /// <returns></returns>
         public int InsertAndUpdate(string procedureName, CNameValueList objCnameList)
         {
-            int dt = 0;
+            int dataTableResult = 0;
 
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                Common_DAO objCommon_DAO = new Common_DAO();
-                dt = objCommon_DAO.InsertAndUpdate(procedureName, objCnameList);
+                Common_DAO CommonDataAccessObject = new Common_DAO();
+                dataTableResult = CommonDataAccessObject.InsertAndUpdate(procedureName, objCnameList);
 
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -57,9 +64,7 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dt;
+            return dataTableResult;
         }
-
-      
     }
 }

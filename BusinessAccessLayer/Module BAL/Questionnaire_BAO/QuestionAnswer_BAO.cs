@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -9,15 +6,18 @@ using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
-    public class QuestionAnswer_BAO:Base_BAO
+    public class QuestionAnswer_BAO : Base_BAO
     {
         int result;
-
-        public int AddQuestionAnswer(QuestionAnswer_BE questionAnswer_BE)
+        /// <summary>
+        /// Insert Question Answer
+        /// </summary>
+        /// <param name="questionAnswerBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestionAnswer(QuestionAnswer_BE questionAnswerBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -30,8 +30,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                QuestionAnswer_DAO questionAnswer_DAO = new QuestionAnswer_DAO();
-                result = questionAnswer_DAO.AddQuestionAnswer(questionAnswer_BE);
+                QuestionAnswer_DAO questionAnswerDataAccessObject = new QuestionAnswer_DAO();
+                result = questionAnswerDataAccessObject.AddQuestionAnswer(questionAnswerBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -49,7 +49,12 @@ namespace Questionnaire_BAO
             return result;
         }
 
-
+        /// <summary>
+        /// Get  Question Answer
+        /// </summary>
+        /// <param name="candidateId">candidate Id</param>
+        /// <param name="questionID">question ID</param>
+        /// <returns></returns>
         public string GetQuestionAnswer(int candidateId, int questionID)
         {
             CSqlClient sqlClient = null;
@@ -64,8 +69,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                QuestionAnswer_DAO questionAnswer_DAO = new QuestionAnswer_DAO();
-                result = questionAnswer_DAO.GetQuestionAnswer(candidateId, questionID);
+                QuestionAnswer_DAO questionAnswerDataAccessObject = new QuestionAnswer_DAO();
+                result = questionAnswerDataAccessObject.GetQuestionAnswer(candidateId, questionID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -90,8 +95,12 @@ namespace Questionnaire_BAO
     public class Survey_QuestionAnswer_BAO : Base_BAO
     {
         int result;
-
-        public int AddQuestionAnswer(Survey_QuestionAnswer_BE questionAnswer_BE)
+        /// <summary>
+        /// Insert Question Answer
+        /// </summary>
+        /// <param name="questionAnswerBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestionAnswer(Survey_QuestionAnswer_BE questionAnswerBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -104,8 +113,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_QuestionAnswer_DAO questionAnswer_DAO = new Survey_QuestionAnswer_DAO();
-                result = questionAnswer_DAO.AddQuestionAnswer(questionAnswer_BE);
+                Survey_QuestionAnswer_DAO questionAnswerDataAccessObject = new Survey_QuestionAnswer_DAO();
+                result = questionAnswerDataAccessObject.AddQuestionAnswer(questionAnswerBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -123,7 +132,12 @@ namespace Questionnaire_BAO
             return result;
         }
 
-
+        /// <summary>
+        /// Get Question Answer
+        /// </summary>
+        /// <param name="candidateId">candidate Id</param>
+        /// <param name="questionID">question ID</param>
+        /// <returns></returns>
         public string GetQuestionAnswer(int candidateId, int questionID)
         {
             CSqlClient sqlClient = null;
@@ -138,8 +152,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_QuestionAnswer_DAO questionAnswer_DAO = new Survey_QuestionAnswer_DAO();
-                result = questionAnswer_DAO.GetQuestionAnswer(candidateId, questionID);
+                Survey_QuestionAnswer_DAO questionAnswerDataAccessObject = new Survey_QuestionAnswer_DAO();
+                result = questionAnswerDataAccessObject.GetQuestionAnswer(candidateId, questionID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();

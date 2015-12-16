@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -12,19 +10,20 @@ using System.Data;
 
 namespace Questionnaire_BAO
 {
-    public class Programme_BAO:Base_BAO
+    public class Programme_BAO : Base_BAO
     {
         #region "Private Member Variable"
-
         private int addProgramme;
         private int searchProgramme;
-
-
         #endregion
 
         #region CRUD Operations
-
-        public int AddProgramme(Programme_BE programme_BE)
+        /// <summary>
+        /// Insert Programme 
+        /// </summary>
+        /// <param name="programmeBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddProgramme(Programme_BE programmeBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -37,8 +36,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Programme_DAO programme_DAO = new Programme_DAO();
-                addProgramme = programme_DAO.AddProgramme(programme_BE);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                addProgramme = programmeDataAccessObject.AddProgramme(programmeBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -56,7 +55,12 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
-        public int UpdateProgramme(Programme_BE programme_BE)
+        /// <summary>
+        /// Update Programme
+        /// </summary>
+        /// <param name="programmeBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateProgramme(Programme_BE programmeBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -69,8 +73,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Programme_DAO programme_DAO = new Programme_DAO();
-                addProgramme = programme_DAO.UpdateProgramme(programme_BE);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                addProgramme = programmeDataAccessObject.UpdateProgramme(programmeBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -88,7 +92,12 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
-        public int DeleteProgramme(Programme_BE programme_BE)
+        /// <summary>
+        /// Delete Programme
+        /// </summary>
+        /// <param name="programmeBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteProgramme(Programme_BE programmeBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -101,8 +110,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Programme_DAO programme_DAO = new Programme_DAO();
-                addProgramme = programme_DAO.DeleteProgramme(programme_BE);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                addProgramme = programmeDataAccessObject.DeleteProgramme(programmeBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -120,18 +129,24 @@ namespace Questionnaire_BAO
             return addProgramme;
         }
 
+        /// <summary>
+        /// Get Programme By ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="programmeID">programme ID</param>
+        /// <returns></returns>
         public List<Programme_BE> GetProgrammeByID(int accountID, int programmeID)
         {
-            List<Programme_BE> programme_BEList = null;
+            List<Programme_BE> programmeBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                programme_DAO.GetProgrammeByID(accountID, programmeID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                programmeDataAccessObject.GetProgrammeByID(accountID, programmeID);
 
-                programme_BEList = programme_DAO.programme_BEList;
+                programmeBusinessEntityList = programmeDataAccessObject.programme_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -139,21 +154,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return programme_BEList;
+            return programmeBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Programme List
+        /// </summary>
+        /// <returns></returns>
         public List<Programme_BE> GetProgrammeList()
         {
-            List<Programme_BE> programme_BEList = null;
+            List<Programme_BE> programmeBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                programme_DAO.GetProgrammeList();
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                programmeDataAccessObject.GetProgrammeList();
 
-                programme_BEList = programme_DAO.programme_BEList;
+                programmeBusinessEntityList = programmeDataAccessObject.programme_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -161,19 +180,24 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return programme_BEList;
+            return programmeBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Programme List
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtProgrammeList(string accountID)
         {
-            DataTable dtProgramme = null;
+            DataTable dataTableProgramme = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                dtProgramme = programme_DAO.GetdtProgrammeList(accountID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                dataTableProgramme = programmeDataAccessObject.GetdtProgrammeList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -182,19 +206,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtProgramme;
+            return dataTableProgramme;
         }
 
+        /// <summary>
+        /// Get Programme List by account id.
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetdtProgrammeListNew(string accountID)
         {
-            DataTable dtProgramme = null;
+            DataTable dataTableProgramme = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                dtProgramme = programme_DAO.GetdtProgrammeListNew(accountID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                dataTableProgramme = programmeDataAccessObject.GetdtProgrammeListNew(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -203,10 +232,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtProgramme;
+            return dataTableProgramme;
         }
 
-
+        /// <summary>
+        /// Get Programme List Count by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public int GetProgrammeListCount(string accountID)
         {
             int programmeCount = 0;
@@ -215,8 +248,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                programmeCount = programme_DAO.GetProgrammeListCount(accountID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                programmeCount = programmeDataAccessObject.GetProgrammeListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -230,26 +263,30 @@ namespace Questionnaire_BAO
 
         #endregion
 
-
+        /// <summary>
+        /// Get Project Programme by projectID
+        /// </summary>
+        /// <param name="projectID">projectID</param>
+        /// <returns></returns>
         public DataTable GetProjectProgramme(int projectID)
         {
-            DataTable dtProgramme = null;
+            DataTable dataTableProgramme = null;
 
-         //   try
-         //   {
-                //HandleWriteLog("Start", new StackTrace(true));
+            //   try
+            //   {
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                dtProgramme = programme_DAO.GetProjectProgramme(projectID);
+            Programme_DAO programmeDataAccessObject = new Programme_DAO();
+            dataTableProgramme = programmeDataAccessObject.GetProjectProgramme(projectID);
 
-                //HandleWriteLog("End", new StackTrace(true));
-          //  }
-          //  catch (Exception ex)
-          //  {
-          //      HandleException(ex);
-          //  }
+            //HandleWriteLog("End", new StackTrace(true));
+            //  }
+            //  catch (Exception ex)
+            //  {
+            //      HandleException(ex);
+            //  }
 
-            return dtProgramme;
+            return dataTableProgramme;
         }
 
         /// <summary>
@@ -263,15 +300,15 @@ namespace Questionnaire_BAO
         {
             try
             {
-                Programme_DAO programme_DAO = new Programme_DAO();
-                return programme_DAO.GetProgramInstructions(programID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                return programmeDataAccessObject.GetProgramInstructions(programID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
                 return string.Empty;
             }
-            
+
         }
 
         /// <summary>
@@ -285,8 +322,8 @@ namespace Questionnaire_BAO
         {
             try
             {
-                Programme_DAO programme_DAO = new Programme_DAO();
-                return programme_DAO.GetProgramColleagueNumber(programID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                return programmeDataAccessObject.GetProgramColleagueNumber(programID);
             }
             catch (Exception ex)
             {
@@ -305,8 +342,8 @@ namespace Questionnaire_BAO
         {
             try
             {
-                Programme_DAO programme_DAO = new Programme_DAO();
-                return programme_DAO.GetProgramReportDate(programID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                return programmeDataAccessObject.GetProgramReportDate(programID);
             }
             catch (Exception ex)
             {
@@ -316,16 +353,21 @@ namespace Questionnaire_BAO
 
         }
 
+        /// <summary>
+        /// Get Programme By programme ID
+        /// </summary>
+        /// <param name="programmeID">programme ID</param>
+        /// <returns></returns>
         public DataTable GetProgrammeByID(int programmeID)
         {
-            DataTable dtProgramme = null;
+            DataTable dataTableProgramme = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Programme_DAO programme_DAO = new Programme_DAO();
-                dtProgramme = programme_DAO.GetProgrammeByID(programmeID);
+                Programme_DAO programmeDataAccessObject = new Programme_DAO();
+                dataTableProgramme = programmeDataAccessObject.GetProgrammeByID(programmeID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -334,8 +376,7 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtProgramme;
+            return dataTableProgramme;
         }
-
     }
 }

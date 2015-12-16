@@ -1,31 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using DAF_BAO;
-using DatabaseAccessUtilities;
-using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
     public class Survey_ExternalLink_BAO : Base_BAO
     {
+        /// <summary>
+        /// Get External Link List by account ID
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <returns></returns>
         public DataTable GetExternalLinkList(string accountID)
         {
-            DataTable dtCompany = null;
+            DataTable dataTableCompany = null;
 
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Company_DAO company_DAO = new Survey_Company_DAO();
-                dtCompany = company_DAO.GetdtCompanyList(accountID);
+                Survey_Company_DAO companyDataAccessObject = new Survey_Company_DAO();
+                dataTableCompany = companyDataAccessObject.GetdtCompanyList(accountID);
 
                 HandleWriteLog("End", new StackTrace(true));
             }
@@ -34,7 +33,7 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCompany;
+            return dataTableCompany;
         }
     }
 }

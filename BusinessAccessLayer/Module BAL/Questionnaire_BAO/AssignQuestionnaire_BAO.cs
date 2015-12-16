@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
@@ -9,11 +7,10 @@ using Questionnaire_BE;
 using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
-    public class AssignQuestionnaire_BAO:Base_BAO 
+    public class AssignQuestionnaire_BAO : Base_BAO
     {
         #region "Private Member Variable"
 
@@ -23,8 +20,10 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Insert Assign Questionnaire
+        /// </summary>
+        public int AddAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -37,8 +36,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.AddAssignQuestionnaire(assignQuestionnaire_BE,dbTransaction);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.AddAssignQuestionnaire(assignQuestionnaireBusinessEntity, dbTransaction);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -56,7 +55,10 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
-        public int?[] AddAssignQuestionnaireForColleagues(AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Insert Assign Questionnaire for colleague
+        /// </summary>
+        public int?[] AddAssignQuestionnaireForColleagues(AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -67,11 +69,11 @@ namespace Questionnaire_BAO
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
-                
+
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                asgnDetailedID = assignQuestionnaire_DAO.AddAssignQuestionnaireForColleagues(assignQuestionnaire_BE, dbTransaction);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                asgnDetailedID = assignQuestionnaireDataAccessObject.AddAssignQuestionnaireForColleagues(assignQuestionnaireBusinessEntity, dbTransaction);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -89,15 +91,17 @@ namespace Questionnaire_BAO
             return asgnDetailedID;
         }
 
-
-        public int GetAssignmentID(AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Get Assignment ID
+        /// </summary>
+        public int GetAssignmentID(AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
-            int assignmentID=0;
+            int assignmentID = 0;
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignmentID= assignQuestionnaire_DAO.GetAssignmentID(assignQuestionnaire_BE);
-                
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignmentID = assignQuestionnaireDataAccessObject.GetAssignmentID(assignQuestionnaireBusinessEntity);
+
             }
             catch (Exception ex)
             {
@@ -106,7 +110,12 @@ namespace Questionnaire_BAO
             return assignmentID;
         }
 
-        public int UpdateAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Update Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -119,8 +128,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.UpdateAssignQuestionnaire(assignQuestionnaire_BE);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.UpdateAssignQuestionnaire(assignQuestionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -138,7 +147,11 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
-        public int DeleteAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Delete Assign Questionnaire
+        /// </summary>
+        /// <returns></returns>
+        public int DeleteAssignQuestionnaire(AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -151,8 +164,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.DeleteAssignQuestionnaire(assignQuestionnaire_BE);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.DeleteAssignQuestionnaire(assignQuestionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -170,18 +183,22 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire By ID
+        /// </summary>
+        /// <returns></returns>
         public List<AssignQuestionnaire_BE> GetAssignQuestionnaireByID(int assignQuestionnaireID)
         {
-            List<AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
+            List<AssignQuestionnaire_BE> assignQuestionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.GetAssignQuestionnaireByID(assignQuestionnaireID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.GetAssignQuestionnaireByID(assignQuestionnaireID);
 
-                assignQuestionnaire_BEList = assignQuestionnaire_DAO.assignQuestionnaire_BEList;
+                assignQuestionnaireBusinessEntityList = assignQuestionnaireDataAccessObject.assignQuestionnaireBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -189,21 +206,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return assignQuestionnaire_BEList;
+            return assignQuestionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List
+        /// </summary>
+        /// <returns></returns>
         public List<AssignQuestionnaire_BE> GetAssignQuestionnaireList()
         {
-            List<AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
+            List<AssignQuestionnaire_BE> assignQuestionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.GetAssignQuestionnaireList();
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.GetAssignQuestionnaireList();
 
-                assignQuestionnaire_BEList = assignQuestionnaire_DAO.assignQuestionnaire_BEList;
+                assignQuestionnaireBusinessEntityList = assignQuestionnaireDataAccessObject.assignQuestionnaireBusinessEntityList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -211,19 +232,22 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return assignQuestionnaire_BEList;
+            return assignQuestionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List by assignment id.
+        /// </summary>
         public DataTable GetdtAssignQuestionnaireList(Int32 assignmentID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetdtAssignQuestionnaireList(assignmentID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetdtAssignQuestionnaireList(assignmentID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -232,19 +256,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List Details by assignment id.
+        /// </summary>
+        /// <param name="assignmentID"> assignment id.</param>
+        /// <returns></returns>
         public DataTable GetdtAssignQuestionnaireListDetails(string assignmentID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetdtAssignQuestionnaireListDetails(assignmentID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetdtAssignQuestionnaireListDetails(assignmentID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -253,10 +282,16 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
 
-        public int GetAssignQuestionnaireListCount(string accountID,string Projectid)
+        /// <summary>
+        /// Get Assign Questionnaire List Count
+        /// </summary>
+        /// <param name="accountID">accountID</param>
+        /// <param name="Projectid">Projectid</param>
+        /// <returns></returns>
+        public int GetAssignQuestionnaireListCount(string accountID, string Projectid)
         {
             int assignQuestionnaireCount = 0;
 
@@ -264,8 +299,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaireCount = assignQuestionnaire_DAO.GetAssignQuestionnaireListCount(accountID, Projectid);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireCount = assignQuestionnaireDataAccessObject.GetAssignQuestionnaireListCount(accountID, Projectid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -277,15 +312,20 @@ namespace Questionnaire_BAO
             return assignQuestionnaireCount;
         }
 
+        /// <summary>
+        /// Get All Assignment Information by candidate id.
+        /// </summary>
+        /// <param name="candidateID">candidateID</param>
+        /// <returns></returns>
         public DataTable GetAllAssignmentInfo(Int32 candidateID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetAllAssignmentInfo(candidateID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetAllAssignmentInfo(candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -294,9 +334,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
+        /// <summary>
+        /// Get Template details by projectid.
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public String FindTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -310,8 +355,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                Template = assignQuestionnaire_DAO.FindTemplate(ProjectID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -329,7 +374,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Find Participant Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -343,8 +392,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQstnParticipant_DAO assignQuestionnaire_DAO = new AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindParticipantTemplate(ProjectID);
+                AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindParticipantTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -362,6 +411,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
+        /// <summary>
+        /// Find Participant Subject Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantSubjectTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -375,8 +429,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQstnParticipant_DAO assignQuestionnaire_DAO = new AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindParticipantSubjectTemplate(ProjectID);
+                AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindParticipantSubjectTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -394,7 +448,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Find Candidate Subject Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindCandidateSubjectTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -408,8 +466,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                AssignQstnParticipant_DAO assignQuestionnaire_DAO = new AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindCandidateSubjectTemplate(ProjectID);
+                AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindCandidateSubjectTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -427,17 +485,22 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Get Assign List
+        /// </summary>
+        /// <param name="userID">user ID</param>
+        /// <param name="projectid">project id</param>
+        /// <returns></returns>
         public DataTable GetdtAssignList(string userID, string projectid)
         {
-            DataTable dtCAssign = null;
+            DataTable dataTableAssign = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO Questionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignList(userID, projectid);
+                AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssign = QuestionnaireDataAccessObject.GetdtAssignList(userID, projectid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -446,7 +509,7 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return dataTableAssign;
         }
 
         /// <summary>
@@ -457,31 +520,36 @@ namespace Questionnaire_BAO
         /// <returns></returns>
         public DataTable GetdtAssignColleagueList(string userID, string programmeID)
         {
-            DataTable dtCAssign = null;
+            DataTable dataTableAssign = null;
 
             try
             {
-                AssignQuestionnaire_DAO Questionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignColleagueList(userID, programmeID);
+                AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssign = QuestionnaireDataAccessObject.GetdtAssignColleagueList(userID, programmeID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return dataTableAssign;
         }
 
+        /// <summary>
+        /// Get Assign List
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public DataTable GetdtAssignListNew(string condition)
         {
-            DataTable dtCAssign = null;
+            DataTable dataTableAssign = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO Questionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignListNew(condition);
+                AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssign = QuestionnaireDataAccessObject.GetdtAssignListNew(condition);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -490,9 +558,12 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return dataTableAssign;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List Count
+        /// </summary>
         public int GetAssignQuestionnaireListCount(string condition)
         {
             int assignQuestionnaireCount = 0;
@@ -501,8 +572,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaireCount = assignQuestionnaire_DAO.GetAssignQuestionnaireListCount(condition);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireCount = assignQuestionnaireDataAccessObject.GetAssignQuestionnaireListCount(condition);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -514,15 +585,20 @@ namespace Questionnaire_BAO
             return assignQuestionnaireCount;
         }
 
+        /// <summary>
+        /// Get Feedback URL by Target Person ID
+        /// </summary>
+        /// <param name="TargetPersonID">Target Person ID</param>
+        /// <returns></returns>
         public DataTable GetFeedbackURL(int TargetPersonID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetFeedbackURL(TargetPersonID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetFeedbackURL(TargetPersonID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -531,17 +607,22 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
+        /// <summary>
+        /// Get Assignment ID by Target PersonID
+        /// </summary>
+        /// <param name="TargetPersonID"></param>
+        /// <returns></returns>
         public int GetAssignmentID(int TargetPersonID)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                return assignQuestionnaire_DAO.GetAssignmentID(TargetPersonID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                return assignQuestionnaireDataAccessObject.GetAssignmentID(TargetPersonID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -553,14 +634,20 @@ namespace Questionnaire_BAO
 
         }
 
+        /// <summary>
+        /// update Feedback URL
+        /// </summary>
+        /// <param name="TargetPersonID">TargetPersonID</param>
+        /// <param name="AssignmentID">AssignmentID</param>
+        /// <param name="FeedbackURL">FeedbackURL</param>
         public void SetFeedbackURL(int TargetPersonID, int AssignmentID, string FeedbackURL)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.SetFeedbackURL(TargetPersonID,AssignmentID,FeedbackURL);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.SetFeedbackURL(TargetPersonID, AssignmentID, FeedbackURL);
 
                 //HandleWriteLogDAU("UspCategorySelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
@@ -571,15 +658,20 @@ namespace Questionnaire_BAO
 
         #endregion
 
+        /// <summary>
+        /// Get Participant Assignment details
+        /// </summary>
+        /// <param name="TargetPersonID"></param>
+        /// <returns></returns>
         public DataTable GetParticipantAssignmentInfo(Int32 TargetPersonID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetParticipantAssignmentInfo(TargetPersonID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetParticipantAssignmentInfo(TargetPersonID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -588,19 +680,23 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
-
+        /// <summary>
+        /// Get Candidate Email Image details by project id.
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public DataTable GetCandidateEmailImageInfo(int ProjectID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetCandidateEmailImageInfo(ProjectID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetCandidateEmailImageInfo(ProjectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -609,18 +705,23 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
+        /// <summary>
+        /// Get Participant Email Image details by project id.
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public DataTable GetParticipantEmailImageInfo(int ProjectID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetParticipantEmailImageInfo(ProjectID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetParticipantEmailImageInfo(ProjectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -629,10 +730,13 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
-        public void UpdateAssignProgramme(AssignQuestionnaire_BE assignquestionnaire_BE)
+        /// <summary>
+        /// Update Assign Programme
+        /// </summary>
+        public void UpdateAssignProgramme(AssignQuestionnaire_BE assignquestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -644,8 +748,8 @@ namespace Questionnaire_BAO
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
 
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateAssignProgramme(assignquestionnaire_BE,dbTransaction);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateAssignProgramme(assignquestionnaireBusinessEntity, dbTransaction);
 
                 dbTransaction.Commit();
                 conn.Close();
@@ -661,12 +765,17 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Update Colleague Relationship
+        /// </summary>
+        /// <param name="colleagueId">colleague Id</param>
+        /// <param name="relationship">relationship</param>
         public void UpdateColleagueRelationship(int colleagueId, string relationship)
         {
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateColleagueRelationship(colleagueId, relationship);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateColleagueRelationship(colleagueId, relationship);
             }
             catch (Exception ex)
             {
@@ -674,14 +783,20 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// check user authority to access menus
+        /// </summary>
+        /// <param name="grpID"></param>
+        /// <param name="menuID"></param>
+        /// <returns></returns>
         public DataTable chk_user_authority(int? grpID, int menuID)
         {
 
             DataTable result = null;
             try
             {
-                AssignQuestionnaire_DAO chk_user = new AssignQuestionnaire_DAO();
-                result = chk_user.chk_user_authority(grpID, menuID);
+                AssignQuestionnaire_DAO checkUser = new AssignQuestionnaire_DAO();
+                result = checkUser.chk_user_authority(grpID, menuID);
             }
             catch (Exception ex)
             {
@@ -692,14 +807,19 @@ namespace Questionnaire_BAO
 
         }
 
+        /// <summary>
+        /// Get Colleagues List by assignment ID
+        /// </summary>
+        /// <param name="assignmentID">assignment ID</param>
+        /// <returns></returns>
         public DataTable GetColleaguesList(Int32 assignmentID)
         {
             DataTable dtAssignQuestionnaire = null;
 
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetColleaguesList(assignmentID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dtAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetColleaguesList(assignmentID);
             }
             catch (Exception ex)
             {
@@ -709,14 +829,19 @@ namespace Questionnaire_BAO
             return dtAssignQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Unsend Email Colleagues List
+        /// </summary>
+        /// <param name="assignmentID">Assignment ID</param>
+        /// <returns></returns>
         public DataTable GetUnsendEmailColleaguesList(Int32 assignmentID)
         {
             DataTable dtAssignQuestionnaire = null;
 
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetUnsendEmailColleaguesList(assignmentID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                dtAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetUnsendEmailColleaguesList(assignmentID);
             }
             catch (Exception ex)
             {
@@ -725,13 +850,17 @@ namespace Questionnaire_BAO
 
             return dtAssignQuestionnaire;
         }
-        
+
+        /// <summary>
+        /// Update Email Send Flag by candidate ID
+        /// </summary>
+        /// <param name="candidateID">candidate ID</param>
         public void UpdateEmailSendFlag(int candidateID)
         {
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateEmailSendFlag(candidateID);
+                AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateEmailSendFlag(candidateID);
             }
             catch (Exception ex)
             {
@@ -739,31 +868,26 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Update Candidate Email
+        /// </summary>
+        /// <param name="AsgnDetailID">AsgnDetail ID</param>
+        /// <param name="newEmailValue">new Email Value</param>
+        /// <param name="CandidateName">Candidate Name</param>
+        /// <param name="RelationShip">RelationShip</param>
         public void UpdateCandidateEmail(int AsgnDetailID, string newEmailValue, string CandidateName, string RelationShip)
         {
             try
             {
-                AssignQuestionnaire_DAO assignQuestionnaire_DAO = new AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateCandidateEmail(AsgnDetailID, newEmailValue, CandidateName, RelationShip);
+                AssignQuestionnaire_DAO assignQuestionnairDataAccessObject = new AssignQuestionnaire_DAO();
+                assignQuestionnairDataAccessObject.UpdateCandidateEmail(AsgnDetailID, newEmailValue, CandidateName, RelationShip);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
         }
-
-
-
-        
     }
-
-
-
-
-
-    
-
-
 
     public class Survey_AssignQuestionnaire_BAO : Base_BAO
     {
@@ -775,8 +899,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Insert Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -789,8 +917,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.AddAssignQuestionnaire(assignQuestionnaire_BE, dbTransaction);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.AddAssignQuestionnaire(assignQuestionnaireBusinessEntity, dbTransaction);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -808,7 +936,12 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
-        public int UpdateAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Update Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -821,8 +954,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.UpdateAssignQuestionnaire(assignQuestionnaire_BE);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.UpdateAssignQuestionnaire(assignQuestionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -840,7 +973,12 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
-        public int DeleteAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaire_BE)
+        /// <summary>
+        /// Delete Assign Questionnaire
+        /// </summary>
+        /// <param name="assignQuestionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteAssignQuestionnaire(Survey_AssignQuestionnaire_BE assignQuestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -853,8 +991,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                addAssignQuestionnaire = assignQuestionnaire_DAO.DeleteAssignQuestionnaire(assignQuestionnaire_BE);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                addAssignQuestionnaire = assignQuestionnaireDataAccessObject.DeleteAssignQuestionnaire(assignQuestionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -872,18 +1010,23 @@ namespace Questionnaire_BAO
             return addAssignQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire by id.
+        /// </summary>
+        /// <param name="assignQuestionnaireID"></param>
+        /// <returns></returns>
         public List<Survey_AssignQuestionnaire_BE> GetAssignQuestionnaireByID(int assignQuestionnaireID)
         {
-            List<Survey_AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
+            List<Survey_AssignQuestionnaire_BE> assignQuestionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.GetAssignQuestionnaireByID(assignQuestionnaireID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.GetAssignQuestionnaireByID(assignQuestionnaireID);
 
-                assignQuestionnaire_BEList = assignQuestionnaire_DAO.assignQuestionnaire_BEList;
+                assignQuestionnaireBusinessEntityList = assignQuestionnaireDataAccessObject.assignQuestionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -891,21 +1034,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return assignQuestionnaire_BEList;
+            return assignQuestionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List
+        /// </summary>
+        /// <returns></returns>
         public List<Survey_AssignQuestionnaire_BE> GetAssignQuestionnaireList()
         {
-            List<Survey_AssignQuestionnaire_BE> assignQuestionnaire_BEList = null;
+            List<Survey_AssignQuestionnaire_BE> assignQuestionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.GetAssignQuestionnaireList();
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.GetAssignQuestionnaireList();
 
-                assignQuestionnaire_BEList = assignQuestionnaire_DAO.assignQuestionnaire_BEList;
+                assignQuestionnaireBusinessEntityList = assignQuestionnaireDataAccessObject.assignQuestionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -913,11 +1060,16 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return assignQuestionnaire_BEList;
+            return assignQuestionnaireBusinessEntityList;
         }
 
-
-        public bool find_finish_email(string projectId,int companyid)
+        /// <summary>
+        /// Get Finish email
+        /// </summary>
+        /// <param name="projectId">project Id</param>
+        /// <param name="companyid">company id</param>
+        /// <returns></returns>
+        public bool find_finish_email(string projectId, int companyid)
         {
             Survey_AssignQuestionnaire_DAO get_email_finish_info = new Survey_AssignQuestionnaire_DAO();
             bool bb = get_email_finish_info.find_finish_email(projectId, companyid);
@@ -925,18 +1077,21 @@ namespace Questionnaire_BAO
 
         }
 
-
-
+        /// <summary>
+        /// Get Assign Questionnaire List by assignment ID
+        /// </summary>
+        /// <param name="assignmentID">assignment ID</param>
+        /// <returns></returns>
         public DataTable GetdtAssignQuestionnaireList(Int32 assignmentID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetdtAssignQuestionnaireList(assignmentID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetdtAssignQuestionnaireList(assignmentID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -945,9 +1100,12 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Assign Questionnaire List count
+        /// </summary>
         public int GetAssignQuestionnaireListCount(string accountID, string Projectid)
         {
             int assignQuestionnaireCount = 0;
@@ -956,8 +1114,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaireCount = assignQuestionnaire_DAO.GetAssignQuestionnaireListCount(accountID, Projectid);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireCount = assignQuestionnaireDataAccessObject.GetAssignQuestionnaireListCount(accountID, Projectid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -969,15 +1127,20 @@ namespace Questionnaire_BAO
             return assignQuestionnaireCount;
         }
 
+        /// <summary>
+        /// Get All Assignment details by  candidateID
+        /// </summary>
+        /// <param name="candidateID">candidate ID</param>
+        /// <returns></returns>
         public DataTable GetAllAssignmentInfo(Int32 candidateID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetAllAssignmentInfo(candidateID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetAllAssignmentInfo(candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -986,9 +1149,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
+        /// <summary>
+        /// Get Email template by ProjectID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -1002,8 +1170,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                Template = assignQuestionnaire_DAO.FindTemplate(ProjectID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -1021,7 +1189,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Find Participant Template by project id.
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -1035,8 +1207,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQstnParticipant_DAO assignQuestionnaire_DAO = new Survey_AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindParticipantTemplate(ProjectID);
+                Survey_AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindParticipantTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -1054,6 +1226,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
+        /// <summary>
+        /// Find Participant Subject Template by ProjectID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public String FindParticipantSubjectTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -1067,8 +1244,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQstnParticipant_DAO assignQuestionnaire_DAO = new Survey_AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindParticipantSubjectTemplate(ProjectID);
+                Survey_AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindParticipantSubjectTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -1086,7 +1263,11 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Find Candidate Subject Template by Project ID
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public String FindCandidateSubjectTemplate(int ProjectID)
         {
             CSqlClient sqlClient = null;
@@ -1100,8 +1281,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Survey_AssignQstnParticipant_DAO assignQuestionnaire_DAO = new Survey_AssignQstnParticipant_DAO();
-                Template = assignQuestionnaire_DAO.FindCandidateSubjectTemplate(ProjectID);
+                Survey_AssignQstnParticipant_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQstnParticipant_DAO();
+                Template = assignQuestionnaireDataAccessObject.FindCandidateSubjectTemplate(ProjectID);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -1119,17 +1300,22 @@ namespace Questionnaire_BAO
             return Template;
         }
 
-
+        /// <summary>
+        /// Get Assignment List
+        /// </summary>
+        /// <param name="userID">user ID</param>
+        /// <param name="projectid">project id</param>
+        /// <returns></returns>
         public DataTable GetdtAssignList(string userID, string projectid)
         {
-            DataTable dtCAssign = null;
+            DataTable BusinessEntityAssign = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO Questionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignList(userID, projectid);
+                Survey_AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                BusinessEntityAssign = QuestionnaireDataAccessObject.GetdtAssignList(userID, projectid);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1138,19 +1324,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return BusinessEntityAssign;
         }
 
+        /// <summary>
+        /// Get Assign List 
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public DataTable GetdtAssignListNewSurvey(string condition)
         {
-            DataTable dtCAssign = null;
+            DataTable BusinessEntityAssign = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO Questionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignListNew(condition);
+                Survey_AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                BusinessEntityAssign = QuestionnaireDataAccessObject.GetdtAssignListNew(condition);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1159,18 +1350,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return BusinessEntityAssign;
         }
+
+        /// <summary>
+        /// Get Assignment Id
+        /// </summary>
+        /// <param name="AssignmentDteailId"></param>
+        /// <returns></returns>
         public DataTable GetdtAssignmentId(int AssignmentDteailId)
         {
-            DataTable dtCAssign = null;
+            DataTable BusinessEntityAssign = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO Questionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtCAssign = Questionnaire_DAO.GetdtAssignmentId(AssignmentDteailId);
+                Survey_AssignQuestionnaire_DAO QuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                BusinessEntityAssign = QuestionnaireDataAccessObject.GetdtAssignmentId(AssignmentDteailId);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1179,8 +1376,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtCAssign;
+            return BusinessEntityAssign;
         }
+
+        /// <summary>
+        /// Get Assign Questionnaire List Count
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public int GetAssignQuestionnaireListCount(string condition)
         {
             int assignQuestionnaireCount = 0;
@@ -1189,8 +1392,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaireCount = assignQuestionnaire_DAO.GetAssignQuestionnaireListCount(condition);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireCount = assignQuestionnaireDataAccessObject.GetAssignQuestionnaireListCount(condition);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1202,53 +1405,67 @@ namespace Questionnaire_BAO
             return assignQuestionnaireCount;
         }
 
+        /// <summary>
+        /// Get Feedback URL by TargetPerson ID
+        /// </summary>
+        /// <param name="TargetPersonID">TargetPerson ID</param>
+        /// <returns></returns>
         public DataTable GetFeedbackURL(int TargetPersonID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable BusinessEntityAssignmentInformation = null;
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetFeedbackURL(TargetPersonID);
+            Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+            BusinessEntityAssignmentInformation = assignQuestionnaireDataAccessObject.GetFeedbackURL(TargetPersonID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
 
-            return dtAssignmentInfo;
+            return BusinessEntityAssignmentInformation;
         }
 
+        /// <summary>
+        /// Update Feedback URL
+        /// </summary>
+        /// <param name="TargetPersonID">TargetPerson ID</param>
+        /// <param name="AssignmentID">Assignment ID</param>
+        /// <param name="FeedbackURL">FeedbackURL</param>
         public void SetFeedbackURL(int TargetPersonID, int AssignmentID, string FeedbackURL)
         {
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.SetFeedbackURL(TargetPersonID, AssignmentID, FeedbackURL);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.SetFeedbackURL(TargetPersonID, AssignmentID, FeedbackURL);
 
                 //HandleWriteLogDAU("UspCategorySelect", param, new StackTrace(true));
                 //HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex) { HandleException(ex); }
         }
-
-
         #endregion
 
+        /// <summary>
+        /// Get Participant Assignment details by TargetPerson ID
+        /// </summary>
+        /// <param name="TargetPersonID">TargetPerson ID</param>
+        /// <returns></returns>
         public DataTable GetParticipantAssignmentInfo(Int32 TargetPersonID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInformation = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetParticipantAssignmentInfo(TargetPersonID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignmentInformation = assignQuestionnaireDataAccessObject.GetParticipantAssignmentInfo(TargetPersonID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1257,19 +1474,23 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInformation;
         }
 
-
+        /// <summary>
+        /// Get Candidate Email Image details by project id
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public DataTable GetCandidateEmailImageInfo(int ProjectID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInforamtion = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetCandidateEmailImageInfo(ProjectID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignmentInforamtion = assignQuestionnaireDataAccessObject.GetCandidateEmailImageInfo(ProjectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1278,18 +1499,23 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInforamtion;
         }
 
+        /// <summary>
+        /// Get Participant Email Image details by Project ID
+        /// </summary>
+        /// <param name="ProjectID">Project ID</param>
+        /// <returns></returns>
         public DataTable GetParticipantEmailImageInfo(int ProjectID)
         {
-            DataTable dtAssignmentInfo = null;
+            DataTable dataTableAssignmentInforamtion = null;
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignmentInfo = assignQuestionnaire_DAO.GetParticipantEmailImageInfo(ProjectID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignmentInforamtion = assignQuestionnaireDataAccessObject.GetParticipantEmailImageInfo(ProjectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -1298,10 +1524,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtAssignmentInfo;
+            return dataTableAssignmentInforamtion;
         }
 
-        public void UpdateAssignProgramme(Survey_AssignQuestionnaire_BE assignquestionnaire_BE)
+        /// <summary>
+        /// Update Assign Programme
+        /// </summary>
+        /// <param name="assignquestionnaireBusinessEntity"></param>
+        public void UpdateAssignProgramme(Survey_AssignQuestionnaire_BE assignquestionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -1313,8 +1543,8 @@ namespace Questionnaire_BAO
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
 
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateAssignProgramme(assignquestionnaire_BE, dbTransaction);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateAssignProgramme(assignquestionnaireBusinessEntity, dbTransaction);
 
                 dbTransaction.Commit();
                 conn.Close();
@@ -1330,12 +1560,17 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Update Colleague Relationship
+        /// </summary>
+        /// <param name="colleagueId"></param>
+        /// <param name="relationship"></param>
         public void UpdateColleagueRelationship(int colleagueId, string relationship)
         {
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateColleagueRelationship(colleagueId, relationship);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateColleagueRelationship(colleagueId, relationship);
             }
             catch (Exception ex)
             {
@@ -1343,64 +1578,84 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Get Colleagues List by assignmentID
+        /// </summary>
+        /// <param name="assignmentID">assignment ID</param>
+        /// <returns></returns>
         public DataTable GetColleaguesList(Int32 assignmentID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetColleaguesList(assignmentID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetColleaguesList(assignmentID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
+
+        /// <summary>
+        /// Get Colleagues List 
+        /// </summary>
+        /// <param name="projectID">project ID</param>
+        /// <param name="progID">program ID</param>
+        /// <returns></returns>
         public DataTable GetColleaguesListView(Int32 projectID, Int32 progID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetColleaguesListView(projectID, progID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetColleaguesListView(projectID, progID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
 
-        
+        /// <summary>
+        /// Get Unsend Email Colleagues List by assignment ID
+        /// </summary>
+        /// <param name="assignmentID">assignment ID</param>
+        /// <returns></returns>
         public DataTable GetUnsendEmailColleaguesList(Int32 assignmentID)
         {
-            DataTable dtAssignQuestionnaire = null;
+            DataTable dataTableAssignQuestionnaire = null;
 
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                dtAssignQuestionnaire = assignQuestionnaire_DAO.GetUnsendEmailColleaguesList(assignmentID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                dataTableAssignQuestionnaire = assignQuestionnaireDataAccessObject.GetUnsendEmailColleaguesList(assignmentID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
 
-            return dtAssignQuestionnaire;
+            return dataTableAssignQuestionnaire;
         }
 
-
-        public void Survey_ManageCollegue(string flag,int AssignmentId)
+        /// <summary>
+        /// Manage Survey Collegue
+        /// </summary>
+        /// <param name="flag"></param>
+        /// <param name="AssignmentId"></param>
+        public void Survey_ManageCollegue(string flag, int AssignmentId)
         {
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.Survey_ManageCollegue(flag,AssignmentId);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.Survey_ManageCollegue(flag, AssignmentId);
             }
             catch (Exception ex)
             {
@@ -1408,33 +1663,39 @@ namespace Questionnaire_BAO
             }
         }
 
+        /// <summary>
+        /// Update Email Send Flag
+        /// </summary>
+        /// <param name="candidateID"></param>
         public void UpdateEmailSendFlag(int candidateID)
         {
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateEmailSendFlag(candidateID);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateEmailSendFlag(candidateID);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
         }
-        public void UpdateAnalysis(int candidateID,string strsql)
+
+        /// <summary>
+        /// Update Analysis by candidate ID
+        /// </summary>
+        /// <param name="candidateID"></param>
+        /// <param name="strsql"></param>
+        public void UpdateAnalysis(int candidateID, string strsql)
         {
             try
             {
-                Survey_AssignQuestionnaire_DAO assignQuestionnaire_DAO = new Survey_AssignQuestionnaire_DAO();
-                assignQuestionnaire_DAO.UpdateAnalysis(candidateID,strsql);
+                Survey_AssignQuestionnaire_DAO assignQuestionnaireDataAccessObject = new Survey_AssignQuestionnaire_DAO();
+                assignQuestionnaireDataAccessObject.UpdateAnalysis(candidateID, strsql);
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
         }
-
-
     }
-
-    
 }

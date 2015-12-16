@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using DAF_BAO;
 using DatabaseAccessUtilities;
-using Questionnaire_BE;
-using Questionnaire_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
 namespace Questionnaire_BAO
 {
@@ -22,8 +17,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// Insert Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -36,8 +35,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.AddQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.AddQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -55,7 +54,12 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
-        public int UpdateQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// update Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -68,8 +72,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.UpdateQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.UpdateQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -87,7 +91,12 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
-        public int DeleteQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// Delete Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteQuestionnaire(Questionnaire_BE.Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -100,8 +109,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.DeleteQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.DeleteQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -119,18 +128,23 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Questionnaire by Questionnaire id
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
         public List<Questionnaire_BE.Questionnaire_BE> GetQuestionnaireByID(int questionnaireID)
         {
-            List<Questionnaire_BE.Questionnaire_BE> questionnaire_BEList = null;
+            List<Questionnaire_BE.Questionnaire_BE> questionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                questionnaire_DAO.GetQuestionnaireByID(questionnaireID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                questionnaireDataAccessObject.GetQuestionnaireByID(questionnaireID);
 
-                questionnaire_BEList = questionnaire_DAO.Questionnaire_BEList;
+                questionnaireBusinessEntityList = questionnaireDataAccessObject.Questionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -138,21 +152,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questionnaire_BEList;
+            return questionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questionnaire list
+        /// </summary>
+        /// <returns></returns>
         public List<Questionnaire_BE.Questionnaire_BE> GetQuestionnaireList()
         {
-            List<Questionnaire_BE.Questionnaire_BE> questionnaire_BEList = null;
+            List<Questionnaire_BE.Questionnaire_BE> questionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                questionnaire_DAO.GetQuestionnaireList();
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                questionnaireDataAccessObject.GetQuestionnaireList();
 
-                questionnaire_BEList = questionnaire_DAO.Questionnaire_BEList;
+                questionnaireBusinessEntityList = questionnaireDataAccessObject.Questionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -160,19 +178,24 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questionnaire_BEList;
+            return questionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questionnaire list by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtQuestionnaireList(string accountID)
         {
-            DataTable dtQuestionnaire = null;
+            DataTable dataTableQuestionnaire = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtQuestionnaire = questionnaire_DAO.GetdtQuestionnaireList(accountID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableQuestionnaire = questionnaireDataAccessObject.GetdtQuestionnaireList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -181,9 +204,14 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtQuestionnaire;
+            return dataTableQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Questionnaire list count
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetQuestionnaireListCount(string accountID)
         {
             int questionnaireCount = 0;
@@ -192,8 +220,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                questionnaireCount = questionnaire_DAO.GetQuestionnaireListCount(accountID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                questionnaireCount = questionnaireDataAccessObject.GetQuestionnaireListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -205,16 +233,21 @@ namespace Questionnaire_BAO
             return questionnaireCount;
         }
 
+        /// <summary>
+        /// Get project Questionnaire
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetProjectQuestionnaire(int projectID)
         {
-            DataTable dtProjectQuestionnaire = new DataTable();
+            DataTable dataTableProjectQuestionnaire = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO projectauestionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtProjectQuestionnaire = projectauestionnaire_DAO.GetProjectQuestionnaire(projectID);
+                Questionnaire_DAO.Questionnaire_DAO projectauestionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableProjectQuestionnaire = projectauestionnaireDataAccessObject.GetProjectQuestionnaire(projectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -223,21 +256,26 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtProjectQuestionnaire;
+            return dataTableProjectQuestionnaire;
         }
 
         #endregion
 
-        public DataTable GetFeedbackQuestionnaire( int questionnaireID)
+        /// <summary>
+        /// Get feedback Questionnaire by Questionnaire id
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
+        public DataTable GetFeedbackQuestionnaire(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaire(questionnaireID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaire(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -246,38 +284,28 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
-        public DataTable GetFeedbackQuestionnaireByRelationShip(int accountID, int projectID, int questionnaireID, string relationship) {
-            DataTable dtResult = new DataTable();
-
-            try {
-                //HandleWriteLog("Start", new StackTrace(true));
-
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaireByRelationShip(accountID, projectID, questionnaireID, relationship);
-
-                //HandleWriteLog("End", new StackTrace(true));
-            }
-            catch (Exception ex) {
-                HandleException(ex);
-            }
-
-            return dtResult;
-        }
-
-
-        public DataTable GetFeedbackQuestionnaireSelf( int questionnaireID)
+        /// <summary>
+        /// Get Feedback Questionnaire By RelationShip
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="relationship">relationship</param>
+        /// <returns></returns>
+        public DataTable GetFeedbackQuestionnaireByRelationShip(int accountID, int projectID,
+            int questionnaireID, string relationship)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaireSelf(questionnaireID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaireByRelationShip(accountID, projectID, questionnaireID, relationship);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -286,19 +314,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
-        public DataTable GetFeedbackQuestionnaireSelfByRelationShip(int accountID, int projectID, int questionnaireID, string relationship)
+        /// <summary>
+        /// Get Feed back Questionnaire Self
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
+        public DataTable GetFeedbackQuestionnaireSelf(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaireSelfByRelationShip(accountID, projectID, questionnaireID, relationship);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaireSelf(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -307,9 +340,45 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Feedback Questionnaire Self By RelationShip
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="projectID">project ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="relationship">relationship</param>
+        /// <returns></returns>
+        public DataTable GetFeedbackQuestionnaireSelfByRelationShip(int accountID, int projectID,
+            int questionnaireID, string relationship)
+        {
+            DataTable dataTableResult = new DataTable();
+
+            try
+            {
+                //HandleWriteLog("Start", new StackTrace(true));
+
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaireSelfByRelationShip(accountID, projectID, questionnaireID, relationship);
+
+                //HandleWriteLog("End", new StackTrace(true));
+            }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
+
+            return dataTableResult;
+        }
+
+        /// <summary>
+        /// Get Question List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <returns></returns>
         public int GetQuestionListCount(string accountID, int questionnaireID)
         {
             int questionCount = 0;
@@ -317,8 +386,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                questionCount = questionnaire_DAO.GetQuestionListCount(questionnaireID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                questionCount = questionnaireDataAccessObject.GetQuestionListCount(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -329,7 +398,6 @@ namespace Questionnaire_BAO
 
             return questionCount;
         }
-
 
         /// <summary>
         /// Return questionnaire ID based on project ID
@@ -341,8 +409,8 @@ namespace Questionnaire_BAO
             int QuestionnaireID = 0;
             try
             {
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                QuestionnaireID = questionnaire_DAO.GetQuestionnaireID(projectID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                QuestionnaireID = questionnaireDataAccessObject.GetQuestionnaireID(projectID);
             }
             catch (Exception ex)
             {
@@ -352,16 +420,22 @@ namespace Questionnaire_BAO
             return QuestionnaireID;
         }
 
+        /// <summary>
+        /// Get Project Questionnaire details
+        /// </summary>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="candidateID">candidate ID</param>
+        /// <returns></returns>
         public DataTable GetProjectQuestionnaireInfo(int questionnaireID, int candidateID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaire(questionnaireID, candidateID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaire(questionnaireID, candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -370,9 +444,15 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Calculate Graph details
+        /// </summary>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="candidateID">candidate ID</param>
+        /// <returns></returns>
         public int CalculateGraph(int questionnaireID, int candidateID)
         {
             int answerCount = 0;
@@ -380,8 +460,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                answerCount = questionnaire_DAO.CalculateGraph(questionnaireID, candidateID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                answerCount = questionnaireDataAccessObject.CalculateGraph(questionnaireID, candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -393,16 +473,21 @@ namespace Questionnaire_BAO
             return answerCount;
         }
 
+        /// <summary>
+        /// Get Questionnaire Categories
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
         public DataTable GetQuestionnaireCategories(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetQuestionnaireCategories(questionnaireID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetQuestionnaireCategories(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -411,38 +496,54 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Questionnaire Categories By Relation Ship
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <param name="projectID"></param>
+        /// <param name="questionnaireID"></param>
+        /// <param name="relationship"></param>
+        /// <returns></returns>
+        public DataTable GetQuestionnaireCategoriesByRelationShip(int accountID, int projectID,
+            int questionnaireID, string relationship)
+        {
+            DataTable dataTableResult = new DataTable();
 
-        public DataTable GetQuestionnaireCategoriesByRelationShip(int accountID, int projectID, int questionnaireID, string relationship ) {
-            DataTable dtResult = new DataTable();
-
-            try {
+            try
+            {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetQuestionnaireCategoriesByRelationShip(accountID, projectID, questionnaireID, relationship);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetQuestionnaireCategoriesByRelationShip(accountID, projectID, questionnaireID, relationship);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Category Questions by categoryID
+        /// </summary>
+        /// <param name="categoryID">category ID</param>
+        /// <returns></returns>
         public DataTable GetCategoryQuestions(int categoryID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetCategoryQuestions(categoryID);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetCategoryQuestions(categoryID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -451,19 +552,25 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
-        public int UpdateSubmitFlag(int candidateID,int submitFlag)
+        /// <summary>
+        /// Update Submit Flag
+        /// </summary>
+        /// <param name="candidateID">candidate ID</param>
+        /// <param name="submitFlag">submit Flag</param>
+        /// <returns></returns>
+        public int UpdateSubmitFlag(int candidateID, int submitFlag)
         {
-            int result=0 ;
+            int result = 0;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Questionnaire_DAO();
-                result = questionnaire_DAO.UpdateSubmitFlag(candidateID,submitFlag);
+                Questionnaire_DAO.Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Questionnaire_DAO();
+                result = questionnaireDataAccessObject.UpdateSubmitFlag(candidateID, submitFlag);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -477,22 +584,6 @@ namespace Questionnaire_BAO
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public class Survey_Questionnaire_BAO : Base_BAO
     {
         #region "Private Member Variable"
@@ -502,8 +593,12 @@ namespace Questionnaire_BAO
         #endregion
 
         #region CRUD Operations
-
-        public int AddQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// Insert Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int AddQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -516,8 +611,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.AddQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.AddQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -535,7 +630,12 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
-        public int UpdateQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// Update Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int UpdateQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -548,8 +648,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.UpdateQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.UpdateQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -567,7 +667,12 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
-        public int DeleteQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaire_BE)
+        /// <summary>
+        /// Delete Questionnaire
+        /// </summary>
+        /// <param name="questionnaireBusinessEntity"></param>
+        /// <returns></returns>
+        public int DeleteQuestionnaire(Questionnaire_BE.Survey_Questionnaire_BE questionnaireBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -580,8 +685,8 @@ namespace Questionnaire_BAO
                 dbTransaction = conn.BeginTransaction();
 
                 //HandleWriteLog("Start", new StackTrace(true));
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                addQuestionnaire = questionnaire_DAO.DeleteQuestionnaire(questionnaire_BE);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                addQuestionnaire = questionnaireDataAccessObject.DeleteQuestionnaire(questionnaireBusinessEntity);
                 //HandleWriteLog("End", new StackTrace(true));
 
                 dbTransaction.Commit();
@@ -599,18 +704,23 @@ namespace Questionnaire_BAO
             return addQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Questionnaire by Questionnaire id
+        /// </summary>
+        /// <param name="questionnaireID">Questionnaire id</param>
+        /// <returns></returns>
         public List<Questionnaire_BE.Survey_Questionnaire_BE> GetQuestionnaireByID(int questionnaireID)
         {
-            List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaire_BEList = null;
+            List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                questionnaire_DAO.GetQuestionnaireByID(questionnaireID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                questionnaireDataAccessObject.GetQuestionnaireByID(questionnaireID);
 
-                questionnaire_BEList = questionnaire_DAO.Questionnaire_BEList;
+                questionnaireBusinessEntityList = questionnaireDataAccessObject.Questionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -618,21 +728,25 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questionnaire_BEList;
+            return questionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questionnaire list
+        /// </summary>
+        /// <returns></returns>
         public List<Questionnaire_BE.Survey_Questionnaire_BE> GetQuestionnaireList()
         {
-            List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaire_BEList = null;
+            List<Questionnaire_BE.Survey_Questionnaire_BE> questionnaireBusinessEntityList = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                questionnaire_DAO.GetQuestionnaireList();
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                questionnaireDataAccessObject.GetQuestionnaireList();
 
-                questionnaire_BEList = questionnaire_DAO.Questionnaire_BEList;
+                questionnaireBusinessEntityList = questionnaireDataAccessObject.Questionnaire_BEList;
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -640,30 +754,40 @@ namespace Questionnaire_BAO
             {
                 HandleException(ex);
             }
-            return questionnaire_BEList;
+            return questionnaireBusinessEntityList;
         }
 
+        /// <summary>
+        /// Get Questionnaire list by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public DataTable GetdtQuestionnaireList(string accountID)
         {
-            DataTable dtQuestionnaire = null;
+            DataTable dataTableQuestionnaire = null;
 
             //try
             //{
-                //HandleWriteLog("Start", new StackTrace(true));
+            //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtQuestionnaire = questionnaire_DAO.GetdtQuestionnaireList(accountID);
+            Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+            dataTableQuestionnaire = questionnaireDataAccessObject.GetdtQuestionnaireList(accountID);
 
-                //HandleWriteLog("End", new StackTrace(true));
+            //HandleWriteLog("End", new StackTrace(true));
             //}
             //catch (Exception ex)
             //{
             //    HandleException(ex);
             //}
 
-            return dtQuestionnaire;
+            return dataTableQuestionnaire;
         }
 
+        /// <summary>
+        /// Get Questionnaire list count by account id
+        /// </summary>
+        /// <param name="accountID"></param>
+        /// <returns></returns>
         public int GetQuestionnaireListCount(string accountID)
         {
             int questionnaireCount = 0;
@@ -672,8 +796,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                questionnaireCount = questionnaire_DAO.GetQuestionnaireListCount(accountID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                questionnaireCount = questionnaireDataAccessObject.GetQuestionnaireListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -685,16 +809,21 @@ namespace Questionnaire_BAO
             return questionnaireCount;
         }
 
+        /// <summary>
+        /// Get project Questionnaire
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
         public DataTable GetProjectQuestionnaire(int projectID)
         {
-            DataTable dtProjectQuestionnaire = new DataTable();
+            DataTable dataTableProjectQuestionnaire = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO projectauestionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtProjectQuestionnaire = projectauestionnaire_DAO.GetProjectQuestionnaire(projectID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO projectauestionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableProjectQuestionnaire = projectauestionnaireDataAccessObject.GetProjectQuestionnaire(projectID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -703,21 +832,26 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtProjectQuestionnaire;
+            return dataTableProjectQuestionnaire;
         }
 
         #endregion
 
+        /// <summary>
+        /// Get feedback Questionnaire by Questionnaire id
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <returns></returns>
         public DataTable GetFeedbackQuestionnaire(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaire(questionnaireID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaire(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -726,20 +860,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
-
+        /// <summary>
+        /// Get Range details
+        /// </summary>
+        /// <param name="RangeName"></param>
+        /// <returns></returns>
         public DataTable GetRangeDetails(string RangeName)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetRangeDetails(RangeName);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetRangeDetails(RangeName);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -748,19 +886,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Feedback Questionnaire for Self by questionnaire id
+        /// </summary>
+        /// <param name="questionnaireID">questionnaire ID </param>
+        /// <returns></returns>
         public DataTable GetFeedbackQuestionnaireSelf(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaireSelf(questionnaireID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaireSelf(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -769,9 +912,15 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Question List Count
+        /// </summary>
+        /// <param name="accountID">account ID</param>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <returns></returns>
         public int GetQuestionListCount(string accountID, int questionnaireID)
         {
             int questionCount = 0;
@@ -779,8 +928,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                questionCount = questionnaire_DAO.GetQuestionListCount(questionnaireID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                questionCount = questionnaireDataAccessObject.GetQuestionListCount(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -792,16 +941,22 @@ namespace Questionnaire_BAO
             return questionCount;
         }
 
+        /// <summary>
+        /// Get Project Questionnaire details
+        /// </summary>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <param name="candidateID">candidate ID</param>
+        /// <returns></returns>
         public DataTable GetProjectQuestionnaireInfo(int questionnaireID, int candidateID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetFeedbackQuestionnaire(questionnaireID, candidateID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetFeedbackQuestionnaire(questionnaireID, candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -810,9 +965,15 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Calculated Graph
+        /// </summary>
+        /// <param name="questionnaireID"></param>
+        /// <param name="candidateID"></param>
+        /// <returns></returns>
         public int CalculateGraph(int questionnaireID, int candidateID)
         {
             int answerCount = 0;
@@ -820,8 +981,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                answerCount = questionnaire_DAO.CalculateGraph(questionnaireID, candidateID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                answerCount = questionnaireDataAccessObject.CalculateGraph(questionnaireID, candidateID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -833,16 +994,21 @@ namespace Questionnaire_BAO
             return answerCount;
         }
 
+        /// <summary>
+        /// Get Questionnaire Categories by questionnaireID
+        /// </summary>
+        /// <param name="questionnaireID">questionnaire ID</param>
+        /// <returns></returns>
         public DataTable GetQuestionnaireCategories(int questionnaireID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetQuestionnaireCategories(questionnaireID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetQuestionnaireCategories(questionnaireID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -851,19 +1017,24 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Get Category Questions by categoryID
+        /// </summary>
+        /// <param name="categoryID">category ID</param>
+        /// <returns></returns>
         public DataTable GetCategoryQuestions(int categoryID)
         {
-            DataTable dtResult = new DataTable();
+            DataTable dataTableResult = new DataTable();
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                dtResult = questionnaire_DAO.GetCategoryQuestions(categoryID);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                dataTableResult = questionnaireDataAccessObject.GetCategoryQuestions(categoryID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -872,9 +1043,15 @@ namespace Questionnaire_BAO
                 HandleException(ex);
             }
 
-            return dtResult;
+            return dataTableResult;
         }
 
+        /// <summary>
+        /// Update Update Submit Flag
+        /// </summary>
+        /// <param name="candidateID">candidate ID</param>
+        /// <param name="submitFlag">submitFlag</param>
+        /// <returns></returns>
         public int UpdateSubmitFlag(int candidateID, int submitFlag)
         {
             int result = 0;
@@ -883,8 +1060,8 @@ namespace Questionnaire_BAO
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaire_DAO = new Questionnaire_DAO.Survey_Questionnaire_DAO();
-                result = questionnaire_DAO.UpdateSubmitFlag(candidateID, submitFlag);
+                Questionnaire_DAO.Survey_Questionnaire_DAO questionnaireDataAccessObject = new Questionnaire_DAO.Survey_Questionnaire_DAO();
+                result = questionnaireDataAccessObject.UpdateSubmitFlag(candidateID, submitFlag);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -895,12 +1072,5 @@ namespace Questionnaire_BAO
 
             return result;
         }
-
     }
-
-
-
-
-
-
 }
