@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -10,17 +7,13 @@ using System.Text;
 using Admin_BAO;
 using Questionnaire_BAO;
 using Questionnaire_BE;
-using System.Globalization;
 using System.Configuration;
-using System.Diagnostics;
-using DAF_BAO;
-using System.IO;
-using System.Collections;
 
 public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
 {
-    Programme_BAO programme_BAO = new Programme_BAO();
-    Project_BE project_BE = new Project_BE();
+    //Global variables
+    Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
+    Project_BE projectBusinessEntity = new Project_BE();
     WADIdentity identity;
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
@@ -28,17 +21,16 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
 
     int programmeCount = 0;
     string pageNo = "";
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
+    DataTable dataTableCompanyName;
+    DataTable dataTableAllAccount;
     string expression1;
     string Finalexpression;
 
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label lableCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        lableCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
@@ -47,25 +39,29 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
             //odsProgramme.Select();
 
             grdvProgramme.PageSize = pageSize;
-            
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
+
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get account details by user account id and bind account drop downlist.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
 
             if (!IsPostBack)
             {
-                Project_BAO project_BAO = new Project_BAO();
-                ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(identity.User.AccountID));
+                Project_BAO projectBusinessAccessObject = new Project_BAO();
+                //Get Project details by user account id and bind account deropdownlist.
+                ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(identity.User.AccountID));
                 ddlproject.DataValueField = "ProjectID";
                 ddlproject.DataTextField = "Title";
                 ddlproject.DataBind();
 
+                //If User is Super Admin  then show account details section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -80,13 +76,14 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
                 ViewState["ProjectID"] = "0";
                 ViewState["Programme"] = "";
 
+                //Set Parameter for gridview object dateasource with dynamic query.
                 odsProgramme.SelectParameters.Clear();
                 odsProgramme.SelectParameters.Add("accountID", GetCondition());
                 odsProgramme.Select();
 
+                //Manage Pagaing for gridview.
                 ManagePaging();
             }
-
             //HandleWriteLog("Start", new StackTrace(true));
         }
         catch (Exception ex)
@@ -95,14 +92,19 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind client side event to gridview controls
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvProgramme_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                LinkButton ibtn = (LinkButton)e.Row.Cells[5].Controls[0];
-                ibtn.OnClientClick = "if (!window.confirm('Are you sure you want to delete this programme?')) return false";
+                LinkButton linkButtonDelete = (LinkButton)e.Row.Cells[5].Controls[0];
+                linkButtonDelete.OnClientClick = "if (!window.confirm('Are you sure you want to delete this programme?')) return false";
             }
 
             if (identity.User.GroupID == 2)
@@ -117,12 +119,17 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Sort gridview when clicked on heading.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvProgramme_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
-
+            //manage pagain while sorting.
             ManagePaging();
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -133,6 +140,11 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Add new program .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -150,7 +162,9 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -158,7 +172,7 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         //if (Convert.ToInt32(ViewState["AccountID"]) > 0)
         //    programmeCount = programme_BAO.GetProgrammeListCount(ViewState["AccountID"].ToString());
         //else
-        programmeCount = programme_BAO.GetProgrammeListCount(GetCondition());
+        programmeCount = programmeBusinessAccessObject.GetProgrammeListCount(GetCondition());
 
         plcPaging.Controls.Clear();
 
@@ -381,12 +395,20 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, programmeCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -404,53 +426,72 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
-
-        grdvProgramme.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        LinkButton linkButtonNext = (LinkButton)sender;
+        //Reset Gridview page index to new index.
+        grdvProgramme.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvProgramme.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
-
-            grdvProgramme.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Set Gridview page index and bind grid.
+            grdvProgramme.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvProgramme.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Search Program details and bind gridview according to build query.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         ViewState["ProjectID"] = ddlproject.SelectedValue;
         ViewState["Programme"] = txtprogramme.Text.Trim();
-
+        //Set gridview object data source to build query.
         odsProgramme.SelectParameters.Clear();
         odsProgramme.SelectParameters.Add("accountID", GetCondition());
         odsProgramme.Select();
 
+        //Bind gridview
         grdvProgramme.PageIndex = 0;
         grdvProgramme.DataBind();
 
         ManagePaging();
     }
 
+    /// <summary>
+    /// Reset Control values.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ddlproject.SelectedValue = "0";
@@ -469,23 +510,30 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
         ManagePaging();
     }
 
+    /// <summary>
+    /// Rebind Program controls when by account id .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Project_BAO project_BAO = new Project_BAO();
+        Project_BAO projectBusinessAccessObject = new Project_BAO();
         ddlproject.Items.Clear();
         ddlproject.Items.Insert(0, new ListItem("Select", "0"));
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+            //Get company name
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable accountDataTable = dataTableCompanyName.Clone();
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                accountDataTable.ImportRow(dataRowAccount);
+            //Set compan yname.
+            lblcompanyname.Text = accountDataTable.Rows[0]["OrganisationName"].ToString();
 
             //odsProgramme.SelectParameters.Clear();
             //odsProgramme.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
@@ -493,8 +541,8 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
 
             //ManagePaging();
             ViewState["AccountID"] = ddlAccountCode.SelectedValue;
-
-            ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(ddlAccountCode.SelectedValue));
+            //GEt all project in that account and bind project drop down.
+            ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(ddlAccountCode.SelectedValue));
             ddlproject.DataValueField = "ProjectID";
             ddlproject.DataTextField = "Title";
             ddlproject.DataBind();
@@ -509,35 +557,35 @@ public partial class Module_Questionnaire_ProgrammeList : CodeBehindBase
 
             //ManagePaging();
 
-            ddlproject.DataSource = project_BAO.GetAccProject(Convert.ToInt32(identity.User.AccountID));
+            ddlproject.DataSource = projectBusinessAccessObject.GetAccProject(Convert.ToInt32(identity.User.AccountID));
             ddlproject.DataValueField = "ProjectID";
             ddlproject.DataTextField = "Title";
             ddlproject.DataBind();
         }
     }
 
+    /// <summary>
+    /// Build quey for gridview data source.
+    /// </summary>
+    /// <returns></returns>
     public string GetCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-            str = str + "" + ViewState["AccountID"] + " and ";
+            stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
         else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
         if (Convert.ToInt32(ViewState["ProjectID"]) > 0)
-            str = str + "[Programme].[ProjectID] = " + ViewState["ProjectID"].ToString() + " and ";
+            stringQuery = stringQuery + "[Programme].[ProjectID] = " + ViewState["ProjectID"].ToString() + " and ";
 
         if (ViewState["Programme"] != string.Empty)
-            str = str + "[ProgrammeName] like '" + ViewState["Programme"].ToString() + "%' and ";
+            stringQuery = stringQuery + "[ProgrammeName] like '" + ViewState["Programme"].ToString() + "%' and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
-
     #endregion
-
-
-
 }

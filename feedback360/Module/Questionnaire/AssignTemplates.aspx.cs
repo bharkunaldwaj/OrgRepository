@@ -1,59 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using Admin_BAO;
-using System.Diagnostics;
-using DAF_BAO;
-using Questionnaire_BE;
 using Questionnaire_BAO;
 using System.Data;
 
-
 public partial class Module_Questionnaire_AssignTemplates : System.Web.UI.Page
 {
-
-    Project_BAO Proj = new Project_BAO();
-    DataTable dsProj = new DataTable();
+    //Global variables
+    Project_BAO ProjectBusinessAcess = new Project_BAO();
+    DataTable dataTableProject = new DataTable();
 
     EmailTemplate_BAO mail = new EmailTemplate_BAO();
-    DataTable dsmail = new DataTable();
+    DataTable dataTableEmail = new DataTable();
     string email;
     string finalemail;
     WADIdentity identity;
-    string finalprj;
+    string finalprject;
     string Projectid;
     DataTable CompanyName;
-    DataTable dtAllAccount;
+    DataTable dataTableAllAccount;
     string expression1;
     string Finalexpression;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         // grdvProjects.RowDataBound += new GridViewRowEventHandler(grdvProjects_RowDataBound);
         if (!IsPostBack)
         {
             identity = this.Page.User.Identity as WADIdentity;
 
-            dsProj = Proj.GetAdminProjectList(identity.User.AccountID.ToString());
-            ViewState["Project"] = dsProj;
+            //Get User Project list by user account id.
+            dataTableProject = ProjectBusinessAcess.GetAdminProjectList(identity.User.AccountID.ToString());
+            ViewState["Project"] = dataTableProject;
 
-            dsmail = mail.GetAdminEmailTemplate(identity.User.AccountID.ToString());
+            //Get User Tempalte List  by user account id.
+            dataTableEmail = mail.GetAdminEmailTemplate(identity.User.AccountID.ToString());
 
-            filldata();
+            FillData();
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(identity.User.AccountID.ToString());
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get user account code and bind account list box.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(identity.User.AccountID.ToString());
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
 
+            //If user is super Admin then show acount div section else hide account div section.
             if (identity.User.GroupID == 1)
             {
                 divAccount.Visible = true;
@@ -62,118 +57,121 @@ public partial class Module_Questionnaire_AssignTemplates : System.Web.UI.Page
             {
                 divAccount.Visible = false;
             }
-
             //divAccount.Visible = false;
         }
-
-
     }
 
-    protected void filldata()
+    /// <summary>
+    /// Bind project and Tempalte gridview.
+    /// </summary>
+    protected void FillData()
     {
-        grdvProjects.DataSource = dsProj;
+        //Bind project grid.
+        grdvProjects.DataSource = dataTableProject;
         grdvProjects.DataBind();
-
-        grdvmail.DataSource = dsmail;
+        //Bind template  grid.
+        grdvmail.DataSource = dataTableEmail;
         grdvmail.DataBind();
     }
+
+    /// <summary>
+    /// Assign template to paticular project .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAssign_Click(object sender, ImageClickEventArgs e)
     {
         foreach (GridViewRow row in grdvmail.Rows)
         {
-            CheckBox chkIschecked = (CheckBox)row.FindControl("chkmail");
-            if (chkIschecked.Checked == true)
+            CheckBox checkBoxMailChecked = (CheckBox)row.FindControl("chkmail");
+            //IF template value is chacked then assigned it to selected project.
+            if (checkBoxMailChecked.Checked == true)
             {
                 DataTable dtemailTemplate = new DataTable();
 
-                Label lblTitle = (Label)row.FindControl("Lblfmail");
-                Label lblID = (Label)row.FindControl("lblfID");
+                Label labelTitle = (Label)row.FindControl("Lblfmail");
+                Label labelID = (Label)row.FindControl("lblfID");
 
-                int ID = Convert.ToInt32(lblID.Text);
+                int ID = Convert.ToInt32(labelID.Text);
 
                 //addauthority.UsrAutTyp = lblTitle.Text;
 
                 email += ID + ",";
-               
-                
             }
         }
 
-        foreach (GridViewRow Prjrow in grdvProjects.Rows)
+        foreach (GridViewRow ProjectRow in grdvProjects.Rows)
         {
-            CheckBox chkIsPrjchecked = (CheckBox)Prjrow.FindControl("chkProject");
-            if (chkIsPrjchecked.Checked == true)
+            CheckBox checkBoxProjectChecked = (CheckBox)ProjectRow.FindControl("chkProject");
+
+            if (checkBoxProjectChecked.Checked == true)
             {
                 DataTable dtprjTemplate = new DataTable();
 
-                Label lblTitle = (Label)Prjrow.FindControl("Lblfdesc");
-                Label lblpID = (Label)Prjrow.FindControl("lblpID");
+                Label labelTitle = (Label)ProjectRow.FindControl("Lblfdesc");
+                Label labelpID = (Label)ProjectRow.FindControl("lblpID");
 
-                int PID = Convert.ToInt32(lblpID.Text);
+                int PID = Convert.ToInt32(labelpID.Text);
 
                 //addauthority.UsrAutTyp = lblTitle.Text;
 
                 Projectid += PID + ",";
-
-
             }
         }
+
         if (email != null)
         {
+            //Insert Tempalte details with Account.
             foreach (int index in ddlAccountCode.GetSelectedIndices())
             {
                 int Account = Convert.ToInt32(ddlAccountCode.Items[index].Value);
                 finalemail = email.TrimEnd(',');
                 mail.InsertMailTemplateID(finalemail, Account);
             }
-           
         }
+
         if (Projectid != null)
         {
-
+            //Insert Tempalte details with Project.
             foreach (int index in ddlAccountCode.GetSelectedIndices())
             {
                 int Account = Convert.ToInt32(ddlAccountCode.Items[index].Value);
-                finalprj = Projectid.TrimEnd(',');
+                finalprject = Projectid.TrimEnd(',');
 
-                Proj.InsertProjID(finalprj, Account);
+                ProjectBusinessAcess.InsertProjID(finalprject, Account);
             }
-            
-            
-           
         }
+
         if (email != null || Projectid != null)
         {
             lblMessage.Text = "Templetes Assigned Successfully";
 
 
-            foreach (GridViewRow Prjrow in grdvProjects.Rows)
+            foreach (GridViewRow ProjectRow in grdvProjects.Rows)
             {
-                CheckBox chkIsPrjchecked = (CheckBox)Prjrow.FindControl("chkProject");
-                if (chkIsPrjchecked.Checked == true)
+                CheckBox checkBoxProjctChecked = (CheckBox)ProjectRow.FindControl("chkProject");
+
+                if (checkBoxProjctChecked.Checked == true)
                 {
-                    chkIsPrjchecked.Checked = false;
+                    checkBoxProjctChecked.Checked = false;
 
                 }
             }
 
             foreach (GridViewRow row in grdvmail.Rows)
             {
-                CheckBox chkIschecked = (CheckBox)row.FindControl("chkmail");
-                if (chkIschecked.Checked == true)
+                CheckBox checkBoxMailChecked = (CheckBox)row.FindControl("chkmail");
+
+                if (checkBoxMailChecked.Checked == true)
                 {
 
-                    chkIschecked.Checked = false;
-
+                    checkBoxMailChecked.Checked = false;
                 }
             }
         }
-       
-       
-      
     }
 
-
+#if CommentOut
     //protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     //{
 
@@ -208,10 +206,15 @@ public partial class Module_Questionnaire_AssignTemplates : System.Web.UI.Page
     //        lblcompanyname.Text = "";
     //    }
     //}
+#endif
 
+    /// <summary>
+    /// Reset Controls value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
-       
         //HandleWriteLog("Start", new StackTrace(true));
         //identity = this.Page.User.Identity as WADIdentity;
         //dsProj = Proj.GetdtProjectList(identity.User.AccountID.ToString());
@@ -221,26 +224,26 @@ public partial class Module_Questionnaire_AssignTemplates : System.Web.UI.Page
         //HandleWriteLog("Start", new StackTrace(true));
 
         ddlAccountCode.SelectedIndex = 0;
-        
-        foreach (GridViewRow Prjrow in grdvProjects.Rows)
+        //Loop all the project check box and deselect.
+        foreach (GridViewRow ProjectRow in grdvProjects.Rows)
         {
-            CheckBox chkIsPrjchecked = (CheckBox)Prjrow.FindControl("chkProject");
-            if (chkIsPrjchecked.Checked == true)
+            CheckBox checkBoxProjectchecked = (CheckBox)ProjectRow.FindControl("chkProject");
+
+            if (checkBoxProjectchecked.Checked == true)
             {
-                chkIsPrjchecked.Checked = false;
+                checkBoxProjectchecked.Checked = false;
             }
         }
-
+        //Loop all the tempalte check box and deselect.
         foreach (GridViewRow row in grdvmail.Rows)
         {
-            CheckBox chkIschecked = (CheckBox)row.FindControl("chkmail");
-            if (chkIschecked.Checked == true)
+            CheckBox checkBoxMailChecked = (CheckBox)row.FindControl("chkmail");
+
+            if (checkBoxMailChecked.Checked == true)
             {
-                chkIschecked.Checked = false;
+                checkBoxMailChecked.Checked = false;
             }
         }
         lblMessage.Text = "";
-
     }
-
 }

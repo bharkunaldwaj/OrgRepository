@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Text;
 using System.Configuration;
-using DAF_BAO;
-using Admin_BAO;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 
 public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindBase
 {
+    //Global variables
     AssignQstnParticipant_BAO AssignQuestionnaire_BAO = new AssignQstnParticipant_BAO();
     AssignQuestionnaire_BE AssignQuestionnaire_BE = new AssignQuestionnaire_BE();
 
@@ -39,33 +35,27 @@ public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindB
 
             //HandleWriteLog("Start", new StackTrace(true));
             identity = this.Page.User.Identity as WADIdentity;
-
+            //set object datesource for gridview and add parameter (Account and project id).
             odsAssignQstnParticipant.SelectParameters.Clear();
             odsAssignQstnParticipant.SelectParameters.Add("accountID", Accountid);
             odsAssignQstnParticipant.SelectParameters.Add("ProjectID", projectid);
             odsAssignQstnParticipant.Select();
 
+            //Set gridview page index
             grdvAssignQuestionnaire.PageSize = pageSize;
+            //Manage gridview pagaing.
             ManagePaging();
 
             TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
             if (txtGoto != null)
                 txtGoto.Text = pageNo;
 
-
-         
-
             if (!IsPostBack)
             {
-
-              
-
                 //ddlSeqQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(identity.User.AccountID.ToString());
                 //ddlSeqQuestionnaire.DataValueField = "QuestionnaireID";
                 //ddlSeqQuestionnaire.DataTextField = "QSTNName";
                 //ddlSeqQuestionnaire.DataBind();
-
-               
             }
 
             //HandleWriteLog("Start", new StackTrace(true));
@@ -76,8 +66,11 @@ public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindB
         }
     }
 
-
-
+    /// <summary>
+    /// Sort gridview when clicked on heading.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvAssignQuestionnaire_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
@@ -93,11 +86,11 @@ public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindB
             HandleException(ex);
         }
     }
-
-
-
+    
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Manage Paging when gridview page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -325,12 +318,20 @@ public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindB
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, AssignQuestionnaireCount };
     }
-
+    
+    /// <summary>
+    /// Load the view state for the page when expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -348,37 +349,42 @@ public partial class Module_Questionnaire_AssignQstnPaticipantList : CodeBehindB
 
     }
 
+    /// <summary>
+    /// Reset Gridview page index  whaen click on prevoius and next button of gridview pagain.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
-
-        grdvAssignQuestionnaire.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        LinkButton linkButtonNext = (LinkButton)sender;
+        //Reset Gridview page index to new index.
+        grdvAssignQuestionnaire.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvAssignQuestionnaire.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Rebind gridview when click on go button to paticular page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
-
-            grdvAssignQuestionnaire.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            //Set Gridview page index and bind grid.
+            grdvAssignQuestionnaire.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvAssignQuestionnaire.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
-
-   
-
-
 }

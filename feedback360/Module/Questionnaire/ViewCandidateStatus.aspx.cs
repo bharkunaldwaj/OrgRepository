@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -10,15 +8,15 @@ using Questionnaire_BE;
 using Questionnaire_BAO;
 using Admin_BAO;
 using System.Text;
-using System.Web.UI.HtmlControls;
 
 public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 {
-    AssignQuestionnaire_BAO AssignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-    AssignQuestionnaire_BE AssignQuestionnaire_BE = new AssignQuestionnaire_BE();
-    Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+    //Global variables.
+    AssignQuestionnaire_BAO AssignQuestionnaireBusinessAccessObject = new AssignQuestionnaire_BAO();
+    AssignQuestionnaire_BE AssignQuestionnaireBusinessEntity = new AssignQuestionnaire_BE();
+    Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
 
-    DataTable dtCompanyName;
+    DataTable dataTableCompanyName;
     WADIdentity identity;
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -29,9 +27,8 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
     protected void Page_Load(object sender, EventArgs e)
     {
-       
         identity = this.Page.User.Identity as WADIdentity;
-        int? grpID = Identity.User.GroupID;
+        int? groupID = Identity.User.GroupID;
 
         //AssignQuestionnaire_BAO survey_chk_user = new AssignQuestionnaire_BAO();
         //DataTable ddd = survey_chk_user.chk_user_authority(grpID, 25);
@@ -39,17 +36,12 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         //{
         //    Response.Redirect("UnAuthorized.aspx");
         //}
-
-
-
-
-
         try
         {
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
-
+                //If user is super admin then gropu id=1 then show account detalils section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -61,15 +53,16 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Get all account list in user accout.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
 
                 string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
                 string managerRoleId = ConfigurationManager.AppSettings["ManagerRoleID"].ToString();
-
+                //If it a participant
                 if (identity.User.GroupID == Convert.ToInt32(participantRoleId))
                 {
                     ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
@@ -80,13 +73,16 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     lblProjectName.Text = "Participant";
                     lblParticipantHeading.Visible = false;
 
-                    AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-                    DataTable dtParticipantInfo = new DataTable();
-                    dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
-                    if (dtParticipantInfo.Rows.Count > 0)
+                    AssignQuestionnaire_BAO assignQuestionnaireBusinessAccessObject = new AssignQuestionnaire_BAO();
+                    DataTable dataTableParticipantDetails = new DataTable();
+                    // Get all participant in this user.
+                    dataTableParticipantDetails = assignQuestionnaireBusinessAccessObject.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+
+                    if (dataTableParticipantDetails.Rows.Count > 0)
                     {
+                        //Reset Candidate object datasource.
                         odsCandidateStatus.SelectParameters.Clear();
-                        odsCandidateStatus.SelectParameters.Add("condition", Convert.ToInt32(identity.User.AccountID) + " and [TargetPersonID]=" + Convert.ToInt32(identity.User.UserID) + " and Project.[ProjectID]=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProjecctID"]) + " and [Programme].ProgrammeID=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProgrammeID"]));
+                        odsCandidateStatus.SelectParameters.Add("condition", Convert.ToInt32(identity.User.AccountID) + " and [TargetPersonID]=" + Convert.ToInt32(identity.User.UserID) + " and Project.[ProjectID]=" + Convert.ToInt32(dataTableParticipantDetails.Rows[0]["ProjecctID"]) + " and [Programme].ProgrammeID=" + Convert.ToInt32(dataTableParticipantDetails.Rows[0]["ProgrammeID"]));
                         odsCandidateStatus.Select();
                     }
                     else
@@ -106,19 +102,20 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     imbSubmit.Visible = false;
 
                     AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
-
-                    DataTable dtuserlist = assignquestionnaire.GetuseridAssignQuestionnaireList(Convert.ToInt32(identity.User.UserID.ToString()));
+                    //Get all Questionnaire List
+                    DataTable dataTableUserList = assignquestionnaire.GetuseridAssignQuestionnaireList(Convert.ToInt32(identity.User.UserID.ToString()));
                     Project_BAO project_BAO = new Project_BAO();
 
-                    if (dtuserlist.Rows.Count > 0)
+                    if (dataTableUserList.Rows.Count > 0)
                     {
                         //int projectid = Convert.ToInt32(dtuserlist.Rows[0]["ProjectID"]);
 
                         ddlProject.Items.Clear();
                         //ddlProject.Items.Insert(0, new ListItem("Select", "0"));
-                        if (dtuserlist.Rows.Count > 0)
+                        if (dataTableUserList.Rows.Count > 0)
                         {
-                            DataTable project = project_BAO.GetdataProjectByID(Convert.ToInt32(dtuserlist.Rows[0]["ProjectID"]));
+                            //get all project and bind project drop down
+                            DataTable project = project_BAO.GetdataProjectByID(Convert.ToInt32(dataTableUserList.Rows[0]["ProjectID"]));
 
                             ddlProject.DataSource = project;
                             ddlProject.DataTextField = "Title";
@@ -135,26 +132,28 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
                     }
                 }
-                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))
+                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))//If Manager
                 {
-                    Project_BAO project_BAO = new Project_BAO();
+                    Project_BAO projectBusinessAccessObject = new Project_BAO();
 
-                    DataTable dtManagerProject = new DataTable();
-                    dtManagerProject = project_BAO.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
+                    DataTable dataTableManagerProject = new DataTable();
+                    //Get all project by user account id.
+                    dataTableManagerProject = projectBusinessAccessObject.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
 
-                    if (dtManagerProject.Rows.Count > 0)
+                    if (dataTableManagerProject.Rows.Count > 0)
                     {
-                        ddlProject.DataSource = dtManagerProject;
+                        //Bind project drop down.
+                        ddlProject.DataSource = dataTableManagerProject;
                         ddlProject.DataValueField = "ProjectID";
                         ddlProject.DataTextField = "Title";
                         ddlProject.DataBind();
 
                         string projectIds = "";
-                        if (dtManagerProject.Rows.Count > 0)
+                        if (dataTableManagerProject.Rows.Count > 0)
                         {
-                            for (int i = 0; i < dtManagerProject.Rows.Count; i++)
+                            for (int i = 0; i < dataTableManagerProject.Rows.Count; i++)
                             {
-                                projectIds = projectIds + dtManagerProject.Rows[i]["ProjectID"].ToString() + ",";
+                                projectIds = projectIds + dataTableManagerProject.Rows[i]["ProjectID"].ToString() + ",";
                             }
 
                             odsCandidateStatus.SelectParameters.Clear();
@@ -163,7 +162,7 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                         }
                     }
                 }
-                else 
+                else
                 {
                     //AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
                     //ddlParticipant.DataSource = accountUser_BAO.GetParticipantList(Convert.ToString(identity.User.AccountID));
@@ -175,8 +174,9 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     odsCandidateStatus.SelectParameters.Add("condition", identity.User.AccountID.ToString());
                     odsCandidateStatus.Select();
 
-                    Project_BAO project_BAO = new Project_BAO();
-                    ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                    Project_BAO projectBusinessAccess = new Project_BAO();
+                    //Get all project list and Bind project drop down.
+                    ddlProject.DataSource = projectBusinessAccess.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataBind();
@@ -184,15 +184,15 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     ddlParticipant.Visible = true;
                     lblParticipant.Visible = false;
                 }
-
             }
 
             grdvCandidateStatus.PageSize = pageSize;
             ManagePaging();
 
-            TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-            if (txtGoto != null)
-                txtGoto.Text = pageNo;
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
 
             //HandleWriteLog("Start", new StackTrace(true));
         }
@@ -204,7 +204,9 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Handle paging on page index changeing of gridview.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -213,18 +215,18 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
         if (identity.User.GroupID != Convert.ToInt32(participantRoleId))
         {
-            AssignQuestionnaireCount = AssignQuestionnaire_BAO.GetAssignQuestionnaireListCount(GetCondition());
+            AssignQuestionnaireCount = AssignQuestionnaireBusinessAccessObject.GetAssignQuestionnaireListCount(GetCondition());
         }
         else
         {
             string condition;
             AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-            DataTable dtParticipantInfo = new DataTable();
-            dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
-            if (dtParticipantInfo.Rows.Count > 0)
+            DataTable dataTableParticipantInfo = new DataTable();
+            dataTableParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+            if (dataTableParticipantInfo.Rows.Count > 0)
             {
-                condition = Convert.ToInt32(identity.User.AccountID) + " and [TargetPersonID]=" + Convert.ToInt32(identity.User.UserID) + " and Project.[ProjectID]=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProjecctID"]) + " and [Programme].ProgrammeID=" + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProgrammeID"]);
-                AssignQuestionnaireCount = AssignQuestionnaire_BAO.GetAssignQuestionnaireListCount(condition);
+                condition = Convert.ToInt32(identity.User.AccountID) + " and [TargetPersonID]=" + Convert.ToInt32(identity.User.UserID) + " and Project.[ProjectID]=" + Convert.ToInt32(dataTableParticipantInfo.Rows[0]["ProjecctID"]) + " and [Programme].ProgrammeID=" + Convert.ToInt32(dataTableParticipantInfo.Rows[0]["ProgrammeID"]);
+                AssignQuestionnaireCount = AssignQuestionnaireBusinessAccessObject.GetAssignQuestionnaireListCount(condition);
             }
         }
 
@@ -249,7 +251,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             {
                 numberOfPages = 1;
             }
-
 
             // Creating a small summary for records.
             strSummary.Append("Displaying <b>");
@@ -277,9 +278,7 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             strSummary.Append(numberOfRecords.ToString());
             strSummary.Append("</b> records</br>");
 
-
             litPagingSummary.Text = ""; // strSummary.ToString();
-
 
             //Variable declaration 
             //these variables will used to calculate page number display
@@ -312,7 +311,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             if (pageShowLimitStart < 1)
                 pageShowLimitStart = 1;
 
-
             //Dynamic creation of link buttons
 
             // First Link button to display with paging
@@ -337,7 +335,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             objLbPrevious.EnableViewState = true;
             objLbPrevious.CommandArgument = currentPage.ToString();
 
-
             //of course if the page is the 1st page, then there is no need of First or Previous
             if (currentPage == 0)
             {
@@ -358,7 +355,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             plcPaging.Controls.Add(objLbPrevious);
             //plcPaging.Controls.Add(new LiteralControl("&nbsp; | &nbsp;"));
 
-
             // Creatig page numbers based on the start and end limit variables.
             for (int i = pageShowLimitStart; i <= pageShowLimitEnd; i++)
             {
@@ -377,7 +373,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                     {
                         objLb.CssClass = "active";
                         objLb.Enabled = false;
-
                     }
 
                     plcPaging.Controls.Add(objLb);
@@ -448,15 +443,24 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, AssignQuestionnaireCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when view of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
+
         if (myState[0] != null)
             base.LoadViewState(myState[0]);
 
@@ -469,59 +473,77 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             if (ddlProject.SelectedValue == "0" || ddlProgramme.SelectedValue == "0" || ddlParticipant.SelectedValue == "0")
             {
                 ManagePaging();
-            } 
+            }
         }
-
     }
 
+    /// <summary>
+    /// Handle prvious and next button click of grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
+        LinkButton linkButtonNext = (LinkButton)sender;
 
-        grdvCandidateStatus.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        grdvCandidateStatus.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvCandidateStatus.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Handle gridview page index event to move to new page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
 
-            grdvCandidateStatus.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
+            grdvCandidateStatus.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
             grdvCandidateStatus.DataBind();
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
 
     #endregion
 
     #region Search Related Function
-
+    /// <summary>
+    /// Bind candidate grid with selected value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         odsCandidateStatus.SelectParameters.Clear();
+        //Reset candidate object data source with dynamic query.
         odsCandidateStatus.SelectParameters.Add("condition", GetCondition());
         odsCandidateStatus.Select();
-
+        //set page index to 0.
         grdvCandidateStatus.PageIndex = 0;
         grdvCandidateStatus.DataBind();
-
+        //set page index.
         ManagePaging();
 
     }
 
+    /// <summary>
+    /// Reset controls value to default
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
-
         ddlAccountCode.SelectedIndex = 0;
         ddlAccountCode_SelectedIndexChanged(sender, e);
 
@@ -537,6 +559,11 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Manage paging when click on grid header for sorting
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_Sorting(object sender, GridViewSortEventArgs e)
     {
         try
@@ -556,19 +583,23 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind candidate submit status in %. 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                Label lblCandidateId = (Label)e.Row.FindControl("lblCandidateID");
-                Label lblQuestionnaireId = (Label)e.Row.FindControl("lblQuestionnaireID");
-                Label lblCompletion = (Label)e.Row.FindControl("lblComplete");
-                Label lblSubmitFlag = (Label)e.Row.FindControl("lblSubmitFlag");
-                Label lblRelationship = (Label)e.Row.FindControl("lblRelationship");
+                Label labelCandidateId = (Label)e.Row.FindControl("lblCandidateID");
+                Label labelQuestionnaireId = (Label)e.Row.FindControl("lblQuestionnaireID");
+                Label labelCompletion = (Label)e.Row.FindControl("lblComplete");
+                Label labelSubmitFlag = (Label)e.Row.FindControl("lblSubmitFlag");
+                Label labelRelationship = (Label)e.Row.FindControl("lblRelationship");
                 LinkButton SubmitFlag = (LinkButton)e.Row.FindControl("SubmitFlag");
 
                 if (HttpContext.Current.Session["GroupID"] != null && HttpContext.Current.Session["GroupID"].ToString() == "1")
@@ -581,18 +612,20 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
                 //HtmlTable tblGraph = (HtmlTable)e.Row.FindControl("tbGraph");
 
-                Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO(); 
-                int answeredQuestion = questionnaire_BAO.CalculateGraph(Convert.ToInt32(lblQuestionnaireId.Text), Convert.ToInt32(lblCandidateId.Text));
+                Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+                //Get number of question answered
+                int answeredQuestion = questionnaire_BAO.CalculateGraph(Convert.ToInt32(labelQuestionnaireId.Text), Convert.ToInt32(labelCandidateId.Text));
 
-                DataTable dtQuestion = new DataTable();
+                DataTable dataTableQuestion = new DataTable();
                 //dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaire(Convert.ToInt32(lblQuestionnaireId.Text));
-                dtQuestion = questionnaire_BAO.GetFeedbackQuestionnaireByRelationShip(Convert.ToInt32(ddlAccountCode.SelectedValue),Convert.ToInt32(ddlProject.SelectedValue), Convert.ToInt32(lblQuestionnaireId.Text),lblRelationship.Text);
-
-                double percentage = (answeredQuestion * 100) / Convert.ToInt32(dtQuestion.Rows.Count);
+                //Get total questions
+                dataTableQuestion = questionnaire_BAO.GetFeedbackQuestionnaireByRelationShip(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlProject.SelectedValue), Convert.ToInt32(labelQuestionnaireId.Text), labelRelationship.Text);
+                //Calculate % of survey complition
+                double percentage = (answeredQuestion * 100) / Convert.ToInt32(dataTableQuestion.Rows.Count);
                 string[] percent = percentage.ToString().Split('.');
 
                 //percentage = percent[0];
-                lblCompletion.Text = percent[0].ToString() + "%";
+                labelCompletion.Text = percent[0].ToString() + "%";
 
                 //if (lblSubmitFlag.Text == "True")
                 //    //rblstSubmitFlag.Items[0].Selected = true;
@@ -604,15 +637,19 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
                 //lbtnStatus.Click += new EventHandler(objrblstSubmitFlag_Click);
                 //tblGraph.Width = percent[0].ToString() + "%";
             }
-
             //HandleWriteLog("Start", new StackTrace(true));
-                }
+        }
         catch (Exception ex)
         {
             HandleException(ex);
         }
     }
 
+    /// <summary>
+    /// Bind project by when account value changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
@@ -633,17 +670,19 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             //    odsCandidateStatus.FilterParameters.Clear();
             //}
 
+            //Get company id by account code.
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //get company list
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(companycode));
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //Set comapny name
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             ddlParticipant.Items.Clear();
             ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
@@ -663,13 +702,14 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             ddlProject.Items.Clear();
             ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
-            Project_BAO project_BAO = new Project_BAO();
-            DataTable dtProject = new DataTable();
-            dtProject = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+            Project_BAO projectBusinessAccessObject = new Project_BAO();
+            DataTable dataTableProject = new DataTable();
+            //Get project list by company id tp bind project dropdown
+            dataTableProject = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
-            if (dtProject.Rows.Count > 0)
+            if (dataTableProject.Rows.Count > 0)
             {
-                ddlProject.DataSource = dtProject;
+                ddlProject.DataSource = dataTableProject;
                 ddlProject.DataValueField = "ProjectID";
                 ddlProject.DataTextField = "Title";
                 ddlProject.DataBind();
@@ -690,13 +730,13 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
             ManagePaging();*/
         }
-        else
+        else//if account is set to "select" then clear controls.
         {
             lblcompanyname.Text = "";
 
             ddlParticipant.Items.Clear();
             ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
-            
+
             ddlProject.Items.Clear();
             ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -707,17 +747,23 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind program by project value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Programme_BAO programme_BAO = new Programme_BAO();
+        Programme_BAO programmeBusinessAccessObject = new Programme_BAO();
 
         ddlProgramme.Items.Clear();
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
+        DataTable dataTableProgramme = new DataTable();
+        //get program list in a project and bind program
+        dataTableProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue));
 
-        if (dtProgramme.Rows.Count > 0)
+        if (dataTableProgramme.Rows.Count > 0)
         {
-            ddlProgramme.DataSource = dtProgramme;
+            ddlProgramme.DataSource = dataTableProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
             ddlProgramme.DataBind();
@@ -725,12 +771,17 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
 
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
         //if (ddlProgramme.Items.Count > 1)
-            //ddlProgramme.Items[1].Selected = true;
+        //ddlProgramme.Items[1].Selected = true;
 
         ddlParticipant.Items.Clear();
         ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
     }
 
+    /// <summary>
+    /// Its of no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlParticipant_SelectedIndexChanged(object sender, EventArgs e)
     {
         //AssignQstnParticipant_BAO assignquestionnaire = new AssignQstnParticipant_BAO();
@@ -746,31 +797,37 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         //}
     }
 
+    /// <summary>
+    /// Bind Participant according to program
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
-        AssignQstnParticipant_BAO participant_BAO = new AssignQstnParticipant_BAO();
+        AssignQstnParticipant_BAO participantBusinessAccessObject = new AssignQstnParticipant_BAO();
 
         if (ddlProgramme.SelectedIndex > 0)
         {
-            DataTable dtParticipant = new DataTable();
+            DataTable dataTableParticipant = new DataTable();
 
+            //If user is super Admin then user account id else user user Account Id to get participant list.
             if (identity.User.GroupID == 1)
             {
-                dtParticipant = participant_BAO.GetdtAssignPartiList(ddlAccountCode.SelectedValue, ddlProgramme.SelectedValue);
+                dataTableParticipant = participantBusinessAccessObject.GetdtAssignPartiList(ddlAccountCode.SelectedValue, ddlProgramme.SelectedValue);
             }
             else
             {
-                dtParticipant = participant_BAO.GetdtAssignPartiList(identity.User.AccountID.ToString(), ddlProgramme.SelectedValue);
+                dataTableParticipant = participantBusinessAccessObject.GetdtAssignPartiList(identity.User.AccountID.ToString(), ddlProgramme.SelectedValue);
             }
 
             Project_BAO project_BAO = new Project_BAO();
 
-            if (dtParticipant.Rows.Count > 0)
+            if (dataTableParticipant.Rows.Count > 0)
             {
                 ddlParticipant.Items.Clear();
                 ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
-
-                ddlParticipant.DataSource = dtParticipant;
+                //Bind participant list.
+                ddlParticipant.DataSource = dataTableParticipant;
                 ddlParticipant.DataTextField = "UserName";
                 ddlParticipant.DataValueField = "UserID";
                 ddlParticipant.DataBind();
@@ -782,87 +839,103 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
             }
         }
         else
-        {
+        {// if account drop down is set to "select" then clear control
             ddlParticipant.Items.Clear();
             ddlParticipant.Items.Insert(0, new ListItem("Select", "0"));
         }
     }
 
+    /// <summary>
+    /// Build dynamic query
+    /// </summary>
+    /// <returns></returns>
     protected string GetCondition()
     {
-        string str = "";
-        
-        if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-            str = str + "" + ViewState["AccountID"] + " and ";
-        else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+        string stringQuery = "";
 
+        if (Convert.ToInt32(ViewState["AccountID"]) > 0)
+            stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
+        else
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
+
+        //if ddlParticipant isvisible then set target person value by its value
         if (ddlParticipant.Visible == true)
         {
             if (ddlParticipant.SelectedIndex > 0)
-                str = str + "[TargetPersonID] = " + ddlParticipant.SelectedValue + " and ";
+                stringQuery = stringQuery + "[TargetPersonID] = " + ddlParticipant.SelectedValue + " and ";
 
             if (ddlProject.SelectedIndex > 0)
-                str = str + "dbo.AssignQuestionnaire.ProjecctID = " + ddlProject.SelectedValue + " and ";
+                stringQuery = stringQuery + "dbo.AssignQuestionnaire.ProjecctID = " + ddlProject.SelectedValue + " and ";
 
             if (ddlProgramme.SelectedIndex > 0)
-                str = str + "dbo.Programme.ProgrammeID = " + ddlProgramme.SelectedValue + " and ";
+                stringQuery = stringQuery + "dbo.Programme.ProgrammeID = " + ddlProgramme.SelectedValue + " and ";
         }
         else
         {
             AssignQuestionnaire_BAO assignQuestionnaire_BAO = new AssignQuestionnaire_BAO();
-            DataTable dtParticipantInfo = new DataTable();
-            dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
-            if (dtParticipantInfo.Rows.Count > 0)
+            DataTable dataTableParticipantDetails = new DataTable();
+
+            dataTableParticipantDetails = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+
+            if (dataTableParticipantDetails.Rows.Count > 0)
             {
-                str = str + "[TargetPersonID] = " + Convert.ToInt32(identity.User.UserID) + " and ";
+                stringQuery = stringQuery + "[TargetPersonID] = " + Convert.ToInt32(identity.User.UserID) + " and ";
 
-                str = str + "dbo.AssignQuestionnaire.ProjecctID = " + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProjecctID"]) + " and ";
+                stringQuery = stringQuery + "dbo.AssignQuestionnaire.ProjecctID = " + Convert.ToInt32(dataTableParticipantDetails.Rows[0]["ProjecctID"]) + " and ";
 
-                str = str + "dbo.Programme.ProgrammeID = " + Convert.ToInt32(dtParticipantInfo.Rows[0]["ProgrammeID"]) + " and ";
+                stringQuery = stringQuery + "dbo.Programme.ProgrammeID = " + Convert.ToInt32(dataTableParticipantDetails.Rows[0]["ProgrammeID"]) + " and ";
             }
         }
 
         //str = str + "dbo.AssignQuestionnaire.ProgrammeID = " + ddlProgramme.SelectedValue + " and ";
-        
-        string param = str.Substring(0, str.Length - 4);
+
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    /// Change the submit status of candidates fro mno to yes and viceversa.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvCandidateStatus_OnRowCommand(object sender, GridViewCommandEventArgs e)
     {
         try
         {
             string id = e.CommandName;
             string submitFlag = e.CommandArgument.ToString();
-            int result=0;
-            if (submitFlag == "True")
-                result = questionnaire_BAO.UpdateSubmitFlag(Convert.ToInt32(id), 0);
-            else
-                result = questionnaire_BAO.UpdateSubmitFlag(Convert.ToInt32(id), 1);
+            int result = 0;
 
+            if (submitFlag == "True")
+                result = questionnaireBusinessAccessObject.UpdateSubmitFlag(Convert.ToInt32(id), 0);
+            else
+                result = questionnaireBusinessAccessObject.UpdateSubmitFlag(Convert.ToInt32(id), 1);
+
+            //Reset object datasource parameter.
             odsCandidateStatus.SelectParameters.Clear();
             odsCandidateStatus.SelectParameters.Add("condition", GetCondition());
             odsCandidateStatus.Select();
-
+            //Bind the candidate grid.
             grdvCandidateStatus.PageIndex = 0;
             grdvCandidateStatus.DataBind();
 
             ManagePaging();
-            
-        }
-        catch(Exception ex)
-        {
-            
-        }
 
-        
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
+    /// <summary>
+    /// It is of no use
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objrblstSubmitFlag_Click(object sender, EventArgs e)
     {
-
         LinkButton objrblstSubmitFlag = (LinkButton)sender;
         string str = objrblstSubmitFlag.ID;
 
@@ -872,8 +945,6 @@ public partial class Module_Questionnaire_ViewCandidateStatus : CodeBehindBase
         //else
         //{ 
         //}
-
     }
-
 }
 

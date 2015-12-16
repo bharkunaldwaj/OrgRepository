@@ -1,41 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Globalization;
 using System.Configuration;
-using System.Diagnostics;
 using System.Data;
-using DAF_BAO;
 using Questionnaire_BE;
 using Questionnaire_BAO;
 using System.IO;
-using System.Collections;
 using Admin_BAO;
 
 public partial class Module_Questionnaire_Projects : CodeBehindBase
 {
-    Project_BAO project_BAO = new Project_BAO();
-    Project_BE project_BE = new Project_BE();
-    List<Project_BE> project_BEList = new List<Project_BE>();
+    //Global variables
+    Project_BAO projectBusinessAccessObject = new Project_BAO();
+    Project_BE projectBusinessEntity = new Project_BE();
+    List<Project_BE> projectBusinessEntityList = new List<Project_BE>();
     WADIdentity identity;
-
+    //Define global variable.
     string filename;
     string file = null;
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string    expression1;
+    DataTable dataTableCompanyName;
+    DataTable dataTableAllAccount;
+    string expression1;
     string Finalexpression;
     string expression2;
     string Finalexpression2;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        Label lableCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        lableCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
@@ -43,29 +38,32 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
             {
                 identity = this.Page.User.Identity as WADIdentity;
 
-                
-
                 int projectID = Convert.ToInt32(Request.QueryString["PrjId"]);
-                project_BEList = project_BAO.GetProjectByID(Convert.ToInt32(identity.User.AccountID), projectID);
+                //Get all project list in an user account.
+                projectBusinessEntityList = projectBusinessAccessObject.GetProjectByID(Convert.ToInt32(identity.User.AccountID), projectID);
 
-                AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-                ddlProjectManager.DataSource = accountUser_BAO.GetdtAccountUserList(identity.User.AccountID.ToString());
+                AccountUser_BAO accountUserBusinessAccessObject = new AccountUser_BAO();
+                //Get Account user List by user account id and Bind Manager Dropdown.
+                ddlProjectManager.DataSource = accountUserBusinessAccessObject.GetdtAccountUserList(identity.User.AccountID.ToString());
                 ddlProjectManager.DataValueField = "UserID";
                 ddlProjectManager.DataTextField = "UserName";
                 ddlProjectManager.DataBind();
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Get Account user List by user account id and Bind Account Dropdown.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
 
-                Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-                ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
+                Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
+                //Get Account user List by user account id and Bind Questionnaire Dropdown.
+                ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
                 ddlQuestionnaire.DataTextField = "QSTNName";
                 ddlQuestionnaire.DataValueField = "QuestionnaireID";
                 ddlQuestionnaire.DataBind();
 
+                //If QuesyString Contains Mode "E" then Edit and if "R" then View , and hide show controls accordingly.
                 if (Request.QueryString["Mode"] == "E")
                 {
                     imbSave.Visible = true;
@@ -73,7 +71,7 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                     imbBack.Visible = false;
                     lblheader.Text = "Edit Project";
                 }
-                else if (Request.QueryString["Mode"] == "R")
+                else if (Request.QueryString["Mode"] == "R")//view Mode 
                 {
                     imbSave.Visible = false;
                     imbcancel.Visible = false;
@@ -81,9 +79,11 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                     lblheader.Text = "View Project";
                 }
 
+                //If User is Super Admin  then show account details section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
+
                     if (Request.QueryString["Mode"] == null)
                     {
                         ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
@@ -95,23 +95,25 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                     divAccount.Visible = false;
                 }
 
-                EmailTemplate_BAO emailTemplate_BAO = new EmailTemplate_BAO();
-                DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(Convert.ToString(identity.User.AccountID));
+                EmailTemplate_BAO emailTemplateBusinessAccessObject = new EmailTemplate_BAO();
+                //Get EmailTempalte List by user Id and Bind dropdown controls.
+                DataTable dataTableEmailTemplate = emailTemplateBusinessAccessObject.GetdtEmailTemplateList(Convert.ToString(identity.User.AccountID));
 
-                DataRow[] resultsTemplate = dtEmailTemplate.Select("Title LIKE '%Invitation Template%'");
+                DataRow[] resultsTemplate = dataTableEmailTemplate.Select("Title LIKE '%Invitation Template%'");
 
-                DataTable dtmailtemp = dtEmailTemplate.Clone();
+                DataTable copyMailTemplate = dataTableEmailTemplate.Clone();
 
-                foreach (DataRow drMail in resultsTemplate)
+                foreach (DataRow rowMail in resultsTemplate)
                 {
-                    dtmailtemp.ImportRow(drMail);
+                    copyMailTemplate.ImportRow(rowMail);
                 }
 
-                int emailId=0;
-                if (dtmailtemp.Rows.Count > 0)
-                     emailId= Convert.ToInt32(dtmailtemp.Rows[0]["EmailTemplateID"]);
+                int emailId = 0;
+
+                if (copyMailTemplate.Rows.Count > 0)
+                    emailId = Convert.ToInt32(copyMailTemplate.Rows[0]["EmailTemplateID"]);
                 
-                ddlEmailStart.DataSource = dtEmailTemplate;
+                ddlEmailStart.DataSource = dataTableEmailTemplate;
                 ddlEmailStart.DataValueField = "EmailTemplateID";
                 ddlEmailStart.DataTextField = "Title";
                 ddlEmailStart.DataBind();
@@ -122,56 +124,56 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
                     //ddlEmailStart.Enabled = false;
                 }
 
-                ddlEmailAvailable.DataSource = dtEmailTemplate;
+                ddlEmailAvailable.DataSource = dataTableEmailTemplate;
                 ddlEmailAvailable.DataValueField = "EmailTemplateID";
                 ddlEmailAvailable.DataTextField = "Title";
                 ddlEmailAvailable.DataBind();
 
-                ddlEmailRemainder1.DataSource = dtEmailTemplate;
+                ddlEmailRemainder1.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder1.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder1.DataTextField = "Title";
                 ddlEmailRemainder1.DataBind();
 
-                ddlEmailRemainder2.DataSource = dtEmailTemplate;
+                ddlEmailRemainder2.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder2.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder2.DataTextField = "Title";
                 ddlEmailRemainder2.DataBind();
 
-                ddlEmailRemainder3.DataSource = dtEmailTemplate;
+                ddlEmailRemainder3.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder3.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder3.DataTextField = "Title";
                 ddlEmailRemainder3.DataBind();
 
-                ddlEmailParticipant.DataSource = dtEmailTemplate;
+                ddlEmailParticipant.DataSource = dataTableEmailTemplate;
                 ddlEmailParticipant.DataValueField = "EmailTemplateID";
                 ddlEmailParticipant.DataTextField = "Title";
                 ddlEmailParticipant.DataBind();
 
-                ddlParticipantRem1.DataSource = dtEmailTemplate;
+                ddlParticipantRem1.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem1.DataValueField = "EmailTemplateID";
                 ddlParticipantRem1.DataTextField = "Title";
                 ddlParticipantRem1.DataBind();
 
-                ddlParticipantRem2.DataSource = dtEmailTemplate;
+                ddlParticipantRem2.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem2.DataValueField = "EmailTemplateID";
                 ddlParticipantRem2.DataTextField = "Title";
                 ddlParticipantRem2.DataBind();
 
-                ddlEmailManager.DataSource = dtEmailTemplate;
+                ddlEmailManager.DataSource = dataTableEmailTemplate;
                 ddlEmailManager.DataValueField = "EmailTemplateID";
                 ddlEmailManager.DataTextField = "Title";
                 ddlEmailManager.DataBind();
 
-                ddlSelfAssessmentRem.DataSource = dtEmailTemplate;
+                ddlSelfAssessmentRem.DataSource = dataTableEmailTemplate;
                 ddlSelfAssessmentRem.DataValueField = "EmailTemplateID";
                 ddlSelfAssessmentRem.DataTextField = "Title";
                 ddlSelfAssessmentRem.DataBind();
-                
             }
 
-            if (project_BEList.Count > 0)
+            if (projectBusinessEntityList.Count > 0)
             {
-                SetProjectValue(project_BEList);
+                //Bind Project controls by project list details.
+                SetProjectValue(projectBusinessEntityList);
                 
                 ddlAccountCode.SelectedValue = ddlAccountCode.SelectedValue;
                 ddlAccountCode_SelectedIndexChanged(sender, e);
@@ -185,7 +187,11 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         }
     }
 
-    private void SetProjectValue(List<Project_BE> project_BEList)
+    /// <summary>
+    /// Set Project controls value.
+    /// </summary>
+    /// <param name="projectBusinessEntityList"></param>
+    private void SetProjectValue(List<Project_BE> projectBusinessEntityList)
     {
         try
         {
@@ -195,59 +201,54 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
 
             if (identity.User.GroupID == 1)
             {
-                ddlAccountCode.SelectedValue = project_BEList[0].AccountID.ToString();
-
+                ddlAccountCode.SelectedValue = projectBusinessEntityList[0].AccountID.ToString();
 
                 if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
                 {
-
                     int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
 
-                    Account_BAO account1_BAO = new Account_BAO();
+                    Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-                    dtCompanyName = account1_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                    dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
 
                     expression1 = "AccountID='" + companycode + "'";
 
                     Finalexpression = expression1;
 
-                    DataRow[] resultsAccount = dtCompanyName.Select(Finalexpression);
+                    DataRow[] resultsAccount = dataTableCompanyName.Select(Finalexpression);
 
-                    DataTable dtAccount = dtCompanyName.Clone();
+                    DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-                    foreach (DataRow drAccount in resultsAccount)
+                    foreach (DataRow datarowAccount in resultsAccount)
                     {
-                        dtAccount.ImportRow(drAccount);
+                        dataTableAccount.ImportRow(datarowAccount);
                     }
 
-                   
-
-                    lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+                    lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
                 }
                 else
                 {
                     lblcompanyname.Text = "";
                 }
-
-
             }
 
-            ddlStatus.SelectedValue = project_BEList[0].StatusID.ToString();
-            txtReference.Text = project_BEList[0].Reference;
-            txtTitle.Text = project_BEList[0].Title;
-            ddlProjectManager.SelectedValue = project_BEList[0].ManagerID.ToString();
+            ddlStatus.SelectedValue = projectBusinessEntityList[0].StatusID.ToString();
+            txtReference.Text = projectBusinessEntityList[0].Reference;
+            txtTitle.Text = projectBusinessEntityList[0].Title;
+            ddlProjectManager.SelectedValue = projectBusinessEntityList[0].ManagerID.ToString();
             //ddlMaxCandidate.SelectedValue = project_BEList[0].MaxCandidate.ToString();
-            txtDescription.Text = project_BEList[0].Description;
+            txtDescription.Text = projectBusinessEntityList[0].Description;
             //txtPassowrd.Text = project_BEList[0].Password;
-            hdnPassword.Value = project_BEList[0].Password;
+            hdnPassword.Value = projectBusinessEntityList[0].Password;
 
             Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+            //Get Questionnaire List
             ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataBind();
 
-            ddlQuestionnaire.SelectedValue = project_BEList[0].QuestionnaireID.ToString();
+            ddlQuestionnaire.SelectedValue = projectBusinessEntityList[0].QuestionnaireID.ToString();
 
             //dtStartDate.Text =  Convert.ToDateTime(project_BEList[0].StartDate).ToString("dd/MM/yyyy");
             //dtEndDate.Text = Convert.ToDateTime(project_BEList[0].EndDate).ToString("dd/MM/yyyy");
@@ -256,7 +257,7 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
             //dtRemainderDate3.Text = Convert.ToDateTime(project_BEList[0].Reminder3Date).ToString("dd/MM/yyyy");
             //dtAvailableFrom.Text = Convert.ToDateTime(project_BEList[0].ReportAvaliableFrom).ToString("dd/MM/yyyy");
             //dtAvailableTo.Text = Convert.ToDateTime(project_BEList[0].ReportAvaliableTo).ToString("dd/MM/yyyy");
-            hdnimage.Value = project_BEList[0].Logo;
+            hdnimage.Value = projectBusinessEntityList[0].Logo;
 
             //txtStartDate.Text = Convert.ToDateTime(project_BEList[0].StartDate).ToString("dd/MM/yyyy");
             //txtEndDate.Text = Convert.ToDateTime(project_BEList[0].EndDate).ToString("dd/MM/yyyy");
@@ -266,26 +267,26 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
             //txtAvailableFrom.Text = Convert.ToDateTime(project_BEList[0].ReportAvaliableFrom).ToString("dd/MM/yyyy");
             //txtAvailableTo.Text = Convert.ToDateTime(project_BEList[0].ReportAvaliableTo).ToString("dd/MM/yyyy");
 
-            ddlEmailStart.SelectedValue = project_BEList[0].EmailTMPLStart.ToString();
-            ddlEmailRemainder1.SelectedValue = project_BEList[0].EmailTMPLReminder1.ToString();
-            ddlEmailRemainder2.SelectedValue = project_BEList[0].EmailTMPLReminder2.ToString();
-            ddlEmailRemainder3.SelectedValue = project_BEList[0].EmailTMPLReminder3.ToString();
-            ddlEmailAvailable.SelectedValue = project_BEList[0].EmailTMPLReportAvalibale.ToString();
-            ddlEmailParticipant.SelectedValue = project_BEList[0].EmailTMPLParticipant.ToString();
-            ddlParticipantRem1.SelectedValue = project_BEList[0].EmailTMPPartReminder1.ToString();
-            ddlParticipantRem2.SelectedValue = project_BEList[0].EmailTMPPartReminder2.ToString();
-            ddlEmailManager.SelectedValue = project_BEList[0].EmailTMPManager.ToString();
-            ddlSelfAssessmentRem.SelectedValue = project_BEList[0].EmailTMPSelfReminder.ToString();
+            ddlEmailStart.SelectedValue = projectBusinessEntityList[0].EmailTMPLStart.ToString();
+            ddlEmailRemainder1.SelectedValue = projectBusinessEntityList[0].EmailTMPLReminder1.ToString();
+            ddlEmailRemainder2.SelectedValue = projectBusinessEntityList[0].EmailTMPLReminder2.ToString();
+            ddlEmailRemainder3.SelectedValue = projectBusinessEntityList[0].EmailTMPLReminder3.ToString();
+            ddlEmailAvailable.SelectedValue = projectBusinessEntityList[0].EmailTMPLReportAvalibale.ToString();
+            ddlEmailParticipant.SelectedValue = projectBusinessEntityList[0].EmailTMPLParticipant.ToString();
+            ddlParticipantRem1.SelectedValue = projectBusinessEntityList[0].EmailTMPPartReminder1.ToString();
+            ddlParticipantRem2.SelectedValue = projectBusinessEntityList[0].EmailTMPPartReminder2.ToString();
+            ddlEmailManager.SelectedValue = projectBusinessEntityList[0].EmailTMPManager.ToString();
+            ddlSelfAssessmentRem.SelectedValue = projectBusinessEntityList[0].EmailTMPSelfReminder.ToString();
 
-            txtRelationship1.Text = project_BEList[0].Relationship1.ToString();
-            txtRelationship2.Text = project_BEList[0].Relationship2.ToString();
-            txtRelationship3.Text = project_BEList[0].Relationship3.ToString();
-            txtRelationship4.Text = project_BEList[0].Relationship4.ToString();
-            txtRelationship5.Text = project_BEList[0].Relationship5.ToString();
+            txtRelationship1.Text = projectBusinessEntityList[0].Relationship1.ToString();
+            txtRelationship2.Text = projectBusinessEntityList[0].Relationship2.ToString();
+            txtRelationship3.Text = projectBusinessEntityList[0].Relationship3.ToString();
+            txtRelationship4.Text = projectBusinessEntityList[0].Relationship4.ToString();
+            txtRelationship5.Text = projectBusinessEntityList[0].Relationship5.ToString();
 
-            txtFaqText.InnerText = Server.HtmlDecode(project_BEList[0].FaqText.ToString());
+            txtFaqText.InnerText = Server.HtmlDecode(projectBusinessEntityList[0].FaqText.ToString());
 
-            Session["FileName"] = project_BEList[0].Logo;
+            Session["FileName"] = projectBusinessEntityList[0].Logo;
 
             //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "setimage", "SetImage();", true);
             //HandleWriteLog("Start", new StackTrace(true));
@@ -294,106 +295,108 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         {
             HandleException(ex);
         }
-
     }
 
+    /// <summary>
+    /// Insert and update project details.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            Project_BE project_BE = new Project_BE();
-            Project_BAO project_BAO = new Project_BAO();
+            Project_BE projectBusinessEntity = new Project_BE();
+            Project_BAO projectBusinessAccessObject = new Project_BAO();
 
             //if (this.IsFileValid(this.FileUpload))
             //{
+            identity = this.Page.User.Identity as WADIdentity;
 
-                identity = this.Page.User.Identity as WADIdentity;
+            if (identity.User.GroupID == 1)
+            {
+                projectBusinessEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            }
+            else
+            {
+                projectBusinessEntity.AccountID = identity.User.AccountID;
+            }
+            //Initilize properties.
+            projectBusinessEntity.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
+            projectBusinessEntity.Reference = txtReference.Text;
+            projectBusinessEntity.Title = GetString(txtTitle.Text);
+            projectBusinessEntity.ManagerID = Convert.ToInt32(ddlProjectManager.SelectedValue);
+            projectBusinessEntity.MaxCandidate = Convert.ToInt32(100);
+            projectBusinessEntity.Description = txtDescription.Text;
+            //project_BE.Password = txtPassowrd.Text;
+            projectBusinessEntity.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
+            projectBusinessEntity.EmailTMPLStart = Convert.ToInt32(ddlEmailStart.SelectedValue);
+            projectBusinessEntity.EmailTMPLReminder1 = Convert.ToInt32(ddlEmailRemainder1.SelectedValue);
+            projectBusinessEntity.EmailTMPLReminder2 = Convert.ToInt32(ddlEmailRemainder2.SelectedValue);
+            projectBusinessEntity.EmailTMPLReminder3 = Convert.ToInt32(ddlEmailRemainder3.SelectedValue);
+            projectBusinessEntity.EndDate = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.StartDate = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.ReportAvaliableFrom = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.ReportAvaliableTo = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.Reminder1Date = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.Reminder2Date = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.Reminder3Date = Convert.ToDateTime("01/01/2000");
+            projectBusinessEntity.EmailTMPLReportAvalibale = Convert.ToInt32(ddlEmailAvailable.SelectedValue);
+            projectBusinessEntity.EmailTMPLParticipant = Convert.ToInt32(ddlEmailParticipant.SelectedValue);
+            projectBusinessEntity.EmailTMPPartReminder1 = Convert.ToInt32(ddlParticipantRem1.SelectedValue);
+            projectBusinessEntity.EmailTMPPartReminder2 = Convert.ToInt32(ddlParticipantRem2.SelectedValue);
+            projectBusinessEntity.EmailTMPManager = Convert.ToInt32(ddlEmailManager.SelectedValue);
+            projectBusinessEntity.EmailTMPSelfReminder = Convert.ToInt32(ddlSelfAssessmentRem.SelectedValue);
+            projectBusinessEntity.Relationship1 = txtRelationship1.Text.Trim();
+            projectBusinessEntity.Relationship2 = txtRelationship2.Text.Trim();
+            projectBusinessEntity.Relationship3 = txtRelationship3.Text.Trim();
+            projectBusinessEntity.Relationship4 = txtRelationship4.Text.Trim();
+            projectBusinessEntity.Relationship5 = txtRelationship5.Text.Trim();
+            projectBusinessEntity.FaqText = Server.HtmlDecode(txtFaqText.Value.Trim());
+            projectBusinessEntity.Logo = "";
 
-                if (identity.User.GroupID == 1)
-                {
+            //if (FileUpload.HasFile)
+            //{
+            //    filename = System.IO.Path.GetFileName(FileUpload.PostedFile.FileName);
+            //    //filename = FileUpload.FileName;
+            //    file = GetUniqueFilename(filename);
 
-                    project_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            //    string path = MapPath("~\\UploadDocs\\") + file;
+            //    FileUpload.SaveAs(path);
+            //    string name = file;
+            //    FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+            //    BinaryReader br1 = new BinaryReader(fs1);
+            //    Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
+            //    br1.Close();
+            //    fs1.Close();
+            //    project_BE.Logo = file;
+            //}
+            //else
+            //{
+            //    if (Request.QueryString["Mode"] == "E" && FileUpload.FileName == "")
+            //        project_BE.Logo = Convert.ToString(Session["FileName"]);
+            //    else
+            //        project_BE.Logo = "";
+            //}
 
-                }
-                else
-                {
-                    project_BE.AccountID = identity.User.AccountID;
-                }
+            projectBusinessEntity.ModifyBy = 1;
+            projectBusinessEntity.ModifyDate = DateTime.Now;
+            projectBusinessEntity.IsActive = 1;
 
-                project_BE.StatusID = Convert.ToInt32(ddlStatus.SelectedValue);
-                project_BE.Reference = txtReference.Text;
-                project_BE.Title = GetString(txtTitle.Text);
-                project_BE.ManagerID = Convert.ToInt32(ddlProjectManager.SelectedValue);
-                project_BE.MaxCandidate = Convert.ToInt32(100);
-                project_BE.Description = txtDescription.Text;
-                //project_BE.Password = txtPassowrd.Text;
-                project_BE.QuestionnaireID = Convert.ToInt32(ddlQuestionnaire.SelectedValue);
-                project_BE.EmailTMPLStart = Convert.ToInt32(ddlEmailStart.SelectedValue);
-                project_BE.EmailTMPLReminder1 = Convert.ToInt32(ddlEmailRemainder1.SelectedValue);
-                project_BE.EmailTMPLReminder2 = Convert.ToInt32(ddlEmailRemainder2.SelectedValue);
-                project_BE.EmailTMPLReminder3 = Convert.ToInt32(ddlEmailRemainder3.SelectedValue);
-                project_BE.EndDate = Convert.ToDateTime("01/01/2000");
-                project_BE.StartDate = Convert.ToDateTime("01/01/2000");
-                project_BE.ReportAvaliableFrom = Convert.ToDateTime("01/01/2000");
-                project_BE.ReportAvaliableTo = Convert.ToDateTime("01/01/2000");
-                project_BE.Reminder1Date = Convert.ToDateTime("01/01/2000");
-                project_BE.Reminder2Date = Convert.ToDateTime("01/01/2000");
-                project_BE.Reminder3Date = Convert.ToDateTime("01/01/2000");
-                project_BE.EmailTMPLReportAvalibale = Convert.ToInt32(ddlEmailAvailable.SelectedValue);
-                project_BE.EmailTMPLParticipant = Convert.ToInt32(ddlEmailParticipant.SelectedValue);
-                project_BE.EmailTMPPartReminder1 = Convert.ToInt32(ddlParticipantRem1.SelectedValue);
-                project_BE.EmailTMPPartReminder2 = Convert.ToInt32(ddlParticipantRem2.SelectedValue);
-                project_BE.EmailTMPManager = Convert.ToInt32(ddlEmailManager.SelectedValue);
-                project_BE.EmailTMPSelfReminder = Convert.ToInt32(ddlSelfAssessmentRem.SelectedValue);
-                project_BE.Relationship1 = txtRelationship1.Text.Trim();
-                project_BE.Relationship2 = txtRelationship2.Text.Trim();
-                project_BE.Relationship3= txtRelationship3.Text.Trim();
-                project_BE.Relationship4 = txtRelationship4.Text.Trim();
-                project_BE.Relationship5 = txtRelationship5.Text.Trim();
-                project_BE.FaqText = Server.HtmlDecode(txtFaqText.Value.Trim());
-                project_BE.Logo = "";
+            //If QuesyString Contains Mode "E" then Update else Insert  Project value.
+            if (Request.QueryString["Mode"] == "E")
+            {
+                projectBusinessEntity.ProjectID = Convert.ToInt32(Request.QueryString["PrjId"]);
+                projectBusinessAccessObject.UpdateProject(projectBusinessEntity);
+            }
+            else
+            {
+                projectBusinessAccessObject.AddProject(projectBusinessEntity);
+            }
 
-                //if (FileUpload.HasFile)
-                //{
-                //    filename = System.IO.Path.GetFileName(FileUpload.PostedFile.FileName);
-                //    //filename = FileUpload.FileName;
-                //    file = GetUniqueFilename(filename);
-
-                //    string path = MapPath("~\\UploadDocs\\") + file;
-                //    FileUpload.SaveAs(path);
-                //    string name = file;
-                //    FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                //    BinaryReader br1 = new BinaryReader(fs1);
-                //    Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                //    br1.Close();
-                //    fs1.Close();
-                //    project_BE.Logo = file;
-                //}
-                //else
-                //{
-                //    if (Request.QueryString["Mode"] == "E" && FileUpload.FileName == "")
-                //        project_BE.Logo = Convert.ToString(Session["FileName"]);
-                //    else
-                //        project_BE.Logo = "";
-                //}
-
-                project_BE.ModifyBy = 1;
-                project_BE.ModifyDate = DateTime.Now;
-                project_BE.IsActive = 1;
-
-                if (Request.QueryString["Mode"] == "E")
-                {
-                    project_BE.ProjectID = Convert.ToInt32(Request.QueryString["PrjId"]);
-                    project_BAO.UpdateProject(project_BE);
-                }
-                else
-                {
-                    project_BAO.AddProject(project_BE);
-                }
-
-                Response.Redirect("ProjectList.aspx", false);
-                //HandleWriteLog("Start", new StackTrace(true));
+            Response.Redirect("ProjectList.aspx", false);
+            //HandleWriteLog("Start", new StackTrace(true));
             //}
         }
         catch (Exception ex)
@@ -402,6 +405,11 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Project List page when click on cancel.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbcancel_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -418,6 +426,11 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -425,6 +438,7 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         string[] AllowedExtensions = ConfigurationManager.AppSettings["Fileextension"].Split(',');
         bool isExtensionError = false;
         int MaxSizeAllowed = 5 * 1048576;// Size Allow only in mb
+
         if (uploadControl.HasFile)
         {
             bool isSizeError = false;
@@ -473,11 +487,13 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
             }
         }
         return isFileOk;
-
-
-
     }
 
+    /// <summary>
+    /// No use
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -491,11 +507,17 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
     //    ScriptManager.RegisterClientScriptBlock(btn, btn.GetType(), "purchasedate", "ResetDTPickerDate('" + HtmlDate + "','" + aspDate + "');", true);
     //}
 
+    /// <summary>
+    /// Bind project manager and questionnaire by account.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-        AccountUser_BAO accountUser_BAO = new AccountUser_BAO();
-        EmailTemplate_BAO emailTemplate_BAO = new EmailTemplate_BAO();
+        AccountUser_BAO accountUserBusinessAccessObject = new AccountUser_BAO();
+        EmailTemplate_BAO emailTemplateBusinessAccessObject = new EmailTemplate_BAO();
 
+        //set default value to all dropdowns controls.
         ddlProjectManager.Items.Clear();
         ddlProjectManager.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -534,77 +556,85 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            //Get Company Details by Account Id.
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+            //Get company name.
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable accountDataTable = dataTableCompanyName.Clone();
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                accountDataTable.ImportRow(dataRowAccount);
 
-            ddlProjectManager.DataSource = accountUser_BAO.GetdtAccountUserList(ddlAccountCode.SelectedValue);
+            //Bind Company name.
+            lblcompanyname.Text = accountDataTable.Rows[0]["OrganisationName"].ToString();
+
+            // Get account user details and bind Manager.
+            ddlProjectManager.DataSource = accountUserBusinessAccessObject.GetdtAccountUserList(ddlAccountCode.SelectedValue);
             ddlProjectManager.DataValueField = "UserID";
             ddlProjectManager.DataTextField = "UserName";
             ddlProjectManager.DataBind();
 
-            Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
+            // Get Questionnaire List details and bind Questionnaire.
+            Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataBind();
 
-            DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(ddlAccountCode.SelectedValue);
+            //Get Template list by Account Id.
+            DataTable dataTableEmailTemplate = emailTemplateBusinessAccessObject.GetdtEmailTemplateList(ddlAccountCode.SelectedValue);
 
-            if (dtEmailTemplate.Rows.Count > 0)
+           if (dataTableEmailTemplate.Rows.Count > 0)
             {
-                ddlEmailStart.DataSource = dtEmailTemplate;
+                //Bind Email Template Dropdowns.
+                ddlEmailStart.DataSource = dataTableEmailTemplate;
                 ddlEmailStart.DataValueField = "EmailTemplateID";
                 ddlEmailStart.DataTextField = "Title";
                 ddlEmailStart.DataBind();
 
-                ddlEmailAvailable.DataSource = dtEmailTemplate;
+                ddlEmailAvailable.DataSource = dataTableEmailTemplate;
                 ddlEmailAvailable.DataValueField = "EmailTemplateID";
                 ddlEmailAvailable.DataTextField = "Title";
                 ddlEmailAvailable.DataBind();
 
-                ddlEmailRemainder1.DataSource = dtEmailTemplate;
+                ddlEmailRemainder1.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder1.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder1.DataTextField = "Title";
                 ddlEmailRemainder1.DataBind();
 
-                ddlEmailRemainder2.DataSource = dtEmailTemplate;
+                ddlEmailRemainder2.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder2.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder2.DataTextField = "Title";
                 ddlEmailRemainder2.DataBind();
 
-                ddlEmailRemainder3.DataSource = dtEmailTemplate;
+                ddlEmailRemainder3.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder3.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder3.DataTextField = "Title";
                 ddlEmailRemainder3.DataBind();
 
-                ddlEmailParticipant.DataSource = dtEmailTemplate;
+                ddlEmailParticipant.DataSource = dataTableEmailTemplate;
                 ddlEmailParticipant.DataValueField = "EmailTemplateID";
                 ddlEmailParticipant.DataTextField = "Title";
                 ddlEmailParticipant.DataBind();
 
-                ddlParticipantRem1.DataSource = dtEmailTemplate;
+                ddlParticipantRem1.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem1.DataValueField = "EmailTemplateID";
                 ddlParticipantRem1.DataTextField = "Title";
                 ddlParticipantRem1.DataBind();
 
-                ddlParticipantRem2.DataSource = dtEmailTemplate;
+                ddlParticipantRem2.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem2.DataValueField = "EmailTemplateID";
                 ddlParticipantRem2.DataTextField = "Title";
                 ddlParticipantRem2.DataBind();
 
-                ddlEmailManager.DataSource = dtEmailTemplate;
+                ddlEmailManager.DataSource = dataTableEmailTemplate;
                 ddlEmailManager.DataValueField = "EmailTemplateID";
                 ddlEmailManager.DataTextField = "Title";
                 ddlEmailManager.DataBind();
 
-                ddlSelfAssessmentRem.DataSource = dtEmailTemplate;
+                ddlSelfAssessmentRem.DataSource = dataTableEmailTemplate;
                 ddlSelfAssessmentRem.DataValueField = "EmailTemplateID";
                 ddlSelfAssessmentRem.DataTextField = "Title";
                 ddlSelfAssessmentRem.DataBind();
@@ -617,67 +647,70 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         {
             lblcompanyname.Text = "";
 
-            ddlProjectManager.DataSource = accountUser_BAO.GetdtAccountUserList(identity.User.AccountID.ToString());
+            // Get account user details and bind Manager.
+            ddlProjectManager.DataSource = accountUserBusinessAccessObject.GetdtAccountUserList(identity.User.AccountID.ToString());
             ddlProjectManager.DataValueField = "UserID";
             ddlProjectManager.DataTextField = "UserName";
             ddlProjectManager.DataBind();
 
-            Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(identity.User.AccountID.ToString());
+            // Get Questionnaire List details and bind Questionnaire.
+            Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(identity.User.AccountID.ToString());
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataBind();
+            //Get Email tempalte List
+            DataTable dataTableEmailTemplate = emailTemplateBusinessAccessObject.GetdtEmailTemplateList(Convert.ToString(identity.User.AccountID));
 
-            DataTable dtEmailTemplate = emailTemplate_BAO.GetdtEmailTemplateList(Convert.ToString(identity.User.AccountID));
-
-            if (dtEmailTemplate.Rows.Count > 0)
+            if (dataTableEmailTemplate.Rows.Count > 0)
             {
-                ddlEmailStart.DataSource = dtEmailTemplate;
+                //Bind Email Template Dropdowns.
+                ddlEmailStart.DataSource = dataTableEmailTemplate;
                 ddlEmailStart.DataValueField = "EmailTemplateID";
                 ddlEmailStart.DataTextField = "Title";
                 ddlEmailStart.DataBind();
 
-                ddlEmailAvailable.DataSource = dtEmailTemplate;
+                ddlEmailAvailable.DataSource = dataTableEmailTemplate;
                 ddlEmailAvailable.DataValueField = "EmailTemplateID";
                 ddlEmailAvailable.DataTextField = "Title";
                 ddlEmailAvailable.DataBind();
 
-                ddlEmailRemainder1.DataSource = dtEmailTemplate;
+                ddlEmailRemainder1.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder1.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder1.DataTextField = "Title";
                 ddlEmailRemainder1.DataBind();
 
-                ddlEmailRemainder2.DataSource = dtEmailTemplate;
+                ddlEmailRemainder2.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder2.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder2.DataTextField = "Title";
                 ddlEmailRemainder2.DataBind();
 
-                ddlEmailRemainder3.DataSource = dtEmailTemplate;
+                ddlEmailRemainder3.DataSource = dataTableEmailTemplate;
                 ddlEmailRemainder3.DataValueField = "EmailTemplateID";
                 ddlEmailRemainder3.DataTextField = "Title";
                 ddlEmailRemainder3.DataBind();
 
-                ddlEmailParticipant.DataSource = dtEmailTemplate;
+                ddlEmailParticipant.DataSource = dataTableEmailTemplate;
                 ddlEmailParticipant.DataValueField = "EmailTemplateID";
                 ddlEmailParticipant.DataTextField = "Title";
                 ddlEmailParticipant.DataBind();
 
-                ddlParticipantRem1.DataSource = dtEmailTemplate;
+                ddlParticipantRem1.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem1.DataValueField = "EmailTemplateID";
                 ddlParticipantRem1.DataTextField = "Title";
                 ddlParticipantRem1.DataBind();
 
-                ddlParticipantRem2.DataSource = dtEmailTemplate;
+                ddlParticipantRem2.DataSource = dataTableEmailTemplate;
                 ddlParticipantRem2.DataValueField = "EmailTemplateID";
                 ddlParticipantRem2.DataTextField = "Title";
                 ddlParticipantRem2.DataBind();
 
-                ddlEmailManager.DataSource = dtEmailTemplate;
+                ddlEmailManager.DataSource = dataTableEmailTemplate;
                 ddlEmailManager.DataValueField = "EmailTemplateID";
                 ddlEmailManager.DataTextField = "Title";
                 ddlEmailManager.DataBind();
 
-                ddlSelfAssessmentRem.DataSource = dtEmailTemplate;
+                ddlSelfAssessmentRem.DataSource = dataTableEmailTemplate;
                 ddlSelfAssessmentRem.DataValueField = "EmailTemplateID";
                 ddlSelfAssessmentRem.DataTextField = "Title";
                 ddlSelfAssessmentRem.DataBind();
@@ -687,10 +720,13 @@ public partial class Module_Questionnaire_Projects : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Project List page when click on back.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbBack_Click(object sender, ImageClickEventArgs e)
     {
         Response.Redirect("ProjectList.aspx", false);
     }
-
-    
 }

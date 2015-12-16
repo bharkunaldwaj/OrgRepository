@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
@@ -14,8 +11,9 @@ using Questionnaire_BE;
 
 public partial class Module_Questionnaire_QuestionList : CodeBehindBase
 {
-    Questions_BAO questions_BAO = new Questions_BAO();
-    Questions_BE questions_BE = new Questions_BE();
+    //Global variables
+    Questions_BAO questionsBusinessAccessObject = new Questions_BAO();
+    Questions_BE questionsBusinessEntity = new Questions_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -23,82 +21,79 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
     int questionsCount = 0;
     string pageNo = "";
     WADIdentity identity;
-    DataTable dtCompanyName;
-    DataTable dtAllAccount;
-    string expression1;
-    string Finalexpression;
+    DataTable dataTableCompanyName;
+    //DataTable dtAllAccount;
+    // string expression1;
+    // string Finalexpression;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
+        Label lableCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        lableCurrentLocation.Text = "<marquee> You are in <strong>Feedback 360</strong> </marquee>";
         try
         {
             //HandleWriteLog("Start", new StackTrace(true));
-            
             identity = this.Page.User.Identity as WADIdentity;
 
             //odsQuestions.SelectParameters.Clear();
             //odsQuestions.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
             //odsQuestions.Select();
-              if (!IsPostBack)
+            if (!IsPostBack)
             {
-          
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
-            ddlAccountCode.DataValueField = "AccountID";
-            ddlAccountCode.DataTextField = "Code";
-            ddlAccountCode.DataBind();
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Get Account list by user account id and bind account dropdown.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                ddlAccountCode.DataValueField = "AccountID";
+                ddlAccountCode.DataTextField = "Code";
+                ddlAccountCode.DataBind();
 
-            Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(identity.User.AccountID.ToString());
-            ddlQuestionnaire.DataValueField = "QuestionnaireID";
-            ddlQuestionnaire.DataTextField = "QSTNName";
-            ddlQuestionnaire.DataBind();
+                Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
+                //Get Questionnaire list and bind Questionnaire dropdown by user account Id.
+                ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(identity.User.AccountID.ToString());
+                ddlQuestionnaire.DataValueField = "QuestionnaireID";
+                ddlQuestionnaire.DataTextField = "QSTNName";
+                ddlQuestionnaire.DataBind();
 
-            //HandleWriteLog("Start", new StackTrace(true));
-           
+                //HandleWriteLog("Start", new StackTrace(true));
 
-            if (identity.User.GroupID == 1)
-            {
-                divAccount.Visible = true;
-                ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
-                ddlAccountCode_SelectedIndexChanged(sender, e);
+                //If user is a Super Admin then show account detail section else hide.
+                if (identity.User.GroupID == 1)
+                {
+                    divAccount.Visible = true;
+                    ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
+                    ddlAccountCode_SelectedIndexChanged(sender, e);
+                }
+                else
+                {
+                    divAccount.Visible = false;
+                }
+                //Initilize the question grid data source parameter with dynamic query.
+                odsQuestions.SelectParameters.Clear();
+                odsQuestions.SelectParameters.Add("accountID", GetCondition());
+                odsQuestions.Select();
+                //Manage paging.
+                ManagePaging();
+
             }
-            else
-            {
-                divAccount.Visible = false;
-            }
 
-            odsQuestions.SelectParameters.Clear();
-            odsQuestions.SelectParameters.Add("accountID", GetCondition());
-            odsQuestions.Select();
+            grdvQuestions.PageSize = pageSize;
 
-            ManagePaging();
-        
-              }
+            TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
 
-              grdvQuestions.PageSize = pageSize;
-
-
-              TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-              if (txtGoto != null)
-                  txtGoto.Text = pageNo;
-        
-        
+            if (textBoxGoto != null)
+                textBoxGoto.Text = pageNo;
         }
-
-           
-
-
-
         catch (Exception ex)
         {
             HandleException(ex);
         }
     }
 
+    /// <summary>
+    ///  Add client side event to gridview view controls row by row.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvQuestions_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         try
@@ -119,6 +114,11 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    ///Handle paging while Sorting grid by click on headings .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void grdvQuestions_Sorting(object sender, GridViewRowEventArgs e)
     {
         try
@@ -135,6 +135,11 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Redirect to Question page when click on Add new.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ibtnAddNew_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -152,7 +157,9 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// Handle paging whengrid page index changes.
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
@@ -160,7 +167,7 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         //if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         //    questionsCount = questions_BAO.GetQuestionsListCount(ddlAccountCode.SelectedValue);
         //else
-        questionsCount = questions_BAO.GetQuestionsListCount(GetCondition());
+        questionsCount = questionsBusinessAccessObject.GetQuestionsListCount(GetCondition());
 
         plcPaging.Controls.Clear();
 
@@ -382,12 +389,20 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Save the view state for the page.
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, questionsCount };
     }
 
+    /// <summary>
+    /// Load the view state for the page when view of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
@@ -402,65 +417,78 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
 
             ManagePaging();
         }
-
     }
 
+    /// <summary>
+    /// Handle prvious and next button click of grid view.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         plcPaging.Controls.Clear();
-        LinkButton objlb = (LinkButton)sender;
-
-        grdvQuestions.PageIndex = (int.Parse(objlb.CommandArgument.ToString()) - 1);
+        LinkButton linkButtonNext = (LinkButton)sender;
+        //Reset gridview page index.
+        grdvQuestions.PageIndex = (int.Parse(linkButtonNext.CommandArgument.ToString()) - 1);
         grdvQuestions.DataBind();
 
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// Handle gridview page index event to move to new page.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-        TextBox txtGoto = (TextBox)plcPaging.FindControl("txtGoto");
-        if (txtGoto.Text.Trim() != "")
+        TextBox textBoxGoto = (TextBox)plcPaging.FindControl("txtGoto");
+        if (textBoxGoto.Text.Trim() != "")
         {
-            pageNo = txtGoto.Text;
+            pageNo = textBoxGoto.Text;
             plcPaging.Controls.Clear();
-
-            grdvQuestions.PageIndex = Convert.ToInt32(txtGoto.Text.Trim()) - 1;
-            grdvQuestions.DataBind();
+            //Reset gridview page index.
+            grdvQuestions.PageIndex = Convert.ToInt32(textBoxGoto.Text.Trim()) - 1;
+            grdvQuestions.DataBind();//Rebind grid.
             ManagePaging();
 
-            txtGoto.Text = pageNo;
+            textBoxGoto.Text = pageNo;
         }
     }
-
     #endregion
 
+    /// <summary>
+    /// Bind category grid when account selected index changes.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         lblMessage.Text = "";
-        Questionnaire_BAO.Questionnaire_BAO questionnaire_BAO = new Questionnaire_BAO.Questionnaire_BAO();
+        Questionnaire_BAO.Questionnaire_BAO questionnaireBusinessAccessObject = new Questionnaire_BAO.Questionnaire_BAO();
         ddlQuestionnaire.Items.Clear();
         ddlQuestionnaire.Items.Insert(0, new ListItem("Select", "0"));
-
+        //If it is a supeer Admin then ddlaccount's value else user Account value is used.
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-            Account_BAO account_BAO = new Account_BAO();
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
 
-            dtCompanyName = account_BAO.GetdtAccountList(ddlAccountCode.SelectedValue);
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
+            dataTableCompanyName = accountBusinessAccessObject.GetdtAccountList(ddlAccountCode.SelectedValue);
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + ddlAccountCode.SelectedValue + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //Set comapny name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             //odsQuestions.SelectParameters.Clear();
             //odsQuestions.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue);
             //odsQuestions.Select();
 
             //ManagePaging();
-
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
+            //Bind Question drop down when account selected index changes.
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(ddlAccountCode.SelectedValue));
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataBind();
@@ -476,25 +504,36 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
             //odsQuestions.Select();
 
             //ManagePaging();
-
-            ddlQuestionnaire.DataSource = questionnaire_BAO.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
+            //Bind Question drop down by user account ID.
+            ddlQuestionnaire.DataSource = questionnaireBusinessAccessObject.GetdtQuestionnaireList(Convert.ToString(identity.User.AccountID));
             ddlQuestionnaire.DataValueField = "QuestionnaireID";
             ddlQuestionnaire.DataTextField = "QSTNName";
             ddlQuestionnaire.DataBind();
         }
     }
 
+    /// <summary>
+    /// Search question list and bind question Grid.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
         odsQuestions.SelectParameters.Clear();
+        // Get object datasource parameters value by dynamic query.
         odsQuestions.SelectParameters.Add("accountID", GetCondition());
         odsQuestions.Select();
-
+        //Set grid page index to 0.
         grdvQuestions.PageIndex = 0;
         grdvQuestions.DataBind();
         ManagePaging();
     }
 
+    /// <summary>
+    /// Reset control value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ddlQuestionnaire.SelectedIndex = 0;
@@ -503,6 +542,7 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
         ddlAccountCode_SelectedIndexChanged(sender, e);
 
+        //Reset object datasource parameters value.
         odsQuestions.SelectParameters.Clear();
         odsQuestions.SelectParameters.Add("accountID", GetCondition());
         odsQuestions.Select();
@@ -510,12 +550,17 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         ManagePaging();
     }
 
+    /// <summary>
+    /// Change the order number of the question by specified order number.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReSequence_Click(object sender, ImageClickEventArgs e)
     {
         try
         {
             lblMessage.Text = "";
-
+            //server side Validate for Sequence number. 
             if (ddlQuestionnaire.SelectedIndex == 0 && txtSequenceIncrement.Text.Trim() == "")
             {
                 lblMessage.Text = "Please select questionnaire <br>Please enter sequence increment value";
@@ -536,10 +581,12 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
                 identity = this.Page.User.Identity as WADIdentity;
                 Questions_BAO question_BAO = new Questions_BAO();
                 lblMessage.Text = "";
+                //If user is Super Admin then group Id==1 then reinitilize the object datsource for question.
                 if (identity.User.GroupID == 1)
                 {
                     question_BAO.ResequenceQuestion(Convert.ToInt32(ddlAccountCode.SelectedValue), Convert.ToInt32(ddlQuestionnaire.SelectedValue), Convert.ToInt32(txtSequenceIncrement.Text.Trim()));
                     odsQuestions.SelectParameters.Clear();
+                    // Reinitilize the object datsource for question.
                     odsQuestions.SelectParameters.Add("accountID", ddlAccountCode.SelectedValue.ToString());
                     odsQuestions.Select();
                 }
@@ -547,10 +594,12 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
                 {
                     question_BAO.ResequenceQuestion(Convert.ToInt32(identity.User.AccountID), Convert.ToInt32(ddlQuestionnaire.SelectedValue), Convert.ToInt32(txtSequenceIncrement.Text.Trim()));
                     odsQuestions.SelectParameters.Clear();
+                    // Reinitilize the object datsource for question.
                     odsQuestions.SelectParameters.Add("accountID", identity.User.AccountID.ToString());
                     odsQuestions.Select();
                 }
             }
+
             imbSubmit_Click(sender, e);
         }
         catch (Exception ex)
@@ -559,26 +608,27 @@ public partial class Module_Questionnaire_QuestionList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Generate dynamic query .
+    /// </summary>
+    /// <returns></returns>
     protected string GetCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         if (Convert.ToInt32(ViewState["AccountID"]) > 0)
-            str = str + "" + ViewState["AccountID"] + " and ";
+            stringQuery = stringQuery + "" + ViewState["AccountID"] + " and ";
         else
-            str = str + "" + identity.User.AccountID.ToString() + " and ";
+            stringQuery = stringQuery + "" + identity.User.AccountID.ToString() + " and ";
 
         if (ddlQuestionnaire.SelectedIndex > 0)
-            str = str + "[QSTNName] = '" + ddlQuestionnaire.SelectedItem.Text.Trim() + "' and ";
+            stringQuery = stringQuery + "[QSTNName] = '" + ddlQuestionnaire.SelectedItem.Text.Trim() + "' and ";
 
         if (ddlQuestionType.SelectedIndex > 0)
-            str = str + "[Name] = '" + ddlQuestionType.SelectedItem.Text.Trim() + "' and ";
+            stringQuery = stringQuery + "[Name] = '" + ddlQuestionType.SelectedItem.Text.Trim() + "' and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
-
-
-
 }
