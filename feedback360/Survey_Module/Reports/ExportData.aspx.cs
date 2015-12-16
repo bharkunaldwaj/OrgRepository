@@ -1,29 +1,18 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Collections;
 using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
 using System.Text;
-using System.Collections.Generic;
-using System.IO;
-using System.Drawing.Text;
-using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
-using System.Linq;
 
 public partial class Module_Reports_ExportData : CodeBehindBase
 {
-
     #region Globalvariable
-
     string LogFilePath = string.Empty;
     //string mimeType;
     //string encoding;
@@ -33,12 +22,12 @@ public partial class Module_Reports_ExportData : CodeBehindBase
     string defaultFileName = string.Empty;
     //Warning[] warnings;
     WADIdentity identity;
-    Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-    Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
-    Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
+    Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
+    Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
+    Survey_AccountUser_BAO accountUseBusinessAccessObject = new Survey_AccountUser_BAO();
     Survey_AssignQstnParticipant_BAO assignquestionnaire = new Survey_AssignQstnParticipant_BAO();
-    Survey_ReportManagement_BAO reportManagement_BAO = new Survey_ReportManagement_BAO();
-    Survey_ReportManagement_BE reportManagement_BE = new Survey_ReportManagement_BE();
+    Survey_ReportManagement_BAO reportManagementBusinessAccessObject = new Survey_ReportManagement_BAO();
+    Survey_ReportManagement_BE reportManagementBusinesEntity = new Survey_ReportManagement_BE();
 
 
     DataTable dtCompanyName;
@@ -66,44 +55,38 @@ public partial class Module_Reports_ExportData : CodeBehindBase
 
     public bool noData;
 
-    Survey_Category_BAO category_BAO = new Survey_Category_BAO();
-    Survey_Category_BE category_BE = new Survey_Category_BE();
-    Account_BAO account_BAO = new Account_BAO();
-
-
+    Survey_Category_BAO categoryBusinessAccessObject = new Survey_Category_BAO();
+    //Survey_Category_BE category_BE = new Survey_Category_BE();
+    Account_BAO accountBusinessAccessObject = new Account_BAO();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
 
     //int reportCount = 0;
     //string pageNo = "";
-
     #endregion
 
     protected void Page_Load(object sender, EventArgs e)
     {
         try
         {
-
-            //  noData = true;
-            Label ll = (Label)this.Master.FindControl("Current_location");
-            ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+            Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+            labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
             //HandleWriteLog("Start", new StackTrace(true));
             identity = this.Page.User.Identity as WADIdentity;
-
-
 
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
 
-
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                //Get all account details in a user account id.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
                 ddlAccountCode.SelectedValue = "0";
 
+                //If user ia super admin then GroupID = 1 then show acount detals section else hide.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -116,16 +99,12 @@ public partial class Module_Reports_ExportData : CodeBehindBase
                     ddlAccountCode.SelectedValue = identity.User.AccountID.ToString();
                     ddlAccountCode_SelectedIndexChanged(sender, e);
                 }
-
-
-
                 //DataTable get_different_data;
                 //get_different_data = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                 //ddlProject.DataSource = get_different_data;
                 //ddlProject.DataValueField = "ProjectID";
                 //ddlProject.DataTextField = "Title";
                 //ddlProject.DataBind();
-
             }
         }
         catch (Exception ex)
@@ -135,99 +114,102 @@ public partial class Module_Reports_ExportData : CodeBehindBase
     }
 
     #region ReportMethods
-
-
-
+    /// <summary>
+    /// Export date by categoy and questions.
+    /// </summary>
     protected void btnExport()
     {
-
         string AccountID = ddlAccountCode.SelectedValue;
         string ProjectID = ddlProject.SelectedValue;
         string CompanyId = ddlCompany.SelectedValue;
         string ProgramID = ddlProgramme.SelectedValue;
         string Analysis = DDList_analysis.SelectedItem.Text;
 
+        Survey_ReportManagement_BAO CategoryBusinessAccessObject = new Survey_ReportManagement_BAO();
+        reportManagementBusinesEntity.ddlAccountCode = ddlAccountCode.SelectedValue;
+        reportManagementBusinesEntity.ddlProgramme = ddlProgramme.SelectedValue;
+        reportManagementBusinesEntity.DDList_analysis = DDList_analysis.SelectedItem.Text.Trim();
 
-        Survey_ReportManagement_BAO Sur_GetCategory = new Survey_ReportManagement_BAO();
-        reportManagement_BE.ddlAccountCode = ddlAccountCode.SelectedValue;
-        reportManagement_BE.ddlProgramme = ddlProgramme.SelectedValue;
-        reportManagement_BE.DDList_analysis = DDList_analysis.SelectedItem.Text.Trim();
-
-        DataTable dt_ana = new DataTable();
-        reportManagement_BE.SelectFlag = "A";
-        dt_ana = Sur_GetCategory.Sur_GetCategory_or_analysis(reportManagement_BE);
+        DataTable dataTableAnalysis = new DataTable();
+        reportManagementBusinesEntity.SelectFlag = "A";
+        dataTableAnalysis = CategoryBusinessAccessObject.Sur_GetCategory_or_analysis(reportManagementBusinesEntity);
         // string str = dt_ana.Rows[0][1].ToString();
-        DataTable dtfinal = new DataTable();
+        DataTable dataTablefinal = new DataTable();
         // dtfinal = null;
         string filename = "";
         int iCnt = 0;
-        for (int i = 0; i < dt_ana.Rows.Count; i++)
+        for (int i = 0; i < dataTableAnalysis.Rows.Count; i++)
         {
-            DataTable dtExportData = new DataTable();
+            DataTable dataTableExportData = new DataTable();
+            //If export by actegory
             if (ddlExportType.SelectedValue == "C")
             {
                 //dtExportData = reportManagement_BAO.list_data_by_category(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlProgramme.SelectedValue, DDList_analysis.SelectedValue.ToString(), dt_ana.Rows[i][1].ToString());
-                dtExportData = reportManagement_BAO.list_data_by_category(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, dt_ana.Rows[i][4].ToString(), dt_ana.Rows[i][1].ToString());
+                dataTableExportData = reportManagementBusinessAccessObject.list_data_by_category(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, dataTableAnalysis.Rows[i][4].ToString(), dataTableAnalysis.Rows[i][1].ToString());
                 filename = "DataByCategory.xls";
             }
             else
             {
-                DataTable dtQuestion = new DataTable();
+                //Export by question.
+                DataTable dataTableQuestion = new DataTable();
                 //dtExportData = Sur_GetCategory.list_data_by_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlProgramme.SelectedValue, DDList_analysis.SelectedValue.ToString(), dt_ana.Rows[i][1].ToString());
-                dtExportData = Sur_GetCategory.list_data_by_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, dt_ana.Rows[i][4].ToString(), dt_ana.Rows[i][1].ToString());
+                dataTableExportData = CategoryBusinessAccessObject.list_data_by_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, dataTableAnalysis.Rows[i][4].ToString(), dataTableAnalysis.Rows[i][1].ToString());
                 filename = "DataByQuestion.xls";
 
-                dtExportData.Columns.Remove("QuestionID");
+                dataTableExportData.Columns.Remove("QuestionID");
                 DataColumn dc = new DataColumn("QuestionID");
-                dtExportData.Columns.Add(dc);
-                dtExportData.Columns["QuestionID"].SetOrdinal(0);
+                dataTableExportData.Columns.Add(dc);
+                dataTableExportData.Columns["QuestionID"].SetOrdinal(0);
 
-                for (int j = 0; j < dtExportData.Rows.Count; j++)
+                for (int j = 0; j < dataTableExportData.Rows.Count; j++)
                 {
-                    dtExportData.Rows[j][0] = "Q" + (j + 1).ToString();
-
+                    dataTableExportData.Rows[j][0] = "Q" + (j + 1).ToString();
                 }
             }
-            if (dtExportData != null && dtExportData.Rows.Count > 0)
+
+            if (dataTableExportData != null && dataTableExportData.Rows.Count > 0)
             {
                 iCnt++;
-                DataTable dtbyCat = new DataTable();
-                dtbyCat = GenerateTransposedTable(dtExportData);
-                if (ddlExportType.SelectedValue == "C")
-                    dtbyCat.Columns.Remove("CategoryName");
-                else
-                    dtbyCat.Columns.Remove("QuestionID");
+                DataTable dataTablebyCatategory = new DataTable();
 
-                dtbyCat.Columns.Add(" ");
-                dtbyCat.Columns[" "].SetOrdinal(0);
-                dtbyCat.Rows[0][" "] = dt_ana.Rows[i][1].ToString();
+                dataTablebyCatategory = GenerateTransposedTable(dataTableExportData);
+
+                if (ddlExportType.SelectedValue == "C")
+                    dataTablebyCatategory.Columns.Remove("CategoryName");
+                else
+                    dataTablebyCatategory.Columns.Remove("QuestionID");
+
+                dataTablebyCatategory.Columns.Add(" ");
+                dataTablebyCatategory.Columns[" "].SetOrdinal(0);
+                dataTablebyCatategory.Rows[0][" "] = dataTableAnalysis.Rows[i][1].ToString();
+
                 if (iCnt == 1)
                 {
-                    dtfinal = dtbyCat.Copy();
+                    dataTablefinal = dataTablebyCatategory.Copy();
                 }
                 else
                 {
-                    foreach (DataRow dc in dtbyCat.Rows)
+                    foreach (DataRow dataRowCategory in dataTablebyCatategory.Rows)
                     {
-                        dtfinal.ImportRow(dc);
+                        dataTablefinal.ImportRow(dataRowCategory);
                     }
                 }
             }
         }
-
+        //To export by category
         if (ddlExportType.SelectedValue == "C")
         {
 
             // --> 1.0.0.1.3 [Export data]
-            DataTable Full_Programme_Group_by_category = reportManagement_BAO.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cp");
+            DataTable Full_Programme_Group_by_category = reportManagementBusinessAccessObject.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cp");
             Full_Programme_Group_by_category = GenerateTransposedTable(Full_Programme_Group_by_category);
-            if (dtfinal != null && dtfinal.Rows.Count > 0)
+            if (dataTablefinal != null && dataTablefinal.Rows.Count > 0)
             {
                 foreach (DataRow dc in Full_Programme_Group_by_category.Rows)
                 {
-                    dtfinal.ImportRow(dc);
+                    dataTablefinal.ImportRow(dc);
                 }
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Programme Average";
+                dataTablefinal.Rows[dataTablefinal.Rows.Count - 1][0] = "Programme Average";
                 noData = true;
                 lbl_no_data_to_export_message.Text = "";
             }
@@ -235,111 +217,94 @@ public partial class Module_Reports_ExportData : CodeBehindBase
             {
 
                 DataColumn dc = new DataColumn("No Row Found");
-                dtfinal.Columns.Add(dc);
-                DataRow dr = dtfinal.NewRow();
+                dataTablefinal.Columns.Add(dc);
+                DataRow dr = dataTablefinal.NewRow();
                 dr[0] = "";
-                dtfinal.Rows.Add(dr);
-                dtfinal.AcceptChanges();
+                dataTablefinal.Rows.Add(dr);
+                dataTablefinal.AcceptChanges();
             }
 
 
             // noData = true;
             lbl_no_data_to_export_message.Text = "";
-            DataTable Full_Project_Group_by_category = reportManagement_BAO.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cf");
+            DataTable Full_Project_Group_by_category = reportManagementBusinessAccessObject.get_final_report_data(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "cf");
+
             Full_Project_Group_by_category = GenerateTransposedTable(Full_Project_Group_by_category);
-            if (dtfinal != null && dtfinal.Rows.Count > 0)
+
+            if (dataTablefinal != null && dataTablefinal.Rows.Count > 0)
             {
                 foreach (DataRow dc in Full_Project_Group_by_category.Rows)
                 {
-                    dtfinal.ImportRow(dc);
+                    dataTablefinal.ImportRow(dc);
                 }
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Full Project Group";
+                dataTablefinal.Rows[dataTablefinal.Rows.Count - 1][0] = "Full Project Group";
                 noData = true;
                 lbl_no_data_to_export_message.Text = "";
-
             }
             else
             {
-
                 DataColumn dc = new DataColumn("No Row Found");
-                dtfinal.Columns.Add(dc);
-                DataRow dr = dtfinal.NewRow();
+                dataTablefinal.Columns.Add(dc);
+                DataRow dr = dataTablefinal.NewRow();
                 dr[0] = "";
-                dtfinal.Rows.Add(dr);
-                dtfinal.AcceptChanges();
-
+                dataTablefinal.Rows.Add(dr);
+                dataTablefinal.AcceptChanges();
                 // noData = false;
                 //  return;
             }
-
-            
-
             // [Export data] 1.0.0.1.3 <--
         }
-
+        //To export by Question
         if (ddlExportType.SelectedValue == "Q")
         {
-
             // --> 1.0.0.1.3 [Data Export]
-
-            DataTable Programme_Group_qf_or_qg = reportManagement_BAO.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qp");
+            DataTable Programme_Group_qf_or_qg = reportManagementBusinessAccessObject.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qp");
             Programme_Group_qf_or_qg = GenerateTransposedTable(Programme_Group_qf_or_qg);
-            if (dtfinal != null && dtfinal.Rows.Count > 0)
+
+            if (dataTablefinal != null && dataTablefinal.Rows.Count > 0)
             {
-                dtfinal.Rows.Add(Programme_Group_qf_or_qg.Rows[0].ItemArray);
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Programme Average";
+                dataTablefinal.Rows.Add(Programme_Group_qf_or_qg.Rows[0].ItemArray);
+                dataTablefinal.Rows[dataTablefinal.Rows.Count - 1][0] = "Programme Average";
             }
             else
             {
                 DataColumn dc = new DataColumn("No Row Found");
-                dtfinal.Columns.Add(dc);
-                DataRow dr = dtfinal.NewRow();
+                dataTablefinal.Columns.Add(dc);
+                DataRow dr = dataTablefinal.NewRow();
                 dr[0] = "";
-                dtfinal.Rows.Add(dr);
-                dtfinal.AcceptChanges();
+                dataTablefinal.Rows.Add(dr);
+                dataTablefinal.AcceptChanges();
             }
-
             // 1.0.0.1.3 [Data Export] <--
-
-
-            // noData = true;
-            DataTable Project_Group_qf_or_qg = reportManagement_BAO.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qf");
+            // noData = true; Full Project Group
+            DataTable Project_Group_qf_or_qg = reportManagementBusinessAccessObject.get_final_report_data_for_question(ddlAccountCode.SelectedValue, ddlProject.SelectedValue, ddlCompany.SelectedValue, ddlProgramme.SelectedValue, "qf");
             Project_Group_qf_or_qg = GenerateTransposedTable(Project_Group_qf_or_qg);
-            if (dtfinal != null && dtfinal.Rows.Count > 0)
-            {
-                dtfinal.Rows.Add(Project_Group_qf_or_qg.Rows[0].ItemArray);
-                dtfinal.Rows[dtfinal.Rows.Count - 1][0] = "Full Project Group";
 
+            if (dataTablefinal != null && dataTablefinal.Rows.Count > 0)
+            {
+                dataTablefinal.Rows.Add(Project_Group_qf_or_qg.Rows[0].ItemArray);
+                dataTablefinal.Rows[dataTablefinal.Rows.Count - 1][0] = "Full Project Group";
             }
             else
             {
-
                 DataColumn dc = new DataColumn("No Row Found");
-                dtfinal.Columns.Add(dc);
-                DataRow dr = dtfinal.NewRow();
+                dataTablefinal.Columns.Add(dc);
+                DataRow dr = dataTablefinal.NewRow();
                 dr[0] = "";
-                dtfinal.Rows.Add(dr);
-                dtfinal.AcceptChanges();
-
+                dataTablefinal.Rows.Add(dr);
+                dataTablefinal.AcceptChanges();
                 //   lbl_no_data_to_export_message.Text = "There is no data to export.";
                 //    return;
             }
-
-            
         }
-
-
-
         //if (noData == false)
         //{
         //    lbl_no_data_to_export_message.Text = "There is no data to export.";
         //    return;
         //}
 
-
-        GridView1.DataSource = dtfinal;
+        GridView1.DataSource = dataTablefinal;
         GridView1.DataBind();
-
 
         var rows = GridView1.Rows;
 
@@ -347,9 +312,10 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         {
             row.Cells[0].Font.Bold = true;
         }
+
         GridViewRow gvr = new GridViewRow(0, 0, DataControlRowType.Header, DataControlRowState.Normal);
         TableCell tbCell = new TableCell();
-        tbCell.ColumnSpan = dtfinal.Columns.Count;
+        tbCell.ColumnSpan = dataTablefinal.Columns.Count;
         tbCell.Text = "<b>Project: " + ddlProject.SelectedItem.Text + "<br>Company: " + ddlCompany.SelectedItem.Text + "<br>Program: " + ddlProgramme.SelectedItem.Text + "<br>Analysis By: " + DDList_analysis.SelectedItem.Text + "</b>";
         tbCell.Attributes.Add("style", "text-align:center");
         gvr.Cells.Add(tbCell);
@@ -370,7 +336,7 @@ public partial class Module_Reports_ExportData : CodeBehindBase
             }
         }
 
-
+        //Download.
         Response.AppendHeader("Content-Type", "application/octet-stream");
         Response.AppendHeader("Content-disposition", "attachment; filename=" + filename);
         Response.Charset = "";
@@ -380,55 +346,55 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         System.Web.UI.HtmlTextWriter htmlWrite = new HtmlTextWriter(stringWrite);
         HttpContext.Current.Response.Write(style);
 
-
-
         HtmlForm frm = new HtmlForm();
         this.GridView1.Parent.Controls.Add(frm);
         frm.Attributes["runat"] = "server";
         frm.Controls.Add(this.GridView1);
         frm.RenderControl(htmlWrite);
 
-
         Response.Write(stringWrite.ToString());
         Response.End();
     }
     #endregion
 
-
-
-
+    /// <summary>
+    /// Bind project in an account
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         DDList_analysis.Items.Clear();
         DDList_analysis.Items.Insert(0, new ListItem("Select", "0"));
         ResetControls();
+
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
-
+            //Set account id
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
             Account_BAO account_BAO = new Account_BAO();
+            //Get account details
             dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-
             DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataTable dataTableAccount = dtCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //set company name
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             if (ddlAccountCode.SelectedIndex > 0)
             {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+                //get project list by comany code and bind project dropdown
+                DataTable dataTableProjectlist = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
-                if (dtprojectlist.Rows.Count > 0)
+                if (dataTableProjectlist.Rows.Count > 0)
                 {
                     ddlProject.Items.Clear();
                     ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
-                    ddlProject.DataSource = dtprojectlist;
+                    ddlProject.DataSource = dataTableProjectlist;
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataBind();
@@ -446,22 +412,26 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Bind all program in a project
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlExportType.SelectedValue = "0";
-        Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
+        Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
+        Survey_Company_BAO companyBusinessAccessObject = new Survey_Company_BAO();
 
-
-        Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-        var dt = company_BAO.GetdtCompanyList(GetCompanyCondition());
+        //get all company  and bind company dropdown
+        var dataTableCompany = companyBusinessAccessObject.GetdtCompanyList(GetCompanyCondition());
         // ddlCompany.Items.Clear();
         ddlCompany.Items.Clear();
         ddlCompany.Items.Insert(0, new ListItem("Select", "0"));
-        ddlCompany.DataSource = dt;
+        ddlCompany.DataSource = dataTableCompany;
         ddlCompany.DataValueField = "CompanyID";
         ddlCompany.DataTextField = "Title";
         ddlCompany.DataBind();
-
 
         ddlProgramme.Items.Clear();
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
@@ -470,9 +440,13 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         //ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
     }
 
+    /// <summary>
+    /// Generate dynamic query.
+    /// </summary>
+    /// <returns></returns>
     public string GetCompanyCondition()
     {
-        string str = "";
+        string stringQuery = "";
 
         //if (Convert.ToInt32(ViewState["AccountID"]) > 0)
         //    str = str + "" + ViewState["AccountID"] + " and ";
@@ -480,27 +454,33 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         //    str = str + "" + identity.User.AccountID.ToString() + " and ";
 
         if (ddlAccountCode.SelectedIndex > 0)
-            str = str + "" + ddlAccountCode.SelectedValue + " and ";
+            stringQuery = stringQuery + "" + ddlAccountCode.SelectedValue + " and ";
 
         if (ddlProject.SelectedIndex > 0)
-            str = str + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
+            stringQuery = stringQuery + "Survey_Project.[ProjectID] = " + ddlProject.SelectedValue + " and ";
 
-        string param = str.Substring(0, str.Length - 4);
+        string param = stringQuery.Substring(0, stringQuery.Length - 4);
 
         return param;
     }
 
+    /// <summary>
+    ///  Export  category and question data
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbExport_Click(object sender, ImageClickEventArgs e)
     {
         btnExport();
     }
 
+    /// <summary>
+    /// Reset controls value
+    /// </summary>
     protected void ResetControls()
     {
-
         //ddlExportType.Items.Clear();
         //ddlExportType.Items.Insert(0, new ListItem("Select", "0"));
-
         ddlProject.Items.Clear();
         ddlProject.Items.Insert(0, new ListItem("Select", "0"));
 
@@ -511,12 +491,23 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         ddlCompany.Items.Insert(0, new ListItem("Select", "0"));
     }
 
+    /// <summary>
+    /// Bind  analysis type in program.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
         ddlExportType.SelectedValue = "0";
         FillAnalysis();
     }
+
+    /// <summary>
+    /// Generate table for category and question type.
+    /// </summary>
+    /// <param name="inputTable"></param>
+    /// <returns></returns>
     private DataTable GenerateTransposedTable(DataTable inputTable)
     {
         DataTable outputTable = new DataTable();
@@ -551,48 +542,61 @@ public partial class Module_Reports_ExportData : CodeBehindBase
         return outputTable;
     }
 
+    /// <summary>
+    /// Bind program in a comany
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlCompany_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlProgramme.Items.Clear();
-        DataTable dtProgramme1 = new DataTable();
-        dtProgramme1 = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), Convert.ToInt32(ddlCompany.SelectedValue),0);
+        DataTable dataTableProgramme = new DataTable();
+        //Get all program in a project and bind progrma dropdown
+        dataTableProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), Convert.ToInt32(ddlCompany.SelectedValue), 0);
 
-        if (dtProgramme1.Rows.Count > 0)
+        if (dataTableProgramme.Rows.Count > 0)
         {
-            ddlProgramme.DataSource = dtProgramme1;
+            //bind progrma dropdown
+            ddlProgramme.DataSource = dataTableProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
             ddlProgramme.DataBind();
         }
 
         ddlProgramme.Items.Insert(0, new ListItem("Select", "0"));
+
         if (ddlProgramme.Items.Count > 1)
             ddlProgramme.Items[1].Selected = true;
 
+        //Fill analysis type drop down.
         FillAnalysis();
-
     }
 
+    /// <summary>
+    /// Fill analysis type drop down
+    /// </summary>
     private void FillAnalysis()
     {
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), Convert.ToInt32(ddlCompany.SelectedValue), Convert.ToInt32(ddlProgramme.SelectedValue));
+        DataTable dataTableProgramme = new DataTable();
+        //Get all program and insert analysis type
+        dataTableProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue),
+            Convert.ToInt32(ddlCompany.SelectedValue), Convert.ToInt32(ddlProgramme.SelectedValue));
 
-        if (dtProgramme != null && dtProgramme.Rows.Count > 0)
+        if (dataTableProgramme != null && dataTableProgramme.Rows.Count > 0)
         {
-
-            if (dtProgramme.Rows[0]["Analysis_I_Name"] != null && dtProgramme.Rows[0]["Analysis_II_Name"] != null && dtProgramme.Rows[0]["Analysis_III_Name"] != null)
+            if (dataTableProgramme.Rows[0]["Analysis_I_Name"] != null && dataTableProgramme.Rows[0]["Analysis_II_Name"] != null && dataTableProgramme.Rows[0]["Analysis_III_Name"] != null)
             {
-                String[] analysis_data = new String[3] { dtProgramme.Rows[0]["Analysis_I_Name"].ToString(), dtProgramme.Rows[0]["Analysis_II_Name"].ToString(), dtProgramme.Rows[0]["Analysis_III_Name"].ToString() };
+                String[] analysis_data = new String[3] { dataTableProgramme.Rows[0]["Analysis_I_Name"].ToString(), dataTableProgramme.Rows[0]["Analysis_II_Name"].ToString(), dataTableProgramme.Rows[0]["Analysis_III_Name"].ToString() };
 
                 DDList_analysis.Items.Clear();
                 DDList_analysis.Items.Insert(0, new ListItem("Select", "0"));
-                if (!string.IsNullOrEmpty(Convert.ToString(dtProgramme.Rows[0]["Analysis_I_Name"]).Trim()))
-                    DDList_analysis.Items.Insert(1, new ListItem(dtProgramme.Rows[0]["Analysis_I_Name"].ToString(), "Analysis_I"));
-                if (!string.IsNullOrEmpty(Convert.ToString(dtProgramme.Rows[0]["Analysis_II_Name"]).Trim()))
-                    DDList_analysis.Items.Insert(2, new ListItem(dtProgramme.Rows[0]["Analysis_II_Name"].ToString(), "Analysis_II"));
-                if (!string.IsNullOrEmpty(Convert.ToString(dtProgramme.Rows[0]["Analysis_III_Name"]).Trim()))
-                    DDList_analysis.Items.Insert(3, new ListItem(dtProgramme.Rows[0]["Analysis_III_Name"].ToString(), "Analysis_III"));
+
+                if (!string.IsNullOrEmpty(Convert.ToString(dataTableProgramme.Rows[0]["Analysis_I_Name"]).Trim()))
+                    DDList_analysis.Items.Insert(1, new ListItem(dataTableProgramme.Rows[0]["Analysis_I_Name"].ToString(), "Analysis_I"));
+                if (!string.IsNullOrEmpty(Convert.ToString(dataTableProgramme.Rows[0]["Analysis_II_Name"]).Trim()))
+                    DDList_analysis.Items.Insert(2, new ListItem(dataTableProgramme.Rows[0]["Analysis_II_Name"].ToString(), "Analysis_II"));
+                if (!string.IsNullOrEmpty(Convert.ToString(dataTableProgramme.Rows[0]["Analysis_III_Name"]).Trim()))
+                    DDList_analysis.Items.Insert(3, new ListItem(dataTableProgramme.Rows[0]["Analysis_III_Name"].ToString(), "Analysis_III"));
 
                 //DDList_analysis.DataSource = analysis_data;
                 //DDList_analysis.DataTextField = "";
@@ -605,6 +609,4 @@ public partial class Module_Reports_ExportData : CodeBehindBase
             DDList_analysis.Items.Insert(0, new ListItem("Select", "0"));
         }
     }
-
-
 }

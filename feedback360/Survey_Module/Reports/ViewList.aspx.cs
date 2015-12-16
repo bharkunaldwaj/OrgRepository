@@ -2,38 +2,25 @@
 using System.Data;
 using System.Configuration;
 using System.Collections;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Text;
 using System.Collections.Generic;
 using System.IO;
-using System.Drawing.Text;
 using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
 using System.Linq;
-using System.Web.UI.DataVisualization.Charting;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.ComponentModel;
-using System.Web.SessionState;
 using ICSharpCode.SharpZipLib.Zip;
-using System.Net;
 using iTextSharp.text.pdf;
 using iTextSharp.text;
 using System.Diagnostics;
 
-
 public partial class Module_Reports_ViewList : CodeBehindBase
 {
     #region Globalvariable
-
+    //Global variable
     string LogFilePath = string.Empty;
     string mimeType;
     string encoding;
@@ -43,54 +30,55 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     string defaultFileName = string.Empty;
     Warning[] warnings;
     WADIdentity identity;
-    Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-    Survey_Company_BAO company_BAO = new Survey_Company_BAO();
-    Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
-    Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
+
+    Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
+    Survey_Company_BAO companyBusinessAccessObject = new Survey_Company_BAO();
+    Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
+    Survey_AccountUser_BAO accountUserBusinessAccessObject = new Survey_AccountUser_BAO();
     Survey_AssignQstnParticipant_BAO assignquestionnaire = new Survey_AssignQstnParticipant_BAO();
-    Survey_ReportManagement_BAO reportManagement_BAO = new Survey_ReportManagement_BAO();
+    Survey_ReportManagement_BAO reportManagementBusinessAccessObject = new Survey_ReportManagement_BAO();
     Survey_ReportManagement_BE reportManagement_BE = new Survey_ReportManagement_BE();
-    Survey_AssignQstnParticipant_BAO assignQstnParticipant_BAO = new Survey_AssignQstnParticipant_BAO();
+    Survey_AssignQstnParticipant_BAO assignQstnParticipantBusinessAccessObject = new Survey_AssignQstnParticipant_BAO();
 
-    DataTable dtCompanyName;
-    DataTable dtGroupList;
-    DataTable dtSelfName;
-    DataTable dtReportsID;
-    string strGroupList;
-    string strFrontPage;
-    string strReportIntroduction;
-    string strConclusionPage;
-    string strRadarChart;
-    string strPageHeadingColor;
-    string strDetailedQst;
-    string strCategoryQstlist;
-    string strCategoryBarChart;
-    string strSelfNameGrp;
-    string strProgrammeGrp;
-    string strReportName;
+    DataTable dataTableCompanyName;
+    DataTable dataTableGroupList;
+    DataTable dataTableSelfName;
+    DataTable dataTableReportsID;
+    string stringGroupList;
+    string stringFrontPage;
+    string stringReportIntroduction;
+    string stringConclusionPage;
+    string stringRadarChart;
+    string stringPageHeadingColor;
+    string stringDetailedQst;
+    string stringCategoryQstlist;
+    string stringCategoryBarChart;
+    string stringSelfNameGrp;
+    string stringProgrammeGrp;
+    string stringReportName;
 
-    string strConclusionHeading;
+    string stringConclusionHeading;
 
     string targetradarname = string.Empty;
     string targetradarPreviousScore = string.Empty;
     string targetradarBenchmark = string.Empty;
-    string strConHighLowRange;
-    string strReportType = string.Empty;
-    string strPreScoreVisibility = string.Empty;
-    string strStaticBarLabelVisibility = string.Empty;
-    string strBenchMarkGrpVisibility = string.Empty;
-    string strBenchMarkVisibility = string.Empty;
-    string strBenchConclusionPageVisibility = string.Empty;
+    string stringConHighLowRange;
+    string stringReportType = string.Empty;
+    string stringPreScoreVisibility = string.Empty;
+    string stringStaticBarLabelVisibility = string.Empty;
+    string stringBenchMarkGrpVisibility = string.Empty;
+    string stringBenchMarkVisibility = string.Empty;
+    string stringBenchConclusionPageVisibility = string.Empty;
 
 
-    string strProjectID;
-    string strAccountID;
-    string strProgrammeID;
-    string strAdmin;
+    string stringProjectID;
+    string stringAccountID;
+    string stringProgrammeID;
+    string stringAdmin;
     int rptCandidateCount = 0;
 
-    Survey_Category_BAO category_BAO = new Survey_Category_BAO();
-    Survey_Category_BE category_BE = new Survey_Category_BE();
+    Survey_Category_BAO categoryBusinessAccessObject = new Survey_Category_BAO();
+    Survey_Category_BE categoryBusinessEntity = new Survey_Category_BE();
 
     Int32 pageSize = Convert.ToInt32(ConfigurationManager.AppSettings["GridPageSize"]);
     Int32 pageDispCount = Convert.ToInt32(ConfigurationManager.AppSettings["PageDisplayCount"]);
@@ -104,18 +92,17 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     //string participantName;
     #endregion
 
-    protected System.Web.UI.WebControls.Label Label1;
-    protected System.Web.UI.WebControls.Label Label2;
-    protected System.Web.UI.WebControls.Label Label3;
-    protected System.Web.UI.WebControls.DropDownList ExplodedPointList;
-    protected System.Web.UI.WebControls.Label Label4;
-    protected System.Web.UI.WebControls.DropDownList HoleSizeList;
+    protected Label Label1;
+    protected Label Label2;
+    protected Label Label3;
+    protected DropDownList ExplodedPointList;
+    protected Label Label4;
+    protected DropDownList HoleSizeList;
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
         identity = this.Page.User.Identity as WADIdentity;
-        int? grpID = Identity.User.GroupID;
+        int? groupID = Identity.User.GroupID;
 
         //AssignQuestionnaire_BAO survey_chk_user = new AssignQuestionnaire_BAO();
         //DataTable ddd = survey_chk_user.chk_user_authority(grpID, 43);
@@ -124,32 +111,31 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //    Response.Redirect("../../UnAuthorized.aspx");
         //}
 
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
-        Label ll = (Label)this.Master.FindControl("Current_location");
-        ll.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
         try
         {
             System.GC.Collect();
 
             identity = this.Page.User.Identity as WADIdentity;
 
-
+            //Handle paging in grid
             ManagePaging();
-
-
 
             if (!IsPostBack)
             {
                 identity = this.Page.User.Identity as WADIdentity;
 
-                Account_BAO account_BAO = new Account_BAO();
-                ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+                Account_BAO accountBusinessAccessObject = new Account_BAO();
+                //Bind account drop down by user account id.
+                ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
                 ddlAccountCode.DataValueField = "AccountID";
                 ddlAccountCode.DataTextField = "Code";
                 ddlAccountCode.DataBind();
                 ddlAccountCode.SelectedValue = "0";
 
-
+                //If user is super Admin then bind reminder grid with account id=1 else user account id.
                 if (identity.User.GroupID == 1)
                 {
                     divAccount.Visible = true;
@@ -163,33 +149,35 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     ddlAccountCode_SelectedIndexChanged(sender, e);
                 }
 
-               
-                Survey_Project_BAO project_BAO = new Survey_Project_BAO();
+                Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
 
                 string participantRoleId = ConfigurationManager.AppSettings["ParticipantRoleID"].ToString();
                 string managerRoleId = ConfigurationManager.AppSettings["ManagerRoleID"].ToString();
-
+                //If user group is Participant
                 if (identity.User.GroupID == Convert.ToInt32(participantRoleId))
                 {
-                    ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                    //Bind project by user account id.
+                    ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataBind();
 
                     ViewState["strAdmin"] = "N";
 
-
-                    Survey_AssignQuestionnaire_BAO assignQuestionnaire_BAO = new Survey_AssignQuestionnaire_BAO();
+                    Survey_AssignQuestionnaire_BAO assignQuestionnaireBusinessAccessObject = new Survey_AssignQuestionnaire_BAO();
                     DataTable dtParticipantInfo = new DataTable();
-                    dtParticipantInfo = assignQuestionnaire_BAO.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
+                    //Get all participant in a project .
+                    dtParticipantInfo = assignQuestionnaireBusinessAccessObject.GetParticipantAssignmentInfo(Convert.ToInt32(identity.User.UserID));
                     if (dtParticipantInfo.Rows.Count > 0)
                         ddlProject.SelectedValue = dtParticipantInfo.Rows[0]["ProjecctID"].ToString();
 
                     DataTable dtProgramme = new DataTable();
-                    dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), 0, 0);
+                    //Get all program in a project and program drop down list.
+                    dtProgramme = programmeBusinessAccessObject.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), 0, 0);
 
                     if (dtProgramme.Rows.Count > 0)
                     {
+                        //Bind program drop down list.
                         ddlProgramme.DataSource = dtProgramme;
                         ddlProgramme.DataTextField = "ProgrammeName";
                         ddlProgramme.DataValueField = "ProgrammeID";
@@ -197,39 +185,40 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                         if (dtParticipantInfo.Rows.Count > 0)
                             ddlProgramme.SelectedValue = dtParticipantInfo.Rows[0]["ProgrammeID"].ToString();
                     }
-
+                    //If user group is Participant then project andprogram drop down is disable.
                     ddlProject.Enabled = false;
                     ddlProgramme.Enabled = false;
                 }
-                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))
+                else if (identity.User.GroupID == Convert.ToInt32(managerRoleId))//If Manager
                 {
                     ViewState["strAdmin"] = "N";
 
-
                     DataTable dtManagerProject = new DataTable();
-                    dtManagerProject = project_BAO.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
+                    //Get all Project by user account id
+                    dtManagerProject = projectBusinessAccessObject.GetManagerProject(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
 
                     if (dtManagerProject.Rows.Count > 0)
                     {
+                        //Bind project drop down.
                         ddlProject.DataSource = dtManagerProject;
                         ddlProject.DataValueField = "ProjectID";
                         ddlProject.DataTextField = "Title";
                         ddlProject.DataBind();
                     }
 
-                    DataTable dtManagerProgramme = new DataTable();
-                    dtManagerProgramme = project_BAO.GetManagerProgramme(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
+                    DataTable dataTableManagerProgramme = new DataTable();
 
+                    dataTableManagerProgramme = projectBusinessAccessObject.GetManagerProgramme(identity.User.Email, Convert.ToInt32(identity.User.AccountID));
                 }
                 else
                 {
-                    ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                    //Get all project by user account id and bind account dropdown
+                    ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataBind();
 
                     ViewState["strAdmin"] = "Y";
-
                 }
             }
         }
@@ -240,17 +229,31 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     }
 
     #region Radar Chart Method
-
+    /// <summary>
+    /// It's of No use
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void Radar(string strTargetPersonID, string strGroupList)
     {
 
     }
 
+    /// <summary>
+    /// It's of No use
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void RadarPreviousScore(string strTargetPersonID, string strGroupList)
     {
 
     }
 
+    /// <summary>
+    /// It's of No use
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
+    /// <param name="strGroupList"></param>
     public void RadarBenchMark(string strTargetPersonID)
     {
 
@@ -279,41 +282,42 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region Image Button Function
-
+    /// <summary>
+    /// Generate report .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
-       
-     
-
         string reportfilename = string.Empty;
         string root = Server.MapPath("~") + "\\ReportGenerate\\";
         string rootTemp = Server.MapPath("~") + "\\ReportGenerate\\" + Guid.NewGuid() + "\\";
         Directory.CreateDirectory(rootTemp);
         //rptGenerateLbl.Visible =true;
         //progress_circle.Visible = true;
-        if (identity!=null)
-            strAccountID = identity.User.AccountID.ToString();
+        if (identity != null)
+            stringAccountID = identity.User.AccountID.ToString();
         if (Convert.ToString(ViewState["prjid"]) != string.Empty)
-            strProjectID = Convert.ToString(ViewState["prjid"]);
+            stringProjectID = Convert.ToString(ViewState["prjid"]);
 
         if (Convert.ToString(ViewState["prgid"]) != string.Empty)
-            strProgrammeID = Convert.ToString(ViewState["prgid"]);
+            stringProgrammeID = Convert.ToString(ViewState["prgid"]);
 
 
-        if (strAccountID != null && strProjectID != null && strProgrammeID != null)
+        if (stringAccountID != null && stringProjectID != null && stringProgrammeID != null)
             reportfilename = btnExport("");
-
-        string fName = assignQstnParticipant_BAO.GetReportFileName(Convert.ToInt32(strAccountID), Convert.ToInt32(strProjectID), Convert.ToInt32(strProgrammeID));
+        //Get report file name
+        string fName = assignQstnParticipantBusinessAccessObject.GetReportFileName(Convert.ToInt32(stringAccountID), Convert.ToInt32(stringProjectID), Convert.ToInt32(stringProgrammeID));
         fName = reportfilename;
         try
         {
-            
+
 
             File.Copy(root + reportfilename, rootTemp + reportfilename);
             if (!string.IsNullOrEmpty(reportfilename) && !string.IsNullOrEmpty(fName))
-               fName= ProcessPdfFile(reportfilename, rootTemp, fName);
+                fName = ProcessPdfFile(reportfilename, rootTemp, fName);
 
-            
+
             if (File.Exists(rootTemp + fName))
             {
                 //write page number on footer
@@ -357,10 +361,16 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //  System.Threading.Thread.Sleep(5000);
     }
 
-
-    public string processIntroductionAndConclusion(string fName,string rootTemp)
+    /// <summary>
+    /// Insert conclusion and introduction page in pdf.
+    /// </summary>
+    /// <param name="fName"></param>
+    /// <param name="rootTemp"></param>
+    /// <returns></returns>
+    public string processIntroductionAndConclusion(string fName, string rootTemp)
     {
-        DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
+        //Get Report setting by project ID.
+        DataTable dtreportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
 
         if (dtreportsetting.Rows.Count > 0)
         {
@@ -369,8 +379,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             string ConclusionHeading = String.Empty;
             try
             {
+                //set introduction text
                 PageHeadingIntro = Convert.ToString(dtreportsetting.Rows[0]["PageHeadingIntro"]);
+                //Set page heading conclusion text
                 PageHeadingConclusionText = Convert.ToString(dtreportsetting.Rows[0]["PageHeadingConclusion"]);
+                //Set conclusion text
                 ConclusionHeading = Convert.ToString(dtreportsetting.Rows[0]["ConclusionHeading"]);
             }
             catch { }
@@ -387,11 +400,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             string companyTitle = string.Empty;
             try
             {
-                DataTable dtProgramme = programme_BAO.GetProgrammeByID(Convert.ToInt32(ddlProgramme.SelectedValue));
+                DataTable dtProgramme = programmeBusinessAccessObject.GetProgrammeByID(Convert.ToInt32(ddlProgramme.SelectedValue));
 
                 int intCompanyID = Convert.ToInt32(dtProgramme.Rows[0]["CompanyID"]);
-                List<Survey_Project_BE> survey_Project_BE = project_BAO.GetProjectByID(Convert.ToInt32(ddlAccountCode.SelectedValue.ToString()), Convert.ToInt32(ddlProject.SelectedValue));
-                List<Survey_Company_BE> Survey_Company_BE = company_BAO.GetCompanyByID(intCompanyID);
+                List<Survey_Project_BE> survey_Project_BE = projectBusinessAccessObject.GetProjectByID(Convert.ToInt32(ddlAccountCode.SelectedValue.ToString()), Convert.ToInt32(ddlProject.SelectedValue));
+                List<Survey_Company_BE> Survey_Company_BE = companyBusinessAccessObject.GetCompanyByID(intCompanyID);
 
                 if (dtProgramme != null && dtProgramme.Rows.Count > 0)
                 {
@@ -410,6 +423,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             catch { }
             if (ReportIntroduction == "1")
             {
+                //Generate introduction dynamically.
                 StringBuilder Introduction = new StringBuilder("<div style=\"font-size:18px;font-weight:bold;font-family:arial\">" + programmeTitle + "</div>");
                 Introduction.AppendLine("<div style=\"padding-top:10px\"></div>");
                 Introduction.AppendLine("<div style=\"border-top:1px solid #000\"></div>");
@@ -434,9 +448,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 Introduction.AppendLine(PageHeadingIntro);
                 Introduction.AppendLine("</div>");
 
+                //Convert HTML to pdf
                 string introFilePath = CreateReportImage(Introduction.ToString());
 
                 Guid guidIntro = Guid.NewGuid();
+                //Include the generated pdf at page number 2.
                 IncludePage(fName, rootTemp, introFilePath, guidIntro + ".pdf", 2, "R");
                 fName = guidIntro + ".pdf";
             }
@@ -452,7 +468,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
                 Conclusion.AppendLine(PageHeadingConclusionText);
                 Conclusion.AppendLine("</div>");
-
+                //Convert HTML to pdf
                 string conclusionFilePath = CreateReportImage(Conclusion.ToString());
                 Guid guidConlusion = Guid.NewGuid();
                 iTextSharp.text.pdf.PdfReader readerMain = new iTextSharp.text.pdf.PdfReader(rootTemp + "\\" + fName);
@@ -461,7 +477,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 readerMain.Close();
                 readerMain = null;
                 IncludePage(fName, rootTemp, conclusionFilePath, guidConlusion + ".pdf", nMain, "R");
-                //rootPath + sourceFile
+                //rootPath + sourceFile path
                 fName = guidConlusion + ".pdf";
             }
 
@@ -469,22 +485,26 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         return fName;
     }
 
-
-    public string  CreateReportImage(String HTML)
+    /// <summary>
+    /// It starts a service that convert HTMl to pdf.
+    /// </summary>
+    /// <param name="HTML"></param>
+    /// <returns></returns>
+    public string CreateReportImage(String HTML)
     {
-        string ReportHtmlPath = Server.MapPath("~")+ "\\ReportGenerate";
-
+        string ReportHtmlPath = Server.MapPath("~") + "\\ReportGenerate";
+        //Get service path.
         string HtmlToPdfPathExe = ConfigurationSettings.AppSettings["HtmlToPdfPathExe"];
-        
+
         Guid TempFolderID = Guid.NewGuid();
         Guid FileName = Guid.NewGuid();
         string tempFolder = ReportHtmlPath + "\\" + TempFolderID;
         if (!Directory.Exists(ReportHtmlPath + "\\" + TempFolderID))
             Directory.CreateDirectory(ReportHtmlPath + "\\" + TempFolderID);
         string FilePath = ReportHtmlPath + "\\" + TempFolderID + "\\" + FileName;
-      
-      
-        System.IO.File.WriteAllText(FilePath+ ".html", HTML);
+
+
+        System.IO.File.WriteAllText(FilePath + ".html", HTML);
         string str_Command = string.Empty;
 
         string ImageFileName = string.Format(@"{0}.pdf", FileName);
@@ -494,6 +514,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
         try
         {
+            //Start service
             ProcessStartInfo procStartInfo = new ProcessStartInfo("\"" + HtmlToPdfPathExe + "\\" + str_Command);
             procStartInfo.RedirectStandardOutput = true;
             procStartInfo.UseShellExecute = false;
@@ -503,54 +524,64 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             proc.Start();
             proc.WaitForExit();
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-         
+
         }
 
         return FilePath + ".pdf";
     }
 
-
-
+    /// <summary>
+    /// Perform pdf setting
+    /// </summary>
+    /// <param name="fileName">pdf file name</param>
+    /// <param name="root">pdf file path</param>
+    /// <param name="finalFileName">final pdf file name </param>
+    /// <returns></returns>
     private string ProcessPdfFile(string fileName, string root, string finalFileName)
     {
         try
         {
             string fnameTemp = finalFileName;
-
+            //set File path
             string uploadedFilePath = Server.MapPath("~") + "\\UploadDocs\\";
             string frontPageFilePath = string.Empty;//path of front page pdf which have to be inserted in Main report
             string fileNameWithFront = "F-" + finalFileName;//use to save file name which have front page inserted
             string PageHeading1 = "", PageHeading2 = "", PageHeading3 = "", PageHeadingColor = "", path = "";
-
-            DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
+            //Getreport setting by report id.
+            DataTable dtreportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
 
             if (dtreportsetting.Rows.Count > 0)
             {
+                //Set report setting , front page image
                 frontPageFilePath = Convert.ToString(dtreportsetting.Rows[0]["FrontPdfFileName"]);
+                //set Heading one
                 PageHeading1 = Convert.ToString(dtreportsetting.Rows[0]["PageHeading1"]);
+                //set Heading two
                 PageHeading2 = Convert.ToString(dtreportsetting.Rows[0]["PageHeading2"]);
+                //set Heading three
                 PageHeading3 = Convert.ToString(dtreportsetting.Rows[0]["PageHeading3"]);
+                //set Heading color
                 PageHeadingColor = Convert.ToString(dtreportsetting.Rows[0]["PageHeadingColor"]);
             }
 
             // --> 1.0.0.1 [Replacing the tokens with value]
-            DataTable dtProgramme = programme_BAO.GetProgrammeByID(Convert.ToInt32(ddlProgramme.SelectedValue));
+            DataTable dtProgramme = programmeBusinessAccessObject.GetProgrammeByID(Convert.ToInt32(ddlProgramme.SelectedValue));
             int intCompanyID = Convert.ToInt32(dtProgramme.Rows[0]["CompanyID"]);
             //List<Survey_Project_BE> survey_Project_BE = project_BAO.GetProjectByID(Convert.ToInt32(ddlAccountCode.SelectedValue.ToString()), Convert.ToInt32(ddlProject.SelectedValue));
-            List<Survey_Company_BE> Survey_Company_BE = company_BAO.GetCompanyByID(intCompanyID);
+            List<Survey_Company_BE> Survey_Company_BE = companyBusinessAccessObject.GetCompanyByID(intCompanyID);
 
             if (dtProgramme != null && dtProgramme.Rows.Count > 0)
             {
-                PageHeading3 = PageHeading3.Replace("[CLOSEDATE]", string.Format("{0:dd MMM yyyy}",dtProgramme.Rows[0]["EndDate"]));
+                PageHeading3 = PageHeading3.Replace("[CLOSEDATE]", string.Format("{0:dd MMM yyyy}", dtProgramme.Rows[0]["EndDate"]));
             }
-            if(Survey_Company_BE !=null)
+            if (Survey_Company_BE != null)
                 PageHeading2 = PageHeading2.Replace("[COMPANYNAME]", Survey_Company_BE[0].Title);
 
             // 1.0.0.1 [Replacing the tokens with value] <--
-            
-            
+
+
 
             //insertIntroduction and ConclusionPage
             fileName = processIntroductionAndConclusion(fileName, root);
@@ -564,9 +595,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     WriteContentToPdf(new FileInfo(uploadedFilePath + frontPageFilePath), PageHeading1, PageHeading2, PageHeading3, PageHeadingColor, 450f, out path);
                     IncludePage(fileName, root, path, fileNameWithFront, 1, "R");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                 
+
                 }
             }
 
@@ -616,6 +647,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         //List<int> x = ReadPdfFile(rootPath + "\\" + "PeterHart_106222.pdf", "The pay and benefits I receive fairly reflect the work I do");
     }
 
+    /// <summary>
+    /// Reset control with default value.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ResetControls();
@@ -624,34 +660,40 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region dropdown event
+    /// <summary>
+    /// Fill project an company details by account .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
         ResetControls();
+
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
             Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            //Get account conapmy details.
+            dataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //set company name.
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             if (ddlAccountCode.SelectedIndex > 0)
-            {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+            { //Get all project in a Account.
+                DataTable dataTableProjectlist = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
-                if (dtprojectlist.Rows.Count > 0)
+                if (dataTableProjectlist.Rows.Count > 0)
                 {
                     ddlProject.Items.Clear();
                     ddlProject.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Select", "0"));
-
-                    ddlProject.DataSource = dtprojectlist;
+                    //Bind project dropdown
+                    ddlProject.DataSource = dataTableProjectlist;
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataBind();
@@ -668,23 +710,31 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Fill Program in a project .
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
 
         ddlProgramme.Items.Clear();
-        DataTable dtProgramme = new DataTable();
-        dtProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), 0, 0);
+        DataTable dataTableProgramme = new DataTable();
+        //Get all program in a project.
+        dataTableProgramme = programme_BAO.GetProjectProgramme(Convert.ToInt32(ddlProject.SelectedValue), 0, 0);
 
-        if (dtProgramme.Rows.Count > 0)
+        if (dataTableProgramme.Rows.Count > 0)
         {
-            ddlProgramme.DataSource = dtProgramme;
+            //Bind program drop down.
+            ddlProgramme.DataSource = dataTableProgramme;
             ddlProgramme.DataTextField = "ProgrammeName";
             ddlProgramme.DataValueField = "ProgrammeID";
             ddlProgramme.DataBind();
         }
 
         ddlProgramme.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Select", "0"));
+
         if (ddlProgramme.Items.Count > 1)
             ddlProgramme.Items[1].Selected = true;
 
@@ -693,6 +743,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
     }
 
+    /// <summary>
+    /// save program value to viewstate.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProgramme_SelectedIndexChanged(object sender, EventArgs e)
     {
         ViewState["prgid"] = ddlProgramme.SelectedValue.ToString();
@@ -701,58 +756,64 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region ReportMethods
-
+    /// <summary>
+    /// It is of no use.
+    /// </summary>
+    /// <param name="targetid"></param>
     protected void GetDetailFromTargetPersonID(string targetid)
     {
 
     }
-
+    /// <summary>
+    /// Initilize parameter for report controls.
+    /// </summary>
+    /// <param name="projectid"></param>
     protected void ControlToParameter(string projectid)
     {
         if (projectid != null)
         {
-            DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
-            if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+            DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
+            if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
             {
                 // This parameter will Decide: which type of Report will Call  
 
-                if (dtreportsetting.Rows[0]["PageHeadingColor"].ToString() != string.Empty)
-                    strPageHeadingColor = dtreportsetting.Rows[0]["PageHeadingColor"].ToString();
+                if (dataTableReportsetting.Rows[0]["PageHeadingColor"].ToString() != string.Empty)
+                    stringPageHeadingColor = dataTableReportsetting.Rows[0]["PageHeadingColor"].ToString();
 
-                if (dtreportsetting.Rows[0]["ReportType"].ToString() != string.Empty)
-                    strReportType = dtreportsetting.Rows[0]["ReportType"].ToString();
+                if (dataTableReportsetting.Rows[0]["ReportType"].ToString() != string.Empty)
+                    stringReportType = dataTableReportsetting.Rows[0]["ReportType"].ToString();
 
-                if (dtreportsetting.Rows[0]["CoverPage"].ToString() != string.Empty)
-                    strFrontPage = dtreportsetting.Rows[0]["CoverPage"].ToString();
+                if (dataTableReportsetting.Rows[0]["CoverPage"].ToString() != string.Empty)
+                    stringFrontPage = dataTableReportsetting.Rows[0]["CoverPage"].ToString();
 
-                if (dtreportsetting.Rows[0]["ReportIntroduction"].ToString() != string.Empty)
-                    strReportIntroduction = dtreportsetting.Rows[0]["ReportIntroduction"].ToString();
+                if (dataTableReportsetting.Rows[0]["ReportIntroduction"].ToString() != string.Empty)
+                    stringReportIntroduction = dataTableReportsetting.Rows[0]["ReportIntroduction"].ToString();
 
-                if (dtreportsetting.Rows[0]["Conclusionpage"].ToString() != string.Empty)
-                    strConclusionPage = dtreportsetting.Rows[0]["Conclusionpage"].ToString();
+                if (dataTableReportsetting.Rows[0]["Conclusionpage"].ToString() != string.Empty)
+                    stringConclusionPage = dataTableReportsetting.Rows[0]["Conclusionpage"].ToString();
 
-                if (dtreportsetting.Rows[0]["ConclusionHeading"].ToString() != string.Empty)
-                    strConclusionHeading = dtreportsetting.Rows[0]["ConclusionHeading"].ToString();
-
-
-                if (dtreportsetting.Rows[0]["CatQstList"].ToString() != string.Empty)
-                    strCategoryQstlist = dtreportsetting.Rows[0]["CatQstList"].ToString();
-
-                if (dtreportsetting.Rows[0]["CatDataChart"].ToString() != string.Empty)
-                    strCategoryBarChart = dtreportsetting.Rows[0]["CatDataChart"].ToString();
+                if (dataTableReportsetting.Rows[0]["ConclusionHeading"].ToString() != string.Empty)
+                    stringConclusionHeading = dataTableReportsetting.Rows[0]["ConclusionHeading"].ToString();
 
 
+                if (dataTableReportsetting.Rows[0]["CatQstList"].ToString() != string.Empty)
+                    stringCategoryQstlist = dataTableReportsetting.Rows[0]["CatQstList"].ToString();
 
-
+                if (dataTableReportsetting.Rows[0]["CatDataChart"].ToString() != string.Empty)
+                    stringCategoryBarChart = dataTableReportsetting.Rows[0]["CatDataChart"].ToString();
             }
         }
     }
 
+    /// <summary>
+    /// Export pdf report.
+    /// </summary>
+    /// <param name="dirName"></param>
     protected string btnExport(string dirName)
     {
         try
         {
-
             rview.ServerReport.ReportServerUrl = new Uri(ConfigurationManager.AppSettings["ReportServerUrl"].ToString());
             string[] streamids;
             Microsoft.Reporting.WebForms.Warning[] warnings;
@@ -760,18 +821,18 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             root = Server.MapPath("~") + "\\ReportGenerate\\";
 
             /* Function : For Filling Paramters From Controls */
-            ControlToParameter(strProjectID);
+            ControlToParameter(stringProjectID);
 
             if (ddlAccountCode.SelectedValue != string.Empty)
-                strStaticBarLabelVisibility = ddlAccountCode.SelectedItem.ToString();
+                stringStaticBarLabelVisibility = ddlAccountCode.SelectedItem.ToString();
             else
-                strStaticBarLabelVisibility = "";
+                stringStaticBarLabelVisibility = "";
 
             //If strReportType = 1 Then FeedbackReport will Call
             //If strReportType = 2 Then FeedbackReportClient1 will Call (In this Report We are Showing only Range & Text Type Question).
-            if (strReportType == "1")
+            if (stringReportType == "1")
             {
-                DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(strProjectID));
+                DataTable dtreportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(stringProjectID));
                 if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
                 {
                     /*
@@ -779,30 +840,28 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                      * & Making Entry in Table with Radarchatname
                      * & Calling in RDL (RadarImage)
                      */
-
                 }
-
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReport";
                 rview.ServerReport.ReportPath = "/Feedback360/FeedbackReport";
                 //rview.ServerReport.ReportPath = "/Feedback360/FeedbackReport";
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", strDetailedQst));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", stringDetailedQst));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", stringCategoryQstlist));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", stringCategoryBarChart));
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", strStaticBarLabelVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", stringStaticBarLabelVisibility));
 
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "2")
+            else if (stringReportType == "2")
             {
                 // rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReportClient1";
                 rview.ServerReport.ReportPath = "/Feedback360/FeedbackReportClient1";
@@ -823,7 +882,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "3")
+            else if (stringReportType == "3")
             {
                 rview.ServerReport.ReportPath = "/Feedback360/FeedbackReportClient2";
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReportClient2";
@@ -833,16 +892,16 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 // In that case no need to send hardcord values as Parameter & Comments/Remove all harcord parameters.
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
 
                 rview.ServerReport.SetParameters(paramList);
                 //for Unauthorized error , make change in web.config( path key="ReportServerUrl").
             }
-            else if (strReportType == "4") // Old Mutual Report
+            else if (stringReportType == "4") // Old Mutual Report
             {
                 // rview.ServerReport.ReportPath = "/Feedback360_UAT/CurFeedbackReport";
                 rview.ServerReport.ReportPath = "/Feedback360/CurFeedbackReport";
@@ -850,40 +909,35 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", strDetailedQst));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", strProgrammeGrp));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", strStaticBarLabelVisibility));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("DetailedQstVisibility", stringDetailedQst));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", stringCategoryQstlist));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", stringCategoryBarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProgrammeVisibility", stringProgrammeGrp));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("BarLabelVisibility", stringStaticBarLabelVisibility));
                 rview.ServerReport.SetParameters(paramList);
             }
-            else if (strReportType == "5") // Old Mutual Report
+            else if (stringReportType == "5") // Old Mutual Report
             {
-
                 rview.ServerReport.ReportPath = "/Survey_Prod/Srvey_FinalReport";
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", strFrontPage));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", strReportIntroduction));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", strConclusionPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("FrontPageVisibility", stringFrontPage));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ReportIntroduction", stringReportIntroduction));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionVisibility", stringConclusionPage));
 
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", strCategoryQstlist));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", strCategoryBarChart));
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PageHeadingColor", strPageHeadingColor));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryQstlistVisibility", stringCategoryQstlist));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("CategoryBarChartVisibility", stringCategoryBarChart));
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("PageHeadingColor", stringPageHeadingColor));
 
-
-                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionHeading", strConclusionHeading));
-
+                paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ConclusionHeading", stringConclusionHeading));
 
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("accountid", ViewState["accid"].ToString()));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("projectid", ViewState["prjid"].ToString()));
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("programmeid", ViewState["prgid"].ToString()));
-
-
 
                 rview.ServerReport.SetParameters(paramList);
             }
@@ -892,17 +946,18 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
             byte[] bytes = rview.ServerReport.Render("PDF", null, out mimeType, out encoding, out extension, out streamids, out warnings);
             string funiqueId = Convert.ToString(Guid.NewGuid());
+
             string PDF_path = root + "Survey_" + ddlAccountCode.SelectedItem.Value + ddlProject.SelectedItem.Value + ddlProgramme.SelectedItem.Value + "-" + funiqueId + ".pdf";
+
             FileStream objFs = new FileStream(PDF_path, System.IO.FileMode.Create, FileAccess.ReadWrite);
             objFs.Write(bytes, 0, bytes.Length);
             objFs.Close();
             objFs.Dispose();
 
-
-
             bytes = null;
             System.GC.Collect();
             rview.Dispose();
+
             return "Survey_" + ddlAccountCode.SelectedItem.Value + ddlProject.SelectedItem.Value + ddlProgramme.SelectedItem.Value + "-" + funiqueId + ".pdf";
         }
         catch (Exception ex)
@@ -918,7 +973,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     }
     #endregion
 
-
+    /// <summary>
+    /// It is of no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSave_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -928,33 +987,40 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             string root = Server.MapPath("~") + "\\ReportGenerate\\";
             string newDir = ddlAccountCode.SelectedItem.Text + "_" + DateTime.Now.ToString("ddMMyyyy_HHmmss");
 
-            DirectoryInfo drInfo = new DirectoryInfo(root);
-            drInfo.CreateSubdirectory(newDir);
-
-
+            DirectoryInfo directoryInformation = new DirectoryInfo(root);
+            directoryInformation.CreateSubdirectory(newDir);
         }
         catch (Exception ex)
         { }
     }
 
     #region Gridview Paging Related Methods
-
+    /// <summary>
+    /// This method set user identity value
+    /// </summary>
     protected void ManagePaging()
     {
         identity = this.Page.User.Identity as WADIdentity;
-
-
     }
 
+    /// <summary>
+    /// Save view state of the page
+    /// </summary>
+    /// <returns></returns>
     protected override object SaveViewState()
     {
         object baseState = base.SaveViewState();
         return new object[] { baseState, reportCount };
     }
 
+    /// <summary>
+    ///  Reload the viewsate when view sate of the page expires.
+    /// </summary>
+    /// <param name="savedState"></param>
     protected override void LoadViewState(object savedState)
     {
         object[] myState = (object[])savedState;
+
         if (myState[0] != null)
             base.LoadViewState(myState[0]);
 
@@ -965,31 +1031,40 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
     }
 
+    /// <summary>
+    /// Manage gridview paging when click on next button
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objLb_Click(object sender, EventArgs e)
     {
         //  plcPaging.Controls.Clear();
         LinkButton objlb = (LinkButton)sender;
-
-
         ManagePaging();
-
     }
 
+    /// <summary>
+    /// It isof no use.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void objIbtnGo_Click(object sender, ImageClickEventArgs e)
     {
-
     }
 
     #endregion
 
     #region Grid Method
-
+    /// <summary>
+    /// It is of No use
+    /// </summary>
     public void FillGridData()
     {
-
-
     }
 
+    /// <summary>
+    /// Reset controls value to default.
+    /// </summary>
     protected void ResetControls()
     {
         try
@@ -998,8 +1073,6 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
             if (identity.User.GroupID != Convert.ToInt32(participantRoleId))
             {
-
-
                 ddlProject.SelectedValue = "0";
                 ddlProgramme.SelectedValue = "0";
             }
@@ -1009,11 +1082,15 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             HandleException(ex);
         }
     }
-
     #endregion
 
     #region ZipCode
-
+    /// <summary>
+    /// Create a Zip file for download.
+    /// </summary>
+    /// <param name="inputFolderPath"></param>
+    /// <param name="outputPathAndFile"></param>
+    /// <param name="password"></param>
     public static void ZipFiles(string inputFolderPath, string outputPathAndFile, string password)
     {
         ArrayList ar = GenerateFileList(inputFolderPath); // generate file list
@@ -1024,10 +1101,13 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         byte[] obuffer;
         string outPath = inputFolderPath + @"\" + outputPathAndFile;
         ZipOutputStream oZipStream = new ZipOutputStream(File.Create(outPath)); // create zip stream
+
         if (password != null && password != String.Empty)
             oZipStream.Password = password;
+
         oZipStream.SetLevel(9); // maximum compression
         ZipEntry oZipEntry;
+
         foreach (string Fil in ar) // for each file, generate a zipentry
         {
             oZipEntry = new ZipEntry(Fil.Remove(0, TrimLength));
@@ -1042,20 +1122,28 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 ostream.Close();
             }
         }
+
         oZipStream.Finish();
         oZipStream.Close();
     }
 
+    /// <summary>
+    /// Add pdf files to directory and return file list in a directory.
+    /// </summary>
+    /// <param name="Dir"></param>
+    /// <returns></returns>
     private static ArrayList GenerateFileList(string Dir)
     {
         ArrayList fils = new ArrayList();
         bool Empty = true;
+
         foreach (string file in Directory.GetFiles(Dir)) // add each file in directory
         {
             if (Path.GetExtension(file) == ".pdf")//|| Path.GetExtension(file) == ".xml")
             {
                 fils.Add(file);
             }
+
             Empty = false;
         }
 
@@ -1068,18 +1156,26 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             }
         }
 
-
         return fils; // return file list
     }
 
+    /// <summary>
+    /// Unzip the  zip file
+    /// </summary>
+    /// <param name="zipPathAndFile"></param>
+    /// <param name="outputFolder"></param>
+    /// <param name="password"></param>
+    /// <param name="deleteZipFile"></param>
     public static void UnZipFiles(string zipPathAndFile, string outputFolder, string password, bool deleteZipFile)
     {
-        ZipInputStream s = new ZipInputStream(File.OpenRead(zipPathAndFile));
+        ZipInputStream zipStream = new ZipInputStream(File.OpenRead(zipPathAndFile));
         if (password != null && password != String.Empty)
-            s.Password = password;
+            zipStream.Password = password;
         ZipEntry theEntry;
+
         string tmpEntry = String.Empty;
-        while ((theEntry = s.GetNextEntry()) != null)
+
+        while ((theEntry = zipStream.GetNextEntry()) != null)
         {
             string directoryName = outputFolder;
             string fileName = Path.GetFileName(theEntry.Name);
@@ -1088,6 +1184,7 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             {
                 Directory.CreateDirectory(directoryName);
             }
+
             if (fileName != String.Empty)
             {
                 if (theEntry.Name.IndexOf(".ini") < 0)
@@ -1095,13 +1192,16 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     string fullPath = directoryName + "\\" + theEntry.Name;
                     fullPath = fullPath.Replace("\\ ", "\\");
                     string fullDirPath = Path.GetDirectoryName(fullPath);
+
                     if (!Directory.Exists(fullDirPath)) Directory.CreateDirectory(fullDirPath);
                     FileStream streamWriter = File.Create(fullPath);
+
                     int size = 2048;
                     byte[] data = new byte[2048];
+
                     while (true)
                     {
-                        size = s.Read(data, 0, data.Length);
+                        size = zipStream.Read(data, 0, data.Length);
                         if (size > 0)
                         {
                             streamWriter.Write(data, 0, size);
@@ -1115,7 +1215,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 }
             }
         }
-        s.Close();
+
+        zipStream.Close();
+
         if (deleteZipFile)
             File.Delete(zipPathAndFile);
     }
@@ -1123,7 +1225,6 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     #endregion
 
     #region PdfUtilityFunction
-
     /// <summary>
     /// Insert new pages to an existing pdf file
     /// </summary>
@@ -1135,12 +1236,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     /// an existing pdf file and call the GetImportedPage method</remarks>
     public static bool InsertorReplacePages(string sourcePdf, Dictionary<int, iTextSharp.text.pdf.PdfImportedPage> pagesToInsert, string outPdf, int PageNUmber, string flag)
     {
-
-
         bool result = false;
         iTextSharp.text.pdf.PdfReader reader = null;
         iTextSharp.text.Document doc = null;
         iTextSharp.text.pdf.PdfCopy copier = null;
+
         try
         {
             //int j = PageNUmber;
@@ -1148,7 +1248,9 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             doc = new iTextSharp.text.Document(reader.GetPageSizeWithRotation(1));
             copier = new iTextSharp.text.pdf.PdfCopy(doc, new System.IO.FileStream(outPdf, System.IO.FileMode.Create));
             doc.Open();
+
             int i = 1;
+
             for (; i <= reader.NumberOfPages; )
             {
                 if (i == PageNUmber)
@@ -1192,7 +1294,6 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         return result;
     }
 
-
     /// <summary>
     /// Use to find page number based on search text in pdf
     /// </summary>
@@ -1202,30 +1303,42 @@ public partial class Module_Reports_ViewList : CodeBehindBase
     public List<int> ReadPdfFile(string fileName, String searthText)
     {
         List<int> pages = new List<int>();
+
         if (File.Exists(fileName))
         {
             iTextSharp.text.pdf.PdfReader pdfReader = new iTextSharp.text.pdf.PdfReader(fileName);
+
             for (int page = 1; page <= pdfReader.NumberOfPages; page++)
             {
                 iTextSharp.text.pdf.parser.ITextExtractionStrategy strategy = new iTextSharp.text.pdf.parser.SimpleTextExtractionStrategy();
 
                 string currentPageText = iTextSharp.text.pdf.parser.PdfTextExtractor.GetTextFromPage(pdfReader, page, strategy);
+
                 if (currentPageText.Contains(searthText))
                 {
                     pages.Add(page);
                 }
             }
+
             pdfReader.Close();
         }
         return pages;
     }
 
+    /// <summary>
+    /// Include pdf page in paticular page number. 
+    /// </summary>
+    /// <param name="sourceFile">source pdf file</param>
+    /// <param name="rootPath"> path of mail pdf</param>
+    /// <param name="insertPageFilePath">path of pdf which is to be inserted</param>
+    /// <param name="OutputFileName">Resultant file name</param>
+    /// <param name="pageNumber">page number where pdf is to be inserted</param>
+    /// <param name="flag"></param>
+    /// <returns></returns>
     protected string IncludePage(string sourceFile, string rootPath, string insertPageFilePath, string OutputFileName, int pageNumber, string flag)
     {
         try
         {
-
-
             //String ReportHtml = ConfigurationManager.AppSettings["ReportHtml"].ToString();
             //String ReportName = Request.QueryString["ReportName"].ToString();
             if (flag != "D")
@@ -1245,7 +1358,6 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 System.IO.Stream strm = fs;
                 writer = new iTextSharp.text.pdf.PdfCopy(document, strm);
 
-
                 // step 3: we open the document
                 document.Open();
                 Dictionary<int, iTextSharp.text.pdf.PdfImportedPage> pagesToInsert = new Dictionary<int, iTextSharp.text.pdf.PdfImportedPage>();
@@ -1254,15 +1366,15 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                     iTextSharp.text.pdf.PdfImportedPage page;
                     page = writer.GetImportedPage(reader, i);
                     writer.AddPage(page);
-
+                    //insert page and  page number in list
                     pagesToInsert.Add(i, page);
                 }
+                //Insert page to existing pdf.
                 bool status = InsertorReplacePages(rootPath + sourceFile, pagesToInsert, rootPath + OutputFileName, pageNumber, flag);
 
                 document.Close();
                 writer.Close();
                 reader.Close();
-
             }
             else
             {
@@ -1281,12 +1393,19 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         }
     }
 
+    /// <summary>
+    /// Write page number to the pdf file
+    /// </summary>
+    /// <param name="sourceFile"></param>
+    /// <returns></returns>
     protected static byte[] WritePageNumber(FileInfo sourceFile)
     {
         iTextSharp.text.pdf.PdfReader reader = new iTextSharp.text.pdf.PdfReader(sourceFile.FullName);
+
         using (MemoryStream memoryStream = new MemoryStream())
         {
             iTextSharp.text.pdf.PdfStamper pdfStamper = new iTextSharp.text.pdf.PdfStamper(reader, memoryStream);
+
             for (int i = 1; i <= reader.NumberOfPages; i++)
             {
                 iTextSharp.text.Rectangle pageSize = reader.GetPageSizeWithRotation(i);
@@ -1312,19 +1431,26 @@ public partial class Module_Reports_ViewList : CodeBehindBase
             return memoryStream.ToArray();
         }
     }
-
-
     #endregion
 
+    /// <summary>
+    /// Wrie content to pdf.
+    /// </summary>
+    /// <param name="sourceFile">source file name</param>
+    /// <param name="heading1">Heading one</param>
+    /// <param name="heading2">Heading two</param>
+    /// <param name="heading3">Heading three</param>
+    /// <param name="htmlcolor">Heading color</param>
+    /// <param name="width"></param>
+    /// <param name="outputFile"></param>
     protected static void WriteContentToPdf(FileInfo sourceFile, string heading1, string heading2, string heading3, string htmlcolor, float width, out string outputFile)
     {
-
-
         DirectoryInfo di = sourceFile.Directory;
         string watermarkedFile = di.FullName + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf";
         //File.Copy(sourceFile.FullName, di.FullName + "\\" + watermarkedFile);
 
         PdfReader reader1 = new PdfReader(sourceFile.FullName);
+
         using (FileStream fs = new FileStream(watermarkedFile, FileMode.Create, FileAccess.Write, FileShare.None))
         {
             using (PdfStamper stamper = new PdfStamper(reader1, fs))
@@ -1335,9 +1461,11 @@ public partial class Module_Reports_ViewList : CodeBehindBase
                 iTextSharp.text.Rectangle rect = reader1.GetPageSize(1);
 
                 iTextSharp.text.Rectangle pageRectangle = reader1.GetPageSizeWithRotation(1);
-
+                //Write heading one
                 watermark(stamper, layer, pageRectangle, heading1, 250, 18, 303, 715);
+                //Write heading two
                 watermark(stamper, layer, pageRectangle, heading2, 270, 16, 310, 685);
+                //Write heading three
                 watermark(stamper, layer, pageRectangle, heading3, 290, 14, 310, 658);
 
             }
@@ -1351,9 +1479,13 @@ public partial class Module_Reports_ViewList : CodeBehindBase
 
         //  }
         //  File.Move(watermarkedFile, originalFileName);
-
     }
 
+    /// <summary>
+    /// It is of No use.
+    /// </summary>
+    /// <param name="stamper"></param>
+    /// <param name="color"></param>
     private static void rectangle(PdfStamper stamper, string color)
     {
         BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
@@ -1373,10 +1505,20 @@ public partial class Module_Reports_ViewList : CodeBehindBase
         rectangle.BackgroundColor = bckgrndco;
 
         cb.Rectangle(rectangle);
-
     }
 
-    private static void watermark(PdfStamper stamper, PdfLayer layer, iTextSharp.text.Rectangle rect, string text, int location, int fontsize, float xAxis, float yAxis)
+    /// <summary>
+    /// Write content to pdf.
+    /// </summary>
+    /// <param name="stamper">pdfstamper object</param>
+    /// <param name="layer">pdflayer object</param>
+    /// <param name="rect">rectangle object</param>
+    /// <param name="text">text to write</param>
+    /// <param name="location">location where to wrie</param>
+    /// <param name="fontsize">what is the font size</param>
+    /// <param name="xAxis">xaxis position</param>
+    /// <param name="yAxis">yaxis position</param>
+    private static void watermark(PdfStamper stamper, PdfLayer layer, Rectangle rect, string text, int location, int fontsize, float xAxis, float yAxis)
     {
         PdfContentByte cb = stamper.GetOverContent(1);
 

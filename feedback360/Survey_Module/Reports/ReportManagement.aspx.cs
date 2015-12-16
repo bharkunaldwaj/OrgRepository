@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Configuration;
-using System.Collections;
-using System.Web;
-using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.Text;
-using System.Collections.Generic;
 using System.IO;
-using System.Drawing.Text;
 using Microsoft.Reporting.WebForms;
 using Questionnaire_BAO;
 using Questionnaire_BE;
 using Admin_BAO;
-using Microsoft.ReportingServices;
 using System.Text.RegularExpressions;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
@@ -35,19 +26,18 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     string defaultFileName = string.Empty;
     Warning[] warnings;
     WADIdentity identity;
-    Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-    Survey_Programme_BAO programme_BAO = new Survey_Programme_BAO();
-    Survey_AccountUser_BAO accountUser_BAO = new Survey_AccountUser_BAO();
-    Survey_AssignQstnParticipant_BAO assignquestionnaire = new Survey_AssignQstnParticipant_BAO();
-    Survey_ReportManagement_BAO reportManagement_BAO = new Survey_ReportManagement_BAO();
-    Survey_ReportManagement_BE reportManagement_BE = new Survey_ReportManagement_BE();
+    Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
+    Survey_Programme_BAO programmeBusinessAccessObject = new Survey_Programme_BAO();
+    Survey_AccountUser_BAO accountUserBusinessAccessObject = new Survey_AccountUser_BAO();
+    Survey_AssignQstnParticipant_BAO assignQuestionnaireBusinessAccessObject = new Survey_AssignQstnParticipant_BAO();
+    Survey_ReportManagement_BAO reportManagementBusinessAccessObject = new Survey_ReportManagement_BAO();
+    Survey_ReportManagement_BE reportManagementBusinessEntity = new Survey_ReportManagement_BE();
 
-
-    DataTable dtCompanyName;
-    DataTable dtGroupList;
+    DataTable dataTableCompanyName;
+    DataTable dataTableGroupList;
     DataTable dtSelfName;
     DataTable dtReportsID;
-    string strGroupList;
+    string stringGroupList;
     string strFrontPage;
     string strConclusionPage;
     string strRadarChart;
@@ -59,7 +49,7 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
     string strReportName;
 
     string strTargetPersonID;
-    string strProjectID;
+    string stringProjectID;
     string strAccountID;
     string strProgrammeID;
     string filename;
@@ -67,6 +57,10 @@ public partial class Module_Reports_ReportManagement : CodeBehindBase
 
     #endregion
 
+    /// <summary>
+    /// Initilize editor
+    /// </summary>
+    /// <param name="editor"></param>
     public void initEditor(CKEditor.NET.CKEditorControl editor)
     {
         editor.config.toolbar = new object[]
@@ -100,20 +94,20 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
     }
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
-       // initEditor(txtPageIntroduction);
-       // initEditor(txtPageConclusion);
+        // initEditor(txtPageIntroduction);
+        // initEditor(txtPageConclusion);
 
-        Label llx = (Label)this.Master.FindControl("Current_location");
-        llx.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
+        Label labelCurrentLocation = (Label)this.Master.FindControl("Current_location");
+        labelCurrentLocation.Text = "<marquee> You are in <strong>Survey</strong> </marquee>";
 
         Page.Form.Attributes.Add("enctype", "multipart/form-data");
+
         if (!IsPostBack)
         {
             identity = this.Page.User.Identity as WADIdentity;
-
+            //If GroupID == 1 then user is super Admin then show account section else hide.
             if (identity.User.GroupID == 1)
             {
                 divAccount.Visible = true;
@@ -125,47 +119,55 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 divAccount.Visible = false;
             }
 
-            Account_BAO account_BAO = new Account_BAO();
-            ddlAccountCode.DataSource = account_BAO.GetdtAccountList(Convert.ToString(identity.User.AccountID));
+            Account_BAO accountBusinessAccessObject = new Account_BAO();
+            //Get all account list by account id.
+            ddlAccountCode.DataSource = accountBusinessAccessObject.GetdtAccountList(Convert.ToString(identity.User.AccountID));
             ddlAccountCode.DataValueField = "AccountID";
             ddlAccountCode.DataTextField = "Code";
             ddlAccountCode.DataBind();
             ddlAccountCode.SelectedValue = "0";
-
+            //If GroupID == 1 then user is super Admin.
             if (identity.User.GroupID == 1)
             {
-                Survey_Project_BAO project_BAO = new Survey_Project_BAO();
-                ddlProject.DataSource = project_BAO.GetdtProjectList(Convert.ToString(identity.User.AccountID));
+                Survey_Project_BAO projectBusinessAccessObject = new Survey_Project_BAO();
+                //Get all Project by user account id.
+                ddlProject.DataSource = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(identity.User.AccountID));
                 ddlProject.DataValueField = "ProjectID";
                 ddlProject.DataTextField = "Title";
                 ddlProject.DataBind();
             }
-
         }
-
-
     }
 
     #region Image Button Function
-
-
-
+    /// <summary>
+    /// show font page image.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void lnkbtnFrontPdf_Click(object sender, EventArgs e)
     {
-      
         ProcessFrontPdf("D");
     }
 
+    /// <summary>
+    /// Provide preview of the pdf.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void LinkPreview_Click(object sender, EventArgs e)
     {
         imbSubmit_Click(null, null);
     }
 
+    /// <summary>
+    /// Insert upddate report setting byreport type to batabase
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void imbSubmit_Click(object sender, ImageClickEventArgs e)
     {
-
-
-
+        //Check if top , middle and bottom image is valid
         if (IsFileValid(fuplTopImage) && IsFileValid(this.fuplMiddleImage) && IsFileValid(this.fuplBottomImage))
         {
             /*
@@ -177,52 +179,54 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             string frontPdfFileName = "";
             string footer = "";
             string scoretable = "";
+            //Get report setting by project ID
+            DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
 
-            DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
-            if (dtreportsetting.Rows.Count > 0)
+            if (dataTableReportsetting.Rows.Count > 0)
             {
-                lastLogo = dtreportsetting.Rows[0]["PageLogo"].ToString();
+                lastLogo = dataTableReportsetting.Rows[0]["PageLogo"].ToString();
 
-                frontPageLogo2 = dtreportsetting.Rows[0]["FrontPageLogo2"].ToString();
+                frontPageLogo2 = dataTableReportsetting.Rows[0]["FrontPageLogo2"].ToString();
 
-                frontPageLogo3 = dtreportsetting.Rows[0]["FrontPageLogo3"].ToString();
+                frontPageLogo3 = dataTableReportsetting.Rows[0]["FrontPageLogo3"].ToString();
 
-                frontPdfFileName = dtreportsetting.Rows[0]["FrontPdfFileName"].ToString();
+                frontPdfFileName = dataTableReportsetting.Rows[0]["FrontPdfFileName"].ToString();
 
-                footer = dtreportsetting.Rows[0]["FooterImage"].ToString();
-                scoretable = dtreportsetting.Rows[0]["ScoreTableImage"].ToString();
+                footer = dataTableReportsetting.Rows[0]["FooterImage"].ToString();
+                scoretable = dataTableReportsetting.Rows[0]["ScoreTableImage"].ToString();
             }
-
-            int c = reportManagement_BAO.DeleteProjectSettingReport(Convert.ToInt32(ddlProject.SelectedValue));
+            //Delete previous project setting.
+            int c = reportManagementBusinessAccessObject.DeleteProjectSettingReport(Convert.ToInt32(ddlProject.SelectedValue));
 
             /*
-             * New Insertion Strart 
+             * New Insertion Strart, Initilize properties
              */
-            reportManagement_BE.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
-            reportManagement_BE.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
+            reportManagementBusinessEntity.AccountID = Convert.ToInt32(ddlAccountCode.SelectedValue);
+            reportManagementBusinessEntity.ProjectID = Convert.ToInt32(ddlProject.SelectedValue);
 
-            reportManagement_BE.ReportType = ddlReportType.SelectedValue;
-            reportManagement_BE.PageHeading1 = txtPageHeading1.Text.Trim();
-            reportManagement_BE.PageHeading2 = txtPageHeading2.Text.Trim();
-            reportManagement_BE.PageHeading3 = txtPageHeading3.Text.Trim();
-            reportManagement_BE.PageHeadingColor = txtPageHeadingColor.Text.Trim();
-            reportManagement_BE.PageHeadingCopyright = txtPageCopyright.Text.Trim();
-            reportManagement_BE.PageHeadingIntro = Server.HtmlDecode(txtPageIntroduction.Value.Trim());
+            reportManagementBusinessEntity.ReportType = ddlReportType.SelectedValue;
+            reportManagementBusinessEntity.PageHeading1 = txtPageHeading1.Text.Trim();
+            reportManagementBusinessEntity.PageHeading2 = txtPageHeading2.Text.Trim();
+            reportManagementBusinessEntity.PageHeading3 = txtPageHeading3.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingColor = txtPageHeadingColor.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingCopyright = txtPageCopyright.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingIntro = Server.HtmlDecode(txtPageIntroduction.Value.Trim());
 
 
             int RadarGraphCategoryCount;
             bool res = int.TryParse(txtRadarGraphCategoryCount.Text, out RadarGraphCategoryCount);
+
             if (res == true)
             {
-                reportManagement_BE.RadarGraphCategoryCount = RadarGraphCategoryCount;
+                reportManagementBusinessEntity.RadarGraphCategoryCount = RadarGraphCategoryCount;
             }
             else
-                reportManagement_BE.RadarGraphCategoryCount = 4;
+                reportManagementBusinessEntity.RadarGraphCategoryCount = 4;
 
-            string sss = Server.HtmlDecode(txtPageConclusion.Value.Trim());
+            string decodeConclusion = Server.HtmlDecode(txtPageConclusion.Value.Trim());
 
-            reportManagement_BE.PageHeadingConclusion = sss;
-            reportManagement_BE.ConclusionHeading = txtConclusionHeading.Text.Trim();
+            reportManagementBusinessEntity.PageHeadingConclusion = decodeConclusion;
+            reportManagementBusinessEntity.ConclusionHeading = txtConclusionHeading.Text.Trim();
 
             //////If Admin does't specify the value for Scroes Range then "2" will be insert Default
             //////if (txtConHighLowRange.Text.Trim() != string.Empty)
@@ -231,27 +235,24 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             //////    reportManagement_BE.ConclusionHighLowRange = "2";
 
             if (chkCoverPage.Checked == true)
-                reportManagement_BE.CoverPage = "1";
+                reportManagementBusinessEntity.CoverPage = "1";
             else
-                reportManagement_BE.CoverPage = "0";
+                reportManagementBusinessEntity.CoverPage = "0";
 
             if (chkShowScoreRespondents.Checked == true)
-                reportManagement_BE.ShowScoreRespondents = true;
+                reportManagementBusinessEntity.ShowScoreRespondents = true;
             else
-                reportManagement_BE.ShowScoreRespondents = false;
-
+                reportManagementBusinessEntity.ShowScoreRespondents = false;
 
             if (chkReportIntro.Checked == true)
-                reportManagement_BE.ReportIntroduction = "1";
+                reportManagementBusinessEntity.ReportIntroduction = "1";
             else
-                reportManagement_BE.ReportIntroduction = "0";
-
-
+                reportManagementBusinessEntity.ReportIntroduction = "0";
 
             if (chkConclusion.Checked == true)
-                reportManagement_BE.Conclusionpage = "1";
+                reportManagementBusinessEntity.Conclusionpage = "1";
             else
-                reportManagement_BE.Conclusionpage = "0";
+                reportManagementBusinessEntity.Conclusionpage = "0";
 
             ////////if (chkPreviousScore.Checked == true)
             ////////    reportManagement_BE.PreviousScoreVisible = "1";
@@ -266,109 +267,110 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             //////    reportManagement_BE.QstTextResponses = "0";
 
             if (chkCatQstlist.Checked == true)
-                reportManagement_BE.CatQstList = "1";
+                reportManagementBusinessEntity.CatQstList = "1";
             else
-                reportManagement_BE.CatQstList = "0";
+                reportManagementBusinessEntity.CatQstList = "0";
 
             if (chkCatQstChart.Checked == true)
-                reportManagement_BE.CatDataChart = "1";
+                reportManagementBusinessEntity.CatDataChart = "1";
             else
-                reportManagement_BE.CatDataChart = "0";
-
+                reportManagementBusinessEntity.CatDataChart = "0";
 
             RetrieveCheckBoxValue();
 
             if (chkFullPrjGrp.Checked == true)
-                reportManagement_BE.FullProjectGrp = "1";
+                reportManagementBusinessEntity.FullProjectGrp = "1";
             else
-                reportManagement_BE.FullProjectGrp = "0";
+                reportManagementBusinessEntity.FullProjectGrp = "0";
 
             if (chkBoxFreeText.Checked == true)
-                reportManagement_BE.FreeTextResponse = "1";
+                reportManagementBusinessEntity.FreeTextResponse = "1";
             else
-                reportManagement_BE.FreeTextResponse = "0";
-
+                reportManagementBusinessEntity.FreeTextResponse = "0";
 
             if (AnalysisI_Chkbox.Checked == true)
-                reportManagement_BE.AnalysisI = "1";
+                reportManagementBusinessEntity.AnalysisI = "1";
             else
-                reportManagement_BE.AnalysisI = "0";
+                reportManagementBusinessEntity.AnalysisI = "0";
 
             if (AnalysisII_Chkbox.Checked == true)
-                reportManagement_BE.AnalysisII = "1";
+                reportManagementBusinessEntity.AnalysisII = "1";
             else
-                reportManagement_BE.AnalysisII = "0";
+                reportManagementBusinessEntity.AnalysisII = "0";
 
             if (AnalysisIII_Chkbox.Checked == true)
-                reportManagement_BE.AnalysisIII = "1";
+                reportManagementBusinessEntity.AnalysisIII = "1";
             else
-                reportManagement_BE.AnalysisIII = "0";
-
+                reportManagementBusinessEntity.AnalysisIII = "0";
 
             if (Programme_Avg_Chkbox.Checked == true)
-                reportManagement_BE.Programme_Average = "1";
+                reportManagementBusinessEntity.Programme_Average = "1";
             else
-                reportManagement_BE.Programme_Average = "0";
+                reportManagementBusinessEntity.Programme_Average = "0";
 
-            reportManagement_BE.ShowRadar = chkRadar.Checked;
-            reportManagement_BE.ShowTable = chkTable.Checked;
-            reportManagement_BE.ShowPreviousScore1 = chkPrvScore1.Checked;
-            reportManagement_BE.ShowPreviousScore2 = chkPrvScore2.Checked;
-            reportManagement_BE.ShowBarGraph = chkBarGraph.Checked;
-            reportManagement_BE.ShowLineChart = chkLineChart.Checked;
+            reportManagementBusinessEntity.ShowRadar = chkRadar.Checked;
+            reportManagementBusinessEntity.ShowTable = chkTable.Checked;
+            reportManagementBusinessEntity.ShowPreviousScore1 = chkPrvScore1.Checked;
+            reportManagementBusinessEntity.ShowPreviousScore2 = chkPrvScore2.Checked;
+            reportManagementBusinessEntity.ShowBarGraph = chkBarGraph.Checked;
+            reportManagementBusinessEntity.ShowLineChart = chkLineChart.Checked;
 
-
+            //Check if top image has file
             if (fuplTopImage.HasFile)
             {
+                //get uploaded file name
                 filename = System.IO.Path.GetFileName(fuplTopImage.PostedFile.FileName);
-
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 fuplTopImage.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.PageLogo = file;
+                FileStream topFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader topBinaryReader = new BinaryReader(topFileStream);
+                Byte[] docbytes = topBinaryReader.ReadBytes((Int32)topFileStream.Length);
+                topBinaryReader.Close();
+                topFileStream.Close();
+                reportManagementBusinessEntity.PageLogo = file;
             }
             else
             {
                 if (lastLogo != "" && hdnTopImage.Value != "")
-                    reportManagement_BE.PageLogo = lastLogo;
+                    reportManagementBusinessEntity.PageLogo = lastLogo;
                 else if (Request.QueryString["Mode"] == "E" && fuplTopImage.FileName == "" && hdnTopImage.Value != "")
-                    reportManagement_BE.PageLogo = Convert.ToString(Session["FileName"]);
+                    reportManagementBusinessEntity.PageLogo = Convert.ToString(Session["FileName"]);
                 else
-                    reportManagement_BE.PageLogo = "";
+                    reportManagementBusinessEntity.PageLogo = "";
 
             }
-
+            //Check if middle image has file
             if (fuplMiddleImage.HasFile)
             {
+                //get uploaded file name
                 filename = System.IO.Path.GetFileName(fuplMiddleImage.PostedFile.FileName);
-
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 fuplMiddleImage.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.FrontPageLogo2 = file;
+                FileStream middleFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader middleBinaryReader = new BinaryReader(middleFileStream);
+                Byte[] docbytes = middleBinaryReader.ReadBytes((Int32)middleFileStream.Length);
+                middleBinaryReader.Close();
+                middleFileStream.Close();
+                reportManagementBusinessEntity.FrontPageLogo2 = file;
             }
             else
             {
                 if (frontPageLogo2 != "" && hdnMiddleImage.Value != "")
-                    reportManagement_BE.FrontPageLogo2 = frontPageLogo2;
+                    reportManagementBusinessEntity.FrontPageLogo2 = frontPageLogo2;
                 else if (Request.QueryString["Mode"] == "E" && fuplMiddleImage.FileName == "" && hdnMiddleImage.Value != "")
-                    reportManagement_BE.FrontPageLogo2 = Convert.ToString(Session["FrontPageLogo2"]);
+                    reportManagementBusinessEntity.FrontPageLogo2 = Convert.ToString(Session["FrontPageLogo2"]);
                 else
-                    reportManagement_BE.FrontPageLogo2 = "";
+                    reportManagementBusinessEntity.FrontPageLogo2 = "";
 
                 //string path = MapPath("~\\UploadDocs\\blank.jpg");
                 //fuplTopImage.SaveAs(path);
@@ -380,31 +382,33 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 //fs1.Close();
                 //reportManagement_BE.FrontPageLogo2 = "blank.jpg";
             }
-
+            //Check if bottom image has file
             if (fuplBottomImage.HasFile)
             {
+                //get uploaded file name
                 filename = System.IO.Path.GetFileName(fuplBottomImage.PostedFile.FileName);
-
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 fuplBottomImage.SaveAs(path);
                 string name = file;
-                FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
-                BinaryReader br1 = new BinaryReader(fs1);
-                Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
-                br1.Close();
-                fs1.Close();
-                reportManagement_BE.FrontPageLogo3 = file;
+                FileStream bottomFileStream = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
+                BinaryReader bottomBinaryReader = new BinaryReader(bottomFileStream);
+                Byte[] docbytes = bottomBinaryReader.ReadBytes((Int32)bottomFileStream.Length);
+                bottomBinaryReader.Close();
+                bottomFileStream.Close();
+                reportManagementBusinessEntity.FrontPageLogo3 = file;
             }
             else
             {
                 if (frontPageLogo3 != "" && hdnBottomImage.Value != "")
-                    reportManagement_BE.FrontPageLogo3 = frontPageLogo3;
+                    reportManagementBusinessEntity.FrontPageLogo3 = frontPageLogo3;
                 else if (Request.QueryString["Mode"] == "E" && fuplBottomImage.FileName == "" && hdnBottomImage.Value != "")
-                    reportManagement_BE.FrontPageLogo3 = Convert.ToString(Session["FrontPageLogo3"]);
+                    reportManagementBusinessEntity.FrontPageLogo3 = Convert.ToString(Session["FrontPageLogo3"]);
                 else
-                    reportManagement_BE.FrontPageLogo3 = "";
+                    reportManagementBusinessEntity.FrontPageLogo3 = "";
 
                 //string path = MapPath("~\\UploadDocs\\blank.jpg");
                 //fuplTopImage.SaveAs(path);
@@ -415,18 +419,17 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 //br1.Close();
                 //fs1.Close();
                 //reportManagement_BE.FrontPageLogo3 = "blank.jpg";
-
-
-
             }
-
+            //Upload front page image.
             if (pdfFileUpload.HasFile)
             {
+                //get uploaded file name
                 filename = System.IO.Path.GetFileName(pdfFileUpload.PostedFile.FileName);
-
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 pdfFileUpload.SaveAs(path);
                 string name = file;
                 FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
@@ -434,32 +437,32 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                 br1.Close();
                 fs1.Close();
-                reportManagement_BE.FrontPdfFileName = file;
+                reportManagementBusinessEntity.FrontPdfFileName = file;
             }
             else
             {
-
-
-
                 if (!string.IsNullOrEmpty(frontPdfFileName) && hdnFrontPDF.Value != "")
-                    reportManagement_BE.FrontPdfFileName = frontPdfFileName;
+                    reportManagementBusinessEntity.FrontPdfFileName = frontPdfFileName;
                 else if (Request.QueryString["Mode"] == "E" && pdfFileUpload.FileName == "" && hdnMiddleImage.Value != "")
-                    reportManagement_BE.FrontPdfFileName = Convert.ToString(Session["frontPdfFileName"]);
+                    reportManagementBusinessEntity.FrontPdfFileName = Convert.ToString(Session["frontPdfFileName"]);
                 else
-                    reportManagement_BE.FrontPdfFileName = "";
+                    reportManagementBusinessEntity.FrontPdfFileName = "";
 
                 //if (!string.IsNullOrEmpty(frontPdfFileName))
                 //    reportManagement_BE.FrontPdfFileName = frontPdfFileName;
 
             }
-
+            //Upload score table image.
             if (fuScoreTable.HasFile)
             {
+                //Get uploaded file name
                 filename = System.IO.Path.GetFileName(fuScoreTable.PostedFile.FileName);
                 //filename = FileUpload.FileName;
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 fuScoreTable.SaveAs(path);
                 string name = file;
                 FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
@@ -467,31 +470,32 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                 br1.Close();
                 fs1.Close();
-                reportManagement_BE.ScoreTableImage = file;
+                reportManagementBusinessEntity.ScoreTableImage = file;
             }
             else
             {
-
-
-
                 if (!string.IsNullOrEmpty(scoretable) && hdnimgScoreTable.Value != "")
-                    reportManagement_BE.ScoreTableImage = scoretable;
+                    reportManagementBusinessEntity.ScoreTableImage = scoretable;
                 else if (Request.QueryString["Mode"] == "E" && fuScoreTable.FileName == "" && hdnimgScoreTable.Value != "")
-                    reportManagement_BE.ScoreTableImage = Convert.ToString(Session["ScoreTableImage"]);
+                    reportManagementBusinessEntity.ScoreTableImage = Convert.ToString(Session["ScoreTableImage"]);
                 else
-                    reportManagement_BE.ScoreTableImage = "";
+                    reportManagementBusinessEntity.ScoreTableImage = "";
 
                 //if (!string.IsNullOrEmpty(scoretable))
                 //    reportManagement_BE.ScoreTableImage = scoretable;
             }
 
+            //Upload footer table image.
             if (fuFooter.HasFile)
             {
+                //Get uploaded file name
                 filename = System.IO.Path.GetFileName(fuFooter.PostedFile.FileName);
                 //filename = FileUpload.FileName;
+                //Get file unique name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save the file at specified path.
                 fuFooter.SaveAs(path);
                 string name = file;
                 FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
@@ -499,7 +503,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                 br1.Close();
                 fs1.Close();
-                reportManagement_BE.FooterImage = file;
+                reportManagementBusinessEntity.FooterImage = file;
             }
             else
             {
@@ -507,22 +511,23 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 //    reportManagement_BE.FooterImage = footer;
 
                 if (!string.IsNullOrEmpty(footer) && hdnimgFooter.Value != "")
-                    reportManagement_BE.FooterImage = footer;
+                    reportManagementBusinessEntity.FooterImage = footer;
                 else if (Request.QueryString["Mode"] == "E" && fuFooter.FileName == "" && hdnimgFooter.Value != "")
-                    reportManagement_BE.FooterImage = Convert.ToString(Session["FooterImage"]);
+                    reportManagementBusinessEntity.FooterImage = Convert.ToString(Session["FooterImage"]);
                 else
-                    reportManagement_BE.FooterImage = "";
+                    reportManagementBusinessEntity.FooterImage = "";
 
             }
-
-            int i = reportManagement_BAO.AddProjectSettingReport(reportManagement_BE);
+            //Save the report settings.
+            int i = reportManagementBusinessAccessObject.AddProjectSettingReport(reportManagementBusinessEntity);
 
 
 
             if (sender == null && e == null)
             {
-                DataTable dtreportsetting2 = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
+                DataTable dtreportsetting2 = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(ddlProject.SelectedValue));
                 String ProjectReportSettingID = dtreportsetting2.Rows[0]["ProjectReportSettingID"].ToString();
+                //SAve preview file
                 SavePreview(ProjectReportSettingID.ToString());
             }
             else
@@ -531,13 +536,13 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
                 lblMessage.Text = "Report settings saved successfully";
             }
-
-
-            //ClearAllConrols();
-
-            // lblMessage.Text = "Report settings saved successfully";
         }
     }
+
+    /// <summary>
+    /// download  preview pdf file by report type.
+    /// </summary>
+    /// <param name="strTargetPersonID"></param>
     private void SavePreview(String strTargetPersonID)
     {
         string strReportType = ddlReportType.SelectedValue;
@@ -551,17 +556,14 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             root = Server.MapPath("~") + "\\ReportGenerate\\";
 
             /* Function : For Filling Paramters From Controls */
-
-
             //If strReportType = 1 Then FeedbackReport will Call
             //If strReportType = 2 Then FeedbackReportClient1 will Call (In this Report We are Showing only Range & Text Type Question).
             if (strReportType == "-1")
             {
 
-
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReport";
                 // rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
-
+                //set pdf path
                 rview.ServerReport.ReportPath = "/Feedback360_UAT/PrvFrontPage";
 
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
@@ -575,7 +577,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/FeedbackReportClient1";
                 //rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
 
-
+                //set pdf path
                 rview.ServerReport.ReportPath = "/Feedback360_UAT/PrvFrontPageClient1";
 
                 //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
@@ -592,6 +594,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
                 //New Changes 
                 //Changed by Amit Singh
+                //set pdf path
                 rview.ServerReport.ReportPath = "/Feedback360_UAT/PrvFrontPageClient2";
 
                 //If Client Want Setting Should be Configurable then Uncomment the comeented below statement 
@@ -605,7 +608,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             {
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/CurFeedbackReport";
                 // rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
-
+                //set pdf path
                 rview.ServerReport.ReportPath = "/Feedback360_UAT/PrvCurFrontPage";
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectReportSettingID", strTargetPersonID));
@@ -615,7 +618,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             {
                 //rview.ServerReport.ReportPath = "/Feedback360_UAT/CurFeedbackReport";
                 // rview.ServerReport.ReportPath = "/SURVEY_Feedback_Prod";
-
+                //set pdf path
                 rview.ServerReport.ReportPath = "/Survey_Prod/Survey_FrontPage_Preview";
                 System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter> paramList = new System.Collections.Generic.List<Microsoft.Reporting.WebForms.ReportParameter>();
                 paramList.Add(new Microsoft.Reporting.WebForms.ReportParameter("ProjectReportSettingID", strTargetPersonID));
@@ -631,7 +634,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             objFs.Dispose();
 
             try
-            {
+            {//Downloadpdf file
                 //string root = Server.MapPath("~") + "\\ReportGenerate\\";
                 string openpdf = PDF_path;
                 //Response.Write(openpdf);
@@ -653,8 +656,6 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             catch (Exception ex)
             { }
 
-
-
             bytes = null;
             System.GC.Collect();
             rview.Dispose();
@@ -665,25 +666,32 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         }
     }
 
-
+    /// <summary>
+    /// It is of no use.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public string Strip(string text)
     {
-        string s = Regex.Replace(text, @"<(.|\n)*?>", string.Empty);
-        s = s.Replace("&nbsp;", " ");
-        s = Regex.Replace(s, @"\s+", " ");
-        s = Regex.Replace(s, @"\n+", "\n");
-        return s;
+        string stringNewText = Regex.Replace(text, @"<(.|\n)*?>", string.Empty);
+        stringNewText = stringNewText.Replace("&nbsp;", " ");
+        stringNewText = Regex.Replace(stringNewText, @"\s+", " ");
+        stringNewText = Regex.Replace(stringNewText, @"\n+", "\n");
+
+        return stringNewText;
     }
 
-
-
-
-
+    /// <summary>
+    ///Reset controls Default value.
+    /// </summary>
     protected void imbReset_Click(object sender, ImageClickEventArgs e)
     {
         ClearAllConrols();
     }
 
+    /// <summary>
+    ///Reset controls Default value.
+    /// </summary>
     protected void ClearAllConrols()
     {
         ddlProject.SelectedValue = "0";
@@ -717,7 +725,6 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         chkLineChart.Checked = false;
         //////chkPreviousScore.Checked = false;
 
-
         lblMessage.Text = " ";
         ddlReportType.SelectedValue = "0";
         txtPageHeading1.Text = string.Empty;
@@ -729,21 +736,25 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         txtPageIntroduction.Value = string.Empty;
         txtConclusionHeading.Text = string.Empty;
         txtRadarGraphCategoryCount.Text = string.Empty;
-        Session["PageLogo"]= null;
+        Session["PageLogo"] = null;
         Session["FileName"] = null;
-        Session["frontPdfFileName"]= null;
-        Session["FrontPageLogo3"]= null;
-        Session["ScoreTableImage"]= null;
+        Session["frontPdfFileName"] = null;
+        Session["FrontPageLogo3"] = null;
+        Session["ScoreTableImage"] = null;
         Session["FooterImage"] = null;
-
     }
 
     #endregion
 
     #region dropdown event
+    /// <summary>
+    /// Bind Project by account id.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlAccountCode_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        //Reset controls
         ddlProject.SelectedValue = "0";
         chkCoverPage.Checked = false;
         chkShowScoreRespondents.Checked = false;
@@ -776,33 +787,36 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         catintro.Visible = true;
         catQstText.Visible = true;
         //////prevscr.Visible = true;
+        //Rebind editors
         ReBindEditorContent();
 
         if (Convert.ToInt32(ddlAccountCode.SelectedValue) > 0)
         {
+            //Get account id
             int companycode = Convert.ToInt32(ddlAccountCode.SelectedValue);
             Account_BAO account_BAO = new Account_BAO();
-            dtCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
+            //Get account details by account id.
+            dataTableCompanyName = account_BAO.GetdtAccountList(Convert.ToString(companycode));
 
+            DataRow[] resultsAccount = dataTableCompanyName.Select("AccountID='" + companycode + "'");
+            DataTable dataTableAccount = dataTableCompanyName.Clone();
 
-            DataRow[] resultsAccount = dtCompanyName.Select("AccountID='" + companycode + "'");
-            DataTable dtAccount = dtCompanyName.Clone();
-
-            foreach (DataRow drAccount in resultsAccount)
-                dtAccount.ImportRow(drAccount);
-
-            lblcompanyname.Text = dtAccount.Rows[0]["OrganisationName"].ToString();
-
+            foreach (DataRow dataRowAccount in resultsAccount)
+                dataTableAccount.ImportRow(dataRowAccount);
+            //set company Name
+            lblcompanyname.Text = dataTableAccount.Rows[0]["OrganisationName"].ToString();
 
             if (ddlAccountCode.SelectedIndex > 0)
             {
-                DataTable dtprojectlist = project_BAO.GetdtProjectList(Convert.ToString(companycode));
+                //Get all project in an account.
+                DataTable dataTableProjectList = projectBusinessAccessObject.GetdtProjectList(Convert.ToString(companycode));
 
-                if (dtprojectlist.Rows.Count > 0)
+                if (dataTableProjectList.Rows.Count > 0)
                 {
+                    //Bind project dropdown
                     ddlProject.Items.Clear();
                     ddlProject.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Select", "0"));
-                    ddlProject.DataSource = dtprojectlist;
+                    ddlProject.DataSource = dataTableProjectList;
                     ddlProject.DataTextField = "Title";
                     ddlProject.DataValueField = "ProjectID";
                     ddlProject.DataBind();
@@ -816,6 +830,11 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         }
     }
 
+    /// <summary>
+    /// Bind report controls on change of project by project type
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlProject_SelectedIndexChanged(object sender, EventArgs e)
     {
         chkCoverPage.Checked = false;
@@ -856,15 +875,15 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
         ImgMiddleImage.Src = "../../UploadDocs/noImage.jpg";
 
-        strProjectID = ddlProject.SelectedValue;
+        stringProjectID = ddlProject.SelectedValue;
 
 
         //Controls Visibility  Hide/Show Only for Report3.
-        ControlHideShow(strProjectID);
+        ControlHideShow(stringProjectID);
 
-
-        SaveSettingShow(strProjectID);
-
+        //Bind report controls
+        SaveSettingShow(stringProjectID);
+        //REbind Editor
         ReBindEditorContent();
     }
 
@@ -873,69 +892,76 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
      */
     protected void ControlHideShow(string projectid)
     {
-        DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
-        if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+        DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
+        if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
         {
             //TODO: Here will Check If the Report is Report3(in db 3 will be there for report3) then
             // Only will Change the controls Visiblity show/hide.
-            if (dtreportsetting.Rows[0]["ReportType"].ToString() == "3")
+            if (dataTableReportsetting.Rows[0]["ReportType"].ToString() == "3")
             {
                 catintro.Visible = false;
                 catQstText.Visible = false;
 
                 //////prevscr.Visible = false;
-
             }
             else
             {
-
                 catintro.Visible = true;
                 catQstText.Visible = true;
 
                 //////prevscr.Visible = true;
-
             }
         }
     }
 
+    /// <summary>
+    /// Hide show category introduction section from report section.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void ddlReportType_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (ddlReportType.SelectedValue != "3")
         {
-
             catintro.Visible = true;
             catQstText.Visible = true;
-
             //////prevscr.Visible = true;
-
         }
         else if (ddlReportType.SelectedValue == "3")
         {
             catintro.Visible = false;
             catQstText.Visible = false;
-
             //////prevscr.Visible = false;
-
         }
     }
 
     #endregion
 
     #region Check Box Methods
-
+    /// <summary>
+    /// Bind report section 
+    /// </summary>
     protected void GroupCheckBoxListBind()
     {
-        dtGroupList = project_BAO.GetProjectRelationship(Convert.ToInt32(strProjectID));
-
+        dataTableGroupList = projectBusinessAccessObject.GetProjectRelationship(Convert.ToInt32(stringProjectID));
     }
 
+    /// <summary>
+    /// Get report section value
+    /// </summary>
     protected void RetrieveCheckBoxValue()
     {
-        strGroupList = "";
+        stringGroupList = "";
 
-        reportManagement_BE.ProjectRelationGrp = strGroupList;
+        reportManagementBusinessEntity.ProjectRelationGrp = stringGroupList;
     }
 
+    /// <summary>
+    /// Check whether uploaded document is valid or not.
+    /// </summary>
+    /// <param name="uploadControl"></param>
+    /// <returns></returns>
     protected bool IsFileValid(FileUpload uploadControl)
     {
         bool isFileOk = true;
@@ -943,6 +969,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         string[] AllowedExtensions = ConfigurationManager.AppSettings["Fileextension"].Split(',');
         bool isExtensionError = false;
         int MaxSizeAllowed = 5 * 1048576;// Size Allow only in mb
+
         if (uploadControl.HasFile)
         {
             bool isSizeError = false;
@@ -991,11 +1018,13 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             }
         }
         return isFileOk;
-
-
-
     }
 
+    /// <summary>
+    /// Get unique name for uploaded  images
+    /// </summary>
+    /// <param name="filename"></param>
+    /// <returns></returns>
     public string GetUniqueFilename(string filename)
     {
         string basename = Path.Combine(Path.GetDirectoryName(filename), Path.GetFileNameWithoutExtension(filename));
@@ -1004,102 +1033,98 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         return uniquefilename;
     }
 
+    /// <summary>
+    /// Bind report controls.
+    /// </summary>
+    /// <param name="projectid"></param>
     protected void SaveSettingShow(string projectid)
     {
-        DataTable dtreportsetting = reportManagement_BAO.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
-        if (dtreportsetting != null && dtreportsetting.Rows.Count > 0)
+        DataTable dataTableReportsetting = reportManagementBusinessAccessObject.GetdataProjectSettingReportByID(Convert.ToInt32(projectid));
+
+        if (dataTableReportsetting != null && dataTableReportsetting.Rows.Count > 0)
         {
-            if (dtreportsetting.Rows[0]["ReportType"].ToString() != String.Empty)
-                ddlReportType.SelectedValue = dtreportsetting.Rows[0]["ReportType"].ToString();
+            if (dataTableReportsetting.Rows[0]["ReportType"].ToString() != String.Empty)
+                ddlReportType.SelectedValue = dataTableReportsetting.Rows[0]["ReportType"].ToString();
             else
                 ddlReportType.SelectedValue = "0";
 
-            if (dtreportsetting.Rows[0]["PageHeading1"].ToString() != String.Empty)
-                txtPageHeading1.Text = dtreportsetting.Rows[0]["PageHeading1"].ToString();
+            if (dataTableReportsetting.Rows[0]["PageHeading1"].ToString() != String.Empty)
+                txtPageHeading1.Text = dataTableReportsetting.Rows[0]["PageHeading1"].ToString();
             else
                 txtPageHeading1.Text = "";
 
-            if (dtreportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
-                txtPageHeading2.Text = dtreportsetting.Rows[0]["PageHeading2"].ToString();
+            if (dataTableReportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
+                txtPageHeading2.Text = dataTableReportsetting.Rows[0]["PageHeading2"].ToString();
             else
                 txtPageHeading2.Text = "";
 
-            if (dtreportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
-                txtPageHeading3.Text = dtreportsetting.Rows[0]["PageHeading3"].ToString();
+            if (dataTableReportsetting.Rows[0]["PageHeading2"].ToString() != String.Empty)
+                txtPageHeading3.Text = dataTableReportsetting.Rows[0]["PageHeading3"].ToString();
             else
                 txtPageHeading3.Text = "";
 
-            if (dtreportsetting.Rows[0]["PageHeadingColor"].ToString() != String.Empty)
-                txtPageHeadingColor.Text = dtreportsetting.Rows[0]["PageHeadingColor"].ToString();
+            if (dataTableReportsetting.Rows[0]["PageHeadingColor"].ToString() != String.Empty)
+                txtPageHeadingColor.Text = dataTableReportsetting.Rows[0]["PageHeadingColor"].ToString();
             else
                 txtPageHeadingColor.Text = "";
 
-
-
-
-
-            if (dtreportsetting.Rows[0]["ConclusionHeading"].ToString() != String.Empty)
-                txtConclusionHeading.Text = dtreportsetting.Rows[0]["ConclusionHeading"].ToString();
+            if (dataTableReportsetting.Rows[0]["ConclusionHeading"].ToString() != String.Empty)
+                txtConclusionHeading.Text = dataTableReportsetting.Rows[0]["ConclusionHeading"].ToString();
             else
                 txtConclusionHeading.Text = "";
 
-
-
             /*To Show the Image*/
-            if (dtreportsetting.Rows[0]["PageLogo"].ToString() != String.Empty)
+            if (dataTableReportsetting.Rows[0]["PageLogo"].ToString() != String.Empty)
             {
-                hdnImgTopImage.Value = dtreportsetting.Rows[0]["PageLogo"].ToString();
-                Session["PageLogo"] = dtreportsetting.Rows[0]["PageLogo"].ToString();
+                hdnImgTopImage.Value = dataTableReportsetting.Rows[0]["PageLogo"].ToString();
+                Session["PageLogo"] = dataTableReportsetting.Rows[0]["PageLogo"].ToString();
             }
             else
                 hdnImgTopImage.Value = "";
 
+            //Set image path.
             if (hdnImgTopImage.Value != "")
                 ImgTopImage.Src = "../../UploadDocs/" + hdnImgTopImage.Value;
             else
                 ImgTopImage.Src = "../../UploadDocs/noImage.jpg";
 
-
             /*To Show the Front Page Logo 2*/
-            if (dtreportsetting.Rows[0]["FrontPageLogo2"].ToString() != String.Empty)
+            if (dataTableReportsetting.Rows[0]["FrontPageLogo2"].ToString() != String.Empty)
             {
-                hdnImgMiddleImage.Value = dtreportsetting.Rows[0]["FrontPageLogo2"].ToString();
-                Session["FileName"] = dtreportsetting.Rows[0]["FrontPageLogo2"].ToString();
+                hdnImgMiddleImage.Value = dataTableReportsetting.Rows[0]["FrontPageLogo2"].ToString();
+                Session["FileName"] = dataTableReportsetting.Rows[0]["FrontPageLogo2"].ToString();
             }
             else
                 hdnImgMiddleImage.Value = "";
 
+            //set middle image path
             if (hdnImgMiddleImage.Value != "")
                 ImgMiddleImage.Src = "../../UploadDocs/" + hdnImgMiddleImage.Value;
             else
                 ImgMiddleImage.Src = "../../UploadDocs/noImage.jpg";
 
-
-            
-                /*To Show the Front Page Logo 3*/
-            if (dtreportsetting.Rows[0]["frontPdfFileName"].ToString() != String.Empty)
+            /*To Show the Front Page Logo 3*/
+            if (dataTableReportsetting.Rows[0]["frontPdfFileName"].ToString() != String.Empty)
             {
-                hdnFrontPDF.Value = dtreportsetting.Rows[0]["frontPdfFileName"].ToString();
-                Session["frontPdfFileName"] = dtreportsetting.Rows[0]["frontPdfFileName"].ToString();
+                hdnFrontPDF.Value = dataTableReportsetting.Rows[0]["frontPdfFileName"].ToString();
+                Session["frontPdfFileName"] = dataTableReportsetting.Rows[0]["frontPdfFileName"].ToString();
             }
             else
                 hdnFrontPDF.Value = "";
 
-
-
             /*To Show the Front Page Logo 3*/
-            if (dtreportsetting.Rows[0]["FrontPageLogo3"].ToString() != String.Empty)
+            if (dataTableReportsetting.Rows[0]["FrontPageLogo3"].ToString() != String.Empty)
             {
-                hdnImgBottomImage.Value = dtreportsetting.Rows[0]["FrontPageLogo3"].ToString();
-                Session["FrontPageLogo3"] = dtreportsetting.Rows[0]["FrontPageLogo3"].ToString();
+                hdnImgBottomImage.Value = dataTableReportsetting.Rows[0]["FrontPageLogo3"].ToString();
+                Session["FrontPageLogo3"] = dataTableReportsetting.Rows[0]["FrontPageLogo3"].ToString();
             }
             else
                 hdnImgBottomImage.Value = "";
 
-            if (dtreportsetting.Rows[0]["ScoreTableImage"].ToString() != String.Empty)
+            if (dataTableReportsetting.Rows[0]["ScoreTableImage"].ToString() != String.Empty)
             {
-                hdnimgScoreTable.Value = dtreportsetting.Rows[0]["ScoreTableImage"].ToString();
-                Session["ScoreTableImage"] = dtreportsetting.Rows[0]["ScoreTableImage"].ToString();
+                hdnimgScoreTable.Value = dataTableReportsetting.Rows[0]["ScoreTableImage"].ToString();
+                Session["ScoreTableImage"] = dataTableReportsetting.Rows[0]["ScoreTableImage"].ToString();
             }
             else
                 hdnimgScoreTable.Value = "";
@@ -1110,10 +1135,10 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 imgScoreTable.Src = "../../UploadDocs/noImage.jpg";
 
 
-            if (dtreportsetting.Rows[0]["FooterImage"].ToString() != String.Empty)
+            if (dataTableReportsetting.Rows[0]["FooterImage"].ToString() != String.Empty)
             {
-                hdnimgFooter.Value = dtreportsetting.Rows[0]["FooterImage"].ToString();
-                Session["FooterImage"] = dtreportsetting.Rows[0]["FooterImage"].ToString();
+                hdnimgFooter.Value = dataTableReportsetting.Rows[0]["FooterImage"].ToString();
+                Session["FooterImage"] = dataTableReportsetting.Rows[0]["FooterImage"].ToString();
             }
             else
                 hdnimgFooter.Value = "";
@@ -1123,26 +1148,23 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             else
                 imgFooter.Src = "../../UploadDocs/noImage.jpg";
 
-
-
             if (hdnImgBottomImage.Value != "")
                 ImgBottomImage.Src = "../../UploadDocs/" + hdnImgBottomImage.Value;
             else
                 ImgBottomImage.Src = "../../UploadDocs/noImage.jpg";
 
-
-            if (dtreportsetting.Rows[0]["PageHeadingCopyright"].ToString() != String.Empty)
-                txtPageCopyright.Text = dtreportsetting.Rows[0]["PageHeadingCopyright"].ToString();
+            if (dataTableReportsetting.Rows[0]["PageHeadingCopyright"].ToString() != String.Empty)
+                txtPageCopyright.Text = dataTableReportsetting.Rows[0]["PageHeadingCopyright"].ToString();
             else
                 txtPageCopyright.Text = "";
 
-            if (dtreportsetting.Rows[0]["PageHeadingIntro"].ToString() != String.Empty)
-                txtPageIntroduction.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingIntro"].ToString());
+            if (dataTableReportsetting.Rows[0]["PageHeadingIntro"].ToString() != String.Empty)
+                txtPageIntroduction.Value = Server.HtmlDecode(dataTableReportsetting.Rows[0]["PageHeadingIntro"].ToString());
             else
                 txtPageIntroduction.Value = "";
 
-            if (dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString() != String.Empty)
-                txtPageConclusion.Value = Server.HtmlDecode(dtreportsetting.Rows[0]["PageHeadingConclusion"].ToString());
+            if (dataTableReportsetting.Rows[0]["PageHeadingConclusion"].ToString() != String.Empty)
+                txtPageConclusion.Value = Server.HtmlDecode(dataTableReportsetting.Rows[0]["PageHeadingConclusion"].ToString());
             else
                 txtPageConclusion.Value = "";
 
@@ -1151,25 +1173,23 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             //////else
             //////    txtConHighLowRange.Text = "";
 
-            if (dtreportsetting.Rows[0]["RadarGraphCategoryCount"].ToString() != String.Empty)
-                txtRadarGraphCategoryCount.Text = dtreportsetting.Rows[0]["RadarGraphCategoryCount"].ToString();
+            if (dataTableReportsetting.Rows[0]["RadarGraphCategoryCount"].ToString() != String.Empty)
+                txtRadarGraphCategoryCount.Text = dataTableReportsetting.Rows[0]["RadarGraphCategoryCount"].ToString();
             else
                 txtRadarGraphCategoryCount.Text = "";
 
-            
-
-
-            if (dtreportsetting.Rows[0]["CoverPage"].ToString() == "1")
+            //Check uncheck report selection
+            if (dataTableReportsetting.Rows[0]["CoverPage"].ToString() == "1")
                 chkCoverPage.Checked = true;
             else
                 chkCoverPage.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ReportIntroduction"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["ReportIntroduction"].ToString() == "1")
                 chkReportIntro.Checked = true;
             else
                 chkReportIntro.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowScoreRespondents"].ToString() == "True")
+            if (dataTableReportsetting.Rows[0]["ShowScoreRespondents"].ToString() == "True")
                 chkShowScoreRespondents.Checked = true;
             else
                 chkShowScoreRespondents.Checked = false;
@@ -1179,18 +1199,17 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             //////else
             //////    chkCatQstText.Checked = false;
 
-            if (dtreportsetting.Rows[0]["CatQstList"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["CatQstList"].ToString() == "1")
                 chkCatQstlist.Checked = true;
             else
                 chkCatQstlist.Checked = false;
 
-            if (dtreportsetting.Rows[0]["CatDataChart"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["CatDataChart"].ToString() == "1")
                 chkCatQstChart.Checked = true;
             else
                 chkCatQstChart.Checked = false;
 
-
-            if (dtreportsetting.Rows[0]["Conclusionpage"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["Conclusionpage"].ToString() == "1")
                 chkConclusion.Checked = true;
             else
                 chkConclusion.Checked = false;
@@ -1201,14 +1220,14 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             else
                 chkCategoryIntro.Checked = false;
 
-            if (dtreportsetting.Rows[0]["FullProjectGrp"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["FullProjectGrp"].ToString() == "1")
 
                 chkFullPrjGrp.Checked = true;
             else
                 chkFullPrjGrp.Checked = false;
 
 
-            if (dtreportsetting.Rows[0]["FreeTextResponses"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["FreeTextResponses"].ToString() == "1")
 
                 chkBoxFreeText.Checked = true;
             else
@@ -1224,77 +1243,73 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             //    reportManagement_BE.RadarGraphCategoryCount = 4;
 
 
-            if (dtreportsetting.Rows[0]["AnalysisI"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["AnalysisI"].ToString() == "1")
 
                 AnalysisI_Chkbox.Checked = true;
             else
                 AnalysisI_Chkbox.Checked = false;
 
 
-            if (dtreportsetting.Rows[0]["AnalysisII"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["AnalysisII"].ToString() == "1")
 
                 AnalysisII_Chkbox.Checked = true;
             else
                 AnalysisII_Chkbox.Checked = false;
 
-
-
-            if (dtreportsetting.Rows[0]["AnalysisIII"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["AnalysisIII"].ToString() == "1")
 
                 AnalysisIII_Chkbox.Checked = true;
             else
                 AnalysisIII_Chkbox.Checked = false;
 
-            if (dtreportsetting.Rows[0]["Programme_Average"].ToString() == "1")
+            if (dataTableReportsetting.Rows[0]["Programme_Average"].ToString() == "1")
 
                 Programme_Avg_Chkbox.Checked = true;
             else
                 Programme_Avg_Chkbox.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowRadar"] != null && Convert.ToString(dtreportsetting.Rows[0]["ShowRadar"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowRadar"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowRadar"]) == "True")
 
                 chkRadar.Checked = true;
             else
                 chkRadar.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowTable"] != null && Convert.ToString(dtreportsetting.Rows[0]["ShowTable"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowTable"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowTable"]) == "True")
 
                 chkTable.Checked = true;
             else
                 chkTable.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowPreviousScore1"] != null && Convert.ToString(dtreportsetting.Rows[0]["ShowPreviousScore1"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowPreviousScore1"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowPreviousScore1"]) == "True")
 
                 chkPrvScore1.Checked = true;
             else
                 chkPrvScore1.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowPreviousScore2"] != null && Convert.ToString(dtreportsetting.Rows[0]["ShowPreviousScore2"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowPreviousScore2"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowPreviousScore2"]) == "True")
 
                 chkPrvScore2.Checked = true;
             else
                 chkPrvScore2.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowBarGraph"] != null  && Convert.ToString(dtreportsetting.Rows[0]["ShowBarGraph"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowBarGraph"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowBarGraph"]) == "True")
 
                 chkBarGraph.Checked = true;
             else
                 chkBarGraph.Checked = false;
 
-            if (dtreportsetting.Rows[0]["ShowLineChart"] != null && Convert.ToString(dtreportsetting.Rows[0]["ShowLineChart"]) == "True")
+            if (dataTableReportsetting.Rows[0]["ShowLineChart"] != null && Convert.ToString(dataTableReportsetting.Rows[0]["ShowLineChart"]) == "True")
 
                 chkLineChart.Checked = true;
             else
                 chkLineChart.Checked = false;
-
 
             ////if (dtreportsetting.Rows[0]["PreviousScoreVisible"].ToString() == "1")
             ////    chkPreviousScore.Checked = true;
             ////else
             ////    chkPreviousScore.Checked = false;
 
-
-            string[] group = Regex.Split(dtreportsetting.Rows[0]["ProjectRelationGrp"].ToString(), ",");
+            string[] group = Regex.Split(dataTableReportsetting.Rows[0]["ProjectRelationGrp"].ToString(), ",");
             if (group.Length > 1)
             {
                 group[0] = group[0].Replace("'", "");
@@ -1320,6 +1335,12 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
     //    //else
     //    //    chkReportIntro.Checked = false;
     //}
+
+    /// <summary>
+    /// check if category introduction is checked then check category question and category data chart list else uncheck.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCategoryIntro_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCategoryIntro.Checked == true)
@@ -1333,6 +1354,12 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             chkCatQstChart.Checked = false;
         }
     }
+
+    /// <summary>
+    /// check if category question list  is checked then check category introduction else uncheck.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCatQstlist_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCatQstlist.Checked == true)
@@ -1345,6 +1372,12 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
                 chkCategoryIntro.Checked = true;
         }
     }
+
+    /// <summary>
+    /// check if category data list  is checked then check category introduction else uncheck.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     protected void chkCatQstChart_CheckedChanged(object sender, EventArgs e)
     {
         if (chkCatQstChart.Checked == true)
@@ -1359,12 +1392,20 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
     }
 
     #endregion
-
+    /// <summary>
+    /// Write file content to pdf
+    /// </summary>
+    /// <param name="sourceFile">source file details</param>
+    /// <param name="heading1"> first pdf heading</param>
+    /// <param name="heading2">second pdf heading</param>
+    /// <param name="heading3">third pdf heading</param>
+    /// <param name="htmlcolor">color</param>
+    /// <param name="width"></param>
+    /// <param name="outputFile"></param>
     protected static void WriteContentToPdf(FileInfo sourceFile, string heading1, string heading2, string heading3, string htmlcolor, float width, out string outputFile)
     {
-
-
         DirectoryInfo di = sourceFile.Directory;
+        //set pdf file Name.
         string watermarkedFile = di.FullName + "\\" + DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".pdf";
         //File.Copy(sourceFile.FullName, di.FullName + "\\" + watermarkedFile);
 
@@ -1377,8 +1418,11 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
                 //rectangle(stamper, htmlcolor);
                 Rectangle rect = reader1.GetPageSize(1);
+                //Write first heading
                 watermark(stamper, layer, rect, heading1, 250, 18, 310, 715);
+                //Write second heading
                 watermark(stamper, layer, rect, heading2, 270, 16, 310, 685);
+                //Write third heading
                 watermark(stamper, layer, rect, heading3, 290, 14, 310, 658);
 
             }
@@ -1395,30 +1439,39 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
 
     }
 
+    /// <summary>
+    /// Download pdf if flag is "D"
+    /// </summary>
+    /// <param name="flag"></param>
+    /// <returns></returns>
     public string ProcessFrontPdf(string flag)
     {
         string frontPDFPath = "";
+        //If file upload control has file
         if (IsFileValid(pdfFileUpload))
         {
             if (pdfFileUpload.HasFile)
             {
+                //Get uploaded file name
                 filename = System.IO.Path.GetFileName(pdfFileUpload.PostedFile.FileName);
-
+                //get unique file name
                 file = GetUniqueFilename(filename);
-
+                //Get file path
                 string path = MapPath("~\\UploadDocs\\") + file;
+                //Save uploaded file.
                 pdfFileUpload.SaveAs(path);
                 string name = file;
+                //Read file
                 FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + file, FileMode.Open, FileAccess.Read);
                 BinaryReader br1 = new BinaryReader(fs1);
                 Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                 br1.Close();
                 fs1.Close();
                 frontPDFPath = file;
-
+                //Write header to pdf.
                 WriteContentToPdf(new FileInfo(path), txtPageHeading1.Text, txtPageHeading2.Text, txtPageHeading3.Text, txtPageHeadingColor.Text, 450f, out path);
 
-                if (flag == "D")
+                if (flag == "D")//Download pdf
                 {
                     string openpdf = path;
                     Response.ClearContent();
@@ -1436,22 +1489,25 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
             }
             else
             {
-
+                //Get front page pdf file name.
                 if (hdnFrontPDF.Value != "")
                 {
                     string name = hdnFrontPDF.Value;
+                    //Get file path
                     FileStream fs1 = new FileStream(Server.MapPath("~\\UploadDocs\\") + hdnFrontPDF.Value, FileMode.Open, FileAccess.Read);
                     BinaryReader br1 = new BinaryReader(fs1);
+                    //read in bytes
                     Byte[] docbytes = br1.ReadBytes((Int32)fs1.Length);
                     br1.Close();
                     fs1.Close();
-                   
+
                     string path = MapPath("~\\UploadDocs\\") + name;
+                    //Write header to pdf.
                     WriteContentToPdf(new FileInfo(path), txtPageHeading1.Text, txtPageHeading2.Text, txtPageHeading3.Text, txtPageHeadingColor.Text, 450f, out path);
 
-                    if (flag == "D")
+                    if (flag == "D")//Download pdf
                     {
-                      
+
                         string openpdf = path;
                         Response.ClearContent();
                         Response.ClearHeaders();
@@ -1474,12 +1530,17 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         return frontPDFPath;
     }
 
+    /// <summary>
+    /// It is of No use.
+    /// </summary>
+    /// <param name="stamper"></param>
+    /// <param name="color"></param>
     private static void rectangle(PdfStamper stamper, string color)
     {
         BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
 
-        System.Drawing.Color bckgrndcol = System.Drawing.ColorTranslator.FromHtml(color);
-        BaseColor bckgrndco = new BaseColor(bckgrndcol);
+        System.Drawing.Color backgroundcolor = System.Drawing.ColorTranslator.FromHtml(color);
+        BaseColor bckgrndco = new BaseColor(backgroundcolor);
 
         PdfContentByte cb = stamper.GetOverContent(1);
         PdfGState gState = new PdfGState();
@@ -1493,9 +1554,19 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         rectangle.BackgroundColor = bckgrndco;
 
         cb.Rectangle(rectangle);
-
     }
 
+    /// <summary>
+    /// Set content to pdf
+    /// </summary>
+    /// <param name="stamper">Pdf stamper object</param>
+    /// <param name="layer">pdfLayer</param>
+    /// <param name="rect">Rectangle</param>
+    /// <param name="text">text</param>
+    /// <param name="location">locations</param>
+    /// <param name="fontsize">fonr size</param>
+    /// <param name="xAxis">xAxis position</param>
+    /// <param name="yAxis">yAxis position</param>
     private static void watermark(PdfStamper stamper, PdfLayer layer, Rectangle rect, string text, int location, int fontsize, float xAxis, float yAxis)
     {
         PdfContentByte cb = stamper.GetOverContent(1);
@@ -1508,7 +1579,7 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         PdfGState gState = new PdfGState();
         //gState.FillOpacity = 0.25f;
         cb.SetGState(gState);
-
+        //Fill color to content
         cb.SetColorFill(BaseColor.BLACK);
         cb.BeginText();
         cb.ShowTextAligned(PdfContentByte.ALIGN_CENTER, text, xAxis, yAxis, 0f);
@@ -1518,6 +1589,9 @@ new object[] {"UIColor","Maximize","ShowBlocks"} // No comma for the last row.
         cb.EndLayer();
     }
 
+    /// <summary>
+    /// Rebind Introduction and Conclusion editor .
+    /// </summary>
     private void ReBindEditorContent()
     {
         txtPageIntroduction.Value = Server.HtmlDecode(txtPageIntroduction.InnerHtml);
