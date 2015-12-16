@@ -10,8 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using DAF_BAO;
@@ -20,10 +18,11 @@ using Administration_BE;
 using Administration_DAO;
 
 using System.Data;
-using System.Data.SqlClient;
 
-namespace Administration_BAO {
-    public class Vendor_BAO : Base_BAO {
+namespace Administration_BAO
+{
+    public class Vendor_BAO : Base_BAO
+    {
 
         #region "Private Member Variable"
 
@@ -31,80 +30,93 @@ namespace Administration_BAO {
 
         #endregion
 
-
         #region "Business Logic for Vendor BAO"
 
         /// <summary>
         /// This Method returns the Users from User_DAO on passing User_BE as a parameter
         /// </summary>
-        /// <param name="p_user_BE"></param>
+        /// <param name="userBusinessEntity"></param>
         /// <returns></returns>
-
-        public List<User_BE> GetVendorById(User_BE p_user_BE) {
-            List<User_BE> user_BEList = null;
-            try {
+        public List<User_BE> GetVendorById(User_BE userBusinessEntity)
+        {
+            List<User_BE> userBusinessEntityList = null;
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                User_DAO user_DAO = new User_DAO();
-                p_user_BE.IsActive = true;
-                user_DAO.GetUser(p_user_BE);
+                User_DAO userDataAccessObject = new User_DAO();
+                userBusinessEntity.IsActive = true;
 
-                user_BEList = user_DAO.User_BEList;
+                userDataAccessObject.GetUser(userBusinessEntity);
+
+                userBusinessEntityList = userDataAccessObject.UserBusinessEntityList;
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return user_BEList;
+            return userBusinessEntityList;
         }
 
         /// <summary>
         /// This Method returns the Users from User_DAO on passing User_BE, PageIndex
         /// </summary>
-        /// <param name="p_user_BE"></param>
+        /// <param name="userBusinessEntity"></param>
         /// <param name="p_pageIndex"></param>
         /// <returns></returns>
-
-        public List<User_BE> GetVendor(User_BE p_user_BE) {
-            List<User_BE> user_BEList = null;
-            try {
+        public List<User_BE> GetVendor(User_BE userBusinessEntity)
+        {
+            List<User_BE> userBusinessEntityList = null;
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
 
-                User_DAO user_DAO = new User_DAO();
-                p_user_BE.IsActive = true;
-                user_DAO.GetUsers(p_user_BE);
+                User_DAO userDataAccessObject = new User_DAO();
+                userBusinessEntity.IsActive = true;
 
-                user_BEList = user_DAO.User_BEList;
+                userDataAccessObject.GetUsers(userBusinessEntity);
+
+                userBusinessEntityList = userDataAccessObject.UserBusinessEntityList;
+
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return user_BEList;
+            return userBusinessEntityList;
         }
 
         /// <summary>
         /// This method passes the User_BE entity to User_DAO and performs an add operation
         /// </summary>
-        /// <param name="p_user_BE"></param>
-        public int AddVendor(User_BE p_user_BE) {
+        /// <param name="userBusinessEntity"></param>
+        public int AddVendor(User_BE userBusinessEntity)
+        {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                User_DAO user_DAO = new User_DAO();
-                addVendor = user_DAO.AddUser(p_user_BE);
+
+                User_DAO userDataAccessObject = new User_DAO();
+
+                addVendor = userDataAccessObject.AddUser(userBusinessEntity);
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
@@ -116,27 +128,32 @@ namespace Administration_BAO {
         /// <summary>
         /// This method passes the User_BE entity to User_DAO and performs an update operation
         /// </summary>
-        /// <param name="p_user_BE"></param>
-        public void UpdateVendor(User_BE p_user_BE) {
+        /// <param name="userBusinessEntity"></param>
+        public void UpdateVendor(User_BE userBusinessEntity)
+        {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                User_DAO user_DAO = new User_DAO();
 
-                user_DAO.UpdateUser(p_user_BE);
+                User_DAO userDataAccessObject = new User_DAO();
+
+                userDataAccessObject.UpdateUser(userBusinessEntity);
 
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
@@ -147,37 +164,41 @@ namespace Administration_BAO {
         /// <summary>
         /// This method passes the User_BE entity to User_DAO and performs a delete operation
         /// </summary>
-        /// <param name="p_user_BE"></param>
-        public void DeleteVendor(User_BE p_user_BE) {
+        /// <param name="userBusinessEntity"></param>
+        public void DeleteVendor(User_BE userBusinessEntity)
+        {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                
-                User_DAO user_DAO = new User_DAO();                
-                User_BE user_BE = new User_BE();
-                List<User_BE> user_BEList;
 
-                user_BE.UserID = p_user_BE.UserID;
+                User_DAO userDataAccessObject = new User_DAO();
+                User_BE BusinessEntityUser = new User_BE();
+                List<User_BE> userBusinessEntityList;
 
-                user_DAO.GetUser(user_BE);
-                user_BEList = user_DAO.User_BEList;
+                BusinessEntityUser.UserID = userBusinessEntity.UserID;
 
-                user_BE = user_BEList[0];
-                user_BE.IsActive = false;
-                UpdateVendor(user_BE);
+                userDataAccessObject.GetUser(BusinessEntityUser);
+                userBusinessEntityList = userDataAccessObject.UserBusinessEntityList;
+
+                BusinessEntityUser = userBusinessEntityList[0];
+                BusinessEntityUser.IsActive = false;
+                UpdateVendor(BusinessEntityUser);
 
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
@@ -185,58 +206,82 @@ namespace Administration_BAO {
             }
         }
 
-        public List<User_BE> GetData() {
-            User_BE user_BE = new User_BE();
-            List<User_BE> userBEList = GetVendorById(user_BE);
+        /// <summary>
+        /// Get vender details llist by userid
+        /// </summary>
+        /// <returns></returns>
+        public List<User_BE> GetData()
+        {
+            User_BE userBusinessEntity = new User_BE();
+            List<User_BE> userBEList = GetVendorById(userBusinessEntity);
             return userBEList;
         }
 
-        public List<User_BE> GetVendorDetails() {
-            User_BE user_BE = (User_BE)System.Web.HttpContext.Current.Session["userBE"];
-            List<User_BE> user_BEList = GetVendor(user_BE);
-            return user_BEList;
+        /// <summary>
+        /// Get vender details 
+        /// </summary>
+        /// <returns></returns>
+        public List<User_BE> GetVendorDetails()
+        {
+            User_BE userBusinessEntity = (User_BE)System.Web.HttpContext.Current.Session["userBE"];
+            List<User_BE> userBusinessEntityList = GetVendor(userBusinessEntity);
+            return userBusinessEntityList;
         }
-        public void DeleteVendorDetails() {
-            User_BE p_user_BE =(User_BE)System.Web.HttpContext.Current.Session["user_BE_Delete"];
-            DeleteVendor(p_user_BE);
+
+        /// <summary>
+        /// Delete vender details by userid
+        /// </summary>
+        /// <returns></returns>
+        public void DeleteVendorDetails()
+        {
+            User_BE userBusinessEntity = (User_BE)System.Web.HttpContext.Current.Session["user_BE_Delete"];
+            DeleteVendor(userBusinessEntity);
         }
 
-        private User_BE UpdateBE(User_BE p_user_BE,string p_type ) {
-            User_BE user_BEPrimary = new User_BE();
-            User_DAO user_DAO = new User_DAO();
-            List<User_BE> user_BEList = new List<User_BE>();
-            
-            user_BEPrimary.UserID = p_user_BE.UserID;
+        /// <summary>
+        /// update User_BE values
+        /// </summary>
+        /// <returns></returns>
+        private User_BE UpdateBE(User_BE userBusinessEntity, string type)
+        {
+            User_BE userBusinessEntityPrimary = new User_BE();
+            User_DAO userDataAccessObject = new User_DAO();
+            List<User_BE> userBusinessEntityList = new List<User_BE>();
 
-            user_DAO.GetUser(user_BEPrimary);
+            userBusinessEntityPrimary.UserID = userBusinessEntity.UserID;
 
-            user_BEList = user_DAO.User_BEList;
+            userDataAccessObject.GetUser(userBusinessEntityPrimary);
 
-            User_BE p_user_BELatest = new User_BE();
+            userBusinessEntityList = userDataAccessObject.UserBusinessEntityList;
 
-            p_user_BELatest = user_BEList[0];
+            User_BE userBusinessEntityLatest = new User_BE();
 
-            if (p_type == "U") {
-                p_user_BELatest.FName = p_user_BE.FName;
-                p_user_BELatest.Email = p_user_BE.Email;
-                p_user_BELatest.IsActive = p_user_BE.IsActive;
-                p_user_BELatest.Address1 = p_user_BE.Address1;
-                p_user_BELatest.Address2 = p_user_BE.Address2;
-                p_user_BELatest.City = p_user_BE.City;
-                p_user_BELatest.State = p_user_BE.State;
-                p_user_BELatest.CountryID = p_user_BE.CountryID;
-                p_user_BELatest.Zip = p_user_BE.Zip;
-                p_user_BELatest.TelNumber = p_user_BE.TelNumber;
-                p_user_BELatest.FaxNumber = p_user_BE.FaxNumber;
-                p_user_BELatest.Note = p_user_BE.Note;
-                p_user_BELatest.IsConfirmed = p_user_BE.IsConfirmed;
-                p_user_BELatest.Type = p_user_BE.Type;
-                p_user_BELatest.BPNumber = p_user_BE.BPNumber;
+            userBusinessEntityLatest = userBusinessEntityList[0];
+
+            if (type == "U")
+            {
+                userBusinessEntityLatest.FName = userBusinessEntity.FName;
+                userBusinessEntityLatest.Email = userBusinessEntity.Email;
+                userBusinessEntityLatest.IsActive = userBusinessEntity.IsActive;
+                userBusinessEntityLatest.Address1 = userBusinessEntity.Address1;
+                userBusinessEntityLatest.Address2 = userBusinessEntity.Address2;
+                userBusinessEntityLatest.City = userBusinessEntity.City;
+                userBusinessEntityLatest.State = userBusinessEntity.State;
+                userBusinessEntityLatest.CountryID = userBusinessEntity.CountryID;
+                userBusinessEntityLatest.Zip = userBusinessEntity.Zip;
+                userBusinessEntityLatest.TelNumber = userBusinessEntity.TelNumber;
+                userBusinessEntityLatest.FaxNumber = userBusinessEntity.FaxNumber;
+                userBusinessEntityLatest.Note = userBusinessEntity.Note;
+                userBusinessEntityLatest.IsConfirmed = userBusinessEntity.IsConfirmed;
+                userBusinessEntityLatest.Type = userBusinessEntity.Type;
+                userBusinessEntityLatest.BPNumber = userBusinessEntity.BPNumber;
             }
-            else {
-                p_user_BELatest.IsActive = false;}
+            else
+            {
+                userBusinessEntityLatest.IsActive = false;
+            }
 
-            return p_user_BELatest;
+            return userBusinessEntityLatest;
         }
         #endregion
     }

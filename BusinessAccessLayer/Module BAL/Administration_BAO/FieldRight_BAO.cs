@@ -10,8 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using DAF_BAO;
@@ -19,11 +17,14 @@ using DAF_BAO;
 using Administration_BE;
 using Administration_DAO;
 
-namespace Administration_BAO {
-    public class FieldRight_BAO : Base_BAO {
+namespace Administration_BAO
+{
+    public class FieldRight_BAO : Base_BAO
+    {
         #region "Public Constructor"
 
-        public FieldRight_BAO() {
+        public FieldRight_BAO()
+        {
 
         }
 
@@ -35,21 +36,26 @@ namespace Administration_BAO {
         /// This Method returns the array of FieldRight
         /// </summary>
         /// <returns></returns>
-        public List<FieldRight_BE> GetFieldRight() {
-            List<FieldRight_BE> FieldRight_BEList = null;
-            try {
+        public List<FieldRight_BE> GetFieldRight()
+        {
+            List<FieldRight_BE> FieldRightBusinessEntityList = null;
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
-                FieldRight_DAO FieldRight_DAO = new FieldRight_DAO();
 
-                FieldRight_DAO.GetFieldRight();
+                FieldRight_DAO FieldRightDataAccessObject = new FieldRight_DAO();
 
-                FieldRight_BEList = FieldRight_DAO.FieldRight_BEList;
+                FieldRightDataAccessObject.GetFieldRight();
+
+                FieldRightBusinessEntityList = FieldRightDataAccessObject.FieldRightBusinessEntityList;
+
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return FieldRight_BEList;
+            return FieldRightBusinessEntityList;
         }
 
         /// <summary>

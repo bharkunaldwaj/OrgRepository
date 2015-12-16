@@ -10,8 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
 
 using DAF_BAO;
@@ -19,11 +17,12 @@ using DatabaseAccessUtilities;
 using Administration_BE;
 using Administration_DAO;
 using System.Data;
-using System.Data.SqlClient;
 
 
-namespace Administration_BAO {
-    public class Group_BAO : Base_BAO {
+namespace Administration_BAO
+{
+    public class Group_BAO : Base_BAO
+    {
         #region "Business Logic for Group BAO"
 
         /// <summary>
@@ -31,39 +30,45 @@ namespace Administration_BAO {
         /// </summary>
         /// <param name="p_Group_BE"></param>
         /// <returns></returns>
-        public List<Group_BE> GetGroup(Group_BE p_group_BE) {
-            List<Group_BE> Group_BEList = null;
-            try {
+        public List<Group_BE> GetGroup(Group_BE groupBusinessEntity)
+        {
+            List<Group_BE> GroupBusinessEntityList = null;
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO Group_DAO = new Group_DAO();
+                Group_DAO GroupDataAccessObject = new Group_DAO();
 
-                Group_DAO.GetGroup(p_group_BE);
+                GroupDataAccessObject.GetGroup(groupBusinessEntity);
 
-                Group_BEList = Group_DAO.Group_BEList;
+                GroupBusinessEntityList = GroupDataAccessObject._groupBusinessEntityList;
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return Group_BEList;
+            return GroupBusinessEntityList;
         }
 
         /// <summary>
         /// To check if Group Exists
         /// </summary>
-        /// <param name="p_group_BE"></param>
+        /// <param name="groupBusinessEntity"></param>
         /// <returns></returns>
-        public bool IsGroupExist(Group_BE p_group_BE) {
-            Group_DAO Group_DAO = null;
-            try {
+        public bool IsGroupExist(Group_BE groupBusinessEntity)
+        {
+            Group_DAO GroupDataAccessObject = null;
+            try
+            {
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO = new Group_DAO();
+                GroupDataAccessObject = new Group_DAO();
                 HandleWriteLog("End", new StackTrace(true));
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 HandleException(ex);
             }
-            return Group_DAO.IsGroupExist(p_group_BE);
+            return GroupDataAccessObject.IsGroupExist(groupBusinessEntity);
 
         }
 
@@ -71,54 +76,67 @@ namespace Administration_BAO {
         /// This method passes the Group_BE entity to Group_DAO and performs an add operation
         /// </summary>
         /// <param name="p_group_BE"></param>
-        public int AddGroup(Group_BE p_group_BE) {
-            Group_DAO Group_DAO = null;
+        public int AddGroup(Group_BE groupBusinessEntity)
+        {
+            Group_DAO GroupDataAccessObject = null;
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO = new Group_DAO();
+
+                GroupDataAccessObject = new Group_DAO();
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
                 HandleException(ex);
             }
-            return Group_DAO.AddGroup(p_group_BE);
+            return GroupDataAccessObject.AddGroup(groupBusinessEntity);
         }
 
         /// <summary>
         /// This method passes the Group_BE entity to Group_DAO and performs an update operation
         /// </summary>
         /// <param name="p_group_BE"></param>
-        public void UpdateGroup(Group_BE p_group_BE) {
+        public void UpdateGroup(Group_BE groupBusinessEntity)
+        {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO Group_DAO = new Group_DAO();
-                Group_DAO.UpdateGroup(p_group_BE);
+
+                Group_DAO GroupDataAccessObject = new Group_DAO();
+
+                GroupDataAccessObject.UpdateGroup(groupBusinessEntity);
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
@@ -129,25 +147,32 @@ namespace Administration_BAO {
         /// <summary>
         /// This method passes the Group_BE entity to Group_DAO and performs an delete operation
         /// </summary>
-        /// <param name="p_group_BE"></param>
-        public void DeleteGroup(Group_BE p_group_BE) {
+        /// <param name="groupBusinessEntity"></param>
+        public void DeleteGroup(Group_BE groupBusinessEntity)
+        {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
 
-            try {
+            try
+            {
                 sqlClient = CDataSrc.Default as CSqlClient;
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO Group_DAO = new Group_DAO();
-                Group_DAO.DeleteGroup(p_group_BE);
+
+                Group_DAO GroupDataAccessObject = new Group_DAO();
+
+                GroupDataAccessObject.DeleteGroup(groupBusinessEntity);
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
             }
-            catch (Exception ex) {
-                if (dbTransaction != null) {
+            catch (Exception ex)
+            {
+                if (dbTransaction != null)
+                {
                     dbTransaction.Rollback();
                 }
 
@@ -157,16 +182,21 @@ namespace Administration_BAO {
 
         #endregion
 
+        /// <summary>
+        /// Get Group List by account id
+        /// </summary>
+        /// <param name="accountID"> account id</param>
+        /// <returns></returns>
         public DataTable GetdtGroupList(string accountID)
         {
             DataTable dtGroup = null;
-            
+
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Group_DAO group_DAO = new Group_DAO();
-                dtGroup = group_DAO.GetdtGroupList(accountID);
+                Group_DAO groupDataAccessObject = new Group_DAO();
+                dtGroup = groupDataAccessObject.GetdtGroupList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -178,6 +208,11 @@ namespace Administration_BAO {
             return dtGroup;
         }
 
+        /// <summary>
+        /// Get Group List count by account id
+        /// </summary>
+        /// <param name="accountID"> account id</param>
+        /// <returns></returns>
         public int GetGroupListCount(string accountID)
         {
             int groupCount = 0;
@@ -186,8 +221,8 @@ namespace Administration_BAO {
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Group_DAO group_DAO = new Group_DAO();
-                groupCount = group_DAO.GetGroupListCount(accountID);
+                Group_DAO groupDataAccessObject = new Group_DAO();
+                groupCount = groupDataAccessObject.GetGroupListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -200,10 +235,6 @@ namespace Administration_BAO {
         }
     }
 
-
-
-
-    
 
     public class Survey_Group_BAO : Base_BAO
     {
@@ -214,55 +245,57 @@ namespace Administration_BAO {
         /// </summary>
         /// <param name="p_Group_BE"></param>
         /// <returns></returns>
-        public List<Survey_Group_BE> GetGroup(Survey_Group_BE p_group_BE)
+        public List<Survey_Group_BE> GetGroup(Survey_Group_BE groupBusinessEntity)
         {
-            List<Survey_Group_BE> Group_BEList = null;
+            List<Survey_Group_BE> GroupBusinessEntityList = null;
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                Survey_Group_DAO Group_DAO = new Survey_Group_DAO();
 
-                Group_DAO.GetGroup(p_group_BE);
+                Survey_Group_DAO GroupDataAccessObject = new Survey_Group_DAO();
 
-                Group_BEList = Group_DAO.Group_BEList;
+                GroupDataAccessObject.GetGroup(groupBusinessEntity);
+
+                GroupBusinessEntityList = GroupDataAccessObject.GroupBusinessEntityList;
+
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-            return Group_BEList;
+            return GroupBusinessEntityList;
         }
 
         /// <summary>
         /// To check if Group Exists
         /// </summary>
-        /// <param name="p_group_BE"></param>
+        /// <param name="groupBusinessEntity"></param>
         /// <returns></returns>
-        public bool IsGroupExist(Survey_Group_BE p_group_BE)
+        public bool IsGroupExist(Survey_Group_BE groupBusinessEntity)
         {
-            Survey_Group_DAO Group_DAO = null;
+            Survey_Group_DAO GroupDataAccessObject = null;
             try
             {
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO = new Survey_Group_DAO();
+                GroupDataAccessObject = new Survey_Group_DAO();
                 HandleWriteLog("End", new StackTrace(true));
             }
             catch (Exception ex)
             {
                 HandleException(ex);
             }
-            return Group_DAO.IsGroupExist(p_group_BE);
+            return GroupDataAccessObject.IsGroupExist(groupBusinessEntity);
 
         }
 
         /// <summary>
         /// This method passes the Group_BE entity to Group_DAO and performs an add operation
         /// </summary>
-        /// <param name="p_group_BE"></param>
-        public int AddGroup(Survey_Group_BE p_group_BE)
+        /// <param name="groupBusinessEntity"></param>
+        public int AddGroup(Survey_Group_BE groupBusinessEntity)
         {
-            Survey_Group_DAO Group_DAO = null;
+            Survey_Group_DAO GroupDataAccessObject = null;
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
             IDbTransaction dbTransaction = null;
@@ -273,7 +306,9 @@ namespace Administration_BAO {
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Group_DAO = new Survey_Group_DAO();
+
+                GroupDataAccessObject = new Survey_Group_DAO();
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
@@ -287,14 +322,14 @@ namespace Administration_BAO {
 
                 HandleException(ex);
             }
-            return Group_DAO.AddGroup(p_group_BE);
+            return GroupDataAccessObject.AddGroup(groupBusinessEntity);
         }
 
         /// <summary>
         /// This method passes the Group_BE entity to Group_DAO and performs an update operation
         /// </summary>
-        /// <param name="p_group_BE"></param>
-        public void UpdateGroup(Survey_Group_BE p_group_BE)
+        /// <param name="groupBusinessEntity"></param>
+        public void UpdateGroup(Survey_Group_BE groupBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -306,8 +341,11 @@ namespace Administration_BAO {
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Survey_Group_DAO Group_DAO = new Survey_Group_DAO();
-                Group_DAO.UpdateGroup(p_group_BE);
+
+                Survey_Group_DAO GroupDataAccessObject = new Survey_Group_DAO();
+
+                GroupDataAccessObject.UpdateGroup(groupBusinessEntity);
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
@@ -326,8 +364,8 @@ namespace Administration_BAO {
         /// <summary>
         /// This method passes the Group_BE entity to Group_DAO and performs an delete operation
         /// </summary>
-        /// <param name="p_group_BE"></param>
-        public void DeleteGroup(Survey_Group_BE p_group_BE)
+        /// <param name="groupBusinessEntity"></param>
+        public void DeleteGroup(Survey_Group_BE groupBusinessEntity)
         {
             CSqlClient sqlClient = null;
             IDbConnection conn = null;
@@ -339,8 +377,11 @@ namespace Administration_BAO {
                 conn = sqlClient.Connection();
                 dbTransaction = conn.BeginTransaction();
                 HandleWriteLog("Start", new StackTrace(true));
-                Survey_Group_DAO Group_DAO = new Survey_Group_DAO();
-                Group_DAO.DeleteGroup(p_group_BE);
+
+                Survey_Group_DAO GroupDataAccessObject = new Survey_Group_DAO();
+
+                GroupDataAccessObject.DeleteGroup(groupBusinessEntity);
+
                 HandleWriteLog("End", new StackTrace(true));
                 dbTransaction.Commit();
                 conn.Close();
@@ -360,14 +401,14 @@ namespace Administration_BAO {
 
         public DataTable GetdtGroupList(string accountID)
         {
-            DataTable dtGroup = null;
+            DataTable dataTableGroup = null;
 
             try
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Group_DAO group_DAO = new Survey_Group_DAO();
-                dtGroup = group_DAO.GetdtGroupList(accountID);
+                Survey_Group_DAO groupDataAccessObject = new Survey_Group_DAO();
+                dataTableGroup = groupDataAccessObject.GetdtGroupList(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -376,7 +417,7 @@ namespace Administration_BAO {
                 HandleException(ex);
             }
 
-            return dtGroup;
+            return dataTableGroup;
         }
 
         public int GetGroupListCount(string accountID)
@@ -387,8 +428,8 @@ namespace Administration_BAO {
             {
                 //HandleWriteLog("Start", new StackTrace(true));
 
-                Survey_Group_DAO group_DAO = new Survey_Group_DAO();
-                groupCount = group_DAO.GetGroupListCount(accountID);
+                Survey_Group_DAO groupDataAccessObject = new Survey_Group_DAO();
+                groupCount = groupDataAccessObject.GetGroupListCount(accountID);
 
                 //HandleWriteLog("End", new StackTrace(true));
             }
@@ -400,9 +441,4 @@ namespace Administration_BAO {
             return groupCount;
         }
     }
-
-
-
-
-
 }
