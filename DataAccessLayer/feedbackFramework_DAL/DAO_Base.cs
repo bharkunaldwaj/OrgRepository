@@ -10,11 +10,6 @@
 
 using System;
 using System.Web;
-using System.Data;
-using System.Configuration;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml;
 using System.IO;
 
 using Miscellaneous;
@@ -25,15 +20,24 @@ namespace feedbackFramework_DAO
 {
     public class DAO_Base
     {
-        private FileStream FS;
-        private StreamWriter SW;
-        private string fpath;
+        /// <summary>
+        /// Global variables
+        /// </summary>
+        private FileStream fileStream;
+        private StreamWriter streamWriter;
+        private string filePath;
 
         public void HandleWriteLog(string Log, StackTrace stackTrace)
         {
             //TraceLogger.WriteLog(System.Threading.Thread.CurrentPrincipal.Identity.Name.ToString(), Enumerators.LogLevel.DAO, stackTrace, Log);
         }
 
+        /// <summary>
+        /// Error log for dataAccess layer
+        /// </summary>
+        /// <param name="p_SP"></param>
+        /// <param name="p_paramters"></param>
+        /// <param name="stackTrace"></param>
         public void HandleWriteLogDAU(string p_SP, CNameValueList p_cNameValueList, StackTrace stackTrace)
         {
             for (int parameterCounter = 0; parameterCounter < p_cNameValueList.Count; parameterCounter++)
@@ -41,7 +45,7 @@ namespace feedbackFramework_DAO
                 try
                 {
                     if (!string.IsNullOrEmpty(p_cNameValueList[parameterCounter].Value.ToString()))
-                        p_SP +=  p_cNameValueList[parameterCounter].Value.ToString() + ",";
+                        p_SP += p_cNameValueList[parameterCounter].Value.ToString() + ",";
                     else if (string.Empty == p_cNameValueList[parameterCounter].Value.ToString())
                         p_SP += " " + ",";
                     else
@@ -58,9 +62,18 @@ namespace feedbackFramework_DAO
             TraceLogger.WriteLog(System.Threading.Thread.CurrentPrincipal.Identity.Name.ToString(), Enumerators.LogLevel.DAU, stackTrace, p_SP);
         }
 
-        public void HandleWriteLogDAU(string p_SP, Object[] p_paramters, StackTrace stackTrace) {
-            for (int parameterCounter = 0; parameterCounter < p_paramters.Length; parameterCounter++) {
-                try {
+        /// <summary>
+        /// Error log for dataAccess layer
+        /// </summary>
+        /// <param name="p_SP"></param>
+        /// <param name="p_paramters"></param>
+        /// <param name="stackTrace"></param>
+        public void HandleWriteLogDAU(string p_SP, Object[] p_paramters, StackTrace stackTrace)
+        {
+            for (int parameterCounter = 0; parameterCounter < p_paramters.Length; parameterCounter++)
+            {
+                try
+                {
                     if (!string.IsNullOrEmpty(p_paramters[parameterCounter].ToString()))
                         p_SP += p_paramters[parameterCounter].ToString() + ",";
                     else if (string.Empty == p_paramters[parameterCounter].ToString())
@@ -68,7 +81,8 @@ namespace feedbackFramework_DAO
                     else
                         p_SP += "null" + ",";
                 }
-                catch (NullReferenceException ex) {
+                catch (NullReferenceException ex)
+                {
                     p_SP += "null" + ",";
                 }
             }
@@ -78,11 +92,12 @@ namespace feedbackFramework_DAO
             TraceLogger.WriteLog(System.Threading.Thread.CurrentPrincipal.Identity.Name.ToString(), Enumerators.LogLevel.DAU, stackTrace, p_SP);
         }
 
-
-
-
-
-
+        /// <summary>
+        /// Error log for dataAccess layer
+        /// </summary>
+        /// <param name="p_SP"></param>
+        /// <param name="p_paramters"></param>
+        /// <param name="stackTrace"></param>
         public void Survey_HandleWriteLogDAU(string p_SP, Object[] p_paramters, StackTrace stackTrace)
         {
             for (int parameterCounter = 0; parameterCounter < p_paramters.Length; parameterCounter++)
@@ -107,14 +122,6 @@ namespace feedbackFramework_DAO
             TraceLogger.WriteLog(System.Threading.Thread.CurrentPrincipal.Identity.Name.ToString(), Enumerators.LogLevel.DAU, stackTrace, p_SP);
         }
 
-
-
-
-
-
-
-
-
         public void HandleException(Exception ex)
         {
             //ExceptionLogger.Write(ex.ToString());
@@ -126,43 +133,56 @@ namespace feedbackFramework_DAO
                     "Error Source: " + ex.Source + Environment.NewLine + "," +
                     "Error Message: " + ex.Message + Environment.NewLine;
 
-            fpath = HttpContext.Current.Server.MapPath("~") + "//Error.log";
+            filePath = HttpContext.Current.Server.MapPath("~") + "//Error.log";
 
-            if (File.Exists(fpath))
-            { FS = new FileStream(fpath, FileMode.Append, FileAccess.Write); }
+            if (File.Exists(filePath))
+            { fileStream = new FileStream(filePath, FileMode.Append, FileAccess.Write); }
             else
-            { FS = new FileStream(fpath, FileMode.Create, FileAccess.Write); }
+            { fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write); }
 
             string msg = str.Replace(",", "");
 
-            SW = new StreamWriter(FS);
-            SW.WriteLine(msg);
+            streamWriter = new StreamWriter(fileStream);
+            streamWriter.WriteLine(msg);
 
-            SW.Close();
-            FS.Close();
+            streamWriter.Close();
+            fileStream.Close();
 
             string errorPage = "";
             errorPage = HttpContext.Current.Request.ApplicationPath + "\\Error.aspx";
             HttpContext.Current.Response.Redirect(errorPage);
         }
 
-        public string GetString(string p_value) {
+        /// <summary>
+        /// Remove quotes from string
+        /// </summary>
+        /// <param name="p_value"></param>
+        /// <returns></returns>
+        public string GetString(string p_value)
+        {
             string returnValue;
 
-            try {               
-                    p_value = p_value.ToString().Replace("'", "''").Trim();
-                    returnValue = p_value;                
+            try
+            {
+                p_value = p_value.ToString().Replace("'", "''").Trim();
+                returnValue = p_value;
             }
-            catch (NullReferenceException ex) {
+            catch (NullReferenceException ex)
+            {
                 returnValue = null;
             }
             return returnValue;
         }
 
+        /// <summary>
+        /// convert object to int
+        /// </summary>
+        /// <param name="p_objValue"></param>
+        /// <returns></returns>
         public int? GetInt(object p_objValue)
         {
             int? returnValue;
-            
+
             if (p_objValue.Equals(System.DBNull.Value))
                 returnValue = null;
             else
@@ -171,7 +191,11 @@ namespace feedbackFramework_DAO
             return returnValue;
         }
 
-
+        /// <summary>
+        /// Convert object ot Boolian
+        /// </summary>
+        /// <param name="objValue"></param>
+        /// <returns></returns>
         public bool? GetBool(object objValue)
         {
             bool? returnValue;
@@ -184,6 +208,11 @@ namespace feedbackFramework_DAO
             return returnValue;
         }
 
+        /// <summary>
+        /// convert object to time
+        /// </summary>
+        /// <param name="objValue"></param>
+        /// <returns></returns>
         public DateTime? GetDateTime(object objValue)
         {
             DateTime? returnValue;
