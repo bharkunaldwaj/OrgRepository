@@ -24,7 +24,18 @@ namespace Survey_Scheduler
     public static class SendEmail
     {
         #region Public Methods
-
+        /// <summary>
+        /// Send email
+        /// </summary>
+        /// <param name="To">to</param>
+        /// <param name="From">From</param>
+        /// <param name="strCC">CC</param>
+        /// <param name="strBCC">BCC</param>
+        /// <param name="Subject">Subject</param>
+        /// <param name="Body">Body</param>
+        /// <param name="IsBodyHtml">Is Body Html</param>
+        /// <param name="emailImage">email Image</param>
+        /// <returns></returns>
         public static bool Send(string To, string From, string strCC, string strBCC, string Subject, string Body, bool IsBodyHtml, string emailImage)
         {
             string error = "";
