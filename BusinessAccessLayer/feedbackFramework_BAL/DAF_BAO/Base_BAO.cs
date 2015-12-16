@@ -10,32 +10,31 @@
 
 using System;
 using System.Web;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Diagnostics;
-using Miscellaneous;
 
-namespace DAF_BAO {
-    
-    public class Base_BAO {
+namespace DAF_BAO
+{
 
-        private FileStream FS;
-        private StreamWriter SW;
-        private string fpath;
+    public class Base_BAO
+    {
 
-        
+        private FileStream fileStream;
+        private StreamWriter fileStreamWriter;
+        private string filepath;
+
+
 
         public void HandleWriteLog(string Log, StackTrace stackTrace)
-        {            
+        {
             //TraceLogger.WriteLog( System.Threading.Thread.CurrentPrincipal.Identity.Name.ToString(),Enumerators.LogLevel.BAO, stackTrace, Log);            
         }
+        /// <summary>
+        /// Handle exceptions and write error to log file and redirect to error page.
+        /// </summary>
+        /// <param name="ex"></param>
         public void HandleException(Exception ex)
         {
-
-
-            
             //ExceptionLogger.Write(ex.ToString());
             string str = "Error Occured on: " + DateTime.Now + Environment.NewLine + "," +
                     "Error Application: Feedback 360 - BAO" + Environment.NewLine + "," +
@@ -43,21 +42,21 @@ namespace DAF_BAO {
                     "Error Line: " + ex.StackTrace + Environment.NewLine + "," +
                     "Error Source: " + ex.Source + Environment.NewLine + "," +
                     "Error Message: " + ex.Message + Environment.NewLine;
+            //Error file path.
+            filepath = HttpContext.Current.Server.MapPath("~") + "//Error.log";
 
-            fpath = HttpContext.Current.Server.MapPath("~") + "//Error.log";
-
-            if (File.Exists(fpath))
-            { FS = new FileStream(fpath, FileMode.Append, FileAccess.Write); }
+            if (File.Exists(filepath))
+            { fileStream = new FileStream(filepath, FileMode.Append, FileAccess.Write); }
             else
-            { FS = new FileStream(fpath, FileMode.Create, FileAccess.Write); }
+            { fileStream = new FileStream(filepath, FileMode.Create, FileAccess.Write); }
 
             string msg = str.Replace(",", "");
 
-            SW = new StreamWriter(FS);
-            SW.WriteLine(msg);
+            fileStreamWriter = new StreamWriter(fileStream);
+            fileStreamWriter.WriteLine(msg);
 
-            SW.Close();
-            FS.Close();
+            fileStreamWriter.Close();
+            fileStream.Close();
 
             string errorPage = "";
             errorPage = HttpContext.Current.Request.ApplicationPath + "\\Error.aspx";
